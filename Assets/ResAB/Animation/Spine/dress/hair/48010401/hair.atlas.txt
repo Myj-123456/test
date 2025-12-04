@@ -1,0 +1,14 @@
+hair.png
+size:239,297
+filter:Linear,Linear
+pma:true
+003/toufa1
+bounds:2,137,223,158
+offsets:2,1,226,160
+003/toufa2
+bounds:136,20,101,115
+offsets:0,0,101,125
+003/toufa3
+bounds:2,2,133,132
+offsets:4,1,138,134
+rotate:90

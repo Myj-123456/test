@@ -1,0 +1,11 @@
+88.png
+size:252,204
+filter:Linear,Linear
+pma:true
+xing_zong
+bounds:2,2,227,200
+offsets:0,2,227,202
+xingxing1
+bounds:231,183,19,18
+offsets:1,1,21,20
+rotate:90

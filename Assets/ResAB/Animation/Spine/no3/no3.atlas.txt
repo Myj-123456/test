@@ -1,0 +1,11 @@
+no3.png
+size:464,416
+filter:Linear,Linear
+pma:true
+landi
+bounds:2,2,412,411
+offsets:39,36,488,485
+xingxing
+bounds:416,359,54,45
+offsets:3,0,57,48
+rotate:90

@@ -1,0 +1,17 @@
+resurrection2.png
+size:524,607
+filter:Linear,Linear
+pma:true
+baolvguang
+bounds:280,352,253,242
+rotate:90
+fuwenhua
+bounds:2,296,276,309
+offsets:5,5,285,320
+fuwenquan1
+bounds:287,6,344,142
+offsets:0,1,344,144
+rotate:90
+fuwenquan2
+bounds:2,2,283,292
+offsets:2,0,288,292

@@ -1,0 +1,10 @@
+shoe.png
+size:166,65
+filter:Linear,Linear
+pma:true
+004/shoe1
+bounds:2,15,48,90
+rotate:90
+004/shoe2
+bounds:94,2,61,70
+rotate:90

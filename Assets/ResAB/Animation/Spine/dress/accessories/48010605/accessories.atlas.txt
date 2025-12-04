@@ -1,0 +1,7 @@
+accessories.png
+size:225,161
+filter:Linear,Linear
+pma:true
+Accessories/maozi2
+bounds:2,2,221,157
+offsets:1,0,222,157

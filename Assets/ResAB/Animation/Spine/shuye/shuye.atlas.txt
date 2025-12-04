@@ -1,0 +1,17 @@
+shuye.png
+size:632,344
+filter:Linear,Linear
+pma:true
+xingxing
+bounds:536,158,60,48
+offsets:3,1,64,50
+ye1
+bounds:536,208,133,94
+offsets:0,0,133,122
+rotate:90
+ye2
+bounds:371,39,302,163
+offsets:0,7,302,170
+rotate:90
+ye3
+bounds:2,2,367,339

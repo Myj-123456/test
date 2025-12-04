@@ -1,0 +1,8 @@
+<linker>
+    <assembly fullname="UnityEngine">
+        <type fullname="UnityEngine.BoxCollider2D" preserve="all"/>
+		<type fullname="UnityEngine.Tilemaps.Tilemap" preserve="all"/>
+		<type fullname="UnityEngine.Tilemaps.TilemapRenderer" preserve="all"/>
+		<type fullname="UnityEngine.Grid" preserve="all"/>
+    </assembly>
+</linker>

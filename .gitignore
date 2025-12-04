@@ -1,0 +1,21 @@
+# 忽略Unity生成的元数据文件和日志文件
+Temp/
+Library/
+Logs/
+obj/
+yoo/
+*.pdb
+*.svd
+*.mdb
+*.sln
+*.userprefs
+
+# 忽略构建目录
+Build/
+
+ 
+# 忽略其他自定义文件或文件夹
+# 例如，如果你有一个名为"Cache"的文件夹，可以添加如下：
+# Cache/
+/Bundles
+/*.csproj

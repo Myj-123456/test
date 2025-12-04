@@ -1,0 +1,7 @@
+ear.png
+size:39,45
+filter:Linear,Linear
+pma:true
+ear
+bounds:2,2,35,41
+offsets:1,1,37,43

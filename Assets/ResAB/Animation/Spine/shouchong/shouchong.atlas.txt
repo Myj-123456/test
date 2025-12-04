@@ -1,0 +1,15 @@
+shouchong.png
+size:168,48
+filter:Linear,Linear
+pma:true
+baidi
+bounds:129,32,36,14
+diguang
+bounds:2,2,44,125
+rotate:90
+lizi_x
+bounds:150,16,13,14
+offsets:1,0,14,14
+xingxing1
+bounds:129,12,19,18
+offsets:1,1,21,20

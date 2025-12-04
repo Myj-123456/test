@@ -1,0 +1,15 @@
+shuimo.png
+size:1094,324
+filter:Linear,Linear
+pma:true
+scale:0.5
+quan2
+bounds:616,30,289,292
+quan3
+bounds:328,23,286,299
+offsets:0,2,290,301
+quan4
+bounds:2,2,324,320
+yan
+bounds:907,111,211,185
+rotate:90

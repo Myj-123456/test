@@ -1,0 +1,16 @@
+mif2_attack.png
+size:451,26
+filter:Linear,Linear
+pma:true
+attack_b/a1
+bounds:2,2,140,22
+offsets:4,53,185,129
+attack_b/a2
+bounds:261,2,107,22
+offsets:44,53,185,129
+attack_b/a3
+bounds:144,6,115,18
+offsets:48,55,185,129
+attack_b/a4
+bounds:370,11,79,13
+offsets:82,57,185,129

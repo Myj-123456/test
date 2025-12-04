@@ -1,0 +1,12 @@
+
+ *plot_dialogue_1
+.npcicon1 *plot_dialogue_22plot_name_1
+.npcicon2 *plot_dialogue_32plot_name_2
+.npcicon1 *plot_dialogue_42plot_name_1
+.npcicon2 *plot_dialogue_52plot_name_2
+.npcicon1 *plot_dialogue_62plot_name_1
+ *plot_dialogue_7
+.npcicon1 *plot_dialogue_82plot_name_1
+.	npcicon2 *plot_dialogue_92plot_name_2
+/
+npcicon1 *plot_dialogue_102plot_name_1

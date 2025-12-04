@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Assets",
+    "\\Assets\\Scripts",
+    "\\Assets\\Scripts\\HotUpdate",
+    "\\Assets\\Scripts\\HotUpdate\\Logic",
+    "\\Assets\\Scripts\\HotUpdate\\Logic\\Module",
+    "\\Assets\\Scripts\\HotUpdate\\Logic\\Module\\FlowerShare",
+    "\\Assets\\Scripts\\HotUpdate\\Logic\\Module\\FlowerShare\\View",
+    "\\Assets\\WX-WASM-SDK-V2",
+    "\\Assets\\WX-WASM-SDK-V2\\Runtime"
+  ],
+  "SelectedNode": "\\Assets\\Scripts\\HotUpdate\\Logic\\Module\\FlowerShare\\View\\FlowerShareManagerWindow.cs",
+  "PreviewInSolutionExplorer": false
+}

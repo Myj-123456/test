@@ -1,0 +1,7 @@
+accessories.png
+size:69,126
+filter:Linear,Linear
+pma:true
+Accessories/shouchi2
+bounds:2,2,65,122
+offsets:0,1,71,123

@@ -1,0 +1,191 @@
+/** This is an automatically generated class by FairyGUI. Please do not modify it. **/
+
+using FairyGUI;
+using FairyGUI.Utils;
+
+namespace fun_Pet
+{
+    public partial class pet_info_view : GComponent
+    {
+        public Controller status;
+        public Controller tab;
+        public Controller into;
+        public Controller max;
+        public GLoader bg;
+        public GImage n1;
+        public GTextField titleLab;
+        public GButton help_btn;
+        public GImage n7;
+        public GImage n30;
+        public GButton get_btn;
+        public GImage n8;
+        public GImage n10;
+        public GLoader shard_img;
+        public probar proBar;
+        public GTextField shardLab;
+        public GTextField subtitleLab;
+        public GRichTextField proLab;
+        public GGroup n15;
+        public tabBtn1 info_btn;
+        public tabBtn1 star_btn;
+        public tabBtn1 lv_btn;
+        public GLoader rare_img;
+        public GImage n19;
+        public GTextField nameLab;
+        public GTextField lvLab;
+        public GImage n25;
+        public GImage n28;
+        public GImage n31;
+        public GImage n29;
+        public GTextField skillLab;
+        public GTextField natureLab;
+        public GTextField attackLab;
+        public GTextField deffenLab;
+        public GTextField hpLab;
+        public GTextField comboLab;
+        public GTextField skillDec;
+        public GGroup n37;
+        public GImage n39;
+        public GImage n40;
+        public GImage n60;
+        public GImage n64;
+        public GImage n42;
+        public GImage n44;
+        public GImage n53;
+        public GImage n56;
+        public GImage n57;
+        public GImage n59;
+        public probar1 pro;
+        public GTextField nature_lv;
+        public GTextField curLv;
+        public GTextField nextLv;
+        public GTextField proLab1;
+        public GTextField attackLab1;
+        public GTextField deffenLab1;
+        public GTextField hpLab1;
+        public GTextField comboLab1;
+        public GTextField attackAdd;
+        public GTextField hpAdd;
+        public GTextField deffenAdd;
+        public GTextField comboAdd;
+        public GTextField item_cost;
+        public GList list;
+        public GButton levelUp_btn;
+        public GGroup n65;
+        public GImage n66;
+        public GImage n69;
+        public GTextField skillTip;
+        public GTextField nextSkill;
+        public GTextField needLab;
+        public star_cost_item needItem;
+        public GButton starUp_btn;
+        public GGroup n74;
+        public GGroup n86;
+        public GGroup n77;
+        public GLoader petImg;
+        public GImage n79;
+        public GImage n80;
+        public GTextField intoLab;
+        public GButton left_btn;
+        public GButton right_btn;
+        public btn1 pos_btn;
+        public GGroup n83;
+        public GButton close_btn;
+        public const string URL = "ui://o7kmyysdx92m1d";
+
+        public static pet_info_view CreateInstance()
+        {
+            return (pet_info_view)UIPackage.CreateObject("fun_Pet", "pet_info_view");
+        }
+
+        public override void ConstructFromXML(XML xml)
+        {
+            base.ConstructFromXML(xml);
+
+            status = GetControllerAt(0);
+            tab = GetControllerAt(1);
+            into = GetControllerAt(2);
+            max = GetControllerAt(3);
+            bg = (GLoader)GetChildAt(0);
+            n1 = (GImage)GetChildAt(1);
+            titleLab = (GTextField)GetChildAt(2);
+            help_btn = (GButton)GetChildAt(3);
+            n7 = (GImage)GetChildAt(4);
+            n30 = (GImage)GetChildAt(5);
+            get_btn = (GButton)GetChildAt(6);
+            n8 = (GImage)GetChildAt(7);
+            n10 = (GImage)GetChildAt(8);
+            shard_img = (GLoader)GetChildAt(9);
+            proBar = (probar)GetChildAt(10);
+            shardLab = (GTextField)GetChildAt(11);
+            subtitleLab = (GTextField)GetChildAt(12);
+            proLab = (GRichTextField)GetChildAt(13);
+            n15 = (GGroup)GetChildAt(14);
+            info_btn = (tabBtn1)GetChildAt(15);
+            star_btn = (tabBtn1)GetChildAt(16);
+            lv_btn = (tabBtn1)GetChildAt(17);
+            rare_img = (GLoader)GetChildAt(18);
+            n19 = (GImage)GetChildAt(19);
+            nameLab = (GTextField)GetChildAt(20);
+            lvLab = (GTextField)GetChildAt(21);
+            n25 = (GImage)GetChildAt(22);
+            n28 = (GImage)GetChildAt(23);
+            n31 = (GImage)GetChildAt(24);
+            n29 = (GImage)GetChildAt(25);
+            skillLab = (GTextField)GetChildAt(26);
+            natureLab = (GTextField)GetChildAt(27);
+            attackLab = (GTextField)GetChildAt(28);
+            deffenLab = (GTextField)GetChildAt(29);
+            hpLab = (GTextField)GetChildAt(30);
+            comboLab = (GTextField)GetChildAt(31);
+            skillDec = (GTextField)GetChildAt(32);
+            n37 = (GGroup)GetChildAt(33);
+            n39 = (GImage)GetChildAt(34);
+            n40 = (GImage)GetChildAt(35);
+            n60 = (GImage)GetChildAt(36);
+            n64 = (GImage)GetChildAt(37);
+            n42 = (GImage)GetChildAt(38);
+            n44 = (GImage)GetChildAt(39);
+            n53 = (GImage)GetChildAt(40);
+            n56 = (GImage)GetChildAt(41);
+            n57 = (GImage)GetChildAt(42);
+            n59 = (GImage)GetChildAt(43);
+            pro = (probar1)GetChildAt(44);
+            nature_lv = (GTextField)GetChildAt(45);
+            curLv = (GTextField)GetChildAt(46);
+            nextLv = (GTextField)GetChildAt(47);
+            proLab1 = (GTextField)GetChildAt(48);
+            attackLab1 = (GTextField)GetChildAt(49);
+            deffenLab1 = (GTextField)GetChildAt(50);
+            hpLab1 = (GTextField)GetChildAt(51);
+            comboLab1 = (GTextField)GetChildAt(52);
+            attackAdd = (GTextField)GetChildAt(53);
+            hpAdd = (GTextField)GetChildAt(54);
+            deffenAdd = (GTextField)GetChildAt(55);
+            comboAdd = (GTextField)GetChildAt(56);
+            item_cost = (GTextField)GetChildAt(57);
+            list = (GList)GetChildAt(58);
+            levelUp_btn = (GButton)GetChildAt(59);
+            n65 = (GGroup)GetChildAt(60);
+            n66 = (GImage)GetChildAt(61);
+            n69 = (GImage)GetChildAt(62);
+            skillTip = (GTextField)GetChildAt(63);
+            nextSkill = (GTextField)GetChildAt(64);
+            needLab = (GTextField)GetChildAt(65);
+            needItem = (star_cost_item)GetChildAt(66);
+            starUp_btn = (GButton)GetChildAt(67);
+            n74 = (GGroup)GetChildAt(68);
+            n86 = (GGroup)GetChildAt(69);
+            n77 = (GGroup)GetChildAt(70);
+            petImg = (GLoader)GetChildAt(71);
+            n79 = (GImage)GetChildAt(72);
+            n80 = (GImage)GetChildAt(73);
+            intoLab = (GTextField)GetChildAt(74);
+            left_btn = (GButton)GetChildAt(75);
+            right_btn = (GButton)GetChildAt(76);
+            pos_btn = (btn1)GetChildAt(77);
+            n83 = (GGroup)GetChildAt(78);
+            close_btn = (GButton)GetChildAt(79);
+        }
+    }
+}

@@ -1,0 +1,8 @@
+accessories.png
+size:145,118
+filter:Linear,Linear
+pma:true
+Accessories/erduoshi1
+bounds:2,13,79,103
+Accessories/erduoshi2
+bounds:83,2,60,114
