@@ -134,7 +134,7 @@ public class CultivationView : BaseView
         viewSkin.go_plant.onClick.Add(() =>
         {
             UIManager.Instance.ClosePanel(UIName.CultivationView);
-            EventManager.Instance.DispatchEvent(GuideEvent.HideGuideHand);
+            EventManager.Instance.DispatchEvent(GuideEvent.HideGuideUI);
             SceneManager.Instance.MoveToPantFlower(() =>
             {
                 //CheckGuide11();

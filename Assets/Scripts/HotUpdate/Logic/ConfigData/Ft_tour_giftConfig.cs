@@ -38,13 +38,5 @@ namespace Elida.Config {
     // 微信开始时间
     [ProtoMember(6)]
     public string WeixinStartTime;
-    
-    // 玩吧开始时间
-    [ProtoMember(7)]
-    public string WanbaStartTime;
-    
-    // hago开始时间
-    [ProtoMember(8)]
-    public string HagoStartTime;
   }
 }

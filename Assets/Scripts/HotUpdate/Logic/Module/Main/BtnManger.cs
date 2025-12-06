@@ -212,5 +212,29 @@ public class WelfareBtn
             break;
         }
     }
+
 }
 
+public class FirstRechargeBtn
+{
+    private fun_MainUI.funLeftBtn view;
+
+    public FirstRechargeBtn(fun_MainUI.funLeftBtn ui)
+    {
+        view = ui;
+        UpdateData();
+        view.onClick.Add(() =>
+        {
+            UIManager.Instance.OpenWindow<FirstRechargeWindow>(UIName.FirstRechargeWindow);
+        });
+        EventManager.Instance.AddEventListener(SystemEvent.UpdateLevel, UpdateData);
+        EventManager.Instance.AddEventListener(TaskEvent.MainTaskReward, UpdateData);
+
+        EventManager.Instance.AddEventListener(RechargeEvent.FristRecharge, UpdateData);
+    }
+
+    public void UpdateData()
+    {
+        view.visible = GlobalModel.Instance.GetUnlocked(SysId.FirstRecharge) && !RechargeModel.Instance.IsFirstRechargeEnd();
+    }
+}

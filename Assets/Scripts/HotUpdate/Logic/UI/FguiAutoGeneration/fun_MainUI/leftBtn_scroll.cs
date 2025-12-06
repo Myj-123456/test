@@ -13,6 +13,7 @@ namespace fun_MainUI
         public funLeftBtn btn_draw;
         public funLeftBtn btn_match;
         public funLeftBtn btn_active;
+        public funLeftBtn btn_first_recharge;
         public GGroup btn_grp;
         public const string URL = "ui://fa0hi8ybu25n1ayr84g";
 
@@ -31,7 +32,8 @@ namespace fun_MainUI
             btn_draw = (funLeftBtn)GetChildAt(2);
             btn_match = (funLeftBtn)GetChildAt(3);
             btn_active = (funLeftBtn)GetChildAt(4);
-            btn_grp = (GGroup)GetChildAt(5);
+            btn_first_recharge = (funLeftBtn)GetChildAt(5);
+            btn_grp = (GGroup)GetChildAt(6);
         }
     }
 }

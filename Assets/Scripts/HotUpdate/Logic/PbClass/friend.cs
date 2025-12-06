@@ -47,6 +47,49 @@ namespace protobuf.friend
     }
 
     [ProtoBuf.ProtoContract]
+    public class I_CRONY_FRIEND_PROFILE
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint userId;
+
+        [ProtoBuf.ProtoMember(2)]
+        public uint userLevel;
+
+        [ProtoBuf.ProtoMember(3)]
+        [System.ComponentModel.DefaultValue("")]
+        public string townName = "";
+
+        [ProtoBuf.ProtoMember(4)]
+        [System.ComponentModel.DefaultValue("")]
+        public string headImgId = "";
+
+        [ProtoBuf.ProtoMember(5)]
+        public uint headFrame;
+
+        [ProtoBuf.ProtoMember(6)]
+        public uint lastLoginTime;
+
+        [ProtoBuf.ProtoMember(7)]
+        public uint title;
+
+        [ProtoBuf.ProtoMember(8)]
+        public uint serverId;
+
+        [ProtoBuf.ProtoMember(9)]
+        public ulong fighting;
+
+        [ProtoBuf.ProtoMember(10)]
+        public ulong time;
+
+        [ProtoBuf.ProtoMember(11)]
+        public bool isCrony;
+
+        [ProtoBuf.ProtoMember(12)]
+        public bool isApplyCrony;
+
+    }
+
+    [ProtoBuf.ProtoContract]
     public class C_MSG_FRIEND_LIST
     {
         [ProtoBuf.ProtoMember(1)]
@@ -402,6 +445,28 @@ namespace protobuf.friend
 
         [ProtoBuf.ProtoMember(2)]
         public System.Collections.Generic.List<I_STEAL_MESSAGE_VO> messageList = new System.Collections.Generic.List<I_STEAL_MESSAGE_VO>();
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class C_MSG_CRONY_FRIEND_LIST
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint start;
+
+        [ProtoBuf.ProtoMember(2)]
+        public uint end;
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_CRONY_FRIEND_LIST
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public System.Collections.Generic.List<I_CRONY_FRIEND_PROFILE> friendList = new System.Collections.Generic.List<I_CRONY_FRIEND_PROFILE>();
+
+        [ProtoBuf.ProtoMember(2)]
+        public uint count;
 
     }
 

@@ -11,6 +11,7 @@ public class DrawMainView : BaseView
     private int tabType;
     private List<int> inits;
     private MonthDrawView monthDraw;
+    private DiamondDrawView diamondDraw;
    public DrawMainView()
     {
         packageName = "fun_Draw";
@@ -24,9 +25,12 @@ public class DrawMainView : BaseView
          base.OnInit();
         view = ui as fun_Draw.draw_main_view;
         SetBg(view.flower_draw.bg, "Draw/ELIDA_chouka_yuechouka_bg01.png");
+        SetBg(view.diamond_draw_view.bg, "Recharge/ELIDA_chouka_zsck_bg.png");
         monthDraw = new MonthDrawView(view.flower_draw);
+        diamondDraw = new DiamondDrawView(view.diamond_draw_view);
         inits = new List<int>() { 0,0,0};
 
+        view.list.onClickItem.Add(PageBtn);
     }
 
     public override void OnShown()
@@ -62,7 +66,7 @@ public class DrawMainView : BaseView
             }
             else
             {
-                monthDraw.OnShown();
+                diamondDraw.OnShown();
             }
         }
         else
@@ -83,6 +87,7 @@ public class DrawMainView : BaseView
         if(DrawModel.Instance.IsActivityOpen(ActivityType.Month_Draw) && GlobalModel.Instance.GetUnlocked(SysId.MonthDraw))
         {
             view.list._children[0].visible = true;
+            view.list._children[0].data = 0;
             var activityId = DrawModel.Instance.GetActivityId(ActivityType.Month_Draw);
             var activityInfo = DrawModel.Instance.GetGameEventInfo(activityId);
             (view.list._children[0] as fun_Draw.page_btn).titleLab.text = Lang.GetValue(activityInfo.Name);
@@ -94,6 +99,7 @@ public class DrawMainView : BaseView
         if (DrawModel.Instance.IsActivityOpen(ActivityType.Diamond_Draw) && GlobalModel.Instance.GetUnlocked(SysId.DiamondDraw))
         {
             view.list._children[1].visible = true;
+            view.list._children[1].data = 1;
             var activityId = DrawModel.Instance.GetActivityId(ActivityType.Diamond_Draw);
             var activityInfo = DrawModel.Instance.GetGameEventInfo(activityId);
             (view.list._children[1] as fun_Draw.page_btn).titleLab.text = Lang.GetValue(activityInfo.Name);
@@ -105,6 +111,7 @@ public class DrawMainView : BaseView
         if (DrawModel.Instance.IsActivityOpen(ActivityType.Dress_Draw) && GlobalModel.Instance.GetUnlocked(SysId.DressDraw))
         {
             view.list._children[2].visible = true;
+            view.list._children[2].data = 2;
             var activityId = DrawModel.Instance.GetActivityId(ActivityType.Dress_Draw);
             var activityInfo = DrawModel.Instance.GetGameEventInfo(activityId);
             (view.list._children[2] as fun_Draw.page_btn).titleLab.text = Lang.GetValue(activityInfo.Name);
@@ -115,6 +122,14 @@ public class DrawMainView : BaseView
         }
     }
     
+    private void PageBtn(EventContext context)
+    {
+        var type = (int)(context.data as GComponent).data;
+        if(tabType != type)
+        {
+            ChangeTab(type);
+        }
+    }
     public override void OnHide()
     {
         base.OnHide();

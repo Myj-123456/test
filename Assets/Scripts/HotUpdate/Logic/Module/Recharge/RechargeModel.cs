@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ADK;
@@ -109,6 +110,8 @@ public class RechargeModel : Singleton<RechargeModel>
 
     public uint[] haveGiftPack;//ft_gift_pack已购买的礼包id
 
+    public Dictionary<uint, uint> haveMall;//ft_mall已购买的商品id 配置中已购买的项目 下标是配置id 值是周期内已购买次数
+
     public uint firstRechargeTime;//首次充值时间
 
     public void UpdateRechargeInfo(S_MSG_RECHARGE_INFO data)
@@ -120,6 +123,7 @@ public class RechargeModel : Singleton<RechargeModel>
         gamePay = data.gamePay;
         haveDiamondValue = data.haveDiamondValue;
         haveGiftPack = data.haveGiftPack;
+        haveMall = data.haveMall;
     }
 
     public Ft_diamond_valueConfig GetDiamondVo(int type)
@@ -173,6 +177,18 @@ public class RechargeModel : Singleton<RechargeModel>
     public bool IsFirstRecharge()
     {
         return firstRechargeTime != 0 && ServerTime.Time >= firstRechargeTime;
+    }
+
+    public bool IsFirstRechargeEnd()
+    {
+        for(int i = 0;i < 3; i++)
+        {
+            if (firstRechargeRewards == null || Array.IndexOf(firstRechargeRewards, (uint)(i + 1)) == -1)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

@@ -8,11 +8,14 @@ namespace fun_Recharge
     public partial class first_recharge_btn : GComponent
     {
         public Controller status;
-        public buy_btn2 buy_btn;
+        public GButton buy_btn;
+        public GImage n11;
         public GTextField getLab;
         public GImage n3;
         public GTextField countLab;
-        public GImage n5;
+        public GImage n8;
+        public GTextField tip_lab;
+        public GGroup n10;
         public const string URL = "ui://w3ox9yltv01m1ayr83e";
 
         public static first_recharge_btn CreateInstance()
@@ -25,11 +28,14 @@ namespace fun_Recharge
             base.ConstructFromXML(xml);
 
             status = GetControllerAt(0);
-            buy_btn = (buy_btn2)GetChildAt(0);
-            getLab = (GTextField)GetChildAt(1);
-            n3 = (GImage)GetChildAt(2);
-            countLab = (GTextField)GetChildAt(3);
-            n5 = (GImage)GetChildAt(4);
+            buy_btn = (GButton)GetChildAt(0);
+            n11 = (GImage)GetChildAt(1);
+            getLab = (GTextField)GetChildAt(2);
+            n3 = (GImage)GetChildAt(3);
+            countLab = (GTextField)GetChildAt(4);
+            n8 = (GImage)GetChildAt(5);
+            tip_lab = (GTextField)GetChildAt(6);
+            n10 = (GGroup)GetChildAt(7);
         }
     }
 }

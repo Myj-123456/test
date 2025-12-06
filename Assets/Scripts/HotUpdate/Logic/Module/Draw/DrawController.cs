@@ -49,7 +49,7 @@ public class DrawController : BaseController<DrawController>
     public void DrawCard(S_MSG_DRAW_CARD data)
     {
         StorageModel.Instance.AddToStorage(data.items);
-        StorageModel.Instance.OddToStorageItems(data.items);
+        StorageModel.Instance.OddToStorageItems(data.costItems);
         var activityInfo = DrawModel.Instance.GetGameEventInfo((int)data.activityId);
         if (activityInfo.Type == (int)ActivityType.Month_Draw)
         {

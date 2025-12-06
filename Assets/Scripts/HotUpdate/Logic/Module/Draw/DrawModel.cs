@@ -120,8 +120,12 @@ public class DrawModel : Singleton<DrawModel>
     {
        var poolInfo = drawPoolList.FindAll(value => value.EventId == eventId);
         var item = poolInfo.Find(value => value.IsBig == 1);
-        var itemVo = ItemModel.Instance.GetItemByEntityID(item.PoolItems[0].EntityID);
-        return itemVo;
+        if(item != null)
+        {
+            var itemVo = ItemModel.Instance.GetItemByEntityID(item.PoolItems[0].EntityID);
+            return itemVo;
+        }
+        return null;
     }
 
     public Ft_event_exchangeConfig GetExchangeInfo(int id)

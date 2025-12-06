@@ -53,6 +53,7 @@ public class GuideView : BaseView
         viewSkin.mask.size = Vector2.zero;
         viewSkin.npcDialogue.visible = viewSkin.npcDialogue2.visible = viewSkin.showImage.visible = viewSkin.mask.visible = false;
         if (guideHand != null) guideHand.visible = false;
+        viewSkin.bg.alpha = 0;
     }
 
     private void AddEvent()
@@ -64,9 +65,6 @@ public class GuideView : BaseView
         EventManager.Instance.AddEventListener(GuideEvent.NextGuide, UpdateGuide);
     }
 
-
-
-
     private Ft_game_guideConfig curConfigData;
 
     private void UpdateGuide()
@@ -74,15 +72,6 @@ public class GuideView : BaseView
         HideGuideUI();
         var curGuideStep = GuideModel.Instance.curGuideStep;
         curConfigData = GuideModel.Instance.GetGuideData((int)curGuideStep);
-
-        if (curConfigData.GuideType == (int)GuideType.SHOW_VIDEO || curConfigData.GuideType == (int)GuideType.NPC_DIALOGUE_Full)
-        {
-            viewSkin.bg.color = color1;
-        }
-        else
-        {
-            viewSkin.bg.color = color2;
-        }
         //获取配置
         switch (curConfigData.GuideType)
         {
@@ -93,9 +82,6 @@ public class GuideView : BaseView
             case (int)GuideType.NPC_DIALOGUE_Full:
                 ShowNpcFullDialogue();
                 break;
-            //case (int)GuideType.NPC_DIALOGUE:
-            //    ShowNpcDialogue();
-            //    break;
             case (int)GuideType.SCENE_OBJ:
                 GuideSceneObj();
                 break;
@@ -134,6 +120,7 @@ public class GuideView : BaseView
     private Vector2 tweenScale = new Vector2(1.02f, 1.02f);
     private void ShowNpcFullDialogue()
     {
+        viewSkin.bg.alpha = 1;
         viewSkin.npcDialogue.state.selectedIndex = curConfigData.NpcSpineType;
         viewSkin.npcDialogue.visible = true;
         ShowNpcSpine(curConfigData.NpcSpineType == 0 ? "lu" : "huli");//读取配置
@@ -158,50 +145,6 @@ public class GuideView : BaseView
             viewSkin.npcDialogue.loader_npc.animationName = "animation";
             viewSkin.npcDialogue.loader_npc.scaleX = 1;
             viewSkin.npcDialogue.loader_npc.position = new Vector3(540f, 215f, 0);
-        }
-    }
-
-    private void ShowNpcDialogue()
-    {
-        Transform guideTransform = null;
-        if (GuideModel.Instance.curGuideStep == 21)//种植浇水
-        {
-            var land = SceneManager.Instance.GetWaterLand();
-            if (land != null)
-            {
-                guideTransform = land.transform;
-            }
-        }
-        else if (GuideModel.Instance.curGuideStep == 25)//种植收获
-        {
-            var land = SceneManager.Instance.GetHarvestLand();
-            if (land != null)
-            {
-                guideTransform = land.transform;
-            }
-        }
-        else
-        {
-            guideTransform = SceneManager.Instance.GetLand(curConfigData.StructureId).transform;
-        }
-
-        void ShowDialogue()
-        {
-            Vector2 pt = ADK.UILogicUtils.TransformPos(guideTransform.position);
-            ShowHand(guideTransform);
-            viewSkin.npcDialogue2.visible = true;
-            viewSkin.npcDialogue2.txt_name.text = "元宝子";//读取配置
-            viewSkin.npcDialogue2.txt_des.text = curConfigData.GuideStr;//读取配置
-            pt.y -= 100;//正上方
-            viewSkin.npcDialogue2.position = pt;
-        };
-
-        if (guideTransform != null)//引导场景对象
-        {
-            SceneManager.Instance.MoveToPoint(guideTransform.position, 0, true, () =>
-            {
-                ShowDialogue();
-            });
         }
     }
 
@@ -266,6 +209,7 @@ public class GuideView : BaseView
         GuideModel.Instance.curStrongGuideSceneObject = sceneObject;
         SceneManager.Instance.MoveToPoint(guideTransform.position, 0, true, () =>
         {
+            viewSkin.bg.TweenFade(1f, 0.2f);
             ShowHand(guideTransform);
         });
     }
@@ -275,19 +219,9 @@ public class GuideView : BaseView
         var target = GuideModel.Instance.guildTarget;
         if (target != null)
         {
+            viewSkin.bg.TweenFade(1f, 0.2f);
             ShowHand(target);
         }
-        //旧流程暂时屏蔽
-        //if (curConfigData.IndexId == 14)
-        //{
-        //    Vector2 pt = viewSkin.mask.position;
-        //    viewSkin.npcDialogue2.txt_name.text = "元宝子";//读取配置
-        //    viewSkin.npcDialogue2.txt_des.text = curConfigData.GuideStr;//读取配置
-        //    pt.y -= 100;//正上方
-        //    viewSkin.npcDialogue2.position = pt + new Vector2(200, -50);
-        //    viewSkin.npcDialogue2.visible = true;
-        //    Debug.Log("位置被改变22222");
-        //}
     }
 
     private fun_Guide.GuideHand guideHand;
@@ -310,11 +244,15 @@ public class GuideView : BaseView
             // 计算图片在屏幕中的像素宽高
             float imageWidthInPixels = imageWidthInCamera * (Screen.width / cameraWidth);
             float imageHeightInPixels = imageHeightInCamera * (Screen.height / cameraHeight);
-            viewSkin.mask.size = new Vector2(imageWidthInPixels, imageHeightInPixels);
+            var realSize = new Vector2(imageWidthInPixels, imageHeightInPixels);
+            viewSkin.mask.size = realSize * 2;
+            viewSkin.mask.TweenResize(realSize, 0.2f);
         }
         else
         {
-            viewSkin.mask.size = new Vector2(200, 200);
+            var realSize = new Vector2(150, 150);
+            viewSkin.mask.size = realSize * 2;
+            viewSkin.mask.TweenResize(realSize, 0.2f);
         }
 
         pt += new Vector2(curConfigData.GuideOffsetX, curConfigData.GuideOffsetY);
@@ -340,7 +278,11 @@ public class GuideView : BaseView
     {
         if (target == null) return;
         viewSkin.mask.visible = true;
-        viewSkin.mask.size = target.size;
+        var realSize = target.size;
+        Debug.Log("realSize:" + realSize);
+        viewSkin.mask.size = realSize * 2;
+        viewSkin.mask.TweenResize(realSize, 0.2f);
+        Debug.Log("position:" + target.position);
         var p = target.parent.LocalToGlobal(target.position);//转为全局坐标
         var p2 = viewSkin.GlobalToLocal(p);//再转为引导界面的本地坐标
         if (!target.pivotAsAnchor)//未勾选原点在左上角
@@ -355,6 +297,8 @@ public class GuideView : BaseView
 
         p2 += new Vector2(curConfigData.GuideOffsetX, curConfigData.GuideOffsetY);
         viewSkin.mask.position = p2;
+
+        Debug.Log("p2:" + p2);
 
         if (guideHand == null)
         {
@@ -375,6 +319,7 @@ public class GuideView : BaseView
     private GameObject videoInstance;
     private void ShowVideo()
     {
+        viewSkin.bg.alpha = 1;
         var url = curConfigData.GuideImage;
         viewSkin.showImage.visible = true;
         viewSkin.showImage.btn_next.visible = false;

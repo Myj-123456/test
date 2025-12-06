@@ -7,10 +7,7 @@ namespace fun_Friends
 {
     public partial class best_relieve : GButton
     {
-        public Controller textContrl;
         public GImage n2;
-        public GTextField n3;
-        public GTextField txt_relieveTime;
         public GTextField n5;
         public const string URL = "ui://fteyf9nzg3sj1yjp7ua";
 
@@ -23,11 +20,8 @@ namespace fun_Friends
         {
             base.ConstructFromXML(xml);
 
-            textContrl = GetControllerAt(0);
             n2 = (GImage)GetChildAt(0);
-            n3 = (GTextField)GetChildAt(1);
-            txt_relieveTime = (GTextField)GetChildAt(2);
-            n5 = (GTextField)GetChildAt(3);
+            n5 = (GTextField)GetChildAt(1);
         }
     }
 }

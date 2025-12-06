@@ -613,16 +613,11 @@ public class Land : SceneObject, IPointerEnterHandler
             {
                 if (GuideModel.Instance.IsGuiding && GuideModel.Instance.curConfigData.IndexId == 17)//如果当前引导的是种植，不要触发选花界面
                 {
-                    Debug.Log(2222);
                 }
                 else
                 {
                     UIManager.Instance.ShowOrHideMainUI(false, true, true);
                 }
-                //if (GuideModel.Instance.IsGuiding)
-                //{
-                //    GuideController.Instance.NextGuide();
-                //}
             }
             else//切换选择土地对象
             {
@@ -634,7 +629,7 @@ public class Land : SceneObject, IPointerEnterHandler
             PlantModel.Instance.plantVO = plantVO;
             if (GuideModel.Instance.IsGuiding && GuideModel.Instance.curConfigData.IndexId == 21)//如果当前引导的是浇水，不要触发浇水面板
             {
-                //GuideController.Instance.NextGuide();
+               
             }
             else
             {
@@ -697,13 +692,4 @@ public class Land : SceneObject, IPointerEnterHandler
         watering.gameObject.SetActive(false);
         stealBubble.gameObject.SetActive(false);
     }
-
-    //protected override void OnLongPress()
-    //{
-    //    if (plantVO == null) return;
-    //    if (plantVO.plantState == PlantState.State_0)
-    //    {
-    //        PlantOneKeyWatering();
-    //    }
-    //}
 }

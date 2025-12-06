@@ -60,11 +60,6 @@ public class BestFriendApplyWindow : BaseWindow
     public override void OnHide()
     {
         base.OnHide();
-        
-        // 移除事件监听
-        EventManager.Instance.RemoveEventListener(FriendEvent.CronyBeApply, UpdateApplyList);
-        EventManager.Instance.RemoveEventListener(FriendEvent.CronyAgree, UpdateApplyList);
-        EventManager.Instance.RemoveEventListener(FriendEvent.CronyReject, UpdateApplyList);
         applyUserInfos.Clear();
     }
     

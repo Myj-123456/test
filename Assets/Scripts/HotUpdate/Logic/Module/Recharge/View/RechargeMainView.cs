@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ADK;
 
-public class RechargeMainView : BaseView
+public class RechargeMainView : BaseWindow
 {
    private fun_Recharge.recharge_main_view view;
     private CardView cardView;
@@ -21,7 +21,9 @@ public class RechargeMainView : BaseView
         // 设置委托
         BindAllDelegate = fun_Recharge.fun_RechargeBinder.BindAll;
         CreateInstanceDelegate = fun_Recharge.recharge_main_view.CreateInstance;
-        
+        FullScreen = true;
+        openWithTween = false;
+        IsShowOrHideMainUI = true;
     }
 
     public override void OnInit()

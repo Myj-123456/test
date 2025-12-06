@@ -79,7 +79,7 @@ public class TaskController : BaseController<TaskController>
     public void ReqAchievTaskReward(uint seriesId)
     {
         C_MSG_ACHIEV_TASK_REWARD c_MSG_ACHIEV_TASK_REWARD = new C_MSG_ACHIEV_TASK_REWARD();
-        c_MSG_ACHIEV_TASK_REWARD.seriesId = seriesId;
+        c_MSG_ACHIEV_TASK_REWARD.taskId = seriesId;
         SendCmd((int)MessageCode.C_MSG_ACHIEV_TASK_REWARD, c_MSG_ACHIEV_TASK_REWARD);
     }
 }

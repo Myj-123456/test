@@ -108,6 +108,13 @@ public class GuideController : BaseController<GuideController>
                     NextGuide();
                 }
             }
+            if (GuideModel.Instance.curGuideStep == 13)
+            {
+                if (messageId == 1218)
+                {
+                    NextGuide();
+                }
+            }
             if (GuideModel.Instance.curGuideStep == 14)
             {
                 if (messageId == 1204)
@@ -425,10 +432,10 @@ public class GuideController : BaseController<GuideController>
 
     private void SetGuideTarget(GComponent view)
     {
-        if (GuideModel.Instance.curGuideStep == 13) //步骤13是培育跳过按钮，代码写死禁止操作
-        {
-            return;
-        }
+        //if (GuideModel.Instance.curGuideStep == 13) //步骤13是培育跳过按钮，代码写死禁止操作
+        //{
+        //    return;
+        //}
         string[] paths = GuideModel.Instance.curConfigData.TargetPath.Split("/");
         GComponent target = view;
         foreach (var path in paths)
@@ -468,7 +475,7 @@ public class GuideController : BaseController<GuideController>
         {
             return;
         }
-        if (GuideModel.Instance.curGuideStep == 12 || GuideModel.Instance.curGuideStep == 14 || GuideModel.Instance.curGuideStep == 104 || GuideModel.Instance.curGuideStep == 209 || GuideModel.Instance.curGuideStep == 215 || GuideModel.Instance.curGuideStep == 254 || GuideModel.Instance.curGuideStep == 257 || GuideModel.Instance.curGuideStep == 306)
+        if (GuideModel.Instance.curGuideStep == 12 || GuideModel.Instance.curGuideStep == 13 || GuideModel.Instance.curGuideStep == 14 || GuideModel.Instance.curGuideStep == 104 || GuideModel.Instance.curGuideStep == 209 || GuideModel.Instance.curGuideStep == 215 || GuideModel.Instance.curGuideStep == 254 || GuideModel.Instance.curGuideStep == 257 || GuideModel.Instance.curGuideStep == 306)
         {
             return;
         }

@@ -125,7 +125,7 @@ public class TaskModel : Singleton<TaskModel>
     //获取成就服务数据
     public I_ACHIEV_TASK_VO GetAchievData(uint seriesId)
     {
-        return achievTaskList.Find(value => value.seriesId == seriesId);
+        return achievTaskList.Find(value => value.taskId == seriesId);
     }
     //获取成就列表
     public List<I_ACHIEV_TASK_VO> GetAchievList(int type)
@@ -139,16 +139,33 @@ public class TaskModel : Singleton<TaskModel>
                 achievData.Add(value);
             }
         }
+        achievData.Sort((a, b) => GetStatus(a) - GetStatus(b));
         return achievData;
     }
 
+    public int GetStatus(I_ACHIEV_TASK_VO achievData)
+    {
+        var achievInfo = TaskModel.Instance.GetAchievInfo((int)achievData.taskId);
+        if (achievData.awardStatus == 1)
+        {
+            return 2;
+        }else if(achievData.curCnt < achievInfo.TaskNum)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     public void UpdateAchievData(I_ACHIEV_TASK_VO data)
     {
-        var achievData = GetAchievData(data.seriesId);
+        var achievData = GetAchievData(data.taskId);
         if (achievData != null)
         {
             achievData.taskId = data.taskId;
             achievData.curCnt = data.curCnt;
+            achievData.awardStatus = data.awardStatus;
         }
     }
 

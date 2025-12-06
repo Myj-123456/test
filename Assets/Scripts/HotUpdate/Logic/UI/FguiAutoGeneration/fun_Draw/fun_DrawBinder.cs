@@ -15,6 +15,12 @@ namespace fun_Draw
             UIObjectFactory.SetPackageItemExtension(flower_draw_view.URL, typeof(flower_draw_view));
             UIObjectFactory.SetPackageItemExtension(draw_main_view.URL, typeof(draw_main_view));
             UIObjectFactory.SetPackageItemExtension(btn.URL, typeof(btn));
+            UIObjectFactory.SetPackageItemExtension(flower_draw_gift_view.URL, typeof(flower_draw_gift_view));
+            UIObjectFactory.SetPackageItemExtension(flower_draw_gift_item.URL, typeof(flower_draw_gift_item));
+            UIObjectFactory.SetPackageItemExtension(reward_item.URL, typeof(reward_item));
+            UIObjectFactory.SetPackageItemExtension(daimond_draw_view.URL, typeof(daimond_draw_view));
+            UIObjectFactory.SetPackageItemExtension(daimond_draw_btn.URL, typeof(daimond_draw_btn));
+            UIObjectFactory.SetPackageItemExtension(btn1.URL, typeof(btn1));
         }
     }
 }

@@ -63,6 +63,10 @@ public class FlowerOrderWindow : BaseWindow
 
     private void AddEvent()
     {
+        viewSkin.add_btn.onClick.Add(() =>
+        {
+            UIManager.Instance.OpenWindow<AddPreWindow>(UIName.AddPreWindow, 0);
+        });
         viewSkin.submit_btn.onClick.Add(OnSubmitOrder);
         AddEventListener(FlowerOrderEvent.ResOrderSubmit, OnResOrderSubmit);
         AddEventListener(FlowerOrderEvent.ResDailyMissionReward, OnResDailyMissionReward);
@@ -70,6 +74,10 @@ public class FlowerOrderWindow : BaseWindow
         AddEventListener(PlayerEvent.GameCrossDay, OnResDailyMissionReward);
         //AddEventListener(FlowerOrderEvent.UpdateFlowerOrderCd, ShowOderNpc);
         AddEventListener(VideoEvent.videoDoubleEnd, UpdateVideoDouble);
+
+        EventManager.Instance.AddEventListener(RechargeEvent.VideoPay, UpdateVideoDouble);
+        EventManager.Instance.AddEventListener(RechargeEvent.RechargeInfo, UpdateVideoDouble);
+        EventManager.Instance.AddEventListener(VideoEvent.videoDoubleTime, UpdateVideoDouble);
     }
 
     public override void OnShown()

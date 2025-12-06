@@ -23,6 +23,7 @@ public enum SysId
 	Newspaper = 17000020,//每日登录
 	ChamberOfCommerce = 17000021,
 	VideoDouble = 17000024,//视频双倍
+	FirstRecharge = 17000025,//首充
 	Collect = 17000029,
 	Friend = 17000033,
 	Mail = 17000034,
@@ -76,7 +77,6 @@ public enum SysId
 	PlayWater = 17000091,//一起来玩水吧
 	ExpTree = 17000099,
 	repay = 17000100,//勤劳的报酬
-	firstRecharge = 17000101,//首冲 （商会的馈赠）
 	rechargeGift = 17000102,    //金库计划（累充送礼）
 	QixiAct = 17000103, //七夕（鹊桥相会）
 	drawAct = 17000104, //星宿抽卡

@@ -11,13 +11,14 @@ namespace fun_Draw
         public Controller status;
         public GLoader bg;
         public flower_draw_view flower_draw;
+        public daimond_draw_view diamond_draw_view;
         public GButton close_btn;
         public GList list;
         public GGroup n14;
         public GImage n2;
-        public GImage n3;
+        public GTextField titleLab;
         public GButton help_btn;
-        public GGroup n16;
+        public GGroup n19;
         public const string URL = "ui://97nah3khbwsw1";
 
         public static draw_main_view CreateInstance()
@@ -33,13 +34,14 @@ namespace fun_Draw
             status = GetControllerAt(1);
             bg = (GLoader)GetChildAt(0);
             flower_draw = (flower_draw_view)GetChildAt(1);
-            close_btn = (GButton)GetChildAt(2);
-            list = (GList)GetChildAt(3);
-            n14 = (GGroup)GetChildAt(4);
-            n2 = (GImage)GetChildAt(5);
-            n3 = (GImage)GetChildAt(6);
-            help_btn = (GButton)GetChildAt(7);
-            n16 = (GGroup)GetChildAt(8);
+            diamond_draw_view = (daimond_draw_view)GetChildAt(2);
+            close_btn = (GButton)GetChildAt(3);
+            list = (GList)GetChildAt(4);
+            n14 = (GGroup)GetChildAt(5);
+            n2 = (GImage)GetChildAt(6);
+            titleLab = (GTextField)GetChildAt(7);
+            help_btn = (GButton)GetChildAt(8);
+            n19 = (GGroup)GetChildAt(9);
         }
     }
 }

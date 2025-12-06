@@ -52,18 +52,12 @@ public class BestFriendDetailWindow : BaseWindow
         levelItem.level_bg.selectedIndex = level % 2 == 1 ? 0 : 1;
         
         // 从配置表获取数据
-        if (_configData != null && _configData.TryGetValue(level, out var config))
+        if (_configData != null)
         {
+            var config = _configData.Get(level);
             levelItem.txt_touch.text = $"{config.MoProb}%";
             levelItem.txt_exchange.text = $"+{config.ExtraTime}";
             levelItem.txt_additional.text = $"{config.FairyProb}%";
-        }
-        else
-        {
-            // 默认值，当配置表不存在或找不到对应等级时使用
-            levelItem.txt_touch.text = "20%";
-            levelItem.txt_exchange.text = "+10";
-            levelItem.txt_additional.text = "2%";
         }
     }
     

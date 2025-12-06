@@ -7,7 +7,9 @@ namespace fun_DailyTask
 {
     public partial class pro_item : GComponent
     {
-        public GImage n0;
+        public Controller status;
+        public GImage n4;
+        public GImage n5;
         public GTextField proLab;
         public const string URL = "ui://ueo46waaz1vi1ayr81m";
 
@@ -20,8 +22,10 @@ namespace fun_DailyTask
         {
             base.ConstructFromXML(xml);
 
-            n0 = (GImage)GetChildAt(0);
-            proLab = (GTextField)GetChildAt(1);
+            status = GetControllerAt(0);
+            n4 = (GImage)GetChildAt(0);
+            n5 = (GImage)GetChildAt(1);
+            proLab = (GTextField)GetChildAt(2);
         }
     }
 }

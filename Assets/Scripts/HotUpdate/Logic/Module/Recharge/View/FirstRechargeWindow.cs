@@ -14,6 +14,7 @@ public class FirstRechargeWindow : BaseWindow
     private List<Ft_game_payConfig> firstPayList;
     private List<StorageItemVO> listData;
     private int secondIdx;
+    private List<fun_Recharge.page_btn2> pages;
    public FirstRechargeWindow()
     {
         packageName = "fun_Recharge";
@@ -27,8 +28,10 @@ public class FirstRechargeWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Recharge.first_recharge_view;
-        SetBg(view.bg, "Recharge/ELIDA_shouchong_bg.png");
+        SetBg(view.bg, "Recharge/ELIDA_shouchong_diban.png");
+        view.lab.text = Lang.GetValue("firstRecharge_4");
         firstPayList = RechargeModel.Instance.firstPayList;
+        pages = new List<fun_Recharge.page_btn2> { view.one_btn,view.two_btn,view.three_btn};
         StringUtil.SetBtnTab(view.one_btn, Lang.GetValue("text_activity_6"));
         StringUtil.SetBtnTab(view.two_btn, Lang.GetValue("text_activity_7"));
         StringUtil.SetBtnTab(view.three_btn, Lang.GetValue("text_activity_8"));
@@ -44,8 +47,6 @@ public class FirstRechargeWindow : BaseWindow
         view.buy_btn4.countLab.text = firstPayList[3].IsThree.ToString();
 
         view.list.itemRenderer = RenderList;
-
-        view.list1.itemRenderer = RenderList1;
 
         view.buy_btn3.status.selectedIndex = 1;
         view.buy_btn4.status.selectedIndex = 1;
@@ -117,6 +118,7 @@ public class FirstRechargeWindow : BaseWindow
     {
         base.OnShown();
         // 其他打开面板的逻辑
+        Saver.SaveAsString<int>("FirstRechargeTime" + MyselfModel.Instance.userId,(int)ServerTime.Time);
         var showDay = GetCanGet();
         view.tab.selectedIndex = showDay - 1;
         UpdateData();
@@ -137,6 +139,7 @@ public class FirstRechargeWindow : BaseWindow
         {
             view.buy.selectedIndex = 0;
         }
+        UpdateRedPoint();
     }
 
     private void ChangeTab(int type)
@@ -154,25 +157,26 @@ public class FirstRechargeWindow : BaseWindow
         {
             listData = GetRewards(GlobalModel.Instance.module_profileConfig.FirstRechargeReward_Day3);
         }
-        if(listData.Count % 2 == 0)
-        {
-            secondIdx = listData.Count / 2;
-        }
-        else
-        {
-            secondIdx = (listData.Count - 1) / 2 + 1;
-        }
-        view.list.numItems = secondIdx;
-        view.list1.numItems = listData.Count - secondIdx;
+        //if(listData.Count % 2 == 0)
+        //{
+        //    secondIdx = listData.Count / 2;
+        //}
+        //else
+        //{
+        //    secondIdx = (listData.Count - 1) / 2 + 1;
+        //}
+        view.list.numItems = listData.Count;
+        //view.list1.numItems = listData.Count - secondIdx;
         var unlockDay = GetCurDayTime();
         if (RechargeModel.Instance.IsFirstRecharge())
         {
             if (tabType < unlockDay)
             {
+                view.unlock.selectedIndex = 0;
                 if (RechargeModel.Instance.firstRechargeRewards == null || Array.IndexOf(RechargeModel.Instance.firstRechargeRewards, (uint)(tabType + 1)) == -1)
                 {
                     view.get_btn.enabled = true;
-                    StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("common_claim_button"));
+                    StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("handBook_14"));
                 }
                 else
                 {
@@ -183,7 +187,8 @@ public class FirstRechargeWindow : BaseWindow
             else
             {
                 view.get_btn.enabled = false;
-                StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("common_claim_button"));
+                view.unlock.selectedIndex = 1;
+                StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("rob_21"));
             }
         }
             
@@ -263,20 +268,49 @@ public class FirstRechargeWindow : BaseWindow
 
     private void RenderList(int index,GObject item)
     {
-        var cell = item as fun_Recharge.reward_item3;
+        var cell = item as fun_Recharge.item_com;
         var info = listData[index];
         cell.pic.url = ImageDataModel.Instance.GetIconUrl(info.item);
-        cell.countLab.text = info.count.ToString();
+        cell.numLab.text = info.count.ToString();
         UILogicUtils.SetItemShow(cell, info.item.ItemDefId);
     }
 
-    private void RenderList1(int index, GObject item)
+    private void UpdateRedPoint()
     {
-        var cell = item as fun_Recharge.reward_item3;
-        var info = listData[secondIdx + index];
-        cell.pic.url = ImageDataModel.Instance.GetIconUrl(info.item);
-        cell.countLab.text = info.count.ToString();
-        UILogicUtils.SetItemShow(cell, info.item.ItemDefId);
+        var unlockDay = GetCurDayTime();
+        for (int i = 0;i < 3; i++)
+        {
+            if (RechargeModel.Instance.IsFirstRecharge())
+            {
+                if(i < unlockDay)
+                {
+                    if (RechargeModel.Instance.firstRechargeRewards == null || Array.IndexOf(RechargeModel.Instance.firstRechargeRewards, (uint)(i + 1)) == -1)
+                    {
+                        pages[i].red_point.visible = true;
+                    }
+                    else
+                    {
+                        pages[i].red_point.visible = false;
+                    }
+                }
+                else
+                {
+                    pages[i].red_point.visible = false;
+                }
+            }
+            else
+            {
+                pages[i].red_point.visible = false;
+            }
+        }
     }
+    //private void RenderList1(int index, GObject item)
+    //{
+    //    var cell = item as fun_Recharge.reward_item3;
+    //    var info = listData[secondIdx + index];
+    //    cell.pic.url = ImageDataModel.Instance.GetIconUrl(info.item);
+    //    cell.countLab.text = info.count.ToString();
+    //    UILogicUtils.SetItemShow(cell, info.item.ItemDefId);
+    //}
 }
 

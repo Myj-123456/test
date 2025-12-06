@@ -35,6 +35,7 @@ public class MainView : BaseView
     private DrawBtn drawBtn;
     private GiftPackBtn giftPackBtn;
     private WelfareBtn welfareBtn;
+    private FirstRechargeBtn firstBtn;
     public MainView()
     {
         packageName = "fun_MainUI";
@@ -61,7 +62,9 @@ public class MainView : BaseView
         drawBtn = new DrawBtn(viewSkin.leftBtns.btn.scroll.btn_draw);
         giftPackBtn = new GiftPackBtn(viewSkin.leftBtns.btn.scroll.btn_gift);
         welfareBtn = new WelfareBtn(viewSkin.rightBtns.btn_com.scroll.btn_welfare);
-        
+        firstBtn = new FirstRechargeBtn(viewSkin.leftBtns.btn.scroll.btn_first_recharge);
+
+
         viewSkin.bottomBtns.ui_chat.chatLab.emojies = Emojies.Instance.emojies;
         DropManager.AddMainFlyPos((int)BaseType.GOLD, viewSkin.topBtns.goldBar.gold_icon.LocalToRoot(new Vector2(-20, -30), GRoot.inst));
         DropManager.AddMainFlyPos((int)BaseType.CASH, viewSkin.topBtns.diamandBar.cash_icon.LocalToRoot(new Vector2(-20, -30), GRoot.inst));
@@ -146,7 +149,7 @@ public class MainView : BaseView
 
         viewSkin.rightBtns.btn_com.scroll.btn_welfare.onClick.Add(() =>
         {
-            UIManager.Instance.OpenPanel<WelfareMainView>(UIName.WelfareMainView, UILayer.UI, 0);
+            UIManager.Instance.OpenWindow<WelfareMainView>(UIName.WelfareMainView, 0);
         });
         viewSkin.rightBtns.btn_com.scroll.btn_inviteGift.onClick.Add(OnQdhn);
         viewSkin.rightBtns.btn_com.scroll.btn_videoRevenue.onClick.Add(OnVideo);
@@ -170,7 +173,7 @@ public class MainView : BaseView
         });
         viewSkin.topBtns.diamandBar.btn_recharge.onClick.Add(() =>
         {
-            UIManager.Instance.OpenPanel<RechargeMainView>(UIName.RechargeMainView, UILayer.UI, 3);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 3);
         });
         //viewSkin.bottomBtns.ui_moreFun.btn_hb.onClick.Add(() =>
         //{
@@ -483,7 +486,7 @@ public class MainView : BaseView
 
     private void OnVipOpen()
     {
-        UIManager.Instance.OpenPanel<RechargeMainView>(UIName.RechargeMainView, UILayer.UI, 1);
+        UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 1);
     }
     private void OnMatchOpen()
     {
@@ -525,15 +528,15 @@ public class MainView : BaseView
             return;
         }
         HideMoreFunUI();
-        UIManager.Instance.OpenPanel<DailyTaskWindow>(UIName.DailyTaskWindow, UILayer.UI, 1);
+        UIManager.Instance.OpenPanel<AchievTaskView>(UIName.AchievTaskView);
     }
     private void OnVideo()
     {
-        if (MyselfModel.Instance.IsVideoDouble())
-        {
-            return;
-        }
-        UIManager.Instance.OpenWindow<VideoPopupWindow>(UIName.VideoPopupWindow);
+        //if (MyselfModel.Instance.IsVideoDouble())
+        //{
+        //    return;
+        //}
+        UIManager.Instance.OpenWindow<VideoDoubleWindow>(UIName.VideoDoubleWindow);
     }
 
     private void OnLoginGift()
@@ -564,13 +567,14 @@ public class MainView : BaseView
 
     private void OnQdhn()
     {
-        if (!GlobalModel.Instance.GetUnlocked(SysId.Rob, true))
-        {
-            return;
-        }
+        //if (!GlobalModel.Instance.GetUnlocked(SysId.FirstRecharge, true))
+        //{
+        //    return;
+        //}
         //HideMoreFunUI();
         //UIManager.Instance.OpenPanel<ContractView>(UIName.ContractView);
-        
+        //UIManager.Instance.OpenWindow<FirstRechargeWindow>(UIName.FirstRechargeWindow);
+        UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
     }
 
     private void HideMoreFunUI()
@@ -834,8 +838,8 @@ public class MainView : BaseView
 
     private void InitSpine()
     {
-        viewSkin.bottomBtns.btn_baihualu.spine.url = "baihuace";
-        viewSkin.bottomBtns.btn_baihualu.spine.loop = true;
-        viewSkin.bottomBtns.btn_baihualu.spine.animationName = "animation";
+        //viewSkin.bottomBtns.btn_baihualu.spine.url = "baihuace";
+        //viewSkin.bottomBtns.btn_baihualu.spine.loop = true;
+        //viewSkin.bottomBtns.btn_baihualu.spine.animationName = "animation";
     }
 }

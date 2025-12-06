@@ -247,6 +247,15 @@ public class TaskJumpHelper
         {
             UIManager.Instance.OpenPanel<DailyTaskWindow>(UIName.DailyTaskWindow, UILayer.UI, 0);
         }
+        else if (taskInfo.TaskType == 34)//³ñ¶Ð¶©µ¥
+        {
+            WeakGuideStepConfig weakGuideStepConfig = new WeakGuideStepConfig();
+            weakGuideStepConfig.id = 1;
+            weakGuideStepConfig.GuideType = 2;
+            weakGuideStepConfig.SceneObjType = 2;
+            weakGuideStepConfig.Param = "29000008";
+            weakGuideGroupConfig.weakGuideStepConfigs.Add(weakGuideStepConfig);
+        }
         return weakGuideGroupConfig;
     }
 }

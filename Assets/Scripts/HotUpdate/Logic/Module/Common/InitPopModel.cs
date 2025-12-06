@@ -58,6 +58,18 @@ public class InitPopModel : Singleton<InitPopModel>
                 needTipViews.Add(callback);
             }
         }
+        if(GlobalModel.Instance.GetUnlocked(SysId.FirstRecharge) && !RechargeModel.Instance.IsFirstRechargeEnd())
+        {
+            var time = Saver.GetInt("FirstRechargeTime" + MyselfModel.Instance.userId);
+            if (time == 0 || !TimeUtil.IsSameDayInt(time))
+            {
+                Action callback = () =>
+                {
+                    UIManager.Instance.OpenWindow<FirstRechargeWindow>(UIName.FirstRechargeWindow);
+                };
+                needTipViews.Add(callback);
+            }
+        }
 
         //if (GlobalModel.Instance.GetUnlocked(SysId.SeventhSign))
         //{

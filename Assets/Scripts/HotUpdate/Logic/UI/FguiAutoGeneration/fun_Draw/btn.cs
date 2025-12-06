@@ -11,6 +11,7 @@ namespace fun_Draw
         public GImage n1;
         public GImage n5;
         public GImage n4;
+        public GImage n7;
         public GTextField titleLab;
         public const string URL = "ui://97nah3khbwsw7";
 
@@ -27,7 +28,8 @@ namespace fun_Draw
             n1 = (GImage)GetChildAt(0);
             n5 = (GImage)GetChildAt(1);
             n4 = (GImage)GetChildAt(2);
-            titleLab = (GTextField)GetChildAt(3);
+            n7 = (GImage)GetChildAt(3);
+            titleLab = (GTextField)GetChildAt(4);
         }
     }
 }

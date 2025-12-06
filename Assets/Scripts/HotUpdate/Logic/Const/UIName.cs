@@ -277,5 +277,11 @@ public class UIName
     public const string BestFriendDetailWindow = "BestFriendDetailWindow";
     public const string BestFriendAddWindow = "BestFriendAddWindow";
     public const string BestFriendApplyWindow = "BestFriendApplyWindow";
+    public const string AddPreWindow = "AddPreWindow";
+
+    public const string VideoDoubleWindow = "VideoDoubleWindow";
+
+    public const string DrawGiftWindow = "DrawGiftWindow";
+    public const string AchievTaskView = "AchievTaskView";
 }
 

@@ -30,6 +30,7 @@ namespace fun_Friends
             UIObjectFactory.SetPackageItemExtension(VisitFriendListUI.URL, typeof(VisitFriendListUI));
             UIObjectFactory.SetPackageItemExtension(btnHome.URL, typeof(btnHome));
             UIObjectFactory.SetPackageItemExtension(VisitFriendView.URL, typeof(VisitFriendView));
+            UIObjectFactory.SetPackageItemExtension(best_relieve2.URL, typeof(best_relieve2));
             UIObjectFactory.SetPackageItemExtension(VisitFriendItem.URL, typeof(VisitFriendItem));
             UIObjectFactory.SetPackageItemExtension(btn_best_book.URL, typeof(btn_best_book));
             UIObjectFactory.SetPackageItemExtension(one_key_btn.URL, typeof(one_key_btn));

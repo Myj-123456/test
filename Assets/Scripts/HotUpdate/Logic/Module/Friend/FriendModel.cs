@@ -19,11 +19,88 @@ public class FriendModel : Singleton<FriendModel>
     public Dictionary<uint, uint> friendRelationTime = new Dictionary<uint, uint>();
 
     public List<I_CRONY_VO> cronyList = new List<I_CRONY_VO>();//密友列表
-    public uint unlockCronyCnt = 2; // 已解锁的密友位数量，初始为2
+
+    private uint unlockCronyCnt;
+    /// 已解锁的密友位数量
+    public uint UnlockCronyCnt
+    {
+        get { return unlockCronyCnt; }
+    }
+    /// 根据服务器协议数据更新已解锁的密友位数量
+    public void UpdateUnlockCronyCntFromServer(uint count)
+    {
+        unlockCronyCnt = count;
+    }
 
     public List<uint> applyUserIds = new List<uint>();//申请加我为密友的好友id
     // 存储密友申请时间
     public Dictionary<uint, uint> applyTimeDictionary = new Dictionary<uint, uint>();
+
+    // 密友申请时间存储键
+    private const string APPLY_TIME_KEY = "CronyApplyTime_";
+
+
+    /// 保存密友申请时间到本地存储
+    private void SaveApplyTimeDictionary()
+    {
+        // 清除旧数据
+        foreach (var kvp in applyTimeDictionary)
+        {
+            Saver.DeleteData(APPLY_TIME_KEY + kvp.Key);
+        }
+        // 保存新数据
+        foreach (var kvp in applyTimeDictionary)
+        {
+            Saver.SaveAsString(APPLY_TIME_KEY + kvp.Key, kvp.Value.ToString());
+        }
+    }
+
+    /// 从本地存储加载密友申请时间
+    private void LoadApplyTimeDictionary()
+    {
+        // 清除当前数据
+        applyTimeDictionary.Clear();
+        string friendIdList = Saver.GetString(APPLY_TIME_KEY + "List");
+        if (!string.IsNullOrEmpty(friendIdList))
+        {
+            string[] friendIds = friendIdList.Split(',');
+            foreach (string friendIdStr in friendIds)
+            {
+                if (uint.TryParse(friendIdStr, out uint friendId))
+                {
+                    string timeStr = Saver.GetString(APPLY_TIME_KEY + friendId);
+                    if (!string.IsNullOrEmpty(timeStr) && uint.TryParse(timeStr, out uint time))
+                    {
+                        applyTimeDictionary[friendId] = time;
+                    }
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// 保存密友申请ID列表到本地存储
+    /// </summary>
+    private void SaveApplyIdList()
+    {
+        if (applyTimeDictionary.Count > 0)
+        {
+            string friendIdList = string.Join(",", applyTimeDictionary.Keys);
+            Saver.SaveAsString(APPLY_TIME_KEY + "List", friendIdList);
+        }
+        else
+        {
+            Saver.DeleteData(APPLY_TIME_KEY + "List");
+        }
+    }
+
+    /// <summary>
+    /// 初始化密友申请数据
+    /// </summary>
+    public void InitCronyApplyData()
+    {
+        // 从本地存储加载密友申请时间
+        LoadApplyTimeDictionary();
+    }
     // 记录当前正在发送申请的好友ID，防止重复发送申请
     private Dictionary<uint, bool> isApplyingDictionary = new Dictionary<uint, bool>();
 
@@ -33,7 +110,7 @@ public class FriendModel : Singleton<FriendModel>
 
     public void AddBlackId(uint id)
     {
-        if(blackUserIds.IndexOf(id) == -1)
+        if (blackUserIds.IndexOf(id) == -1)
         {
             blackUserIds.Add(id);
         }
@@ -41,7 +118,7 @@ public class FriendModel : Singleton<FriendModel>
     public void RemoveBlackId(uint id)
     {
         var index = blackUserIds.IndexOf(id);
-        if(index != -1)
+        if (index != -1)
         {
             blackUserIds.RemoveAt(index);
         }
@@ -70,7 +147,7 @@ public class FriendModel : Singleton<FriendModel>
             friendList.Add(friendData);
             applyList.RemoveAt(index);
             friendCount++;
-            
+
             // 记录好友关系建立时间
             friendRelationTime[id] = MyselfModel.Instance.lastServerTime;
         }
@@ -171,7 +248,7 @@ public class FriendModel : Singleton<FriendModel>
             {
                 friendList.RemoveAt(index);
                 friendCount--;
-                
+
                 // 移除好友关系时间记录
                 if (friendRelationTime.ContainsKey(id))
                 {
@@ -188,7 +265,7 @@ public class FriendModel : Singleton<FriendModel>
         {
             friendList.RemoveAt(index);
             friendCount--;
-            
+
             // 移除好友关系时间记录
             if (friendRelationTime.ContainsKey(friendId))
             {
@@ -199,7 +276,7 @@ public class FriendModel : Singleton<FriendModel>
 
     public int GetFriendListIndex(uint id)
     {
-        if(friendList == null)
+        if (friendList == null)
         {
             return -1;
         }
@@ -246,7 +323,7 @@ public class FriendModel : Singleton<FriendModel>
 
     public void RemoveBlackList(uint friendId)
     {
-        
+
         int index = GetBlackListIndex(friendId);
         if (index != -1)
         {
@@ -256,7 +333,7 @@ public class FriendModel : Singleton<FriendModel>
 
     public int GetBlackListIndex(uint id)
     {
-        if(blackList == null)
+        if (blackList == null)
         {
             return -1;
         }
@@ -291,7 +368,7 @@ public class FriendModel : Singleton<FriendModel>
     {
         return cronyList.Find(value => value.friendId == friendId);
     }
-    
+
     /// <summary>
     /// 检查密友关系是否正在解除中
     /// </summary>
@@ -323,8 +400,7 @@ public class FriendModel : Singleton<FriendModel>
         uint currentServerTime = ServerTime.Time;
         if (currentServerTime <= 0)
         {
-        // 使用本地缓存的服务器时间
-        currentServerTime = MyselfModel.Instance.lastServerTime;
+            currentServerTime = MyselfModel.Instance.lastServerTime;
         }
         // 确保剩余时间不为负
         int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
@@ -334,7 +410,7 @@ public class FriendModel : Singleton<FriendModel>
     public bool IsFriendRelationOver12Hours(uint friendId)
     {
         const uint twelveHoursInSeconds = 12 * 60 * 60;
-        
+
         // 如果没有记录，返回false
         if (!friendRelationTime.ContainsKey(friendId))
         {
@@ -350,7 +426,7 @@ public class FriendModel : Singleton<FriendModel>
     public uint GetFriendRelationRemainingTime(uint friendId)
     {
         const uint twelveHoursInSeconds = 12 * 60 * 60;
-        
+
         if (!friendRelationTime.ContainsKey(friendId))
         {
             return twelveHoursInSeconds; // 如果没有记录，返回完整的12小时
@@ -365,7 +441,7 @@ public class FriendModel : Singleton<FriendModel>
         }
         return twelveHoursInSeconds - elapsedTime;
     }
-    
+
 
     // 发送密友申请
     public void SendApplyBestFriend(uint friendId)
@@ -375,10 +451,10 @@ public class FriendModel : Singleton<FriendModel>
         {
             return;
         }
-        
+
         // 标记该好友ID正在申请中
         isApplyingDictionary[friendId] = true;
-        
+
         // 调用FriendController中的带参数方法
         FriendController.Instance.ReqCronyApply(friendId);
 
@@ -391,64 +467,78 @@ public class FriendModel : Singleton<FriendModel>
         {
             applyTimeDictionary.Add(friendId, currentServerTime);
         }
-        
-        // 申请发送后，延迟一段时间清除标记（防止网络问题导致标记一直存在）
+
+        // 保存申请时间到本地存储
+        Saver.SaveAsString(APPLY_TIME_KEY + friendId, currentServerTime.ToString());
+        SaveApplyIdList();
+
+        // 申请发送后，延迟一段时间清除标记
         Coroutiner.StartCoroutine(ClearApplyingFlag(friendId, 3.0f));
     }
-    
-    /// <summary>
+
     /// 清除申请标记
-    /// </summary>
-    /// <param name="friendId">好友ID</param>
-    /// <param name="delayTime">延迟时间（秒）</param>
-    /// <returns></returns>
     private IEnumerator ClearApplyingFlag(uint friendId, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        
+
         if (isApplyingDictionary.ContainsKey(friendId))
         {
             isApplyingDictionary[friendId] = false;
         }
     }
-    
-    /// <summary>
+
+    /// 直接清除申请标记
+    public void ClearApplyingFlag(uint friendId)
+    {
+        if (isApplyingDictionary.ContainsKey(friendId))
+        {
+            isApplyingDictionary[friendId] = false;
+        }
+    }
+
     /// 检查密友申请是否已过期
-    /// </summary>
-    /// <param name="friendId">好友ID</param>
-    /// <returns>是否过期</returns>
     public bool IsApplyExpired(uint friendId)
     {
-        if (!applyTimeDictionary.ContainsKey(friendId))
+        // 首先检查是否已经是密友关系
+        if (GetCronyData(friendId) != null)
         {
-            // 如果没有记录申请时间，则认为已过期
+            // 如果已经是密友，申请状态不再重要
             return true;
         }
+        // 检查是否有申请时间记录
+        if (!applyTimeDictionary.ContainsKey(friendId))
+        {
+            // 如果没有记录申请时间，则需要进一步检查
+            // 检查是否处于申请加我为密友的列表中
+            if (applyUserIds.Contains(friendId))
+            {
+                // 如果在申请加我为密友的列表中，说明申请未过期
+                return false;
+            }
+            // 否则认为已过期
+            return true;
+        }
+
+        // 有申请时间记录，检查是否超过24小时
         uint applyTime = applyTimeDictionary[friendId];
         uint currentServerTime = MyselfModel.Instance.lastServerTime;
         const uint twentyFourHoursInSeconds = 24 * 60 * 60;
-        
         return (currentServerTime - applyTime) >= twentyFourHoursInSeconds;
     }
-    
-    /// <summary>
+
     /// 获取密友申请剩余有效时间
-    /// </summary>
-    /// <param name="friendId">好友ID</param>
-    /// <returns>剩余时间（格式化的字符串）</returns>
     public string GetApplyRemainingTime(uint friendId)
     {
         if (!applyTimeDictionary.ContainsKey(friendId))
         {
             return "未知";
         }
-        
         uint applyTime = applyTimeDictionary[friendId];
         uint currentServerTime = MyselfModel.Instance.lastServerTime;
         const uint twentyFourHoursInSeconds = 24 * 60 * 60;
-        
+
         uint elapsedTime = currentServerTime - applyTime;
-        
+
         // 如果已经超过24小时，返回0
         if (elapsedTime >= twentyFourHoursInSeconds)
         {
@@ -457,17 +547,15 @@ public class FriendModel : Singleton<FriendModel>
         uint remainingTime = twentyFourHoursInSeconds - elapsedTime;
         uint hours = remainingTime / 3600;
         uint minutes = (remainingTime % 3600) / 60;
-        
+
         return $"{hours}小时{minutes}分钟";
     }
-    
-    /// <summary>
+
     /// 清理过期的密友申请
-    /// </summary>
     public void CleanExpiredApplies()
     {
         List<uint> expiredFriendIds = new List<uint>();
-        
+
         foreach (var kvp in applyTimeDictionary)
         {
             if (IsApplyExpired(kvp.Key))
@@ -477,20 +565,20 @@ public class FriendModel : Singleton<FriendModel>
         }
         foreach (uint friendId in expiredFriendIds)
         {
-            // 移除过期的申请记录（我发送的申请）
+            // 移除过期的申请记录
             applyTimeDictionary.Remove(friendId);
+            // 从本地存储中删除过期记录
+            Saver.DeleteData(APPLY_TIME_KEY + friendId);
             // 触发申请过期事件
             EventManager.Instance.DispatchEvent(FriendEvent.ApplyExpired, friendId);
             // 发送邮件退还结书
             SendReturnCronyBookMail(friendId, true);
         }
+        // 更新本地存储的申请ID列表
+        SaveApplyIdList();
     }
-    
-    /// <summary>
+
     /// 发送退还结书邮件
-    /// </summary>
-    /// <param name="friendId">好友ID</param>
-    /// <param name="isExpired">是否为过期</param>
     public void SendReturnCronyBookMail(uint friendId, bool isExpired)
     {
         try
@@ -499,8 +587,8 @@ public class FriendModel : Singleton<FriendModel>
             const int cronyBookItemId = 41013043;
             // 由于ItemType枚举中没有Item值，使用一个基础数值来表示物品类型
             EntityID cronyBookEntityIdObj = new EntityID(1, (long)cronyBookItemId, 0);
-                ulong cronyBookEntityId = (ulong)(cronyBookEntityIdObj.action * 10000000000 + cronyBookEntityIdObj.module * 100000000 + cronyBookEntityIdObj.value);
-            
+            ulong cronyBookEntityId = (ulong)(cronyBookEntityIdObj.action * 10000000000 + cronyBookEntityIdObj.module * 100000000 + cronyBookEntityIdObj.value);
+
             // 创建邮件数据
             var mailVo = new I_MAIL_VO();
             mailVo.mailId = System.Guid.NewGuid().ToString();
@@ -509,17 +597,17 @@ public class FriendModel : Singleton<FriendModel>
             mailVo.title3 = isExpired ? "您发出的密友申请已超过24小时有效期，系统已自动退还您的密友结书。" : "您发出的密友申请未被对方接受，系统已退还您的密友结书。";
             mailVo.status = 0; // 未读
             mailVo.createTime = TimeUtil.GetTimestamp();
-            
+
             // 添加结书作为附件
             mailVo.reward = new System.Collections.Generic.Dictionary<ulong, uint>();
             mailVo.reward.Add(cronyBookEntityId, 1);
-            
+
             // 添加到邮件列表
             MailModel.Instance.mailData.Add(mailVo);
-            
+
             // 触发邮件列表更新事件
             EventManager.Instance.DispatchEvent(MailEvent.MailListInfo);
-            
+
             Debug.Log($"已发送退还结书邮件，好友ID: {friendId}，是否过期: {isExpired}");
         }
         catch (System.Exception ex)

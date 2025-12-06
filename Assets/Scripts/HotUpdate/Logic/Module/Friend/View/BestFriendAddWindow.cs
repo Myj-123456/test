@@ -56,8 +56,6 @@ public class BestFriendAddWindow : BaseWindow
     public override void OnHide()
     {
         base.OnHide();
-        EventManager.Instance.RemoveEventListener(FriendEvent.FriendList, () => OnFriendListUpdate());
-        EventManager.Instance.RemoveEventListener(FriendEvent.CronyBookBuySuccess, OnCronyBookBuySuccess);
     }
     private void OnFriendListUpdate()
     {
@@ -104,19 +102,32 @@ public class BestFriendAddWindow : BaseWindow
         {
             ui_.txtcontroller.selectedIndex=1;
         }
+        // 检查好友关系是否超过12小时
+        else if (!FriendModel.Instance.IsFriendRelationOver12Hours(vo_.userId))
+        {
+            // 好友关系未满12小时，设置控制器索引为1并禁用申请按钮
+            ui_.txtcontroller.selectedIndex=1;
+            ui_.Text_unLevel.text="好友关系未满12小时";
+        }
         else
         {
-            // 检查是否已经发送过申请
-            if (FriendModel.Instance.IsApplyExpired(vo_.userId) == false)
+            // 检查是否处于申请中
+            if (FriendModel.Instance.applyTimeDictionary.ContainsKey(vo_.userId) && !FriendModel.Instance.IsApplyExpired(vo_.userId))
             {
-                // 已发送申请状态
+                ui_.txtcontroller.selectedIndex = 2;
+                ui_.btn_newApply.touchable = false;
+            }
+            // 检查是否处于被申请中
+            else if (FriendModel.Instance.applyUserIds.Contains(vo_.userId))
+            {
                 ui_.txtcontroller.selectedIndex = 2;
                 ui_.btn_newApply.touchable = false;
             }
             else
             {
                 // 默认状态，允许发起申请
-                ui_.txtcontroller.selectedIndex=0;
+                ui_.txtcontroller.selectedIndex = 0;
+                ui_.btn_newApply.touchable = true;
             }
         }
         StringUtil.SetBtnTab(ui_.btn_newApply,"发起申请");
@@ -125,17 +136,6 @@ public class BestFriendAddWindow : BaseWindow
     }
     private void OnApplyBestFrend(uint friendId)
     {
-         // 检查好友关系是否超过12小时
-        //   if (!FriendModel.Instance.IsFriendRelationOver12Hours(friendId))
-        // {
-        //     // 获取剩余时间
-        //     uint remainingSeconds = FriendModel.Instance.GetFriendRelationRemainingTime(friendId);
-        //     // 格式化时间显示为分:秒
-        //     string remainingTime = $"{remainingSeconds / 60}:{(remainingSeconds % 60).ToString("D2")}";
-        //     UILogicUtils.ShowNotice($"与对方成为好友未满12小时，还需等待{remainingTime}才能申请密友");
-        // }
-        // else
-        // {
             _currentFriendId = friendId;
             UpdateCronyBookCount();
 
@@ -147,8 +147,6 @@ public class BestFriendAddWindow : BaseWindow
             {
                 ShowBuyBookUI();
             }
-        //}
-       
     }
 
     private void UpdateCronyBookCount()

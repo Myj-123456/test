@@ -7,7 +7,7 @@ namespace fun_DailyTask
 {
     public partial class dailyTaskProgress : GProgressBar
     {
-        public GImage bg;
+        public GImage n12;
         public GImage bar;
         public const string URL = "ui://ueo46waas23ed";
 
@@ -20,7 +20,7 @@ namespace fun_DailyTask
         {
             base.ConstructFromXML(xml);
 
-            bg = (GImage)GetChildAt(0);
+            n12 = (GImage)GetChildAt(0);
             bar = (GImage)GetChildAt(1);
         }
     }

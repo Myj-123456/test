@@ -29,14 +29,13 @@ namespace fun_Recharge
             UIObjectFactory.SetPackageItemExtension(reward_item2.URL, typeof(reward_item2));
             UIObjectFactory.SetPackageItemExtension(btn.URL, typeof(btn));
             UIObjectFactory.SetPackageItemExtension(page_btn1.URL, typeof(page_btn1));
+            UIObjectFactory.SetPackageItemExtension(item_com.URL, typeof(item_com));
             UIObjectFactory.SetPackageItemExtension(vip_buy_view.URL, typeof(vip_buy_view));
             UIObjectFactory.SetPackageItemExtension(vip_everyDay_reward.URL, typeof(vip_everyDay_reward));
             UIObjectFactory.SetPackageItemExtension(newRecharge.URL, typeof(newRecharge));
             UIObjectFactory.SetPackageItemExtension(newRecharge_cell.URL, typeof(newRecharge_cell));
-            UIObjectFactory.SetPackageItemExtension(buy_btn2.URL, typeof(buy_btn2));
             UIObjectFactory.SetPackageItemExtension(first_recharge_btn.URL, typeof(first_recharge_btn));
             UIObjectFactory.SetPackageItemExtension(page_btn2.URL, typeof(page_btn2));
-            UIObjectFactory.SetPackageItemExtension(reward_item3.URL, typeof(reward_item3));
             UIObjectFactory.SetPackageItemExtension(tour_gift_view.URL, typeof(tour_gift_view));
             UIObjectFactory.SetPackageItemExtension(tour_gift_list.URL, typeof(tour_gift_list));
             UIObjectFactory.SetPackageItemExtension(tour_gift_cell.URL, typeof(tour_gift_cell));

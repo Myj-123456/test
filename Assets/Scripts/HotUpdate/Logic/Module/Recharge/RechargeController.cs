@@ -227,6 +227,9 @@ public class RechargeController : BaseController<RechargeController>
         else if (data.payConfType == 1)
         {
             RechargeController.Instance.ReqGiftPackInfo();
+        }else if(data.payConfType == 4)
+        {
+            EventManager.Instance.DispatchEvent(RechargeEvent.DrawGift);
         }
 
     }

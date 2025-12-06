@@ -17,6 +17,9 @@ namespace protobuf.friend
         [ProtoBuf.ProtoMember(1)]
         public System.Collections.Generic.List<I_CRONY_VO> cronyList = new System.Collections.Generic.List<I_CRONY_VO>();
 
+        [ProtoBuf.ProtoMember(2)]
+        public uint unlockCronyCnt;
+
         [ProtoBuf.ProtoContract]
         public class I_CRONY_VO
         {

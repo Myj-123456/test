@@ -115,7 +115,7 @@ public class TaskManger
             view.decLab.text = taskData.mainTaskId + "." + addStr + Lang.GetValue(taskInfo.TaskDesc, taskInfo.TaskNum.ToString());
         }
 
-        view.proLab.text = "£¨" + (taskData.mainTaskCnt > taskInfo.TaskNum ? taskInfo.TaskNum : taskData.mainTaskCnt) + "/" + taskInfo.TaskNum + "£©";
+        view.proLab.text = "(" + (taskData.mainTaskCnt > taskInfo.TaskNum ? taskInfo.TaskNum : taskData.mainTaskCnt) + "/" + taskInfo.TaskNum + ")";
         view.proLab.color = taskData.mainTaskCnt >= taskInfo.TaskNum ? StringUtil.HexToColor("#099e81") : StringUtil.HexToColor("#f36f54");
         rewards = taskInfo.TaskRewards;
         //if(taskData.mainTaskCnt >= taskInfo.TaskNum)

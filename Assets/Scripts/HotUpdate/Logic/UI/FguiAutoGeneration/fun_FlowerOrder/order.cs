@@ -79,6 +79,7 @@ namespace fun_FlowerOrder
         public reward_com gold_com;
         public reward_com cash_com;
         public reward_com dress_com;
+        public GButton add_btn;
         public Transition ainimi_smaill;
         public Transition ainimi_big;
         public Transition ainimi_middle;
@@ -166,6 +167,7 @@ namespace fun_FlowerOrder
             gold_com = (reward_com)GetChildAt(66);
             cash_com = (reward_com)GetChildAt(67);
             dress_com = (reward_com)GetChildAt(68);
+            add_btn = (GButton)GetChildAt(69);
             ainimi_smaill = GetTransitionAt(0);
             ainimi_big = GetTransitionAt(1);
             ainimi_middle = GetTransitionAt(2);

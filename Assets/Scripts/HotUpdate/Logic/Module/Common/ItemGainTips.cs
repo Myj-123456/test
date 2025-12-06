@@ -31,13 +31,17 @@ public class ItemGainTips : BaseWindow
         base.OnShown();
         var item = data as Module_item_defConfig;
         if (item == null) return;
-        if(item.Type == 4001 || item.Type == 4105)
+        view.txt_des.text = Lang.GetValue(item.Description);
+        if (item.Type == 4001 || item.Type == 4105)
         {
             view.type.selectedIndex = 1;
             view.img_icon.url = ImageDataModel.Instance.GetIconUrl(item);
             view.txt_ownNum.text = Lang.GetValue("handBook_2");
             var flowerInfo = item.Type == 4001 ? FlowerHandbookModel.Instance.GetStaticSeedCondition(item.ItemDefId) : FlowerHandbookModel.Instance.GetStaticSeedCondition1(item.ItemDefId);
             view.img_quality.url = "HandBookNew/" + "rare_icon_" + flowerInfo.FlowerQuality + ".png";
+            var bookTxtInfo = FLowerModel.Instance.GetBookTxtInfo(flowerInfo.FlowerId);
+            
+            view.txt_des.text = Lang.GetValue(bookTxtInfo.FlowerLanguage);
         }
         else if(item.Type == 4401 || item.Type == 4402)
         {
@@ -55,7 +59,7 @@ public class ItemGainTips : BaseWindow
         }
         actionIds = item.ActionIds;
         view.txt_name.text = Lang.GetValue(item.Name);
-        view.txt_des.text = Lang.GetValue(item.Description);
+        
         view.list_gainway.numItems = actionIds.Length;
     }
     private void RenderList(int index, GObject item)

@@ -36,10 +36,10 @@ namespace protobuf.dailyTask
         public uint taskId;
 
         [ProtoBuf.ProtoMember(2)]
-        public uint seriesId;
+        public uint curCnt;
 
         [ProtoBuf.ProtoMember(3)]
-        public uint curCnt;
+        public uint awardStatus;
 
     }
 
@@ -145,7 +145,7 @@ namespace protobuf.dailyTask
     public class C_MSG_ACHIEV_TASK_REWARD
     {
         [ProtoBuf.ProtoMember(1)]
-        public uint seriesId;
+        public uint taskId;
 
     }
 
@@ -156,9 +156,6 @@ namespace protobuf.dailyTask
         public System.Collections.Generic.Dictionary<ulong, ulong> items = new System.Collections.Generic.Dictionary<ulong, ulong>();
 
         [ProtoBuf.ProtoMember(2)]
-        public uint seriesId;
-
-        [ProtoBuf.ProtoMember(3)]
         public I_ACHIEV_TASK_VO achievTask;
 
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class WelfareMainView : BaseView
+public class WelfareMainView : BaseWindow
 {
    private fun_Welfare.welfare_main_view view;
     private int tabType;
@@ -21,6 +21,9 @@ public class WelfareMainView : BaseView
         BindAllDelegate = fun_Welfare.fun_WelfareBinder.BindAll;
         CreateInstanceDelegate = fun_Welfare.welfare_main_view.CreateInstance;
         fairyBatching = false;
+        FullScreen = true;
+        openWithTween = false;
+        IsShowOrHideMainUI = true;
     }
 
     public override void OnInit()

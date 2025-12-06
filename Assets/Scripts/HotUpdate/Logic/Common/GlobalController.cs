@@ -49,13 +49,6 @@ public class GlobalController : BaseController<GlobalController>
             {
                 ADK.UILogicUtils.ShowConfirm(exception.message, null, null, false);
             }
-            else if (exception.message.Contains("Duplicate entry") && exception.message.Contains("el_crony2.PRIMARY"))
-            {
-                // 处理密友关系主键重复错误
-                ADK.UILogicUtils.ShowNotice("该好友已经是您的密友");
-                // 刷新密友列表，确保客户端数据与服务器一致
-                FriendController.Instance.ReqCronyList();
-            }
             else
             {
                 ADK.UILogicUtils.ShowNotice(exception.message);

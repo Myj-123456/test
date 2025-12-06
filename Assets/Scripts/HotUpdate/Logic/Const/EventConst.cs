@@ -1,97 +1,97 @@
 
 /// <summary>
-/// ÏµÍ³ï¿½Â¼ï¿½
+/// ÏµÍ³ÊÂ¼ş
 /// </summary>
 public class SystemEvent
 {
-    public static string UpdateProfile = "UpdateProfile";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string UpdateLevel = "UpdateLevel";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒµÈ¼ï¿½
-    public static string UpdateWater = "UpdateWater";//ï¿½ï¿½ï¿½ï¿½Ë®
-    public static string CrossDay = "CrossDay";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string Reconnect = "Reconnect";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string ShowOrHideMainUI = "ShowOrHideMainUI";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½uiï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
-    public static string HidePlantUI = "HidePlantUI";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ui
-    public static string UpdateItemNum = "UpdateItemNum";//Ò»Ğ©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
-    public static string StageTouchBegin = "StageTouchBegin";//È«ï¿½ï¿½ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
-    public static string ShowHidePanel = "ShowHidePanel";//ï¿½ï¿½/ï¿½Ø±Õ½ï¿½ï¿½ï¿½
-    public static string CameraOrthoSizeFinish = "CameraOrthoSizeFinish";//ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string UpdateTownName = "UpdateTownName";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string UpdatePower = "UpdatePower";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ï»ï¿½Õ½ï¿½ï¿½
-    public static string UpdateFighting = "UpdateFighting";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½Ù¶ï¿½
-    public static string UpdateDressCharm = "UpdateDressCharm";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±×°ï¿½ï¿½ï¿½ï¿½
+    public static string UpdateProfile = "UpdateProfile";//¸üĞÂÍæ¼Ò»ù´¡ĞÅÏ¢
+    public static string UpdateLevel = "UpdateLevel";//¸üĞÂÍæ¼ÒµÈ¼¶
+    public static string UpdateWater = "UpdateWater";//¸üĞÂË®
+    public static string CrossDay = "CrossDay";//¿çÌìÁË
+    public static string Reconnect = "Reconnect";//ÍøÂçÖØÁ¬
+    public static string ShowOrHideMainUI = "ShowOrHideMainUI";//Ö÷½çÃæuiÏÔÊ¾Òş²Ø
+    public static string HidePlantUI = "HidePlantUI";//Òş²ØÖÖÖ²ui
+    public static string UpdateItemNum = "UpdateItemNum";//Ò»Ğ©ÌØÊâÎïÆ·¸üĞÂ
+    public static string StageTouchBegin = "StageTouchBegin";//È«¾ÖÎèÌ¨µã»÷ÊÂ¼ş
+    public static string ShowHidePanel = "ShowHidePanel";//´ò¿ª/¹Ø±Õ½çÃæ
+    public static string CameraOrthoSizeFinish = "CameraOrthoSizeFinish";//¾µÍ·»º¶¯Íê±Ï
+    public static string UpdateTownName = "UpdateTownName";//¸üĞÂÍæ¼ÒÃû×Ö
+    public static string UpdatePower = "UpdatePower";//¸üĞÂÍæ¼Ò»¨ÔÏ»òÕ½Á¦
+    public static string UpdateFighting = "UpdateFighting";//¸üĞÂÍæ¼Ò·±ÈÙ¶È
+    public static string UpdateDressCharm = "UpdateDressCharm";//¸üĞÂÍæ¼ÒÊ±×°÷ÈÁ¦
 }
 
 /// <summary>
-/// ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½
+/// ÏÊ»¨ÊÛÂô
 /// </summary>
 public class FloweSellEvent
 {
-    public static string TABLE_UNLOCK = "TABLE_UNLOCK";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¨
-    public static string OnShelfFlower = "OnShelfFlower";//ï¿½Ï¼Ü»ï¿½Ì¨
-    public static string SellFlowerReward = "SellFlowerReward";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string ShowStandFlower = "ShowStandFlower";//ï¿½ï¿½Ê¾ï¿½å»¨
-    public static string SwitchFlowerStand = "SwitchFlowerStand";//ï¿½Ğ»ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string TABLE_UNLOCK = "TABLE_UNLOCK";//½âËø°ÚÌ¨
+    public static string OnShelfFlower = "OnShelfFlower";//ÉÏ¼Ü»¨Ì¨
+    public static string SellFlowerReward = "SellFlowerReward";//ÁìÈ¡Âô»¨½±Àø
+    public static string ShowStandFlower = "ShowStandFlower";//ÏÔÊ¾²å»¨
+    public static string SwitchFlowerStand = "SwitchFlowerStand";//ÇĞ»»×À×Ó
 }
 
 /// <summary>
-/// ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½
+/// ÏÊ»¨¶©µ¥
 /// </summary>
 public class FlowerOrderEvent
 {
-    public static string ResOrderSubmit = "ResOrderSubmit";//ï¿½á½»ï¿½ï¿½ï¿½ï¿½
-    public static string ResDailyMissionReward = "ResDailyMissionReward";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
-    public static string FlowerOrderInfo = "FlowerOrderInfo";//ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½
-    public static string UpdateFlowerOrderCd = "UpdateFlowerOrderCd";//Ğ¡ï¿½Ú°ï¿½ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½cd
-    public static string UpdateFlowerOrderInfo = "UpdateFlowerOrderInfo";//ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½Ú°ï¿½ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string ResOrderSubmit = "ResOrderSubmit";//Ìá½»¶©µ¥
+    public static string ResDailyMissionReward = "ResDailyMissionReward";//ÁìÈ¡±¦Ïä
+    public static string FlowerOrderInfo = "FlowerOrderInfo";//»¨ÊĞ¶©µ¥
+    public static string UpdateFlowerOrderCd = "UpdateFlowerOrderCd";//Ğ¡ºÚ°åÏÊ»¨¶©µ¥cd
+    public static string UpdateFlowerOrderInfo = "UpdateFlowerOrderInfo";//¸üĞÂĞ¡ºÚ°åÏÊ»¨¶©µ¥
 }
 
 /// <summary>
-/// ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+/// ³¡¾°ÊÂ¼ş
 /// </summary>
 public class SceneEvent
 {
-    public static string SceneObjectClick = "SceneObjectClick";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
-    public static string SceneCameraMove = "SceneCameraMove";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½×³ï¿½
-    public static string RefreshScene = "RefreshScene";//Ë¢ï¿½Â³ï¿½ï¿½ï¿½
-    public static string OrgPointReleaseTouch = "OrgPointReleaseTouch";//Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½×³ï¿½
-    public static string FlowerHarvest = "FlowerHarvest";//ï¿½Ê»ï¿½ï¿½Õ»ï¿½
+    public static string SceneObjectClick = "SceneObjectClick";//³¡¾°¶ÔÏóµã»÷ÊÂ¼ş
+    public static string SceneCameraMove = "SceneCameraMove";//³¡¾°Ïà»úÒÆ¶¯Å×³ö
+    public static string RefreshScene = "RefreshScene";//Ë¢ĞÂ³¡¾°
+    public static string OrgPointReleaseTouch = "OrgPointReleaseTouch";//Ô­µãµã»÷ÊÍ·ÅÅ×³ö
+    public static string FlowerHarvest = "FlowerHarvest";//ÏÊ»¨ÊÕ»ñ
 }
 
 public class CultivationEvent
 {
-    public static string CultivationSpeed = "CultivationSpeed";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string CultivationRepair = "CultivationRepair";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string CultivationPlant = "CultivationPlant";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²
-    public static string CultivationHarvest = "CultivationHarvest";//ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½
-    public static string CultivateVideo = "CultivateVideo";//ï¿½ï¿½ï¿½ï¿½ - ï¿½Û¿ï¿½ï¿½ï¿½Æµ
-    public static string CultivateHelp = "CultivateHelp";//ï¿½ï¿½ï¿½ï¿½
+    public static string CultivationSpeed = "CultivationSpeed";//ÅàÓı¼ÓËÙ
+    public static string CultivationRepair = "CultivationRepair";//ÅàÓı¹ºÂò
+    public static string CultivationPlant = "CultivationPlant";//ÅàÓıÖÖÖ²
+    public static string CultivationHarvest = "CultivationHarvest";//ÅàÓıÊÕ»ñ
+    public static string CultivateVideo = "CultivateVideo";//ÅàÓı - ¹Û¿´ÊÓÆµ
+    public static string CultivateHelp = "CultivateHelp";//ÖúÁ¦
 }
 
 public class FlowerHandBookEvent
 {
-    public static string SeedUpgrade = "SeedUpgrade";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string VaseRewardInfo = "VaseRewardInfo";//ï¿½Ê»ï¿½ï¿½Ö²ï¿½ - ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string VaseReward = "VaseReward";//ï¿½Ê»ï¿½ï¿½Ö²ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½ï¿½
-    public static string VaseFlowerReward = "VaseFlowerReward";//ï¿½Ê»ï¿½ï¿½Ö²ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½Æ¿Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string VaseGatherReward = "VaseGatherReward";//ï¿½Ê»ï¿½ï¿½Ö²ï¿½ - ï¿½ï¿½ï¿½ë»¨Æ¿+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string VaseOnekeyReward = "VaseOnekeyReward";//ï¿½Ê»ï¿½ï¿½Ö²ï¿½ - Ò»ï¿½ï¿½ï¿½ï¿½È¡Ä³ï¿½ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½ï¿½
+    public static string SeedUpgrade = "SeedUpgrade";//»¨¶äÉı¼¶
+    public static string VaseRewardInfo = "VaseRewardInfo";//ÏÊ»¨ÊÖ²á - »¨Æ¿½±ÀøĞÅÏ¢
+    public static string VaseReward = "VaseReward";//ÏÊ»¨ÊÖ²á - ½âËøÁËÄ³¸ö»¨Æ¿½±Àø
+    public static string VaseFlowerReward = "VaseFlowerReward";//ÏÊ»¨ÊÖ²á - ½âËøÁËÄ³¸ö»¨Æ¿Ä³¸ö»¨½±Àø
+    public static string VaseGatherReward = "VaseGatherReward";//ÏÊ»¨ÊÖ²á - ¼¯Æë»¨Æ¿+»¨½±Àø
+    public static string VaseOnekeyReward = "VaseOnekeyReward";//ÏÊ»¨ÊÖ²á - Ò»¼üÁìÈ¡Ä³¸ö»¨Æ¿½±Àø
     public static string PlaySpine = "PlaySpine";
 
-    public static string SeedUpGradeBreakLv = "SeedUpGradeBreakLv";//ï¿½Ê»ï¿½Í»ï¿½ÆµÈ¼ï¿½
-    public static string SeedUpGradeGrade = "SeedUpGradeGrade";//ï¿½Ê»ï¿½ï¿½ï¿½ï¿½×¼ï¿½
-    public static string ExchangeFlowerCard = "ExchangeFlowerCard";//ï¿½Ê»ï¿½ï¿½ï¿½Æ¬ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string SeedUpGradeBreakLv = "SeedUpGradeBreakLv";//ÏÊ»¨Í»ÆÆµÈ¼¶
+    public static string SeedUpGradeGrade = "SeedUpGradeGrade";//ÏÊ»¨Éı½×¼¶
+    public static string ExchangeFlowerCard = "ExchangeFlowerCard";//ÏÊ»¨ËéÆ¬¶Ò»»»¨¿¨
 }
 
 public class IkebanaEvent
 {
-    public static string IkebanaMake = "IkebanaMake";//ï¿½ï¿½ï¿½ï¿½ï¿½å»¨
-    public static string IkeUpdateCount = "IkeUpdateCount";//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
-    public static string IkebanaReward = "IkebanaReward";//ï¿½Ê»ï¿½ï¿½Ö²á£¬ ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string IkebanaMake = "IkebanaMake";//ÖÆ×÷²å»¨
+    public static string IkeUpdateCount = "IkeUpdateCount";//ÊıÁ¿¸Ä±ä
+    public static string IkebanaReward = "IkebanaReward";//ÏÊ»¨ÊÖ²á£¬ ÁìÈ¡»¨ÒÕÆ·½âËø½±Àø
 }
 
 public class FlowerRankEvent
 {
-    public static string RankList = "RankList";//ï¿½ï¿½ï¿½Ğ°ï¿½ï¿½Ğ±ï¿½
+    public static string RankList = "RankList";//ÅÅĞĞ°ñÁĞ±í
     public static string prosperityUserInfo = "prosperityUserInfo";
     public static string cultivateUserInfo = "cultivateUserInfo";
     public static string artUserInfo = "artUserInfo";
@@ -100,200 +100,202 @@ public class FlowerRankEvent
 
 public class MailEvent
 {
-    public static string MailListInfo = "MailListInfo";//ï¿½Ê¼ï¿½ï¿½Ğ±ï¿½
-    public static string MailReward = "MailReward";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
-    public static string MailDel = "MailDel";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+    public static string MailListInfo = "MailListInfo";//ÓÊ¼şÁĞ±í
+    public static string MailReward = "MailReward";//ÁìÈ¡½±Àø
+    public static string MailDel = "MailDel";//ÁìÈ¡½±Àø
 }
 
 public class SeventhSignEvent
 {
-    public static string DailyLoginAward = "DailyLoginAward";//ï¿½ï¿½ï¿½Ğ°ï¿½ï¿½Ğ±ï¿½
+    public static string DailyLoginAward = "DailyLoginAward";//ÅÅĞĞ°ñÁĞ±í
 }
 
 public class NpcCollectEvent
 {
-    public static string GrandmaInfo = "GrandmaInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string GrandmaExchange = "GrandmaExchange";//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½
-    public static string GrandmaReward = "GrandmaReward";//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½
+    public static string GrandmaInfo = "GrandmaInfo";//ÂÜÀòĞÅÏ¢
+    public static string GrandmaExchange = "GrandmaExchange";//ÂÜÀò¶Ò»»
+    public static string GrandmaReward = "GrandmaReward";//ÂÜÀò¶Ò»»
 }
 
 public class FriendEvent
 {
-    public static string FriendList = "FriendList";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string FriendApplyList = "FriendApplyList";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ñµï¿½ï¿½Ğ±ï¿½
-    public static string FriendRecommendList = "FriendRecommendList";//ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½Ğ±ï¿½
-    public static string FriendBlackList = "FriendBlackList";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string FriendVisit = "FriendVisit";//ï¿½ï¿½ï¿½Êºï¿½ï¿½ï¿½
-    public static string FriendSteal = "FriendSteal";//ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string FriendList = "FriendList";//ºÃÓÑÁĞ±í
+    public static string FriendApplyList = "FriendApplyList";//ÉêÇë¼ÓÎÒÎªºÃÓÑµÄÁĞ±í
+    public static string FriendRecommendList = "FriendRecommendList";//ºÃÓÑÍÆ¼öÁĞ±í
+    public static string FriendBlackList = "FriendBlackList";//ºÚÃûµ¥ÁĞ±í
+    public static string FriendVisit = "FriendVisit";//·ÃÎÊºÃÓÑ
+    public static string FriendSteal = "FriendSteal";//ºÃÓÑÍµ»¨·µ»Ø
 
-    public static string CronyList = "CronyList";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string CronyBeApply = "CronyBeApply";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string CronyAgree = "CronyAgree";//Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string CronyReject = "CronyReject";///ï¿½ï¿½ï¿½Ü¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string CronyBookBuySuccess = "CronyBookBuySuccess";///è´­ä¹°ç»“ä¹¦æˆåŠŸ
-    public static string CronyUnlockSuccess = "CronyUnlockSuccess";///è§£é”å¯†å‹æˆåŠŸ
-    public static string CronyCancel = "CronyCancel";//å–æ¶ˆå¯†å‹çš„å…³ç³»
-    public static string CronyBackCancel = "CronyBackCancel";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÑµÄ¹ï¿½Ïµ
-    public static string CronySpeedCancel = "CronySpeedCancel";//ï¿½ï¿½ï¿½Ù½ï¿½ï¿½
-    public static string ApplyExpired = "ApplyExpired";//å¯†å‹ç”³è¯·è¿‡æœŸ
+    public static string CronyList = "CronyList";//ÃÛÓÑÁĞ±í
+    public static string CronyBeApply = "CronyBeApply";//±»ÉêÇëÁĞ±í
+    public static string CronyAgree = "CronyAgree";//Í¬ÒâÃÛÓÑÉêÇë
+    public static string CronyReject = "CronyReject";//¾Ü¾øÃÛÓÑÉêÇë
+    public static string CronyCancel = "CronyCancel";//½â³ıÓëÃÛÓÑµÄ¹ØÏµ
+    public static string CronyBackCancel = "CronyBackCancel";//³·Ïú½â³ıÓëÃÛÓÑµÄ¹ØÏµ
+    public static string CronySpeedCancel = "CronySpeedCancel";//¼ÓËÙ½â³ı
 
-    public static string FriendStealMesg = "FriendStealMesg";//Íµï¿½ï¿½ï¿½ï¿½Ï¢
+    public static string FriendStealMesg = "FriendStealMesg";//Íµ»¨ÏûÏ¢
+    public static string CronyUnlockSuccess = "CronyUnlockSuccess";// ´¥·¢½âËø³É¹¦ÊÂ¼ş
+    public static string CronyBookBuySuccess = "CronyBookBuySuccess";
+    public static string ApplyExpired = "ApplyExpired";
 }
 
 public class RobEvent
 {
-    public static string RobInfo = "RobInfo";//ï¿½ï¿½Å©ï¿½ï¿½Ï¢
-    public static string RobUnlock = "RobUnlock";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string RobFriendList = "RobFriendList";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string RobEnemyList = "RobEnemyList";//Ô©ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string RobRecommendList = "RobRecommendList";//ï¿½Æ¼ï¿½ï¿½Ğ±ï¿½
-    public static string RobDailyReward = "RobDailyReward";//Ã¿ï¿½Õ½ï¿½ï¿½ï¿½
-    public static string RobReward = "RobReward";//ï¿½ï¿½È¡×¥ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½
-    public static string RobBuy = "RobBuy";//ï¿½ï¿½ï¿½ò»¤¶Ü»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string RobSetshield = "RobSetshield";//ï¿½ï¿½ï¿½ï¿½/ï¿½Ø±Õ»ï¿½ï¿½ï¿½Ä£Ê½
-    public static string RobMessage = "RobMessage";//×¥ï¿½ï¿½ï¿½ï¿½Ö¾
+    public static string RobInfo = "RobInfo";//»¨Å©ĞÅÏ¢
+    public static string RobUnlock = "RobUnlock";//½âËøÀÎÁı
+    public static string RobFriendList = "RobFriendList";//ºÃÓÑÁĞ±í
+    public static string RobEnemyList = "RobEnemyList";//Ô©¼ÒÁĞ±í
+    public static string RobRecommendList = "RobRecommendList";//ÍÆ¼öÁĞ±í
+    public static string RobDailyReward = "RobDailyReward";//Ã¿ÈÕ½±Àø
+    public static string RobReward = "RobReward";//ÁìÈ¡×¥»¨Å©½±Àø
+    public static string RobBuy = "RobBuy";//¹ºÂò»¤¶Ü»òÕßÇÀ¶áÁî
+    public static string RobSetshield = "RobSetshield";//¿ªÆô/¹Ø±Õ»¤¶ÜÄ£Ê½
+    public static string RobMessage = "RobMessage";//×¥²¶ÈÕÖ¾
 }
 
 public class DailyTaskEvent
 {
-    public static string DailyTask = "DailyTask";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string DailyAllTaskAward = "DailyAllTaskAward";//ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string DailyTask = "DailyTask";//ÈÎÎñĞÅÏ¢
+    public static string DailyAllTaskAward = "DailyAllTaskAward";//Íê³ÉÈ«²¿ÈÎÎñ½±Àø
 }
 
 public class CultivationShopEvent
 {
-    public static string CultivateRefresh = "CultivateRefresh";//ï¿½ï¿½ï¿½ï¿½
-    public static string ReqCultivateBuy = "ReqCultivateBuy";//ï¿½ï¿½ï¿½ï¿½
+    public static string CultivateRefresh = "CultivateRefresh";//¸ÅÀÀ
+    public static string ReqCultivateBuy = "ReqCultivateBuy";//¹ºÂò
 }
 
 public class TradeEvent
 {
-    public static string TradeInfomation = "TradeInfomation";//ï¿½ï¿½ï¿½ï¿½
-    public static string TradeUnlock = "TradeUnlock";//ï¿½ï¿½ï¿½ï¿½
-    public static string TradeUpdateCount = "TradeUpdateCount";//ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
-    public static string TradeUpdatePrice = "TradeUpdatePrice";//ï¿½Û¸ï¿½Ä±ï¿½
-    public static string TradeUpperShelf = "TradeUpperShelf";//ï¿½Ï¼ï¿½
-    public static string TradeFriendShop = "TradeFriendShop";//ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string Trade = "Trade";//ï¿½ï¿½ï¿½ï¿½
-    public static string Message = "Message";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string TradeHelp = "TradeHelp";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string TradeInfomation = "TradeInfomation";//¸ÅÀÀ
+    public static string TradeUnlock = "TradeUnlock";//½âËø
+    public static string TradeUpdateCount = "TradeUpdateCount";//ÊıÁ¿¸Ä±ä
+    public static string TradeUpdatePrice = "TradeUpdatePrice";//¼Û¸ñ¸Ä±ä
+    public static string TradeUpperShelf = "TradeUpperShelf";//ÉÏ¼Ü
+    public static string TradeFriendShop = "TradeFriendShop";//ºÃÓÑµêÆÌĞÅÏ¢
+    public static string Trade = "Trade";//½»Ò×
+    public static string Message = "Message";//½»Ò×ÏûÏ¢
+    public static string TradeHelp = "TradeHelp";//ºÃÓÑÖúÁ¦
 }
 
 
 public class GuildEvent
 {
-    public static string GuildList = "GuildList";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string GuildApply = "GuildApply";// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildFound = "GuildFound";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildRandomJoin = "GuildRandomJoin";// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildInfo = "GuildInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string GuildChangName = "GuildChangName";//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildChangeTxt = "GuildChangeTxt";//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½Å¹ï¿½ï¿½ï¿½ slogan
-    public static string GuildPositionName = "GuildPositionName";//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½name
-    public static string GuildUpgrade = "GuildUpgrade";// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildEditApproval = "GuildEditApproval";//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
-    public static string GuildQuit = "GuildQuit";//ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildMemberList = "GuildMemberList";//ï¿½ï¿½Ô±ï¿½Ğ±ï¿½
-    public static string GuildTransfer = "GuildTransfer";//×ªï¿½ï¿½ï¿½ç³¤
-    public static string GuildKick = "GuildKick";// ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildPromotion = "GuildPromotion";// ï¿½ï¿½Ö°/ï¿½ï¿½Ö°
-    public static string GuildApplyList = "GuildApplyList";//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ğ±ï¿½
-    public static string GuildDonate = "GuildDonate";// ï¿½ï¿½ï¿½Å¾ï¿½ï¿½ï¿½
-    public static string GuildFlowerPotinfo = "GuildFlowerPotinfo";// ï¿½ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string GuildUnlockFlowerPot = "GuildUnlockFlowerPot";// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string ReqGuildUpgradeFlowerPot = "ReqGuildUpgradeFlowerPot";// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildMoney = "GuildMoney";// ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½Ï¸
-    public static string LeaveGuild = "LeaveGuild";//ï¿½ë¿ªï¿½ï¿½ï¿½ï¿½
-    public static string ChoseIcon = "ChoseIcon";//Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildDonateProgress = "GuildDonateProgress";// ï¿½ï¿½ï¿½Å¾ï¿½ï¿½×½ï¿½ï¿½È½ï¿½ï¿½ï¿½
+    public static string GuildList = "GuildList";//ÉçÍÅÁĞ±í
+    public static string GuildApply = "GuildApply";// ÉêÇë¼ÓÈëÉçÍÅ
+    public static string GuildFound = "GuildFound";//´´½¨ÉçÍÅ
+    public static string GuildRandomJoin = "GuildRandomJoin";// Ëæ»úÉêÇë¼ÓÈëÉçÍÅ
+    public static string GuildInfo = "GuildInfo";//ÉçÍÅĞÅÏ¢
+    public static string GuildChangName = "GuildChangName";//ĞŞ¸ÄÉçÍÅÃû³Æ
+    public static string GuildChangeTxt = "GuildChangeTxt";//ĞŞ¸ÄÉçÍÅ¹«¸æ slogan
+    public static string GuildPositionName = "GuildPositionName";//ĞŞ¸ÄÉçÍÅname
+    public static string GuildUpgrade = "GuildUpgrade";// Éı¼¶ÉçÍÅ
+    public static string GuildEditApproval = "GuildEditApproval";//ĞŞ¸ÄÉçÍÅÉóÅú·½Ê½
+    public static string GuildQuit = "GuildQuit";//ÍË³öÉçÍÅ
+    public static string GuildMemberList = "GuildMemberList";//³ÉÔ±ÁĞ±í
+    public static string GuildTransfer = "GuildTransfer";//×ªÈÃÉç³¤
+    public static string GuildKick = "GuildKick";// Ìß³öÉçÍÅ
+    public static string GuildPromotion = "GuildPromotion";// ½µÖ°/ÉıÖ°
+    public static string GuildApplyList = "GuildApplyList";//ÉêÇëÓÃ»§ÁĞ±í
+    public static string GuildDonate = "GuildDonate";// ÉçÍÅ¾èÏ×
+    public static string GuildFlowerPotinfo = "GuildFlowerPotinfo";// ÉçÍÅ»¨ÅèĞÅÏ¢
+    public static string GuildUnlockFlowerPot = "GuildUnlockFlowerPot";// ½âËø»¨Åè
+    public static string ReqGuildUpgradeFlowerPot = "ReqGuildUpgradeFlowerPot";// Éı¼¶»¨Åè
+    public static string GuildMoney = "GuildMoney";// ÉçÍÅ×Ê½ğÊ¹ÓÃÃ÷Ï¸
+    public static string LeaveGuild = "LeaveGuild";//Àë¿ªÉçÍÅ
+    public static string ChoseIcon = "ChoseIcon";//Ñ¡Ôñ»ÕÕÂ
+    public static string GuildDonateProgress = "GuildDonateProgress";// ÉçÍÅ¾èÏ×½ø¶È½±Àø
 
-    public static string GuildKan = "GuildKan";//ï¿½ï¿½ï¿½ï¿½
-    public static string GuildKanDetail = "GuildKanDetail";//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ğ±ï¿½
-    public static string GuildKanNot = "GuildKanNot";//ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ğ±ï¿½
-    public static string GuildKanInfo = "GuildKanInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string GuildKanBuy = "GuildKanBuy";//ï¿½ï¿½ï¿½Û¹ï¿½ï¿½ï¿½
+    public static string GuildKan = "GuildKan";//¿³¼Û
+    public static string GuildKanDetail = "GuildKanDetail";//¿³¼ÛÓÃ»§ÁĞ±í
+    public static string GuildKanNot = "GuildKanNot";//ÉçÍÅÎ´¿³¼ÛÓÃ»§ÁĞ±í
+    public static string GuildKanInfo = "GuildKanInfo";//¿³¼ÛĞÅÏ¢
+    public static string GuildKanBuy = "GuildKanBuy";//¿³¼Û¹ºÂò
 
-    public static string GuildShopInfo = "GuildShopInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
-    public static string GuildShopBuy = "GuildShopBuy";//ï¿½ï¿½ï¿½ï¿½ï¿½Ìµê¹ºï¿½ï¿½
+    public static string GuildShopInfo = "GuildShopInfo";//ÉçÍÅÉÌµê
+    public static string GuildShopBuy = "GuildShopBuy";//ÉçÍÅÉÌµê¹ºÂò
 
-    public static string ApplyGuildList = "ApplyGuildList";//ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id
+    public static string ApplyGuildList = "ApplyGuildList";//ÎÒÒÑ¾­ÉêÇë¼ÓÈëµÄÉçÍÅid
 }
 
 public class FlowerShareEvent
 {
-    public static string GuildShareFlowerInfo = "GuildShareFlowerInfo";// ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildAddShareNum = "GuildAddShareNum";// ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildUnlockShareFlower = "GuildUnlockShareFlower";// ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
-    public static string GuildShareFlower = "GuildShareFlower";// ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½
-    public static string GuildShareFlowerLog = "GuildShareFlowerLog";// ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½ï¿½ï¿½Ö¾
-    public static string GuidShareCollect = "GuidShareCollect";// // ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ²ï¿½ï¿½Ê»ï¿½
+    public static string GuildShareFlowerInfo = "GuildShareFlowerInfo";// ÏÊ»¨·ÖÏí
+    public static string GuildAddShareNum = "GuildAddShareNum";// Ôö¼ÓÏÊ»¨·ÖÏí´ÎÊı
+    public static string GuildUnlockShareFlower = "GuildUnlockShareFlower";// ½âËøÏÊ»¨·ÖÏíÎ»ÖÃ
+    public static string GuildShareFlower = "GuildShareFlower";// ·ÖÏíÏÊ»¨
+    public static string GuildShareFlowerLog = "GuildShareFlowerLog";// ·ÖÏíÏÊ»¨ÈÕÖ¾
+    public static string GuidShareCollect = "GuidShareCollect";// // ÏÊ»¨·ÖÏí ÊÕ²ØÏÊ»¨
 }
 
 
 public class ChatEvent
 {
-    public static string GuildChatHistory = "GuildChatHistory";//ï¿½ï¿½Ê·ï¿½ï¿½ï¿½ì£¨Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½30ï¿½ì£©
-    public static string GuildChat = "GuildChat";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string WorldChatHistory = "WorldChatHistory";//ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
-    public static string WorldReceiveChat = "WorldReceiveChat";//ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ò²ï¿½ï¿½ï¿½Õµï¿½
+    public static string GuildChatHistory = "GuildChatHistory";//ÀúÊ·ÁÄÌì£¨Ö»±£Áô×î½ü30Ìì£©
+    public static string GuildChat = "GuildChat";//·¢ËÍÁÄÌì
+    public static string WorldChatHistory = "WorldChatHistory";//ÊÀ½çÆµµÀÀúÊ·ÁÄÌì¼ÇÂ¼
+    public static string WorldReceiveChat = "WorldReceiveChat";//ÊÕµ½ÊÀ½çÆµµÀÁÄÌìĞÅÏ¢£¬·¢ËÍÓÃ»§Ò²»áÊÕµ½
 
-    public static string FriendContact = "FriendContact";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
-    public static string CreateFriendContact = "CreateFriendContact";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
-    public static string FriendChatHisTory = "FriendChatHisTory";//ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
-    public static string FriendReceiveChat = "FriendReceiveChat";//ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½
-    public static string FriendChat = "FriendChat";//ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string DelFriendContact = "DelFriendContact";//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½á»°
+    public static string FriendContact = "FriendContact";//»ñÈ¡ºÃÓÑË½ÁÄÁªÏµÈË
+    public static string CreateFriendContact = "CreateFriendContact";//´´½¨ºÃÓÑË½ÁÄÁªÏµÈË
+    public static string FriendChatHisTory = "FriendChatHisTory";//ºÃÓÑÆµµÀÀúÊ·ÁÄÌì¼ÇÂ¼
+    public static string FriendReceiveChat = "FriendReceiveChat";//ÊÕµ½ºÃÓÑÆµµÀÁÄÌìĞÅÏ¢£¬·¢ËÍÓÃ»§²»»áÊÕµ½
+    public static string FriendChat = "FriendChat";//ºÃÓÑÆµµÀ·¢ËÍÁÄÌì
+    public static string DelFriendContact = "DelFriendContact";//É¾³ıÓëºÃÓÑµÄÁÄÌì»á»°
 }
 
 
 public class RechargeEvent
 {
-    public static string GiftPackInfo = "GiftPackInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string HaveGamePay = "HaveGamePay";//Ë«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string HaveGiftPay = "HaveGiftPay";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string haveDiamondPay = "haveDiamondPay";//ï¿½Ø»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string VipPay = "VipPay";//Vipï¿½ï¿½ï¿½ï¿½
-    public static string AccRecharge = "AccRecharge";//ï¿½Û³ä½±ï¿½ï¿½
-    public static string FristRecharge = "FristRecharge";//ï¿½×³ä½±ï¿½ï¿½
-    public static string RechargeInfo = "RechargeInfo";//Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string MonthCard = "MonthCard";//vipÃ¿ï¿½Õ½ï¿½ï¿½ï¿½
-    public static string VideoPay = "VideoPay";//ï¿½ï¿½ï¿½ï¿½
-    public static string Normal = "Normal";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string TourReward = "TourReward";//ï¿½ï¿½È¡Ñ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string GiftPackInfo = "GiftPackInfo";//Àñ°üĞÅÏ¢
+    public static string HaveGamePay = "HaveGamePay";//Ë«±¶¹ºÂò
+    public static string HaveGiftPay = "HaveGiftPay";//Àñ°ü¹ºÂò
+    public static string haveDiamondPay = "haveDiamondPay";//ÌØ»İÀñ°ü¹ºÂò
+    public static string VipPay = "VipPay";//Vip¹ºÂò
+    public static string AccRecharge = "AccRecharge";//ÀÛ³ä½±Àø
+    public static string FristRecharge = "FristRecharge";//Ê×³ä½±Àø
+    public static string RechargeInfo = "RechargeInfo";//Ö§¸¶Ïà¹ØĞÅÏ¢
+    public static string MonthCard = "MonthCard";//vipÃ¿ÈÕ½±Àø
+    public static string VideoPay = "VideoPay";//Ãâ¹ã¸æ
+    public static string Normal = "Normal";//³£¹æÀñ°ü£»
+    public static string TourReward = "TourReward";//ÁìÈ¡Ñ²»ØÀñ°ü½±Àø
+
+    public static string DrawGift = "DrawGift";//³é¿¨Àñ°ü¹ºÂò
 }
 
 public class VipShopEvent
 {
-    public static string VipShopInfo = "VipShopInfo";//vipï¿½Ìµï¿½ï¿½ï¿½Ï¢
-    public static string VipShopBuy = "VipShopBuy";//vipï¿½Ìµê¹ºï¿½ï¿½
-    public static string ShopStoreInfo = "ShopStoreInfo";//ï¿½Ó»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string ShopStoreBuy = "ShopStoreBuy";//ï¿½Ó»ï¿½ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½
+    public static string VipShopInfo = "VipShopInfo";//vipÉÌµêĞÅÏ¢
+    public static string VipShopBuy = "VipShopBuy";//vipÉÌµê¹ºÂò
+    public static string ShopStoreInfo = "ShopStoreInfo";//ÔÓ»õµêÆÌĞÅÏ¢
+    public static string ShopStoreBuy = "ShopStoreBuy";//ÔÓ»õµêÆÌ - ¹ºÂò
 }
 
 public class VideoEvent
 {
-    public static string videoDoubleTime = "videoDoubleTime";//ï¿½ï¿½ï¿½ï¿½Æµ3Ğ¡Ê±ï¿½ï¿½ï¿½ï¿½ï¿½æ·­ï¿½ï¿½ï¿½ï¿½17001ï¿½ï¿½
-    public static string videoDoubleEnd = "videoDoubleEnd";//ï¿½ï¿½ï¿½ï¿½Æµ3Ğ¡Ê±ï¿½ï¿½ï¿½ï¿½ï¿½æ·­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½17001ï¿½ï¿½
-    public static string videoGuildDonate = "videoGuildDonate";//ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½
+    public static string videoDoubleTime = "videoDoubleTime";//¿´ÊÓÆµ3Ğ¡Ê±ÄÚÊÕÒæ·­±¶£¨17001£©
+    public static string videoDoubleEnd = "videoDoubleEnd";//¿´ÊÓÆµ3Ğ¡Ê±ÄÚÊÕÒæ·­±¶½áÊø£¨17001£©
+    public static string videoGuildDonate = "videoGuildDonate";//¿´ÊÓÆµ¾èÏ×
 }
 
 public class GuideEvent
 {
-    public static string HideGuideHand = "HideGuideHand";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸
-    public static string HideGuideUI = "HideGuideUI";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UI
-    public static string NextGuide = "NextGuide";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
+    public static string HideGuideHand = "HideGuideHand";//Òş²ØÒıµ¼ÊÖÖ¸
+    public static string HideGuideUI = "HideGuideUI";//Òş²ØÒıµ¼UI
+    public static string NextGuide = "NextGuide";//Òıµ¼ÏÂÒ»²½
 }
 
 public class DressEvent
 {
-    public static string WearPart = "WearPart";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string ChangeSceneHeroModel = "ChangeSceneHeroModel";//ï¿½ï¿½ï¿½Â³ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
-    public static string DressDraw = "DressDraw";//ï¿½ï¿½×° - ï¿½ï¿½ï¿½ï¿½
-    public static string DressScoreReward = "DressScoreReward";//ï¿½ï¿½×° - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
-    public static string DressStarLv = "DressStarLv";//ï¿½ï¿½×° - ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
-    public static string DressUpgradeLv = "DressUpgradeLv";//ï¿½ï¿½×° - ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
+    public static string WearPart = "WearPart";//´©´÷²¿¼ş
+    public static string ChangeSceneHeroModel = "ChangeSceneHeroModel";//¸üĞÂ³¡¾°ÖĞµÄÍæ¼ÒÄ£ĞÍ
+    public static string DressDraw = "DressDraw";//»»×° - ¿ªÏä
+    public static string DressScoreReward = "DressScoreReward";//»»×° - ¿ªÏä»ı·Ö½±Àø
+    public static string DressStarLv = "DressStarLv";//»»×° - Ì××°ÉıĞÇ
+    public static string DressUpgradeLv = "DressUpgradeLv";//»»×° - Ì××°Éı½×
     public static string DressDrawPower = "DressDrawPower";
-    public static string DressClothesBuy = "DressClothesBuy";//ï¿½ï¿½×° - ï¿½Â·ï¿½ï¿½Ìµê¹ºï¿½ï¿½
+    public static string DressClothesBuy = "DressClothesBuy";//»»×° - ÒÂ·şÉÌµê¹ºÂò
 }
 
 public class AdventureEvent
@@ -308,139 +310,139 @@ public class AdventureEvent
 
 public class ScientificPlantingEvent
 {
-    public static string CultivationResearchStart = "CultivationResearchStart";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¾ï¿½ï¿½ï¿½Ê¼
-    public static string CultivationResearchCooltime = "CultivationResearchCooltime";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¾ï¿½ï¿½ï¿½È´Ê±ï¿½ä¹ºï¿½ï¿½
+    public static string CultivationResearchStart = "CultivationResearchStart";//ÅàÓıÑĞ¾¿¿ªÊ¼
+    public static string CultivationResearchCooltime = "CultivationResearchCooltime";//ÅàÓıÑĞ¾¿ÀäÈ´Ê±¼ä¹ºÂò
 
 }
 
 public class FlowerStarEvent
 {
-    public static string FlowerStarSelect = "FlowerStarSelect";//ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
-    public static string FlowerStarUnlock = "FlowerStarUnlock";////ï¿½ï¿½ï¿½ï¿½
-    public static string FlowerStarUpgrstar = "FlowerStarUpgrstar";//ï¿½Ğ¾ï¿½
-    public static string FlowerStarReplace = "FlowerStarReplace";//ï¿½æ»»
+    public static string FlowerStarSelect = "FlowerStarSelect";//ÉıĞÇÑ¡Ôñ
+    public static string FlowerStarUnlock = "FlowerStarUnlock";////½âËø
+    public static string FlowerStarUpgrstar = "FlowerStarUpgrstar";//ÑĞ¾¿
+    public static string FlowerStarReplace = "FlowerStarReplace";//Ìæ»»
 }
 
 
 public class BattleEvent
 {
-    public static string SwitchNextActionUnit = "SwitchNextActionUnit";//ï¿½Ğ»ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½Ôª
-    public static string UpdateRound = "UpdateRound";//ï¿½ï¿½ï¿½Â»Øºï¿½
-    public static string UpdateActionUnit = "UpdateActionUnit";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½Ôª
-    public static string ChangeTimeScale = "ChangeTimeScale";//ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public static string SwitchNextActionUnit = "SwitchNextActionUnit";//ÇĞ»»ÏÂÒ»¸öĞĞ¶¯µ¥Ôª
+    public static string UpdateRound = "UpdateRound";//¸üĞÂ»ØºÏ
+    public static string UpdateActionUnit = "UpdateActionUnit";//¸üĞÂĞĞ¶¯µ¥Ôª
+    public static string ChangeTimeScale = "ChangeTimeScale";//¸ü¸Ä²¥·ÅËÙ¶È
 }
 
 
 public class GuildGiftEvent
 {
-    public static string GuildGiftList = "GuildGiftList";//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
-    public static string GuildGiftInfo = "GuildGiftInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildGiftDraw = "GuildGiftDraw";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
-    public static string GuildGiftGradient = "GuildGiftGradient";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+    public static string GuildGiftList = "GuildGiftList";//ÀñÎïÁĞ±í
+    public static string GuildGiftInfo = "GuildGiftInfo";//ÀñÎïÏêÇé
+    public static string GuildGiftDraw = "GuildGiftDraw";//ÁìÈ¡ÀñÎï
+    public static string GuildGiftGradient = "GuildGiftGradient";//ÁìÈ¡´ó±¦Ïä
 }
 
 public class GuildPlantEvent
 {
-    public static string GuildHouseInfo = "GuildHouseInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string GuildHouseEnable = "GuildHouseEnable";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildHousePlant = "GuildHousePlant";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²
-    public static string GuildHouseDetail = "GuildHouseDetail";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildHouseHarvest = "GuildHouseHarvest";//ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½
-    public static string GuildHouseMembers = "GuildHouseMembers";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å³ï¿½Ô±ï¿½ï¿½Ï¢;
+    public static string GuildHouseInfo = "GuildHouseInfo";//»¨·¿ĞÅÏ¢
+    public static string GuildHouseEnable = "GuildHouseEnable";//»¨·¿ÆôÓÃ
+    public static string GuildHousePlant = "GuildHousePlant";//»¨·¿ÖÖÖ²
+    public static string GuildHouseDetail = "GuildHouseDetail";//»¨·¿ÏêÇé
+    public static string GuildHouseHarvest = "GuildHouseHarvest";//»¨·¿ÊÕ»ñ
+    public static string GuildHouseMembers = "GuildHouseMembers";//»¨·¿ÆäËûÉçÍÅ³ÉÔ±ĞÅÏ¢;
 }
 
 public class GuildMatchEvent
 {
-    public static string GuildCompetition = "GuildCompetition";//ï¿½ï¿½ï¿½Å¾ï¿½ï¿½ï¿½
-    public static string GuildPosTask = "GuildPosTask";// ï¿½ï¿½È¡Ä³ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildReceive = "GuildReceive";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
-    public static string GuildRefresh = "GuildRefresh";//Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string GuildSubmit = "GuildSubmit";//ï¿½á½»ï¿½ï¿½ï¿½ï¿½
-    public static string GuildSelfReward = "GuildSelfReward";//ï¿½ï¿½ï¿½Ë»ï¿½ï¿½Ö½ï¿½ï¿½È½ï¿½ï¿½ï¿½
-    public static string GuildProReward = "GuildProReward";//ï¿½ï¿½ï¿½Å»ï¿½ï¿½Ö½ï¿½ï¿½È½ï¿½ï¿½ï¿½
-    public static string GuildMatchRank = "GuildMatchRank";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string MemberMatchRank = "MemberMatchRank";//ï¿½ï¿½ï¿½Ë³ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
-    public static string MemberInfo = "MemberInfo";//ï¿½ï¿½Ô±ï¿½Ğ±ï¿½
+    public static string GuildCompetition = "GuildCompetition";//ÉçÍÅ¾ºÈü
+    public static string GuildPosTask = "GuildPosTask";// »ñÈ¡Ä³¸öÎ»ÖÃµÄÈÎÎñ
+    public static string GuildReceive = "GuildReceive";//ÁìÈ¡ÈÎÎñ
+    public static string GuildRefresh = "GuildRefresh";//Ë¢ĞÂÈÎÎñ
+    public static string GuildSubmit = "GuildSubmit";//Ìá½»ÈÎÎñ
+    public static string GuildSelfReward = "GuildSelfReward";//¸öÈË»ı·Ö½ø¶È½±Àø
+    public static string GuildProReward = "GuildProReward";//ÉçÍÅ»ı·Ö½ø¶È½±Àø
+    public static string GuildMatchRank = "GuildMatchRank";//»¨ÃËÅÅĞĞ
+    public static string MemberMatchRank = "MemberMatchRank";//»¨ÃË³ÉÔ±ÅÅĞĞ
+    public static string MemberInfo = "MemberInfo";//³ÉÔ±ÁĞ±í
 }
 
 public class PlayerEvent
 {
-    public static string PenUpgrade = "PenUpgrade";//ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½
-    public static string PenFightattr = "PenFightattr";//ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string PenUpgrade = "PenUpgrade";//»æ±ÊÉıÆ·½×
+    public static string PenFightattr = "PenFightattr";//»æ±ÊÕ½¶·ÊôĞÔ
 
-    public static string GetUserInfo = "GetUserInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½ï¿½Ì»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
-    public static string LoveFlowerArt = "LoveFlowerArt";//ï¿½ï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ß»ï¿½ï¿½ï¿½Æ·
-    public static string SetAvatarFrame = "SetAvatarFrame";//ï¿½Ş¸ï¿½Í·ï¿½ï¿½ï¿½
-    public static string SetTitle = "SetTitle";//ï¿½Ş¸Ä³Æºï¿½
-    public static string SetHead = "SetHead";//ï¿½Ş¸ï¿½Í·ï¿½ï¿½
-    public static string GameCrossDay = "GameCrossDay";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string GetUserInfo = "GetUserInfo";//¸ù¾İÓÃ»§idÅúÁ¿»ñÈ¡°üº¬»»×°ºÍÉÌ»áµÄÓÃ»§ĞÅÏ¢
+    public static string LoveFlowerArt = "LoveFlowerArt";//ÉèÖÃÏ²»¶µÄÏÊ»¨»òÕß»¨ÒÕÆ·
+    public static string SetAvatarFrame = "SetAvatarFrame";//ĞŞ¸ÄÍ·Ïñ¿ò
+    public static string SetTitle = "SetTitle";//ĞŞ¸Ä³ÆºÅ
+    public static string SetHead = "SetHead";//ĞŞ¸ÄÍ·Ïñ
+    public static string GameCrossDay = "GameCrossDay";//Áãµã¸üĞÂ
 
-    public static string WaterBucketAward = "WaterBucketAward";//ï¿½ï¿½È¡Ë®Í°
-    public static string WaterStage = "WaterStage";//Ã¿ï¿½Õ¶ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ë®ï¿½ï¿½
-    public static string ChangeWaterBucket = "ChangeWaterBucket";//Ë®Í°ï¿½ï¿½ï¿½Ü´ï¿½ï¿½ï¿½ï¿½ó·µ»Øµï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string WaterBucketAward = "WaterBucketAward";//ÁìÈ¡Ë®Í°
+    public static string WaterStage = "WaterStage";//Ã¿ÈÕ¶¨µãÁìÈ¡Ë®µÎ
+    public static string ChangeWaterBucket = "ChangeWaterBucket";//Ë®Í°¹¦ÄÜ´¥·¢ºó·µ»ØµÄÊı¾İ
 
-    public static string OpenGiftPack = "OpenGiftPack";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string OpenGiftPack = "OpenGiftPack";//´ò¿ªËæ»úÀñ°ü
 }
 
 public class PetEvent
 {
-    public static string PetInfo = "PetInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string PetDraw = "PetDraw";//ï¿½ï¿½Èªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string PetUpGrade = "PetUpGrade";//ï¿½ï¿½ï¿½ï¿½
-    public static string PetStar = "PetStar";//ï¿½ï¿½ï¿½ï¿½
-    public static string PetExchange = "PetExchange";//ï¿½ï¿½Æ¬ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string BattlePet = "BattlePet";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string PetInfo = "PetInfo";//³èÎïĞÅÏ¢
+    public static string PetDraw = "PetDraw";//ÎÂÈªÎüÒı³èÎï
+    public static string PetUpGrade = "PetUpGrade";//Éı¼¶
+    public static string PetStar = "PetStar";//ÉıĞÇ
+    public static string PetExchange = "PetExchange";//ËéÆ¬¶Ò»»³èÎï
+    public static string BattlePet = "BattlePet";//³èÎïÉÏÕó
 }
 
 public class FlowerGoldEvent
 {
-    public static string FairyInfo = "FairyInfo";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string FairyDraw = "FairyDraw";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬
-    public static string FairyExchange = "FairyExchange";//ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string FairyUpgrade = "FairyUpgrade";//ï¿½ï¿½ï¿½ï¿½
-    public static string FairyRefresh = "FairyRefresh";//Ë¢ï¿½Â¼ï¿½Ì³
-    public static string BattleFairy = "BattleFairy";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string FairyDrawItem = "FairyDrawItem";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬
+    public static string FairyInfo = "FairyInfo";//»¨ÏÉĞÅÏ¢
+    public static string FairyDraw = "FairyDraw";//ÁìÈ¡»¨ÏÉËéÆ¬
+    public static string FairyExchange = "FairyExchange";//¶Ò»»»¨ÏÉ
+    public static string FairyUpgrade = "FairyUpgrade";//Éı¼¶
+    public static string FairyRefresh = "FairyRefresh";//Ë¢ĞÂ¼ÀÌ³
+    public static string BattleFairy = "BattleFairy";//»¨ÏÉÉÏÕó
+    public static string FairyDrawItem = "FairyDrawItem";//ÁìÈ¡»¨ÏÉËéÆ¬
 }
 
 public class FloristEvent
 {
-    public static string FloristReward = "FloristReward";//ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string FloristUpgrade = "FloristUpgrade";//ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string FloristForge = "FloristForge";////ï¿½Ò¾ß¶ï¿½ï¿½ï¿½
-    public static string FloristInfo = "FloristInfo";//ï¿½Ê»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+    public static string FloristReward = "FloristReward";//ÏÊ»¨µêÆÌÁìÈ¡Ìõ¼ş½±Àø
+    public static string FloristUpgrade = "FloristUpgrade";//ÏÊ»¨µêÆÌÉı¼¶
+    public static string FloristForge = "FloristForge";////¼Ò¾ß¶ÍÔì
+    public static string FloristInfo = "FloristInfo";//ÏÊ»¨µêÆÌĞÅÏ¢
 }
 
 public class NpcEvent
 {
-    public static string NpcGiveGift = "NpcGiveGift";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¡¢ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string NpcBuyTimes = "NpcBuyTimes";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¡¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ï¿½ï¿½
-    public static string ChangeNpc = "ChangeNpc";//ï¿½Ğ»ï¿½npc
-    public static string NpcGetReward = "NpcGetReward";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string NpcGiveGift = "NpcGiveGift";//ÔùËÍÀñÎï¡¢»¨ÒÕÆ·¸ø¾ÓÃñ
+    public static string NpcBuyTimes = "NpcBuyTimes";//¹ºÂòÔùËÍÀñÎï¡¢»¨ÒÕÔùËÍ´ÎÊı
+    public static string ChangeNpc = "ChangeNpc";//ÇĞ»»npc
+    public static string NpcGetReward = "NpcGetReward";//ÁìÈ¡¾ÓÃñµÈ¼¶½±Àø
 }
 
 public class IllEvent
 {
-    public static string IllCetCollect = "IllCetCollect";//Í¼ï¿½ï¿½ - ï¿½ï¿½È¡ï¿½Õ¼ï¿½Öµ
-    public static string IllUpgradeLevel = "IllUpgradeLevel";//ï¿½ï¿½ï¿½ï¿½
+    public static string IllCetCollect = "IllCetCollect";//Í¼¼ø - »ñÈ¡ÊÕ¼¯Öµ
+    public static string IllUpgradeLevel = "IllUpgradeLevel";//Éı¼¶
 }
 
 public class ArenaEvent
 {
-    public static string ArenaRankInfo = "ArenaRankInfo";//ï¿½ï¿½ï¿½ï¿½
-    public static string ArenaRankRival = "ArenaRankRival";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string ArenaRefreshRival = "ArenaRefreshRival";//Ë¢ï¿½Â¶ï¿½ï¿½ï¿½
-    public static string ArenaRefreshUser = "ArenaRefreshUser";//Ë¢ï¿½ï¿½ï¿½Ã»ï¿½
+    public static string ArenaRankInfo = "ArenaRankInfo";//ÅÅĞĞ
+    public static string ArenaRankRival = "ArenaRankRival";//¶ÔÊÖĞÅÏ¢
+    public static string ArenaRefreshRival = "ArenaRefreshRival";//Ë¢ĞÂ¶ÔÊÖ
+    public static string ArenaRefreshUser = "ArenaRefreshUser";//Ë¢ĞÂÓÃ»§
 }
 
 public class TaskEvent
 {
-    public static string MainTaskReward = "MainTaskReward";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string ResMainTaskReward = "ResMainTaskReward";//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string MainTaskCount = "MainTaskCount";//ï¿½ï¿½ï¿½ï¿½
-    public static string TaskProAreward = "TaskProAreward";//ï¿½ï¿½ï¿½È½ï¿½ï¿½ï¿½
-    public static string AchievTaskInfo = "AchievTaskInfo";//ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
-    public static string AchievTaskReward = "AchievTaskReward";//ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+    public static string MainTaskReward = "MainTaskReward";//ÁìÈ¡Ö÷ÏßÈÎÎñ½±Àø
+    public static string ResMainTaskReward = "ResMainTaskReward";//ÁìÈ¡Ö÷ÏßÈÎÎñ½±Àø
+    public static string MainTaskCount = "MainTaskCount";//¸üĞÂ
+    public static string TaskProAreward = "TaskProAreward";//½ø¶È½±Àø
+    public static string AchievTaskInfo = "AchievTaskInfo";//³É¾ÍÈÎÎñĞÅÏ¢
+    public static string AchievTaskReward = "AchievTaskReward";//³É¾ÍÈÎÎñ-ÁìÈ¡½±Àø
 }
 
 public class FundEvent
@@ -450,40 +452,40 @@ public class FundEvent
 
 public class PlotEvent
 {
-    public static string PlotWatch = "PlotWatch";//ï¿½Û¿ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string PlotWatch = "PlotWatch";//¹Û¿´¾çÇé
 }
 
 public class ActivityEvent
 {
-    public static string MonthDraw = "MonthDraw";//ï¿½Â¶È³é¿¨
-    public static string DiamondDraw = "DiamondDraw";//ï¿½ï¿½Ê¯ï¿½é¿¨
-    public static string DressDraw = "DressDraw";//ï¿½ï¿½×°ï¿½é¿¨
-    public static string MonthDrawWhetherDisplay = "MonthDrawWhetherDisplay";//ï¿½Â¶È³é¿¨ï¿½Ç·ï¿½É¼ï¿½
+    public static string MonthDraw = "MonthDraw";//ÔÂ¶È³é¿¨
+    public static string DiamondDraw = "DiamondDraw";//×êÊ¯³é¿¨
+    public static string DressDraw = "DressDraw";//·ş×°³é¿¨
+    public static string MonthDrawWhetherDisplay = "MonthDrawWhetherDisplay";//ÔÂ¶È³é¿¨ÊÇ·ñ¿É¼û
 }
 
 public class ExhcangeEvent
 {
-    public static string MonthDraw = "MonthDraw";//ï¿½Â¶È³é¿¨
-    public static string DiamondDraw = "DiamondDraw";//ï¿½ï¿½Ê¯ï¿½é¿¨
-    public static string DressDraw = "DressDraw";//ï¿½ï¿½×°ï¿½é¿¨
-    public static string FurnitureShop = "FurnitureShop";//ï¿½Ò¾ï¿½ï¿½Ìµï¿½
+    public static string MonthDraw = "MonthDraw";//ÔÂ¶È³é¿¨
+    public static string DiamondDraw = "DiamondDraw";//×êÊ¯³é¿¨
+    public static string DressDraw = "DressDraw";//·ş×°³é¿¨
+    public static string FurnitureShop = "FurnitureShop";//¼Ò¾ßÉÌµê
 }
 
 public class WelfareEvent
 {
-    public static string DailySign = "DailySign";//Ç©ï¿½ï¿½
-    public static string DailyRetroactive = "DailyRetroactive";//ï¿½ï¿½Ç©
-    public static string RookieInfo = "RookieInfo";//ï¿½É³ï¿½Ö®Â·ï¿½ï¿½Ï¢
-    public static string RookieReward = "RookieReward";//ï¿½É³ï¿½Ö®Â·ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
-    public static string TurnTable = "TurnTable";//×ªï¿½Ì³é½±
-    public static string DailyLoginAward = "DailyLoginAward";//Ã¿ï¿½Õµï¿½Â¼ - ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+    public static string DailySign = "DailySign";//Ç©µ½
+    public static string DailyRetroactive = "DailyRetroactive";//²¹Ç©
+    public static string RookieInfo = "RookieInfo";//³É³¤Ö®Â·ĞÅÏ¢
+    public static string RookieReward = "RookieReward";//³É³¤Ö®Â·ÁìÈ¡½±Àø
+    public static string TurnTable = "TurnTable";//×ªÅÌ³é½±
+    public static string DailyLoginAward = "DailyLoginAward";//Ã¿ÈÕµÇÂ¼ - ÁìÈ¡½±Àø
 }
 
 public class ContractEvent
 {
-    public static string Contract = "Contract";//ï¿½ï¿½Ô¼
-    public static string ContractTaskReward = "ContractTaskReward";//ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string ContractLevelReward = "ContractLevelReward";//ï¿½ï¿½Ô¼ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string Contract = "Contract";//ºÏÔ¼
+    public static string ContractTaskReward = "ContractTaskReward";//ºÏÔ¼ÈÎÎñ½±Àø
+    public static string ContractLevelReward = "ContractLevelReward";//ºÏÔ¼µÈ¼¶½±Àø
 }
 
 public class NetEvent {
@@ -493,24 +495,24 @@ public class NetEvent {
 
 public class FairyFlowerEvent
 {
-    public static string FlowerFairyInfo = "FlowerFairyInfo";//ï¿½ï¿½Ï¢
-    public static string FairyContractTask = "FairyContractTask";//ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string FairyContractLevel = "FairyContractLevel";//ï¿½ï¿½Ô¼ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string FairyFiguireUp = "FairyFiguireUp";//ï¿½ï¿½ï¿½É²ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
-    public static string FairyBlindDraw = "FairyBlindDraw";//Ã¤ï¿½Ğ³é¿¨
-    public static string FairyDispatch = "FairyDispatch";//ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½
-    public static string FairyDispatchUnlock = "FairyDispatchUnlock";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²Î»ï¿½ï¿½
-    public static string FairyDispatchSpeed = "FairyDispatchSpeed";//ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½
-    public static string FairyDispatchHarvest = "FairyDispatchHarvest";//ï¿½ï¿½Ç²ï¿½Õ»ï¿½
-    public static string FairyHelpApply = "FairyHelpApply";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string FairyHelpEffect = "FairyHelpEffect";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ§
-    public static string FairyBlindInfo = "FairyBlindInfo";//Ã¤ï¿½ï¿½ï¿½ï¿½Ï¢
+    public static string FlowerFairyInfo = "FlowerFairyInfo";//ĞÅÏ¢
+    public static string FairyContractTask = "FairyContractTask";//ºÏÔ¼ÈÎÎñ½±Àø
+    public static string FairyContractLevel = "FairyContractLevel";//ºÏÔ¼µÈ¼¶½±Àø
+    public static string FairyFiguireUp = "FairyFiguireUp";//»¨ÏÉ²ØÆ·Éı¼¶
+    public static string FairyBlindDraw = "FairyBlindDraw";//Ã¤ºĞ³é¿¨
+    public static string FairyDispatch = "FairyDispatch";//ÅÉÇ²»¨ÏÉ
+    public static string FairyDispatchUnlock = "FairyDispatchUnlock";//½âËøÅÉÇ²Î»ÖÃ
+    public static string FairyDispatchSpeed = "FairyDispatchSpeed";//ÅÉÇ²¼ÓËÙ
+    public static string FairyDispatchHarvest = "FairyDispatchHarvest";//ÅÉÇ²ÊÕ»ñ
+    public static string FairyHelpApply = "FairyHelpApply";//ÉêÇëÖúÁ¦
+    public static string FairyHelpEffect = "FairyHelpEffect";//ºÃÓÑÖúÁ¦ÉúĞ§
+    public static string FairyBlindInfo = "FairyBlindInfo";//Ã¤ºĞĞÅÏ¢
 }
 
 public class ShareEvent
 {
-    public static string ShareLevelReward = "ShareLevelReward";//ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
-    public static string ShareIkeReward = "ShareIkeReward";//ï¿½×´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
-    public static string ShareFlowerReward = "ShareFlowerReward";//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static string ShareLevelReward = "ShareLevelReward";//µÈ¼¶·ÖÏí
+    public static string ShareIkeReward = "ShareIkeReward";//Ê×´ÎÖÆ×÷»¨ÒÕÆ··ÖÏí
+    public static string ShareFlowerReward = "ShareFlowerReward";//ÅàÓı»¨·ÖÏí
 }
 

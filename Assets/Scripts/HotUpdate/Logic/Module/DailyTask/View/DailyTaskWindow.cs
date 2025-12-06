@@ -10,33 +10,25 @@ using protobuf.dailyTask;
 
 public class DailyTaskWindow : BaseView
 {
-   private fun_DailyTask.DailyTask view;
+   private fun_DailyTask.daily_task_view view;
     private bool isPlay = false;
-    private int tabType = 0;
-
     private int taskTabType = 0;
-
-    private int achievType = 0;
-
     private Dictionary<int, fun_DailyTask.pro_item> dayItems;
     private Dictionary<int, fun_DailyTask.pro_item> weekItems;
 
-    private List<int> achievTypeData;
-
-    private List<I_ACHIEV_TASK_VO> achievData;
     public DailyTaskWindow()
     {
         packageName = "fun_DailyTask";
         // 设置委托
         BindAllDelegate = fun_DailyTask.fun_DailyTaskBinder.BindAll;
-        CreateInstanceDelegate = fun_DailyTask.DailyTask.CreateInstance;
+        CreateInstanceDelegate = fun_DailyTask.daily_task_view.CreateInstance;
         
     }
 
     public override void OnInit()
     {
          base.OnInit();
-        view = ui as fun_DailyTask.DailyTask;
+        view = ui as fun_DailyTask.daily_task_view;
         //view.refreshTipTxt.text = Lang.GetValue("slang_67");//任务会在每日0点更新哦!
         //view.giftTipTxt.text = Lang.GetValue("slang_68");//完成所有任务可额外获得礼包一个
         string str = Lang.GetValue("Daily_task_17");
@@ -44,12 +36,7 @@ public class DailyTaskWindow : BaseView
         //view.title2.text = str.Substring(2, 2);
         SetBg(view.bg,"DailyTask/ELIDA_meirirenwu_bg02.png");
         SetBg(view.bg1,"DailyTask/ELIDA_meirirenwu_juanzhou_01.png");
-        achievTypeData = TaskModel.Instance.GetAchievTypeList();
-
-        StringUtil.SetBtnTab(view.task_btn, Lang.GetValue("COC_Tab_Task"));
-        StringUtil.SetBtnTab(view.achiev_btn, Lang.GetValue("building_achievement"));
-        StringUtil.SetBtnTab3(view.task_btn, Lang.GetValue("COC_Tab_Task"));
-        StringUtil.SetBtnTab3(view.achiev_btn, Lang.GetValue("building_achievement"));
+        view.titleLab.text = Lang.GetValue("COC_Tab_Task");
 
         StringUtil.SetBtnTab(view.day_btn, Lang.GetValue("Daily_task_17"));
         StringUtil.SetBtnTab(view.week_btn, Lang.GetValue("task_6"));
@@ -58,36 +45,15 @@ public class DailyTaskWindow : BaseView
         StringUtil.SetBtnTab3(view.week_btn, Lang.GetValue("task_6"));
 
         view.list.itemRenderer = ListRenderer;
-        view.tab_list.itemRenderer = RenderType;
-        view.tab_list.numItems = achievTypeData.Count;
-        view.tab_list.selectedIndex = achievType;
-
-        view.achiev_list.itemRenderer = RenderAchiev;
-        view.achiev_list.SetVirtual();
+       
 
         view.anim.loop = true;
         view.anim.url = "meirerenwu";
         view.anim.animationName = "animation";
         InitPro();
 
-        view.list.height = view.close_btn.y - view.day_btn.y - 130;
-        view.achiev_btn.height = view.close_btn.y - view.tab_list.y - 125;
-
-        view.task_btn.onClick.Add(() =>
-        {
-            if(tabType != 0)
-            {
-                ChangeTab(0);
-            }
-        });
-
-        view.achiev_btn.onClick.Add(() =>
-        {
-            if (tabType != 1)
-            {
-                ChangeTab(1);
-            }
-        });
+        view.list.height = view.close_btn.y - view.day_btn.y - 146;
+        
 
         view.day_btn.onClick.Add(() =>
         {
@@ -106,77 +72,12 @@ public class DailyTaskWindow : BaseView
                 UpdateTask();
             }
         });
-
-        EventManager.Instance.AddEventListener(DailyTaskEvent.DailyTask, UpdateData);
-        AddEventListener(TaskEvent.AchievTaskInfo, UpdateData);
-        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateData);
-        AddEventListener(TaskEvent.AchievTaskReward, UpdateAchiev);
+        AddEventListener(TaskEvent.TaskProAreward, UpdateTask);
+        EventManager.Instance.AddEventListener(DailyTaskEvent.DailyTask, UpdateTask);
+        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateTask);
     }
 
-    private void RenderType(int index,GObject item)
-    {
-        var cell = item as fun_DailyTask.page_btn1;
-        cell.titleLab.text = cell.titleLab1.text = Lang.GetValue("task_title_" + (index + 1));
-        cell.data = index;
-        cell.onClick.Add(AchievTab);
-    }
 
-    private void AchievTab(EventContext context)
-    {
-        var type = (int)(context.sender as GComponent).data;
-        if(achievType != type)
-        {
-            achievType = type;
-            UpdateAchiev();
-        }
-    }
-
-    private void UpdateAchiev()
-    {
-        achievData = TaskModel.Instance.GetAchievList(achievType + 1);
-        view.achiev_list.numItems = achievData.Count;
-    }
-
-    private void RenderAchiev(int index,GObject item)
-    {
-        var cell = item as fun_DailyTask.achiev_item;
-        var achiev = achievData[index];
-        var achievInfo = TaskModel.Instance.GetAchievInfo((int)achiev.taskId);
-        cell.nameLab.text = Lang.GetValue(achievInfo.AchievName);
-        cell.decLab.text = TaskModel.Instance.GetTaskDec(achievInfo.AchievDesc, achievInfo.TaskType,achievInfo.TaskNum,achievInfo.TypeParam,achievInfo.Ishistory);
-        cell.pro.max = achievInfo.TaskNum;
-        cell.pro.value = achiev.curCnt;
-        cell.proLab.text = achiev.curCnt + "/" + achievInfo.TaskNum;
-        StringUtil.SetBtnTab(cell.getBtn, Lang.GetValue("common_claim_button"));
-        cell.reward_list.itemRenderer = (int idx, GObject reward) =>
-        {
-            var value = achievInfo.Rewards[idx];
-            var rewardItem = reward as fun_DailyTask.DailyTaskCell;
-            float rate = (MyselfModel.Instance.CurrVipExp() / 100f) + 1;
-            if (IDUtil.GetEntityValue(value.EntityID) == (int)BaseType.EXP)
-            {
-                rewardItem.count.text = Mathf.Ceil(rate * value.Value).ToString();
-            }
-            else
-            {
-                rewardItem.count.text = value.Value.ToString();
-            }
-            UILogicUtils.SetItemShow(rewardItem, IDUtil.GetEntityValue(value.EntityID));
-            rewardItem.img.url = ImageDataModel.Instance.GetIconUrlByEntityId(value.EntityID);
-            rewardItem.bg.url = "MyInfo/show_flower_bg1.png";
-        };
-        
-        cell.reward_list.numItems = achievInfo.Rewards.Length;
-        cell.getBtn.enabled = achiev.curCnt >= achievInfo.TaskNum;
-        cell.getBtn.data = achiev.seriesId;
-        cell.getBtn.onClick.Add(AchievReward);
-    }
-
-    private void AchievReward(EventContext context)
-    {
-        var id = (uint)(context.sender as GComponent).data;
-        TaskController.Instance.ReqAchievTaskReward(id);
-    }
     private void InitPro()
     {
         var dayProData = TaskModel.Instance.GetTaskProList(1);
@@ -210,44 +111,11 @@ public class DailyTaskWindow : BaseView
     {
         base.OnShown();
         // 其他打开面板的逻辑
+        taskTabType = (int)data;
+        view.tab.selectedIndex = taskTabType;
         isPlay = false;
-        int index = (int)data;
-        view.tab.selectedIndex = index;
-        ChangeTab(index);
+        DailyTaskController.Instance.ReqDailyTask();
     }
-    private void ChangeTab(int type)
-    {
-        tabType = type;
-        if(tabType == 0)
-        {
-            DailyTaskController.Instance.ReqDailyTask();
-        }
-        else
-        {
-            TaskController.Instance.ReqAchievTaskInfo();
-        }
-    }
-    private void UpdateData()
-    {
-        //double pro = DailyTaskModel.Instance.doneTaskNum / DailyTaskModel.TASK_COUNT;
-        //view.progressBar.value = pro * 100;
-        //view.progressTxt.text = "<font color = '#f57863'>" + "</font>/" + DailyTaskModel.TASK_COUNT.ToString();
-        if(tabType == 0)
-        {
-            if (!isPlay)
-            {
-                isPlay = true;
-                //UILogicUtils.AddTweenOfViewList(view.list);
-            }
-            UpdateTask();
-        }
-        else
-        {
-            UpdateAchiev();
-        }
-        
-    }
-
 
     private void ListRenderer(int index,GObject cell)
     {
@@ -315,11 +183,10 @@ public class DailyTaskWindow : BaseView
                 var item = value.Value;
                 var proInfo = TaskModel.Instance.GetTaskProInfo(value.Key);
                 item.proLab.text = proInfo.ProgressNum.ToString();
-                if (dayProData.progress > proInfo.ProgressNum)
+                if(dayProData.rewardId != null && Array.IndexOf(dayProData.rewardId, (uint)value.Key) != -1)
                 {
-                    
-                }
-                else if(dayProData.rewardId != null && Array.IndexOf(dayProData.rewardId,(uint)value.Key) != -1)
+
+                }else if(dayProData.progress > proInfo.ProgressNum)
                 {
 
                 }

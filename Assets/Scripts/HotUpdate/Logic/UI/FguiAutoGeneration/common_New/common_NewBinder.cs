@@ -45,6 +45,14 @@ namespace common_New
             UIObjectFactory.SetPackageItemExtension(VaseTips.URL, typeof(VaseTips));
             UIObjectFactory.SetPackageItemExtension(FlowerTips.URL, typeof(FlowerTips));
             UIObjectFactory.SetPackageItemExtension(handbookDemandItem.URL, typeof(handbookDemandItem));
+            UIObjectFactory.SetPackageItemExtension(common_add.URL, typeof(common_add));
+            UIObjectFactory.SetPackageItemExtension(yellow_price_btn.URL, typeof(yellow_price_btn));
+            UIObjectFactory.SetPackageItemExtension(blue_btn1.URL, typeof(blue_btn1));
+            UIObjectFactory.SetPackageItemExtension(yellow_btn1.URL, typeof(yellow_btn1));
+            UIObjectFactory.SetPackageItemExtension(common_seach_btn.URL, typeof(common_seach_btn));
+            UIObjectFactory.SetPackageItemExtension(common_help.URL, typeof(common_help));
+            UIObjectFactory.SetPackageItemExtension(common_back.URL, typeof(common_back));
+            UIObjectFactory.SetPackageItemExtension(item_com.URL, typeof(item_com));
             UIObjectFactory.SetPackageItemExtension(clickVideoBtn.URL, typeof(clickVideoBtn));
             UIObjectFactory.SetPackageItemExtension(bubble.URL, typeof(bubble));
             UIObjectFactory.SetPackageItemExtension(submit_btn.URL, typeof(submit_btn));
@@ -81,6 +89,10 @@ namespace common_New
             UIObjectFactory.SetPackageItemExtension(confirmTips.URL, typeof(confirmTips));
             UIObjectFactory.SetPackageItemExtension(Drop.URL, typeof(Drop));
             UIObjectFactory.SetPackageItemExtension(common_btn1.URL, typeof(common_btn1));
+            UIObjectFactory.SetPackageItemExtension(common_close.URL, typeof(common_close));
+            UIObjectFactory.SetPackageItemExtension(yellow_btn.URL, typeof(yellow_btn));
+            UIObjectFactory.SetPackageItemExtension(blue_btn.URL, typeof(blue_btn));
+            UIObjectFactory.SetPackageItemExtension(blue_video_btn.URL, typeof(blue_video_btn));
             UIObjectFactory.SetPackageItemExtension(clickVideoBtn1.URL, typeof(clickVideoBtn1));
             UIObjectFactory.SetPackageItemExtension(clickBtn8.URL, typeof(clickBtn8));
             UIObjectFactory.SetPackageItemExtension(pageBtn4.URL, typeof(pageBtn4));

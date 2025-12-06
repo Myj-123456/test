@@ -8,8 +8,8 @@ namespace fun_DailyTask
     public partial class page_btn : GButton
     {
         public Controller button;
-        public GImage n0;
-        public GImage n1;
+        public GImage n6;
+        public GImage n7;
         public GTextField titleLab;
         public GTextField titleLab1;
         public const string URL = "ui://ueo46waaz1vi1ayr81e";
@@ -24,8 +24,8 @@ namespace fun_DailyTask
             base.ConstructFromXML(xml);
 
             button = GetControllerAt(0);
-            n0 = (GImage)GetChildAt(0);
-            n1 = (GImage)GetChildAt(1);
+            n6 = (GImage)GetChildAt(0);
+            n7 = (GImage)GetChildAt(1);
             titleLab = (GTextField)GetChildAt(2);
             titleLab1 = (GTextField)GetChildAt(3);
         }

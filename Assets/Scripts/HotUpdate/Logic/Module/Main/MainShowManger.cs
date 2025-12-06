@@ -6,7 +6,7 @@ public class MainShowManger : Singleton<MainShowManger>
 {
     public fun_MainUI.leftBtns leftView;
     public fun_MainUI.rightBtns rightView;
-    public float leftMax = 447;
+    public float leftMax = 500;
     public float rightMax = 625;
 
     public float leftMin = 100f;
@@ -23,9 +23,10 @@ public class MainShowManger : Singleton<MainShowManger>
         rightView.show_btn.onClick.Add(PlayerRightTween);
 
         leftView.btn.scroll.btn_grp.onSizeChanged.Add(UpdateLeftShow);
-        rightView.btn_com.scroll.btn_grp.onSizeChanged.Add(UpdateLeftShow);
+        rightView.btn_com.scroll.btn_grp.onSizeChanged.Add(UpdateRightShow);
         UpdateLeftShow();
         UpdateRightShow();
+        UpdateLineShow();
     }
     public void UpdateLeftShow()
     {
@@ -41,6 +42,7 @@ public class MainShowManger : Singleton<MainShowManger>
             }
             leftView.show_btn.scaleY = -1;
         }
+        UpdateLineShow();
     }
 
     public void UpdateRightShow()
@@ -87,6 +89,24 @@ public class MainShowManger : Singleton<MainShowManger>
             rightShow = true;
             rightView.show_btn.scaleY = -1;
             rightView.btn_com.TweenResize(new Vector2(rightView.btn_com.width, rightView.btn_com.scroll.btn_grp.height), 0.2f);
+        }
+    }
+
+    public void UpdateLineShow()
+    {
+        for(var i = 0;i < leftView.btn.scroll.numChildren; i++)
+        {
+            var curBtn = leftView.btn.scroll.GetChildAt(i) as fun_MainUI.funLeftBtn;
+            var nextBtn = leftView.btn.scroll.GetChildAt(i + 1) as fun_MainUI.funLeftBtn;
+            if (nextBtn.visible)
+            {
+                curBtn.line.selectedIndex = 0;
+            }
+            else
+            {
+                curBtn.line.selectedIndex = 1;
+                break;
+            }
         }
     }
 }
