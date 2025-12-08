@@ -148,6 +148,7 @@ public class FriendModel : Singleton<FriendModel>
             applyList.RemoveAt(index);
             friendCount++;
 
+            //应从服务器获取当时建立关系的时间
             // 记录好友关系建立时间
             friendRelationTime[id] = MyselfModel.Instance.lastServerTime;
         }
@@ -403,7 +404,35 @@ public class FriendModel : Singleton<FriendModel>
             currentServerTime = MyselfModel.Instance.lastServerTime;
         }
         // 确保剩余时间不为负
-        int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
+        int remainingSeconds = Mathf.Max(0, (int)(currentServerTime-cronyData.cancelTime));
+        return remainingSeconds;
+    }
+    /// <summary>
+    /// 获取密友解除的剩余时间
+    /// </summary>
+    /// <param name="friendId"></param>
+    /// <returns></returns>
+    public int GetCronyRemainingCancelTime2(uint friendId)
+    {
+#if UNITY_EDITOR
+        const int twelveHoursInSeconds = 3 * 60;
+#else
+        const int twelveHoursInSeconds = 24 * 60 * 60;
+#endif
+
+        var cronyData = GetCronyData(friendId);
+        if (cronyData == null || cronyData.cancelTime <= 0)
+        {
+            return 0;
+        }
+        uint currentServerTime = ServerTime.Time;
+        if (currentServerTime <= 0)
+        {
+            currentServerTime = MyselfModel.Instance.lastServerTime;
+        }
+        int timed = Mathf.Max(0, (int)(currentServerTime - cronyData.cancelTime));
+        // 确保剩余时间不为负
+        int remainingSeconds = Mathf.Max(0,twelveHoursInSeconds - timed);
         return remainingSeconds;
     }
     // 检查好友关系是否满12小时
@@ -420,7 +449,8 @@ public class FriendModel : Singleton<FriendModel>
         uint currentServerTime = MyselfModel.Instance.lastServerTime;
         uint elapsedTime = currentServerTime - relationStartTime;
         // 检查是否已满12小时
-        return elapsedTime >= twelveHoursInSeconds;
+        //return elapsedTime >= twelveHoursInSeconds;
+        return true;
     }
     // 获取好友关系剩余时间
     public uint GetFriendRelationRemainingTime(uint friendId)
@@ -550,7 +580,6 @@ public class FriendModel : Singleton<FriendModel>
 
         return $"{hours}小时{minutes}分钟";
     }
-
     /// 清理过期的密友申请
     public void CleanExpiredApplies()
     {

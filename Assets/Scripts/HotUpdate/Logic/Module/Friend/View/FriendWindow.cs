@@ -31,7 +31,7 @@ public class FriendWindow : BaseWindow
 
     private int[] tweenSign;
     private Dictionary<int, UIHeroAvatar> heroAvatarMap;
-
+    private const int jadeCost = 200;
     public FriendWindow()
     {
         packageName = "fun_Friends";
@@ -175,6 +175,12 @@ public class FriendWindow : BaseWindow
                 view.bestTips.selectedIndex = 3;
                 view.best_relievedesc.text = "解除后闺蜜等级和经验将被清空，确认解除后将在24小时倒计时结束后正式解除，确定要解除与" + curSelectedItem.townName + "的密友关系吗？";
             }
+            else
+            {
+                view.btn_best_relieve.visible = false;
+                view.btn_best_relieve2.visible = true;
+                Debug.Log("密友正在解除中");
+            }
         });
         StringUtil.SetBtnTab(view.btn_bestrelieve, "确定");
         view.btn_bestrelieve.onClick.Add(() =>
@@ -189,6 +195,12 @@ public class FriendWindow : BaseWindow
         view.btn_best_relieve2.onClick.Add(() =>
         {
             view.bestTips.selectedIndex = 4;
+            cronyCancelTimer.hour = true;
+            string time = TimeUtil.GetTimeInDateHourMinuteSecond(cronyCancelTimer.time, TimeFormat.DateWithTwoDigit, true);
+            // 启用富文本功能并设置时间为红色
+            view.best_relieveTime.UBBEnabled = true;
+            view.best_relieveTime.text = string.Format("密友将于[color=#FF0000]{0}[/color]后自动解除！", time);
+            view.text_money.text = jadeCost.ToString();
         });
         StringUtil.SetBtnTab(view.btn_bestedia, "立即解除");
         view.btn_bestedia.onClick.Add(() =>
@@ -197,22 +209,22 @@ public class FriendWindow : BaseWindow
             var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
             if (cronyData == null || cronyData.cancelTime <= 0)
             {
-                view.text_money.text = "0";
+                //view.text_money.text = "0";
                 return;
             }
-            uint currentServerTime = ServerTime.Time;
-            if (currentServerTime <= 0)
-            {
-                currentServerTime = MyselfModel.Instance.lastServerTime;
-            }
-            int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
-            int jadeCost = CalculateJadeCostForImmediateRemove(remainingSeconds);
-            //检查用户是否有足够的玉石
-            if (MyselfModel.Instance.diamond < jadeCost)
-            {
-                return;
-            }
-            view.text_money.text = jadeCost.ToString();
+            //uint currentServerTime = ServerTime.Time;
+            //if (currentServerTime <= 0)
+            //{
+            //    currentServerTime = MyselfModel.Instance.lastServerTime;
+            //}
+            //int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
+            //int jadeCost = CalculateJadeCostForImmediateRemove(remainingSeconds);
+            ////检查用户是否有足够的玉石
+            //if (MyselfModel.Instance.diamond < jadeCost)
+            //{
+            //    return;
+            //}
+            //view.text_money.text = jadeCost.ToString();
             view.bestTips.selectedIndex = 0;
             //确认立即解除
             FriendController.Instance.ReqCronySpeedCancel(curSelectedItem.userId);
@@ -229,7 +241,15 @@ public class FriendWindow : BaseWindow
             view.btn_best_relieve.visible = true;
             view.btn_best_relieve2.visible = false;
             // 取消解除密友关系请求
-            FriendController.Instance.ReqCronyBackCancel(curSelectedItem.userId);
+            if (curSelectedItem != null)
+            {
+                // 检查该密友是否真的在解除队列中
+                var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
+                if (cronyData != null && cronyData.cancelTime > 0)
+                {
+                    FriendController.Instance.ReqCronyBackCancel(curSelectedItem.userId);
+                }
+            }
         });
         view.btn_bestrelieveclose.onClick.Add(() =>
         {
@@ -1090,7 +1110,7 @@ public class FriendWindow : BaseWindow
         {
             // 重置按钮状态
             view.btn_best_relieve.visible = true;
-             view.btn_best_relieve2.visible = false;
+            view.btn_best_relieve2.visible = false;
             view.btn_best_relieve2.txt_relieveTime.text = "";
             view.text_money.text = "0";
             return;
@@ -1098,23 +1118,29 @@ public class FriendWindow : BaseWindow
         else
         {
             //密友倒计时
-            uint currentServerTime = ServerTime.Time;
-            if (currentServerTime <= 0)
-            {
-                // 使用本地缓存的服务器时间
-                currentServerTime = MyselfModel.Instance.lastServerTime;
-            }
-            int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
+            //uint currentServerTime = ServerTime.Time;
+            //if (currentServerTime <= 0)
+            //{
+            //    // 使用本地缓存的服务器时间
+            //    currentServerTime = MyselfModel.Instance.lastServerTime;
+            //}
+            //int remainingSeconds = Mathf.Max(0, (int)(currentServerTime- cronyData.cancelTime));
+            int remainingSeconds =FriendModel.Instance.GetCronyRemainingCancelTime2(cronyData.friendId);
             if (cronyCancelTimer != null)
             {
                 cronyCancelTimer.Clear();
                 cronyCancelTimer = null;
             }
             
+
             // 检查服务器返回的cancelTime是否有效（大于当前时间）
-            if (cronyData.cancelTime > currentServerTime)
+            //if (cronyData.cancelTime > currentServerTime)
+            if (cronyData.cancelTime > 0)
             {
-                // 有有效的解除时间，创建倒计时器
+                // 有有效的解除时间，显示解除中按钮并隐藏解除按钮
+                view.btn_best_relieve.visible = false;
+                view.btn_best_relieve2.visible = true;
+                // 创建倒计时器
                 cronyCancelTimer = new CountDownTimer(view.btn_best_relieve2.txt_relieveTime, remainingSeconds);
                 cronyCancelTimer.hour = true; // 显示小时
                 cronyCancelTimer.CompleteCallBacker = () =>
@@ -1131,6 +1157,7 @@ public class FriendWindow : BaseWindow
                         view.text_money.text = "0";
                     }
                 };
+                // 计时器已在构造函数中自动启动
             }
             else
             {
@@ -1467,13 +1494,14 @@ public class FriendWindow : BaseWindow
             // 更新解除密友按钮状态
             if (isCancelling)
             {
+                view.btn_best_relieve.visible = false;
                 view.btn_best_relieve2.visible = true;
                 // 显示倒计时
                 UpdateCronyCancelTimeDisplay();
             }
             else
             {
-               view.btn_best_relieve.visible = true;
+                view.btn_best_relieve.visible = true;
                 view.btn_best_relieve2.visible = false;
                 view.btn_best_relieve2.txt_relieveTime.text = "";
                 view.text_money.text = "0";
