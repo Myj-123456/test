@@ -200,7 +200,7 @@ public class FriendWindow : BaseWindow
             // 启用富文本功能并设置时间为红色
             view.best_relieveTime.UBBEnabled = true;
             view.best_relieveTime.text = string.Format("密友将于[color=#FF0000]{0}[/color]后自动解除！", time);
-            view.text_money.text = jadeCost.ToString();
+            //view.text_money.text = jadeCost.ToString();
         });
         StringUtil.SetBtnTab(view.btn_bestedia, "立即解除");
         view.btn_bestedia.onClick.Add(() =>
@@ -1194,9 +1194,11 @@ public class FriendWindow : BaseWindow
             {
                 currentServerTime = MyselfModel.Instance.lastServerTime;
             }
-            int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
+            //int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
+            int remainingSeconds = FriendModel.Instance.GetCronyRemainingCancelTime2(curSelectedItem.userId);
             int jadeCost = CalculateJadeCostForImmediateRemove(remainingSeconds);
             view.text_money.text = jadeCost.ToString();
+            Debug.Log("解除需消耗："+ jadeCost.ToString());
         }
         else
         {

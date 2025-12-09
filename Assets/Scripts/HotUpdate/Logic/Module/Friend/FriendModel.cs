@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using ADK;
+using Elida.Config;
 using protobuf.common;
 using protobuf.friend;
 using protobuf.messagecode;
 using protobuf.plant;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using ADK;
 using static protobuf.friend.S_MSG_CRONY_LIST;
 
 public class FriendModel : Singleton<FriendModel>
@@ -36,10 +37,41 @@ public class FriendModel : Singleton<FriendModel>
     // 存储密友申请时间
     public Dictionary<uint, uint> applyTimeDictionary = new Dictionary<uint, uint>();
 
+    //密友数据
+    private Dictionary<int, Ft_mfriend_configConfig> _configDataDic;
+    public Dictionary<int, Ft_mfriend_configConfig> configDataDic
+    {
+        get
+        {
+            if (_configDataDic == null)
+            {
+                var gameEventData = ConfigManager.Instance.GetConfig<Ft_mfriend_configConfigData>("ft_mfriend_configsConfig");
+                _configDataDic = gameEventData.DataMap;
+            }
+            return _configDataDic;
+        }
+    }
     // 密友申请时间存储键
     private const string APPLY_TIME_KEY = "CronyApplyTime_";
+    /// <summary>
+    /// 获得密友数据
+    /// </summary>
+    /// <returns></returns>
+    public Ft_mfriend_configConfig GetBestFriendConfigData(int level)
+    {
+        Ft_mfriend_configConfig data;
+        _configDataDic.TryGetValue(level,out data);
+        //foreach (var item in _configDataDic)
+        //{
+        //    Debug.Log(":"+item.Key+":"+item.Value.Id+":经验上限:"+ item.Value.Exp);
+        //}
+        if(data==null) { Debug.LogError("等级不存在:"+ level);}
+        return data;
+    }
+    //public int HandleBestFriendLevel(int exp)
+    //{
 
-
+    //}
     /// 保存密友申请时间到本地存储
     private void SaveApplyTimeDictionary()
     {
@@ -369,6 +401,52 @@ public class FriendModel : Singleton<FriendModel>
     {
         return cronyList.Find(value => value.friendId == friendId);
     }
+    
+    /// <summary>
+    /// 根据密友经验值计算密友等级
+    /// </summary>
+    /// <param name="exp">密友经验值</param>
+    /// <returns>密友等级</returns>
+    public int CalculateCronyLevel(int exp)
+    {
+        // 如果配置为空，返回默认等级1
+        if (configDataDic == null || configDataDic.Count == 0)
+        {
+            return 1;
+        }
+        
+        int level = 1; // 默认等级为1
+        int maxLevel = 0;
+        int maxExp = 0;
+        
+        // 遍历所有配置，找到当前经验值对应的最高等级
+        foreach (var kvp in configDataDic)
+        {
+            int currentLevel = kvp.Key;
+            Ft_mfriend_configConfig config = kvp.Value;
+            
+            // 记录最高等级
+            if (currentLevel > maxLevel)
+            {
+                maxLevel = currentLevel;
+                maxExp = config.Exp;
+            }
+            
+            // 如果当前经验值大于等于该等级所需经验值，并且该等级比当前找到的等级高，就更新等级
+            if (exp >= config.Exp && currentLevel > level)
+            {
+                level = currentLevel;
+            }
+        }
+        
+        // 检查是否超过最高等级
+        if (exp >= maxExp && maxLevel > level)
+        {
+            level = maxLevel;
+        }
+        
+        return level;
+    }
 
     /// <summary>
     /// 检查密友关系是否正在解除中
@@ -414,11 +492,12 @@ public class FriendModel : Singleton<FriendModel>
     /// <returns></returns>
     public int GetCronyRemainingCancelTime2(uint friendId)
     {
-#if UNITY_EDITOR
-        const int twelveHoursInSeconds = 3 * 60;
-#else
         const int twelveHoursInSeconds = 24 * 60 * 60;
-#endif
+//#if UNITY_EDITOR
+//        const int twelveHoursInSeconds = 3 * 60;
+//#else
+//        const int twelveHoursInSeconds = 24 * 60 * 60;
+//#endif
 
         var cronyData = GetCronyData(friendId);
         if (cronyData == null || cronyData.cancelTime <= 0)
@@ -435,6 +514,7 @@ public class FriendModel : Singleton<FriendModel>
         int remainingSeconds = Mathf.Max(0,twelveHoursInSeconds - timed);
         return remainingSeconds;
     }
+
     // 检查好友关系是否满12小时
     public bool IsFriendRelationOver12Hours(uint friendId)
     {
