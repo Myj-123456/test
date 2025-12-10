@@ -1,13 +1,15 @@
+using ADK;
+using common;
+using Elida.Config;
 using FairyGUI;
-using System.Threading.Tasks;
-using UnityEngine;
+using fun_Friends;
+using protobuf.common;
+using protobuf.friend;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using protobuf.friend;
-using ADK;
-using protobuf.common;
-using System;
-using common;
+using System.Threading.Tasks;
+using UnityEngine;
 
 
 public class FriendWindow : BaseWindow
@@ -26,6 +28,7 @@ public class FriendWindow : BaseWindow
 
     private CountDownTimer timer;
     private CountDownTimer cronyCancelTimer;
+    private CountDownTimer cronyCancelPopTimer;
 
     private I_FRIEND_PROFILE curSelectedItem;
 
@@ -38,6 +41,92 @@ public class FriendWindow : BaseWindow
         // 设置委托
         BindAllDelegate = fun_Friends.fun_FriendsBinder.BindAll;
         CreateInstanceDelegate = fun_Friends.newFriends.CreateInstance;
+    }
+
+    // 当前选中的best_add按钮
+    private fun_Friends.best_add curSelectedBestAddButton;
+
+    /// <summary>
+    /// best_add按钮统一点击事件处理
+    /// </summary>
+    /// <param name="button">点击的按钮</param>
+    private void OnBestAddButtonClick(fun_Friends.best_add button)
+    {
+        if (button == null || button.data == null)
+            return;
+
+        // 设置按钮选中效果
+        if (curSelectedBestAddButton != null)
+        {
+            curSelectedBestAddButton.selected = false;
+        }
+        button.selected = true;
+        curSelectedBestAddButton = button;
+
+        // 从按钮的用户数据中获取状态信息
+        string[] buttonData = button.data as string[];
+        if (buttonData == null || buttonData.Length < 4)
+            return;
+
+        int index = int.Parse(buttonData[0]);
+        bool isUnlocked = bool.Parse(buttonData[1]);
+        bool hasCronyData = bool.Parse(buttonData[2]);
+        int cronyId = int.Parse(buttonData[3]);
+        S_MSG_CRONY_LIST.I_CRONY_VO cronyData = null;
+        if (hasCronyData && cronyId != -1)
+        {
+            // 重新获取最新的密友数据
+            cronyData = FriendModel.Instance.GetCronyData((uint)cronyId);
+        }
+
+        // 检查密友关系是否正在解除中
+        bool isCanceling = (cronyData != null) && FriendModel.Instance.IsCronyRelationshipCancelling(cronyData.friendId);
+
+        // 根据按钮状态执行不同的逻辑
+        if (hasCronyData && isCanceling)
+        {
+            // 解除中状态，点击显示倒计时信息
+            if (cronyData != null)
+            {
+                // 直接显示人物信息
+                curSelectedItem = FriendModel.Instance.GetFriendData(cronyData.friendId);
+                ShowCronyCharacters(button, cronyData);
+                ShowBestFriendLevel(cronyData);
+
+                view.btn_best_relieve.visible = false;
+                view.btn_best_relieve2.visible = true;
+            }
+        }
+        else if (hasCronyData && button.addController.selectedIndex == 2)
+        {
+            // 已同意状态，点击显示人物
+            curSelectedItem = FriendModel.Instance.GetFriendData(cronyData.friendId);
+            ShowCronyCharacters(button, cronyData);
+            ShowBestFriendLevel(cronyData);
+
+            view.btn_best_relieve.visible = true;
+            view.btn_best_relieve2.visible = false;
+        }
+        else if (!isUnlocked)
+        {
+            // 未解锁状态，点击处理解锁
+            curSelectedItem = null;
+            HandleCronyUnlock(index);
+            ShowBestFriendLevel(null);
+
+            view.btn_best_relieve.visible = false;
+            view.btn_best_relieve2.visible = false;
+        }
+        else
+        {
+            // 已解锁但无密友数据，点击打开添加密友窗口
+            curSelectedItem = null;
+            UIManager.Instance.OpenWindow<BestFriendAddWindow>(UIName.BestFriendAddWindow);
+            ShowBestFriendLevel(null);
+
+            view.btn_best_relieve.visible = false;
+            view.btn_best_relieve2.visible = false;
+        }
     }
 
     public override void OnInit()
@@ -195,12 +284,11 @@ public class FriendWindow : BaseWindow
         view.btn_best_relieve2.onClick.Add(() =>
         {
             view.bestTips.selectedIndex = 4;
-            cronyCancelTimer.hour = true;
-            string time = TimeUtil.GetTimeInDateHourMinuteSecond(cronyCancelTimer.time, TimeFormat.DateWithTwoDigit, true);
+            //cronyCancelTimer.hour = true;
+            //string time = TimeUtil.GetTimeInDateHourMinuteSecond(cronyCancelTimer.time, TimeFormat.DateWithTwoDigit, true);
             // 启用富文本功能并设置时间为红色
-            view.best_relieveTime.UBBEnabled = true;
-            view.best_relieveTime.text = string.Format("密友将于[color=#FF0000]{0}[/color]后自动解除！", time);
-            //view.text_money.text = jadeCost.ToString();
+       
+            UpdateJadeCostDisplay();
         });
         StringUtil.SetBtnTab(view.btn_bestedia, "立即解除");
         view.btn_bestedia.onClick.Add(() =>
@@ -381,7 +469,7 @@ public class FriendWindow : BaseWindow
         UILogicUtils.ClearTweenOfViewList(view.list);
         UILogicUtils.ClearTweenOfViewList(view.recommendList);
         UILogicUtils.ClearTweenOfViewList(view.newFriendComeList);
-
+        curSelectedItem = null;
         //密友界面不显示动画
         if (curTab == 3)
         {
@@ -869,22 +957,16 @@ public class FriendWindow : BaseWindow
                         if (ui_.n3 != null)
                         {
                             //设置头像
-                            if (ui_.n3.GetChild("head") is GButton headBtn)
-                            {
-                                StringUtil.SetBtnUrl(headBtn, "Avatar/ELIDA_common_touxiangdi01.png");
-                            }
+                            StringUtil.SetBtnUrl(ui_.n3.head, "Avatar/ELIDA_common_touxiangdi01.png");
                             //设置等级
-                            if (ui_.n3.GetChild("txt_lv") is GTextField lvTxt)
-                            {
                                 //通过好友ID获取好友信息以显示等级
-                                if (cronyData.friendId != 0)
-                                {
+                            if (cronyData.friendId != 0)
+                            {
                                     var friendData = FriendModel.Instance.GetFriendData(cronyData.friendId);
                                     if (friendData != null)
                                     {
-                                        lvTxt.text = friendData.userLevel.ToString();
+                                        ui_.n3.txt_lv.text = friendData.userLevel.ToString();
                                     }
-                                }
                             }
                             //设置名字
                             if (ui_.n3.GetChild("txt_name") is GTextField nameTxt)
@@ -899,12 +981,6 @@ public class FriendWindow : BaseWindow
                                     }
                                 }
                             }
-                            //设置图标
-                            if (ui_.n3.GetChild("icon") is GLoader iconLoader)
-                            {
-                                //设置对应的图标
-                                iconLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
-                            }
                         }
                     }
                     else
@@ -912,51 +988,30 @@ public class FriendWindow : BaseWindow
                         //没有密友数据，设置解锁或未解锁状态
                         ui_.addController.selectedIndex = isUnlocked ? 0 : 1;
                     }
-                    //为每个密友位置重新设置正确的点击事件
+                    // 设置按钮模式为Check，确保selected属性能正常工作
+                    ui_.mode = ButtonMode.Check;
+                    ui_.changeStateOnClick = false;
+                    // 存储按钮状态信息到用户数据中，用于统一点击处理
+                    // 使用字符串数组存储状态信息，避免使用Tuple可能带来的问题
+                    int cronyId = cronyData != null ? (int)cronyData.friendId : -1;
+                    ui_.data = new string[] { 
+                        i.ToString(), 
+                        isUnlocked.ToString(), 
+                        hasCronyData.ToString(), 
+                        cronyId.ToString() 
+                    };
+                    // 为所有按钮设置统一的点击事件处理方法
                     ui_.onClick.Clear();
-                    // 如果是解除中的状态，设置点击事件
-                    if (hasCronyData && isCanceling)
+                    ui_.onClick.Add(() =>
                     {
-                        ui_.onClick.Add(() =>
-                        {
-                            if (cronyData != null)
-                            {
-                                // 调用ShowCronyCharacters方法来统一更新所有相关状态
-                                ShowCronyCharacters(ui_, cronyData);
-                            }
-                        });
-                    }
-                    else if (hasCronyData && ui_.addController.selectedIndex == 2)
-                    {
-                        // 已同意状态，点击显示人物
-                        ui_.onClick.Add(() =>
-                        {
-                            ShowCronyCharacters(ui_, cronyData);
-                        });
-                    }
-                    else if (!isUnlocked)
-                    {
-                        // 在闭包中使用i的副本，避免闭包陷阱
-                        int currentIndex = i;
-                        ui_.onClick.Add(() =>
-                        {
-                            HandleCronyUnlock(currentIndex);
-                        });
-                    }
-                    else
-                    {
-                        ui_.onClick.Add(() =>
-                        {
-                            UIManager.Instance.OpenWindow<BestFriendAddWindow>(UIName.BestFriendAddWindow);
-                        });
-                    }
+                        OnBestAddButtonClick(ui_);
+                    });
                 }
             }
         }
         //更新密友数据存在状态，以便切换背景图片
         UpdateBestNullTipsStatus();
     }
-
     //处理密友申请同意事件
     private void OnCronyAgree()
     {
@@ -1077,17 +1132,21 @@ public class FriendWindow : BaseWindow
     //计算立即解除所需的玉石数量
     private int CalculateJadeCostForImmediateRemove(int remainingSeconds)
     {
-        const int totalTimeBase = 24 * 60 * 60;
+        const int totalTimeBase = 24*60 * 60; // 24小时，单位：秒
         if (remainingSeconds <= 0 || totalTimeBase <= 0)
         {
             return 0;
         }
-        // 计算比例：剩余时间越少，花费越多
-        float ratio = Mathf.Clamp01((float)remainingSeconds / totalTimeBase);
-        // 玉石消耗 = 最高200玉石 * (1 - 剩余时间比例)
-        int jadeCost = Mathf.CeilToInt(200 * (1 - ratio));
-        // 确保至少消耗1个玉石
-        return Mathf.Max(1, jadeCost);
+        // 计算已经过去的时间（秒）
+        int timeInterval = Mathf.Max(0, totalTimeBase - remainingSeconds);
+        // 将秒转换为分钟
+        int minutesPassed = timeInterval / 60;
+        // 每减少10分钟减少2个玉石
+        int jadeReduction = (minutesPassed / 10) * 2;
+        // 玉石消耗 = 最高200玉石 - 减少的玉石数量
+        int jadeCost = 200 - jadeReduction;
+        // 确保玉石消耗在0到200之间
+        return Mathf.Clamp(jadeCost, 0, 200);
     }
     //解除密友关系回调
     private void OnCronyCancelCallback()
@@ -1106,32 +1165,29 @@ public class FriendWindow : BaseWindow
         }
         // 检查是否有正在解除中的密友关系
         var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
-        if (cronyData == null || cronyData.cancelTime <= 0)
+        if (cronyData == null || cronyData.cancelTime <=0)
         {
             // 重置按钮状态
             view.btn_best_relieve.visible = true;
             view.btn_best_relieve2.visible = false;
             view.btn_best_relieve2.txt_relieveTime.text = "";
-            view.text_money.text = "0";
+            //view.text_money.text = "0";
             return;
         }
         else
         {
             //密友倒计时
-            //uint currentServerTime = ServerTime.Time;
-            //if (currentServerTime <= 0)
-            //{
-            //    // 使用本地缓存的服务器时间
-            //    currentServerTime = MyselfModel.Instance.lastServerTime;
-            //}
-            //int remainingSeconds = Mathf.Max(0, (int)(currentServerTime- cronyData.cancelTime));
+
             int remainingSeconds =FriendModel.Instance.GetCronyRemainingCancelTime2(cronyData.friendId);
             if (cronyCancelTimer != null)
             {
                 cronyCancelTimer.Clear();
                 cronyCancelTimer = null;
             }
-            
+            if (cronyCancelPopTimer != null) {
+                cronyCancelPopTimer.Clear();
+                cronyCancelPopTimer = null;
+            }
 
             // 检查服务器返回的cancelTime是否有效（大于当前时间）
             //if (cronyData.cancelTime > currentServerTime)
@@ -1142,6 +1198,16 @@ public class FriendWindow : BaseWindow
                 view.btn_best_relieve2.visible = true;
                 // 创建倒计时器
                 cronyCancelTimer = new CountDownTimer(view.btn_best_relieve2.txt_relieveTime, remainingSeconds);
+                view.best_relieveTime.UBBEnabled = true;
+                
+                // 设置初始文本
+                view.best_relieveTime.text = string.Format("密友将于[color=#FF0000]{0}[/color]后自动解除！", view.btn_best_relieve2.txt_relieveTime.text);
+                
+                // 注册计时器更新回调，实现实时更新
+                cronyCancelTimer.UpdateCallBacker = () => {
+                    view.best_relieveTime.text = string.Format("密友将于[color=#FF0000]{0}[/color]后自动解除！", view.btn_best_relieve2.txt_relieveTime.text);
+                };
+
                 cronyCancelTimer.hour = true; // 显示小时
                 cronyCancelTimer.CompleteCallBacker = () =>
                 {
@@ -1154,7 +1220,7 @@ public class FriendWindow : BaseWindow
                         view.btn_best_relieve.visible = true;
                         view.btn_best_relieve2.visible = false;
                         view.btn_best_relieve2.txt_relieveTime.text = "";
-                        view.text_money.text = "0";
+                        view.text_money.text = "200";
                     }
                 };
                 // 计时器已在构造函数中自动启动
@@ -1165,7 +1231,7 @@ public class FriendWindow : BaseWindow
                 view.btn_best_relieve.visible = true;
                 view.btn_best_relieve2.visible = false;
                 view.btn_best_relieve2.txt_relieveTime.text = "";
-                view.text_money.text = "0";
+                //view.text_money.text = "0";
                 // 刷新密友列表
                 UpdateCronyList();
             }
@@ -1176,7 +1242,7 @@ public class FriendWindow : BaseWindow
     {
         if (curSelectedItem == null)
         {
-            view.text_money.text = "0";
+            //view.text_money.text = "0";
             return;
         }
         bool isCancelling = FriendModel.Instance.IsCronyRelationshipCancelling(curSelectedItem.userId);
@@ -1186,7 +1252,7 @@ public class FriendWindow : BaseWindow
             var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
             if (cronyData == null || cronyData.cancelTime <= 0)
             {
-                view.text_money.text = "0";
+                view.text_money.text = "200";
                 return;
             }
             uint currentServerTime = ServerTime.Time;
@@ -1194,15 +1260,13 @@ public class FriendWindow : BaseWindow
             {
                 currentServerTime = MyselfModel.Instance.lastServerTime;
             }
-            //int remainingSeconds = Mathf.Max(0, (int)(cronyData.cancelTime - currentServerTime));
             int remainingSeconds = FriendModel.Instance.GetCronyRemainingCancelTime2(curSelectedItem.userId);
             int jadeCost = CalculateJadeCostForImmediateRemove(remainingSeconds);
             view.text_money.text = jadeCost.ToString();
-            Debug.Log("解除需消耗："+ jadeCost.ToString());
         }
         else
         {
-            view.text_money.text = "0";
+            //view.text_money.text = "200";
         }
     }
     //取消解除密友关系回调
@@ -1231,6 +1295,7 @@ public class FriendWindow : BaseWindow
             }
             //清空人物模型显示
             ShowCronyCharacters(null, null);
+            view.ishHasCronyData.selectedIndex = 0;
             // 重置选中状态
             curSelectedItem = null;
         }
@@ -1240,7 +1305,7 @@ public class FriendWindow : BaseWindow
         view.btn_best_relieve.visible = true;
         view.btn_best_relieve2.visible = false;
         view.btn_best_relieve2.txt_relieveTime.text = "";
-        view.text_money.text = "0";
+        //view.text_money.text = "200";
     }
     //加载密友列表
     private void LoadBestFriendList()
@@ -1435,57 +1500,40 @@ public class FriendWindow : BaseWindow
         }
         // 检查密友关系是否正在解除中
         bool isCanceling = (cronyData != null) && FriendModel.Instance.IsCronyRelationshipCancelling(cronyData.friendId);
-
-
         // 设置控制器索引
         // 2: 已有密友数据
         // 0: 已解锁但无密友数据
         // 1: 未解锁
         ui_.addController.selectedIndex = hasCronyData ? 2 : (isUnlocked ? 0 : 1);
+        
+        // 设置按钮模式为Check，确保selected属性能正常工作
+        ui_.mode = ButtonMode.Check;
+        ui_.changeStateOnClick = false;
+        // 存储按钮状态信息到用户数据中，用于统一点击处理
+        // 使用字符串数组存储状态信息，避免使用Tuple可能带来的问题
+        int cronyId = cronyData != null ? (int)cronyData.friendId : -1;
+        ui_.data = new string[] { 
+            index.ToString(), 
+            isUnlocked.ToString(), 
+            hasCronyData.ToString(), 
+            cronyId.ToString() 
+        };
         ui_.onClick.Clear();
-        // 设置点击事件
-        if (hasCronyData && isCanceling)
+        // 为所有按钮设置统一的点击事件处理方法
+        ui_.onClick.Add(() =>
         {
-            ui_.onClick.Add(() =>
-            {
-                // 解除中状态，点击显示倒计时信息
-                if (cronyData != null)
-                {
-                    curSelectedItem = FriendModel.Instance.GetFriendData(cronyData.friendId);
-                    // 直接显示人物信息
-                    ShowCronyCharacters(ui_, cronyData);
-                }
-            });
-        }
-        else if (hasCronyData && ui_.addController.selectedIndex == 2)
-        {
-            ui_.onClick.Add(() =>
-            {
-                ShowCronyCharacters(ui_, cronyData);
-            });
-        }
-        else if (!isUnlocked)
-        {
-            // 在闭包中使用index的副本，避免闭包陷阱
-            int currentIndex = index;
-            ui_.onClick.Add(() =>
-            {
-                HandleCronyUnlock(currentIndex);
-            });
-        }
-        else
-        {
-            ui_.onClick.Add(() =>
-            {
-                UIManager.Instance.OpenWindow<BestFriendAddWindow>(UIName.BestFriendAddWindow);
-            });
-        }
+            OnBestAddButtonClick(ui_);
+        });
+        
+        // 确保列表重新渲染时选中状态正确
+        ui_.selected = (curSelectedBestAddButton == ui_);
     }
 
     // 显示密友界面中的人物
     private void ShowCronyCharacters(fun_Friends.best_add ui_, S_MSG_CRONY_LIST.I_CRONY_VO cronyData)
     {
         if (view == null) return;
+        view.ishHasCronyData.selectedIndex = cronyData == null?0:1;
         // 设置当前选中的密友
         if (cronyData != null)
         {
@@ -1506,12 +1554,13 @@ public class FriendWindow : BaseWindow
                 view.btn_best_relieve.visible = true;
                 view.btn_best_relieve2.visible = false;
                 view.btn_best_relieve2.txt_relieveTime.text = "";
-                view.text_money.text = "0";
+                //view.text_money.text = "200";
             }
-
+            view.ishHasCronyData.selectedIndex = 1;
             // 更新玉石数量文本
             UpdateJadeCostDisplay();
         }
+        
         // 获取我方人物3D容器
         GLoader3D myAnimContainer = view.best_anim_my as GLoader3D;
         // 获取对方人物3D容器
@@ -1574,5 +1623,21 @@ public class FriendWindow : BaseWindow
                 yourAnimContainer.url = null;
             }
         }
+    }
+    /// <summary>
+    /// 更新密友相关信息
+    /// </summary>
+    /// <param name="cronyData"></param>
+    private void ShowBestFriendLevel(S_MSG_CRONY_LIST.I_CRONY_VO cronyData)
+    {
+        if (cronyData == null) { view.ishHasCronyData.selectedIndex = 0; return; }
+        view.ishHasCronyData.selectedIndex = 1;
+
+        int curlevel = FriendModel.Instance.CalculateCronyLevel((int)cronyData.exp);
+        Ft_mfriend_configConfig data= FriendModel.Instance.GetBestFriendConfigData(curlevel);
+        view.txt_probarLevel.text = string.Format("密友{0}级", curlevel);
+        view.n109.value = cronyData.exp;
+        view.txt_probar.text = cronyData.exp.ToString()+"/"+ data.Exp.ToString();
+
     }
 }

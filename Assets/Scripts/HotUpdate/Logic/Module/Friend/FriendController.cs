@@ -49,7 +49,6 @@ public class FriendController : BaseController<FriendController>
 
         // 初始化密友申请数据
         FriendModel.Instance.InitCronyApplyData();
-
         // 添加定期清理过期密友申请的定时器（每10分钟检查一次）
         Timer.RegistGlobal(600000, CleanExpiredAppliesTimer, true); // 10分钟间隔，循环执行
     }

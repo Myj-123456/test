@@ -24,12 +24,13 @@ public class LoginHelper
 #if !UNITY_EDITOR && UNITY_WEBGL && !WEIXINMINIGAME//网页web直接读取pid参数
        pid = Config.pid;
 #elif UNITY_EDITOR//编辑器下先写死 后面直接读取本地
-        pid = Saver.GetString(Saver.Uid);
-        if (string.IsNullOrEmpty(pid))//如果都没有 先创建uid
-        {
-            pid = Config.pid;
-            Saver.SaveAsString(Saver.Uid, pid);
-        }
+        pid = Config.pid;
+        //pid = Saver.GetString(Saver.Uid);
+        //if (string.IsNullOrEmpty(pid))//如果都没有 先创建uid
+        //{
+        //    pid = Config.pid;
+        //    Saver.SaveAsString(Saver.Uid, pid);
+        //}
 #elif !UNITY_EDITOR && UNITY_WEBGL && WEIXINMINIGAME//微信小游戏暂时没接入登录，客户端先模拟一个pid
         pid = Saver.GetString(Saver.Uid);
         if (string.IsNullOrEmpty(pid))//如果都没有 先创建uid

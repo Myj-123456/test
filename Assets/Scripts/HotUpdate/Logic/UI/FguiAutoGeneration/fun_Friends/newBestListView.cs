@@ -18,7 +18,7 @@ namespace fun_Friends
         public GImage n14;
         public GTextInput n16;
         public GTextField n17;
-        public btn_lookup btn_lookup;
+        public GObject btn_lookup;
         public GTextField n20;
         public GImage n21;
         public GTextField n22;
@@ -49,7 +49,7 @@ namespace fun_Friends
         public override void ConstructFromXML(XML xml)
         {
             base.ConstructFromXML(xml);
-
+            
             status = GetControllerAt(0);
             applybestTip = GetControllerAt(1);
             n2 = (GImage)GetChildAt(0);
@@ -61,7 +61,7 @@ namespace fun_Friends
             n14 = (GImage)GetChildAt(6);
             n16 = (GTextInput)GetChildAt(7);
             n17 = (GTextField)GetChildAt(8);
-            btn_lookup = (btn_lookup)GetChildAt(9);
+            btn_lookup = GetChild("btn_lookup");
             n20 = (GTextField)GetChildAt(10);
             n21 = (GImage)GetChildAt(11);
             n22 = (GTextField)GetChildAt(12);

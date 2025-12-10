@@ -5,16 +5,15 @@ using FairyGUI.Utils;
 
 namespace fun_Friends
 {
-    public partial class btn_lookup : GButton
+    public partial class Num_add : GButton
     {
         public Controller button;
-        public GImage n0;
-        public const string URL = "ui://fteyf9nzg3sj1yjp7tn";
+        public GImage n1;
+        public const string URL = "ui://fteyf9nzoanl1yjp7uo";
 
-
-        public static btn_lookup CreateInstance()
+        public static Num_add CreateInstance()
         {
-            return (btn_lookup)UIPackage.CreateObject("fun_Friends", "btn_lookup");
+            return (Num_add)UIPackage.CreateObject("fun_Friends", "Num_add");
         }
 
         public override void ConstructFromXML(XML xml)
@@ -22,7 +21,7 @@ namespace fun_Friends
             base.ConstructFromXML(xml);
 
             button = GetControllerAt(0);
-            n0 = (GImage)GetChildAt(0);
+            n1 = (GImage)GetChildAt(0);
         }
     }
 }

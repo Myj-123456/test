@@ -18,7 +18,7 @@ public class VisitFriendView : BaseView
     private float playerInfoY = 0;
     private float ui_friendListY = 0;
     private Color originColor;
-
+    private int Number=1;
     public VisitFriendView()
     {
         packageName = "fun_Friends";
@@ -47,8 +47,54 @@ public class VisitFriendView : BaseView
         {
             PlantController.Instance.ReqBatchSteal(MyselfModel.Instance.friendId);
         });
+        view.n33.onClick.Add(() => {
+            HandleIntroduceBtnClick();
+        });
+        view.n41.onClick.Add(() => {
+            HandleConverBtnClick();
+        });
+        InitConverUI();
+    }
+    /// <summary>
+    /// 初始化兑换界面UI
+    /// </summary>
+    void InitConverUI()
+    {
+        view.NumAddBtn.onClick.Add(() => { Debug.Log("hahh"); });
+        view.LessenBtn.onClick.Add(() => { Debug.Log("hahh"); });
+        view.CloseBtn.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
+        view.EnterBtn.onClick.Add(() => { Debug.Log("hahh"); });
+        view.CancelBtn.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
     }
 
+    /// <summary>
+    /// 处理详情点击按钮
+    /// </summary>
+    private void HandleIntroduceBtnClick()
+    {
+        if(view.popUpTap.selectedIndex!=1)
+        {
+            view.popUpTap.selectedIndex = 1;
+        }
+        else
+        {
+            view.popUpTap.selectedIndex = 0;
+        }
+    }
+    /// <summary>
+    /// 处理兑换点击按钮
+    /// </summary>
+    private void HandleConverBtnClick()
+    {
+        if (view.popUpTap.selectedIndex != 2)
+        {
+            view.popUpTap.selectedIndex = 2;
+        }
+        else
+        {
+            view.popUpTap.selectedIndex = 0;
+        }
+    }
     private void OnScroll()
     {
         if (lastSpotPage != view.ui_friendList.list_visitFriend.scrollPane.currentPageX)
