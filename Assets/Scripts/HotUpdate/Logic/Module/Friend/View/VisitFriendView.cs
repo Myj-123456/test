@@ -19,6 +19,10 @@ public class VisitFriendView : BaseView
     private float ui_friendListY = 0;
     private Color originColor;
     private int Number=1;
+    private int _friendCoinCount = 0;
+    private I_FRIEND_PROFILE _curfriendData;//当前访问朋友信息
+    private int curConverFriendConitCount = 1;//当前准备兑换好友币数
+    private const int FriendCoinExchangeLimit = 8;//每个好友每日好友币兑换摸花上限
     public VisitFriendView()
     {
         packageName = "fun_Friends";
@@ -42,6 +46,8 @@ public class VisitFriendView : BaseView
         view.ui_friendList.list_visitFriend.itemRenderer = ItemRender;
         view.ui_friendList.list_visitFriend.onClickItem.Add(OnItemClick);
         view.ui_friendList.list_visitFriend.scrollPane.onScroll.Add(OnScroll);
+
+        EventManager.Instance.AddEventListener(FriendEvent.FriendCoinExchange, FriendCoinCallBack);
         AddEvent();
         view.ui_friendList.one_key_btn.onClick.Add(() =>
         {
@@ -53,20 +59,83 @@ public class VisitFriendView : BaseView
         view.n41.onClick.Add(() => {
             HandleConverBtnClick();
         });
-        InitConverUI();
-    }
-    /// <summary>
-    /// 初始化兑换界面UI
-    /// </summary>
-    void InitConverUI()
-    {
-        view.NumAddBtn.onClick.Add(() => { Debug.Log("hahh"); });
-        view.LessenBtn.onClick.Add(() => { Debug.Log("hahh"); });
+        UpdateFriendCoinCount();
+        UpdateConverUI();
+
+        view.NumAddBtn.onClick.Add(() => { ChangeCurrentConverFriendConitCount(1); });
+        view.LessenBtn.onClick.Add(() => { ChangeCurrentConverFriendConitCount(-1); });
         view.CloseBtn.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
-        view.EnterBtn.onClick.Add(() => { Debug.Log("hahh"); });
+        StringUtil.SetBtnTab(view.EnterBtn, "确定");
+        view.EnterBtn.onClick.Add(() => { ConverEnterClick(); });
+        StringUtil.SetBtnTab(view.CancelBtn, "取消");
         view.CancelBtn.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
     }
+    private void FriendCoinCallBack()
+    {
+        UpdateFriendCoinCount();
+        UpdateInteractionTimes();
 
+    }
+/// <summary>
+/// 更新好友币
+/// </summary>
+private void UpdateFriendCoinCount()
+    {
+        try
+        {
+            const int FriendCoinItemId = 41013044;
+            _friendCoinCount = StorageModel.Instance.GetItemCount(FriendCoinItemId);
+            view.FriendCoinNum.text = _friendCoinCount.ToString();
+            
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("获取好友币失败: " + ex.Message);
+            // 异常时不修改_cronyBookCount，保持原有值不变
+            view.FriendCoinNum.text = _friendCoinCount.ToString();
+        }
+    }
+    /// <summary>
+    /// 更新兑换界面UI
+    /// </summary>
+    void UpdateConverUI()
+    {
+        view.n68.text = curConverFriendConitCount.ToString();
+        view.n86.text = curConverFriendConitCount.ToString();
+        int surplusExchangeCount = FriendCoinExchangeLimit - (int)FriendModel.Instance.FriendCoinExchangeCnt;
+        view.n91.text = surplusExchangeCount + "/"+FriendCoinExchangeLimit.ToString();
+        view.n90.text = string.Format("(单次最多只能购买{0}次!)", FriendCoinExchangeLimit);
+
+
+        
+    }
+    /// <summary>
+    /// 改变当前兑换数
+    /// </summary>
+    void ChangeCurrentConverFriendConitCount(int num)
+    {
+        if (MathF.Abs(num) > FriendCoinExchangeLimit || MathF.Abs(num) == 0) return;
+        curConverFriendConitCount = Mathf.Clamp(curConverFriendConitCount + num, 1, FriendCoinExchangeLimit);
+        view.NumAddBtn.visible = !(curConverFriendConitCount >= FriendCoinExchangeLimit);
+        view.LessenBtn.visible = !(curConverFriendConitCount <= 1); 
+        view.n68.text = curConverFriendConitCount.ToString();
+        view.n86.text = curConverFriendConitCount.ToString();
+    }
+    /// <summary>
+    /// 确定兑换
+    /// </summary>
+    private void ConverEnterClick()
+    {
+        var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid;
+        var surplusTimes = umberOfMutualaid - MyselfModel.Instance.interactionCnt;
+        view.n91.text = FriendModel.Instance.FriendCoinExchangeCnt + "/" + FriendCoinExchangeLimit.ToString();
+        //if ((surplusTimes + curConverFriendConitCount) > FriendCoinExchangeLimit)
+        //{
+        //    ADK.UILogicUtils.ShowNotice("可兑换已达上限！");
+        //    return;
+        //}
+        FriendController.Instance.ReqFriendCoinExchange(MyselfModel.Instance.friendId, (uint)curConverFriendConitCount);
+    }
     /// <summary>
     /// 处理详情点击按钮
     /// </summary>
@@ -94,6 +163,7 @@ public class VisitFriendView : BaseView
         {
             view.popUpTap.selectedIndex = 0;
         }
+        UpdateConverUI();
     }
     private void OnScroll()
     {
@@ -142,6 +212,7 @@ public class VisitFriendView : BaseView
     private void UpdatePlayInfo()
     {
         protobuf.friend.I_FRIEND_PROFILE vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
+        _curfriendData=vo_ ;
         if (vo_ != null)
         {
             StringUtil.SetBtnUrl(view.head, "Avatar/ELIDA_common_touxiangdi01.png");
@@ -176,7 +247,8 @@ public class VisitFriendView : BaseView
 
     private void UpdateInteractionTimes()
     {
-        var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid;
+        var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid +FriendModel.Instance.FriendCoinExchangeCnt;
+        //var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid;
         var surplusTimes = umberOfMutualaid - MyselfModel.Instance.interactionCnt;
         view.txt_interactionTimes.color = surplusTimes > 0 ? originColor : Color.red;
         view.txt_interactionTimes.text = $"{surplusTimes}/{umberOfMutualaid}";
@@ -219,6 +291,10 @@ public class VisitFriendView : BaseView
     {
         view.ui_friendList.txt_pageNum.text = curPage + "/" + spotMaxPage;
     }
-
+    public override void OnHide()
+    {
+        base.OnHide();
+        EventManager.Instance.RemoveEventListener(FriendEvent.FriendCoinExchange, UpdateFriendCoinCount);
+    }
 }
 

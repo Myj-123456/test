@@ -47,6 +47,7 @@ public class FriendController : BaseController<FriendController>
         //͵����Ϣ
         AddNetListener<S_MSG_FRIEND_STEAL_MESSAGE>((int)MessageCode.S_MSG_FRIEND_STEAL_MESSAGE, FriendStealMesg);
 
+        AddNetListener<S_MSG_FRIENDCOIN_EXCHANGE>((int)MessageCode.S_MSG_FRIENDCOIN_EXCHANGE, FriendCoinExchangeMesg);
         // 初始化密友申请数据
         FriendModel.Instance.InitCronyApplyData();
         // 添加定期清理过期密友申请的定时器（每10分钟检查一次）
@@ -571,11 +572,33 @@ public class FriendController : BaseController<FriendController>
         FriendModel.Instance.friendStealMsg = data;
         EventManager.Instance.DispatchEvent(FriendEvent.FriendStealMesg);
     }
-
+    
     public void ReqFriendStealMesg()
     {
         C_MSG_FRIEND_STEAL_MESSAGE c_MSG_FRIEND_STEAL_MESSAGE = new C_MSG_FRIEND_STEAL_MESSAGE();
         SendCmd((int)MessageCode.C_MSG_FRIEND_STEAL_MESSAGE, c_MSG_FRIEND_STEAL_MESSAGE);
     }
+    /// <summary>
+    /// 好友币兑换
+    /// </summary>
+    /// <param name="friendId"></param>
+    /// <param name="num"></param>
+    public void ReqFriendCoinExchange(uint friendId, uint num)
+    {
+        C_MSG_FRIENDCOIN_EXCHANGE c_MSG_FRIENDCOIN_EXCHANGE =new C_MSG_FRIENDCOIN_EXCHANGE();
+        c_MSG_FRIENDCOIN_EXCHANGE.friendId= friendId;
+        c_MSG_FRIENDCOIN_EXCHANGE.count= num;
+        SendCmd((int)MessageCode.C_MSG_FRIENDCOIN_EXCHANGE, c_MSG_FRIENDCOIN_EXCHANGE);
+    }
 
+    public void FriendCoinExchangeMesg(S_MSG_FRIENDCOIN_EXCHANGE data)
+    {
+        if (data == null) return;
+        Debug.Log("FriendCoinExchangeMesg:"+data.friendCoinExchangeCnt);
+
+       //GlobalModel.Instance.module_profileConfig.umberOfMutualaid + (int)data.friendCoinExchangeCnt;
+
+        FriendModel.Instance.FriendCoinExchangeCnt=data.friendCoinExchangeCnt;
+        EventManager.Instance.DispatchEvent(FriendEvent.FriendCoinExchange);
+    }
 }

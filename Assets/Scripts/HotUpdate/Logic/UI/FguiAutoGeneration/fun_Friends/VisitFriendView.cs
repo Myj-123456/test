@@ -39,6 +39,8 @@ namespace fun_Friends
         public GButton CancelBtn;
         public GImage n85;
         public GTextField n86;
+        public GTextField n90;
+        public GTextField n91;
         public GGroup n87;
         public const string URL = "ui://fteyf9nzk3gl1yjp7ta";
 
@@ -83,7 +85,9 @@ namespace fun_Friends
             CancelBtn = (GButton)GetChildAt(28);
             n85 = (GImage)GetChildAt(29);
             n86 = (GTextField)GetChildAt(30);
-            n87 = (GGroup)GetChildAt(31);
+            n90 = (GTextField)GetChildAt(31);
+            n91 = (GTextField)GetChildAt(32);
+            n87 = (GGroup)GetChildAt(33);
         }
     }
 }

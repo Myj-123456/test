@@ -138,6 +138,7 @@ public class FriendEvent
     public static string CronyUnlockSuccess = "CronyUnlockSuccess";// 触发解锁成功事件
     public static string CronyBookBuySuccess = "CronyBookBuySuccess";
     public static string ApplyExpired = "ApplyExpired";
+    public static string FriendCoinExchange = "FriendCoinExchange";//好友币兑换事件
 }
 
 public class RobEvent

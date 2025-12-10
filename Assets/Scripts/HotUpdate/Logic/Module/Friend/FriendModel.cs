@@ -32,7 +32,12 @@ public class FriendModel : Singleton<FriendModel>
     {
         unlockCronyCnt = count;
     }
-
+    private uint friendCoinExchangeCnt=0;
+    public uint FriendCoinExchangeCnt
+    {
+        get { return friendCoinExchangeCnt; }
+        set { friendCoinExchangeCnt = value; }
+    }
     public List<uint> applyUserIds = new List<uint>();//申请加我为密友的好友id
     // 存储密友申请时间
     public Dictionary<uint, uint> applyTimeDictionary = new Dictionary<uint, uint>();
