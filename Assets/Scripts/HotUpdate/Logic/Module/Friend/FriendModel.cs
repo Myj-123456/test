@@ -6,6 +6,7 @@ using protobuf.messagecode;
 using protobuf.plant;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static protobuf.friend.S_MSG_CRONY_LIST;
 
@@ -421,35 +422,27 @@ public class FriendModel : Singleton<FriendModel>
         }
         
         int level = 1; // 默认等级为1
-        int maxLevel = 0;
-        int maxExp = 0;
         
-        // 遍历所有配置，找到当前经验值对应的最高等级
-        foreach (var kvp in configDataDic)
+        var sortedConfigs = configDataDic.OrderBy(kvp => kvp.Key).ToList();
+       
+        int maxConfigLevel = sortedConfigs.Last().Key;
+        
+        // 遍历排序后的配置，找到当前经验值对应的最高等级
+        foreach (var kvp in sortedConfigs)
         {
             int currentLevel = kvp.Key;
             Ft_mfriend_configConfig config = kvp.Value;
             
-            // 记录最高等级
-            if (currentLevel > maxLevel)
+            // 如果当前经验值大于等于该等级所需经验值，更新等级
+            if (exp >= config.Exp)
             {
-                maxLevel = currentLevel;
-                maxExp = config.Exp;
+                level = Mathf.Min(currentLevel + 1, maxConfigLevel);
             }
-            
-            // 如果当前经验值大于等于该等级所需经验值，并且该等级比当前找到的等级高，就更新等级
-            if (exp >= config.Exp && currentLevel > level)
+            else
             {
-                level = currentLevel;
+                break;
             }
         }
-        
-        // 检查是否超过最高等级
-        if (exp >= maxExp && maxLevel > level)
-        {
-            level = maxLevel;
-        }
-        
         return level;
     }
 

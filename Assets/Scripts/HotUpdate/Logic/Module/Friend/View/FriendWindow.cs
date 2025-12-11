@@ -143,8 +143,9 @@ public class FriendWindow : BaseWindow
 
         view.newFriendComeList.itemRenderer = ListRendererApply;
 
-        view.n106.itemRenderer = ListRendererBestFriend;
         view.n106.SetVirtual();
+        view.n106.itemRenderer = ListRendererBestFriend;
+     
         
         view.btn_best_relieve2.visible = false;
         // 添加密友申请同意事件监听
@@ -469,7 +470,7 @@ public class FriendWindow : BaseWindow
         UILogicUtils.ClearTweenOfViewList(view.list);
         UILogicUtils.ClearTweenOfViewList(view.recommendList);
         UILogicUtils.ClearTweenOfViewList(view.newFriendComeList);
-        curSelectedItem = null;
+        //curSelectedItem = null;
         //密友界面不显示动画
         if (curTab == 3)
         {
@@ -882,6 +883,7 @@ public class FriendWindow : BaseWindow
         }
         // 清空选中状态
         curSelectedItem = null;
+        curSelectedBestAddButton = null;
         //移除事件监听器
         EventManager.Instance.RemoveEventListener(FriendEvent.CronyAgree, OnCronyAgree);
         EventManager.Instance.RemoveEventListener(FriendEvent.CronyList, UpdateCronyList);
@@ -1636,6 +1638,7 @@ public class FriendWindow : BaseWindow
         int curlevel = FriendModel.Instance.CalculateCronyLevel((int)cronyData.exp);
         Ft_mfriend_configConfig data= FriendModel.Instance.GetBestFriendConfigData(curlevel);
         view.txt_probarLevel.text = string.Format("密友{0}级", curlevel);
+        view.n109.max = data.Exp;
         view.n109.value = cronyData.exp;
         view.txt_probar.text = cronyData.exp.ToString()+"/"+ data.Exp.ToString();
 
