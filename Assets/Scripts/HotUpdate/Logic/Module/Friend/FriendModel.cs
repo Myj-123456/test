@@ -143,7 +143,7 @@ public class FriendModel : Singleton<FriendModel>
 
     public List<uint> blackUserIds = new List<uint>();//屏蔽的好友id
 
-    public S_MSG_FRIEND_STEAL_MESSAGE friendStealMsg;
+    public S_MSG_FRIEND_STEAL_MESSAGE friendStealMsg;//偷花返回消息
 
     public void AddBlackId(uint id)
     {

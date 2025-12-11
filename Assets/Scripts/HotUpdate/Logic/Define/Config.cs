@@ -8,7 +8,7 @@ public class Config
     //public static string ApiHost = "https://elida-api-test-v2.tigermoon.cn/api";//测试服
     public static string ApiHost = "https://elida-api-test-stable.tigermoon.cn/api";//测试稳定服
     //public static string ApiHost = "https://elida-api-test.tigermoon.cn/api";//提审服
-    public static string pid = "122_guo234";
+    public static string pid = "122_guo235";
     public static bool EnableNetLog = true;
     public static string cdnResPath = "https://elida-cdn.tigermoon.cn";
     public static string appVer = "v1.0.7";//app版本

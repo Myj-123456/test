@@ -283,5 +283,6 @@ public class UIName
 
     public const string DrawGiftWindow = "DrawGiftWindow";
     public const string AchievTaskView = "AchievTaskView";
+    public const string VisitRecordView = "VisitRecordView";
 }
 

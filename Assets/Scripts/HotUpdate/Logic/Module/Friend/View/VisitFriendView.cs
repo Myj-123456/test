@@ -141,7 +141,7 @@ private void UpdateFriendCoinCount()
     /// </summary>
     private void HandleIntroduceBtnClick()
     {
-        if(view.popUpTap.selectedIndex!=1)
+        if (view.popUpTap.selectedIndex != 1)
         {
             view.popUpTap.selectedIndex = 1;
         }
@@ -149,6 +149,7 @@ private void UpdateFriendCoinCount()
         {
             view.popUpTap.selectedIndex = 0;
         }
+        //UIManager.Instance.OpenWindow<VisitRecordView>(UIName.VisitRecordView);
     }
     /// <summary>
     /// 处理兑换点击按钮
