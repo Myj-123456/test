@@ -44,12 +44,13 @@ public class FriendController : BaseController<FriendController>
         AddNetListener<S_MSG_CRONY_SPEED_CANCEL>((int)MessageCode.S_MSG_CRONY_SPEED_CANCEL, CronySpeedCancel);
         //解锁密友位置响应
         AddNetListener<S_MSG_CRONY_UNLOCK_CNT>((int)MessageCode.S_MSG_CRONY_UNLOCK_CNT, CronyUnlockCt);
-        //͵����Ϣ
         AddNetListener<S_MSG_FRIEND_STEAL_MESSAGE>((int)MessageCode.S_MSG_FRIEND_STEAL_MESSAGE, FriendStealMesg);
 
         AddNetListener<S_MSG_FRIENDCOIN_EXCHANGE>((int)MessageCode.S_MSG_FRIENDCOIN_EXCHANGE, FriendCoinExchangeMesg);
+
         // 初始化密友申请数据
         FriendModel.Instance.InitCronyApplyData();
+
         // 添加定期清理过期密友申请的定时器（每10分钟检查一次）
         Timer.RegistGlobal(600000, CleanExpiredAppliesTimer, true); // 10分钟间隔，循环执行
     }
@@ -132,7 +133,6 @@ public class FriendController : BaseController<FriendController>
 
     public void FriendAgree(S_MSG_FRIEND_AGREE data)
     {
-        
         FriendModel.Instance.AddApplyListToFriendList(data.effectFriendIds);
         EventManager.Instance.DispatchEvent(FriendEvent.FriendApplyList);
         EventManager.Instance.DispatchEvent(TaskEvent.MainTaskCount, 17);
@@ -310,16 +310,16 @@ public class FriendController : BaseController<FriendController>
             {
                 currentServerTime = MyselfModel.Instance.lastServerTime;
             }
-            filteredCronyList = data.cronyList;
+
             // 使用LINQ过滤掉已过期的密友关系
-            //filteredCronyList = data.cronyList
-            //    .Where(cronyData =>
-            //        // 没有设置解除时间的密友关系正常保留
-            //        cronyData.cancelTime == 0 ||
-            //        // 有解除时间但当前服务器时间未到解除时间的保留
-            //        (currentServerTime > 0 && cronyData.cancelTime <= currentServerTime)
-            //    )
-            //    .ToList();
+            filteredCronyList = data.cronyList
+                .Where(cronyData =>
+                    // 没有设置解除时间的密友关系正常保留
+                    cronyData.cancelTime == 0 ||
+                    // 有解除时间但当前服务器时间未到解除时间的保留
+                    (currentServerTime > 0 && cronyData.cancelTime > currentServerTime)
+                )
+                .ToList();
         }
         // 更新已解锁的密友位数量
         if (data != null)
@@ -534,14 +534,11 @@ public class FriendController : BaseController<FriendController>
     //撤销解除密友的关系
     public void CronyBackCancel(S_MSG_CRONY_BACKOUT_CANCEL data)
     {
-        if (data != null)
+        var cronyData = FriendModel.Instance.GetCronyData(data.friendId);
+        if (cronyData != null)
         {
-            var cronyData = FriendModel.Instance.GetCronyData(data.friendId);
-            if (cronyData != null)
-            {
-                cronyData.cancelTime = 0;
-                EventManager.Instance.DispatchEvent(FriendEvent.CronyBackCancel);
-            }
+            cronyData.cancelTime = 0;
+            EventManager.Instance.DispatchEvent(FriendEvent.CronyBackCancel);
         }
     }
     public void ReqCronyBackCancel(uint friendId)
@@ -572,33 +569,30 @@ public class FriendController : BaseController<FriendController>
         FriendModel.Instance.friendStealMsg = data;
         EventManager.Instance.DispatchEvent(FriendEvent.FriendStealMesg);
     }
-    
+
     public void ReqFriendStealMesg()
     {
         C_MSG_FRIEND_STEAL_MESSAGE c_MSG_FRIEND_STEAL_MESSAGE = new C_MSG_FRIEND_STEAL_MESSAGE();
         SendCmd((int)MessageCode.C_MSG_FRIEND_STEAL_MESSAGE, c_MSG_FRIEND_STEAL_MESSAGE);
     }
-    /// <summary>
-    /// 好友币兑换
-    /// </summary>
-    /// <param name="friendId"></param>
-    /// <param name="num"></param>
+
+    //好友币兑换
     public void ReqFriendCoinExchange(uint friendId, uint num)
     {
-        C_MSG_FRIENDCOIN_EXCHANGE c_MSG_FRIENDCOIN_EXCHANGE =new C_MSG_FRIENDCOIN_EXCHANGE();
-        c_MSG_FRIENDCOIN_EXCHANGE.friendId= friendId;
-        c_MSG_FRIENDCOIN_EXCHANGE.count= num;
+        C_MSG_FRIENDCOIN_EXCHANGE c_MSG_FRIENDCOIN_EXCHANGE = new C_MSG_FRIENDCOIN_EXCHANGE();
+        c_MSG_FRIENDCOIN_EXCHANGE.friendId = friendId;
+        c_MSG_FRIENDCOIN_EXCHANGE.count = num;
         SendCmd((int)MessageCode.C_MSG_FRIENDCOIN_EXCHANGE, c_MSG_FRIENDCOIN_EXCHANGE);
     }
 
     public void FriendCoinExchangeMesg(S_MSG_FRIENDCOIN_EXCHANGE data)
     {
         if (data == null) return;
-        Debug.Log("FriendCoinExchangeMesg:"+data.friendCoinExchangeCnt);
+        Debug.Log("FriendCoinExchangeMesg:" + data.friendCoinExchangeCnt);
 
-       //GlobalModel.Instance.module_profileConfig.umberOfMutualaid + (int)data.friendCoinExchangeCnt;
+        //GlobalModel.Instance.module_profileConfig.umberOfMutualaid + (int)data.friendCoinExchangeCnt;
 
-        FriendModel.Instance.FriendCoinExchangeCnt=data.friendCoinExchangeCnt;
+        FriendModel.Instance.FriendCoinExchangeCnt = data.friendCoinExchangeCnt;
         EventManager.Instance.DispatchEvent(FriendEvent.FriendCoinExchange);
     }
 }

@@ -140,9 +140,9 @@ public class DailyTaskModel : Singleton<DailyTaskModel>
         return null;
     }
 
-    public int GetTaskPercentage()
+    public int GetTaskPercentage(int lv)
     {
-        var taskLvVo = GetTaskLvVoByLv();
+        var taskLvVo = GetTaskLvVoByLv(lv);
         return taskLvVo.Percentage;
     }
 

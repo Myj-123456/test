@@ -88,6 +88,11 @@ public class BaseUI
     {
         Coroutiner.StopCoroutine(ie);
     }
+
+    public static void StopCoroutine(Coroutine co)
+    {
+        Coroutiner.StopCoroutine(co);
+    }
     protected void StopAllCoroutine()
     {
         foreach (var enumerator in enumerators)

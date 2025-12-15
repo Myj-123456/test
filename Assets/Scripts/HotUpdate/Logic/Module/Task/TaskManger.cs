@@ -15,16 +15,16 @@ public class TaskManger
         UpdateData();
         EventManager.Instance.AddEventListener(TaskEvent.MainTaskReward, UpdateData);
         EventManager.Instance.AddEventListener<int>(TaskEvent.MainTaskCount, UpdateTaskData);
-        
 
-        //view.spine1.url = "maomao";
-        //view.spine1.loop = true;
-        //view.spine1.forcePlay = true;
+
+        view.spine1.url = "main/zhuxianrenwu";
+        view.spine1.loop = true;
+        view.spine1.forcePlay = true;
 
         //view.spine2.url = "zhujmrw";
         //view.spine2.loop = true;
         //view.spine2.forcePlay = true;
-        
+
     }
 
     private void GetTaskReward()
@@ -58,7 +58,7 @@ public class TaskManger
     public void UpdateData()
     {
         var taskData = TaskModel.Instance.mainTask;
-        if (taskData.mainTaskId == 0)
+        if (taskData.mainTaskId == 999999)
         {
             view.visible = false;
             return;
@@ -97,12 +97,12 @@ public class TaskManger
         {
             if (taskInfo.TypeParam == 0)
             {
-                view.decLab.text = taskData.mainTaskId + "." + addStr + Lang.GetValue(taskInfo.TaskDesc, Lang.GetValue("main_task_1"));
+                view.decLab.text = taskData.mainTaskId + "." + Lang.GetValue(taskInfo.TaskDesc, Lang.GetValue("main_task_1"));
             }
             else
             {
                 var itemVo = ItemModel.Instance.GetItemById(taskInfo.TypeParam);
-                view.decLab.text = taskData.mainTaskId + "." + addStr + Lang.GetValue(taskInfo.TaskDesc, Lang.GetValue(itemVo.Name));
+                view.decLab.text = taskData.mainTaskId + "." + Lang.GetValue(taskInfo.TaskDesc, Lang.GetValue(itemVo.Name));
             }
             
         }
@@ -118,16 +118,16 @@ public class TaskManger
         view.proLab.text = "(" + (taskData.mainTaskCnt > taskInfo.TaskNum ? taskInfo.TaskNum : taskData.mainTaskCnt) + "/" + taskInfo.TaskNum + ")";
         view.proLab.color = taskData.mainTaskCnt >= taskInfo.TaskNum ? StringUtil.HexToColor("#099e81") : StringUtil.HexToColor("#f36f54");
         rewards = taskInfo.TaskRewards;
-        //if(taskData.mainTaskCnt >= taskInfo.TaskNum)
-        //{
-        //    view.spine2.animationName = "lingq";
-        //    view.spine1.animationName = "lingq";
-        //}
-        //else
-        //{
-        //    view.spine2.animationName = "idle";
-        //    view.spine1.animationName = "idle";
-        //}
+        if (taskData.mainTaskCnt >= taskInfo.TaskNum)
+        {
+            //view.spine2.animationName = "lingq";
+            view.spine1.animationName = "wancheng";
+        }
+        else
+        {
+            //view.spine2.animationName = "idle";
+            view.spine1.animationName = "idle";
+        }
         var rewardVo = ItemModel.Instance.GetItemByEntityID(taskInfo.TaskRewards[0].EntityID);
         view.pic.url = ImageDataModel.Instance.GetIconUrl(rewardVo);
         view.numLab.text = taskInfo.TaskRewards[0].Value.ToString();

@@ -220,7 +220,15 @@ public class GlobalModel : Singleton<GlobalModel>
         }
         return -1;
     }
-
+    public void OpenMainTask()
+    {
+        
+        var first = GetUnlockLevel(SysId.FirstRecharge);
+        if(TaskModel.Instance.mainTask.mainTaskId == 20)
+        {
+            UIManager.Instance.OpenWindow<FirstRechargeWindow>(UIName.FirstRechargeWindow);
+        }
+    }
     /// <summary>
     /// 获取一个跳转配置
     /// </summary>

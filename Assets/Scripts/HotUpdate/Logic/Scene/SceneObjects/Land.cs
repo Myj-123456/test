@@ -629,7 +629,7 @@ public class Land : SceneObject, IPointerEnterHandler
             PlantModel.Instance.plantVO = plantVO;
             if (GuideModel.Instance.IsGuiding && GuideModel.Instance.curConfigData.IndexId == 21)//如果当前引导的是浇水，不要触发浇水面板
             {
-               
+
             }
             else
             {
@@ -676,8 +676,11 @@ public class Land : SceneObject, IPointerEnterHandler
     {
         startTween = false;
         ClearTween();
-        plantVO.plantState = PlantState.State_null;
         plantSkin.sprite = null;
+        if (plantVO != null)
+        {
+            plantVO.plantState = PlantState.State_null;
+        }
         if (flowerArmatureComponen != null)
         {
             flowerArmatureComponen.gameObject.SetActive(false);

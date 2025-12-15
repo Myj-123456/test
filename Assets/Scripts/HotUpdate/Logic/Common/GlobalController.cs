@@ -7,32 +7,32 @@ using UnityTimer;
 
 public enum ErrorCode
 {
-    Code_1201 = 1201,//�û�token����Ϊ��
-    Code_1202 = 1202,//token�������ʧЧ 
-    Code_1203 = 1203,//���������ͻ��˵�¼
-    Code_3013 = 3013,//����ͨ��ʵ����֤��
-    Code_3014 = 3014,//������ ��ʾδ�����˲��ڿ�����Ϸ��ʱ����
-    Code_3021 = 3021,//������ ��ʾδ�����˲��ڿ�����Ϸ��ʱ����
-    Code_3022 = 3022,//������ ��ʾδ�����˲��ڿ�����Ϸ��ʱ����
-    Code_3023 = 3023,//������ ��ʾδ�����˲��ڿ�����Ϸ��ʱ����
-    Code_4414 = 4414,//������ ��ֵ��ʾ
-    Code_1102 = 1102//�������쳣�������½�����Ϸ
+    Code_1201 = 1201,//用户token不能为空
+    Code_1202 = 1202,//token错误或已失效 
+    Code_1203 = 1203,//已在其他客户端登录
+    Code_3013 = 3013,//请先通过实名认证。
+    Code_3014 = 3014,//防沉迷 表示未成年人不在可玩游戏的时间内
+    Code_3021 = 3021,//防沉迷 表示未成年人不在可玩游戏的时间内
+    Code_3022 = 3022,//防沉迷 表示未成年人不在可玩游戏的时间内
+    Code_3023 = 3023,//防沉迷 表示未成年人不在可玩游戏的时间内
+    Code_4414 = 4414,//防沉迷 充值提示
+    Code_1102 = 1102//服务器异常，请重新进入游戏
 }
 
 /// <summary>
-/// ͨ�ÿ�����
+/// 通用控制器
 /// </summary>
 public class GlobalController : BaseController<GlobalController>
 {
-    private uint heartBeatInterval = 30;//�������
+    private uint heartBeatInterval = 30;//心跳间隔
 
-    private bool runningGameServerHeartBeat = false;//�Ƿ�������Ϸ��������
-    private bool runningChatServerHeartBeat = false;//�Ƿ����������������
+    private bool runningGameServerHeartBeat = false;//是否启动游戏服心跳包
+    private bool runningChatServerHeartBeat = false;//是否启动聊天服心跳包
 
     private Timer timer;
     private Timer timer2;
-    private float reqStartTime = 0;//����ʼʱ��
-    private float reqEndTime = 0;//�������ʱ��
+    private float reqStartTime = 0;//请求开始时间
+    private float reqEndTime = 0;//请求结束时间
 
     protected override void InitListeners()
     {
@@ -42,7 +42,7 @@ public class GlobalController : BaseController<GlobalController>
 
     private void ResException(S_Exception exception)
     {
-        Debug.LogError("�յ����ش����� code:" + exception.code);
+        Debug.LogError("收到返回错误码 code:" + exception.code);
         if (!string.IsNullOrEmpty(exception.message))
         {
             if (exception.code == (uint)ErrorCode.Code_4414)
@@ -55,83 +55,83 @@ public class GlobalController : BaseController<GlobalController>
             }
             Debug.LogError("message:" + exception.message);
         }
-        else//������ڶ�Ӧ���ã���ȡ������ʾ
+        else//如果存在对应配置，读取配置显示
         {
-            ADK.UILogicUtils.ShowNotice("������:" + exception.code);
+            ADK.UILogicUtils.ShowNotice("错误码:" + exception.code);
         }
         if (!string.IsNullOrEmpty(exception.trace))
         {
             Debug.LogError("trace:" + exception.trace);
         }
-        if (exception.code == (uint)ErrorCode.Code_1102)//�������쳣�������½�����Ϸ 
+        if (exception.code == (uint)ErrorCode.Code_1102)//服务器异常，请重新进入游戏 
         {
-            NetWorkManager.Instance.Clear();//�����ر�socket
-            ChatNetWorkManager.Instance.Clear();//�����ر�socket
-            ReConnectManager.Instance.StopReConnect();//ֹͣ����
-            ChatReConnectManager.Instance.StopReConnect();//ֹͣ����
-            StopHeartBeat();//�ر�������
+            NetWorkManager.Instance.Clear();//主动关闭socket
+            ChatNetWorkManager.Instance.Clear();//主动关闭socket
+            ReConnectManager.Instance.StopReConnect();//停止重连
+            ChatReConnectManager.Instance.StopReConnect();//停止重连
+            StopHeartBeat();//关闭心跳包
             StopChatServerHeartBeat();
             ADK.UILogicUtils.ShowConfirm(exception.message, ReLoadGame, null, false);
         }
-        else if(exception.code == (uint)ErrorCode.Code_1201)//�û�token����Ϊ�� 
+        else if (exception.code == (uint)ErrorCode.Code_1201)//用户token不能为空 
         {
-            NetWorkManager.Instance.Clear();//�����ر�socket
-            ChatNetWorkManager.Instance.Clear();//�����ر�socket
-            ReConnectManager.Instance.StopReConnect();//ֹͣ����
-            ChatReConnectManager.Instance.StopReConnect();//ֹͣ����
-            StopHeartBeat();//�ر�������
+            NetWorkManager.Instance.Clear();//主动关闭socket
+            ChatNetWorkManager.Instance.Clear();//主动关闭socket
+            ReConnectManager.Instance.StopReConnect();//停止重连
+            ChatReConnectManager.Instance.StopReConnect();//停止重连
+            StopHeartBeat();//关闭心跳包
             StopChatServerHeartBeat();
             ADK.UILogicUtils.ShowConfirm(exception.message, ReLoadGame, null, false);
         }
-        else if (exception.code == (uint)ErrorCode.Code_1202)//token�������ʧЧ 
+        else if (exception.code == (uint)ErrorCode.Code_1202)//token错误或已失效 
         {
-            NetWorkManager.Instance.Clear();//�����ر�socket
-            ChatNetWorkManager.Instance.Clear();//�����ر�socket
-            ReConnectManager.Instance.StopReConnect();//ֹͣ����
-            ChatReConnectManager.Instance.StopReConnect();//ֹͣ����
-            StopHeartBeat();//�ر�������
+            NetWorkManager.Instance.Clear();//主动关闭socket
+            ChatNetWorkManager.Instance.Clear();//主动关闭socket
+            ReConnectManager.Instance.StopReConnect();//停止重连
+            ChatReConnectManager.Instance.StopReConnect();//停止重连
+            StopHeartBeat();//关闭心跳包
             StopChatServerHeartBeat();
             ADK.UILogicUtils.ShowConfirm(Lang.GetValue("text_fang_tips10"), ReLoadGame, null, false);
         }
-        else if (exception.code == (uint)ErrorCode.Code_1203)//������
+        else if (exception.code == (uint)ErrorCode.Code_1203)//顶号了
         {
-            NetWorkManager.Instance.Clear();//�����ر�socket
-            ChatNetWorkManager.Instance.Clear();//�����ر�socket
-            ReConnectManager.Instance.StopReConnect();//ֹͣ����
-            ChatReConnectManager.Instance.StopReConnect();//ֹͣ����
-            StopHeartBeat();//�ر�������
+            NetWorkManager.Instance.Clear();//主动关闭socket
+            ChatNetWorkManager.Instance.Clear();//主动关闭socket
+            ReConnectManager.Instance.StopReConnect();//停止重连
+            ChatReConnectManager.Instance.StopReConnect();//停止重连
+            StopHeartBeat();//关闭心跳包
             StopChatServerHeartBeat();
             ADK.UILogicUtils.ShowConfirm(Lang.GetValue("text_fang_tips11"), ReLoadGame, null, false);
         }
-        else if (exception.code == (uint)ErrorCode.Code_3014 || exception.code == (uint)ErrorCode.Code_3021 || exception.code == (uint)ErrorCode.Code_3022 || exception.code == (uint)ErrorCode.Code_3023)//������ ��ʾδ�����˲��ڿ�����Ϸ��ʱ����
+        else if (exception.code == (uint)ErrorCode.Code_3014 || exception.code == (uint)ErrorCode.Code_3021 || exception.code == (uint)ErrorCode.Code_3022 || exception.code == (uint)ErrorCode.Code_3023)//防沉迷 表示未成年人不在可玩游戏的时间内
         {
-            NetWorkManager.Instance.Clear();//�����ر�socket
-            ChatNetWorkManager.Instance.Clear();//�����ر�socket
-            ReConnectManager.Instance.StopReConnect();//ֹͣ����
-            ChatReConnectManager.Instance.StopReConnect();//ֹͣ����
-            StopHeartBeat();//�ر�������
+            NetWorkManager.Instance.Clear();//主动关闭socket
+            ChatNetWorkManager.Instance.Clear();//主动关闭socket
+            ReConnectManager.Instance.StopReConnect();//停止重连
+            ChatReConnectManager.Instance.StopReConnect();//停止重连
+            StopHeartBeat();//关闭心跳包
             StopChatServerHeartBeat();
             var tips = Lang.GetValue("error_" + exception.code);
             ADK.UILogicUtils.ShowConfirm(tips, ADK.ADKTool.QuitGame, null, false);
         }
-        else if (exception.code == (uint)ErrorCode.Code_3013)//����ͨ��ʵ����֤
+        else if (exception.code == (uint)ErrorCode.Code_3013)//请先通过实名认证
         {
-            NetWorkManager.Instance.Clear();//�����ر�socket
-            ChatNetWorkManager.Instance.Clear();//�����ر�socket
-            ReConnectManager.Instance.StopReConnect();//ֹͣ����
-            ChatReConnectManager.Instance.StopReConnect();//ֹͣ����
-            StopHeartBeat();//�ر�������
+            NetWorkManager.Instance.Clear();//主动关闭socket
+            ChatNetWorkManager.Instance.Clear();//主动关闭socket
+            ReConnectManager.Instance.StopReConnect();//停止重连
+            ChatReConnectManager.Instance.StopReConnect();//停止重连
+            StopHeartBeat();//关闭心跳包
             StopChatServerHeartBeat();
             ADK.UILogicUtils.ShowConfirm(exception.message, ADK.ADKTool.QuitGame, null, false);
         }
     }
 
     /// <summary>
-    /// ������Ϸ
+    /// 重启游戏
     /// </summary>
     private void ReLoadGame()
     {
-        Debug.Log("���������Ϸ");
+        Debug.Log("点击重启游戏");
         ADK.ADKTool.RestartApp();
     }
 
@@ -163,7 +163,7 @@ public class GlobalController : BaseController<GlobalController>
     }
 
     /// <summary>
-    /// ���������������
+    /// 开启聊天服心跳包
     /// </summary>
     public void StartChatServerHeartBeat()
     {
@@ -182,7 +182,7 @@ public class GlobalController : BaseController<GlobalController>
     }
 
     /// <summary>
-    /// �ر������������
+    /// 关闭聊天服心跳包
     /// </summary>
     public void StopChatServerHeartBeat()
     {
@@ -195,30 +195,30 @@ public class GlobalController : BaseController<GlobalController>
     }
 
     /// <summary>
-    /// ���������ذ�
+    /// 发送心跳回包
     /// </summary>
     private void ReqHeartBeatPing(bool isGameServer)
     {
         reqStartTime = Time.realtimeSinceStartup;
         C_PING c_PING = new C_PING();
-        if (isGameServer)//��Ϸ��
+        if (isGameServer)//游戏服
         {
             if (!runningGameServerHeartBeat) return;
-            Debug.Log("������Ϸ��������");
+            Debug.Log("发送游戏服心跳包");
             SendCmd((int)MessageCode.C_PING, c_PING);
         }
-        else//�����
+        else//聊天服
         {
             if (!runningChatServerHeartBeat) return;
-            Debug.Log("���������������");
+            Debug.Log("发送聊天服心跳包");
             ChatNetWorkManager.Instance.Send((int)MessageCode.C_PING, c_PING);
         }
     }
 
-    //�յ������ذ�
+    //收到心跳回包
     private void ResHeartBeatPong(S_PING s_PING)
     {
-        Debug.Log("�յ�������");
+        Debug.Log("收到心跳包");
         reqEndTime = Time.realtimeSinceStartup;
         var halfRtt = (reqEndTime - reqStartTime) / 2;
         ServerTime.UpdateServerTime(s_PING.serverTime, halfRtt);

@@ -117,7 +117,7 @@ public class LevelupWindow : BaseWindow
         // 其他关闭面板的逻辑
         UILogicUtils.ShowGetReward(listData, () =>
         {
-            DropManager.ShowDrop(listData);
+            DropManager.ShowDrop(listData,false);
             //if (levelData != null)
             //{
             //    if (levelData.UnlockResources == null || levelData.UnlockResources.Length <= 0)

@@ -11,7 +11,9 @@ using UnityTimer;
 using YooAsset;
 
 /// <summary>
-/// ³¡¾°¹ÜÀíÆ÷
+/// <summary>
+/// åœºæ™¯ç®¡ç†å™¨
+/// </summary>
 /// </summary>
 public class SceneManager : MonoSingleton<SceneManager>
 {
@@ -58,12 +60,12 @@ public class SceneManager : MonoSingleton<SceneManager>
     private SceneHeroAvatar visitFriendHeroAvatar;
     private SceneHeroAvatarController heroAvatarController;
 
-    public bool IsDragging = false;//ÊÇ·ñÍÏ¶¯ÖĞ
-    public bool IsTouchOnUI = false;//µã»÷ui
-    public bool IsTouchSceneObject = false;//µã»÷³¡¾°Îï
-    public bool IsEditing = false;//ÊÇ·ñ±à¼­ÖĞ
-    public bool isLongPress = false;//ÊÇ·ñ´¥·¢³¤°´ÁË
-    public SceneObjectType sceneObjectType;//µã»÷³¡¾°ÎïÀàĞÍ
+    public bool IsDragging = false;//æ˜¯å¦æ‹–æ‹½ä¸­
+    public bool IsTouchOnUI = false;//æ˜¯å¦è§¦æ‘¸åœ¨UIä¸Š
+    public bool IsTouchSceneObject = false;//æ˜¯å¦è§¦æ‘¸åœ¨åœºæ™¯ç‰©ä½“ä¸Š
+    public bool IsEditing = false;//æ˜¯å¦ç¼–è¾‘ä¸­
+    public bool isLongPress = false;//æ˜¯å¦é•¿æŒ‰ä¸­
+    public SceneObjectType sceneObjectType;//åœºæ™¯ç‰©ä½“ç±»å‹
     private Dictionary<string, SceneObject> sceneObjects = new Dictionary<string, SceneObject>();
 
     void Start()
@@ -78,7 +80,7 @@ public class SceneManager : MonoSingleton<SceneManager>
 
     private void CheckGuide()
     {
-        //Òıµ¼ÖĞÎ´Òıµ¼µã»÷ÇåÉ¨²Ù×÷£¬¶¼»áÏÔÊ¾ÆÆ¾É»¨µê
+        //å¦‚æœæ˜¯å¼•å¯¼ä¸”å½“å‰å¼•å¯¼æ­¥éª¤å°äº3ï¼Œåˆ™æ˜¾ç¤ºflowerShop
         if (GuideModel.Instance.IsGuide && GuideModel.Instance.curGuideStep < 3)
         {
             ShowHideShabbyFlowerShop(true);
@@ -117,7 +119,7 @@ public class SceneManager : MonoSingleton<SceneManager>
 
 
     /// <summary>
-    /// ¹Ø±Õ±à¼­
+    /// å…³é—­ç¼–è¾‘æ¨¡å¼
     /// </summary>
     public void CloseEdit(bool resetAll = false)
     {
@@ -130,7 +132,7 @@ public class SceneManager : MonoSingleton<SceneManager>
 
     private void ResetAll()
     {
-        FlowerShopModel.Instance.InitDecorations(FlowerShopModel.Instance.serverDecoration);//ÔÙÖØÖÃ»ØÈ¥
+        FlowerShopModel.Instance.InitDecorations(FlowerShopModel.Instance.serverDecoration);//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½È¥
         UpdateFurnitures(FlowerShopModel.Instance.furnitureDataDic);
     }
 
@@ -159,11 +161,11 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ÖØÁ¬Ë¢ĞÂ×Ô¼º³¡¾°
+    /// é‡æ–°è¿æ¥æ—¶åˆ·æ–°åœºæ™¯
     /// </summary>
     private void OnReconnect()
     {
-        if (!MyselfModel.Instance.atHome) return;//²»ÔÚ×Ô¼º¼ÒÀï£¬ÖØÁ¬ÁË²»Ë¢ĞÂ µÈ·µ»Ø¼ÒÀï×Ô¼ºÔÙË¢ĞÂÒ»´Î
+        if (!MyselfModel.Instance.atHome) return;//å¦‚æœä¸åœ¨å®¶ï¼Œåˆ™ä¸åˆ·æ–°åœºæ™¯
         InitLand();
         InitFlowerShop();
         UpdateSceneOrderUI();
@@ -201,7 +203,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// »Ø¼ÒË¢ĞÂ×Ô¼º³¡¾°
+    /// å›å®¶æ—¶åˆ·æ–°åœºæ™¯
     /// </summary>
     public void BackHomeRefreshScene()
     {
@@ -215,7 +217,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// Ë¢ĞÂºÃÓÑ³¡¾°
+    /// åˆ·æ–°å¥½å‹åœºæ™¯
     /// </summary>
     private void OnVisitFriendRefreshScene()
     {
@@ -228,7 +230,11 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     public PlantHarvestUI harvestUI;
-    //ÊÕ»ñ
+    /// <summary>
+    /// åˆ›å»ºæ”¶è·UI
+    /// </summary>
+    /// <param name="landData"></param>
+    /// <param name="position"></param>
     public void CreateHarvest(PlantVO landData, Vector3 position)
     {
         if (harvestUI == null)
@@ -257,7 +263,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ÊÇ·ñÍÏ×§»¨ÀºÖĞ
+    /// æ˜¯å¦æ­£åœ¨æ‹–åŠ¨æ”¶è·UI
     /// </summary>
     /// <returns></returns>
     public bool IsDragHarvest()
@@ -266,7 +272,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ÊÇ·ñÍÏ×§½½Ë®ÖĞ
+    /// æ˜¯å¦æ­£åœ¨æ‹–åŠ¨æµ‡æ°´UI
     /// </summary>
     /// <returns></returns>
     public bool IsDragWatering()
@@ -278,7 +284,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     public PlantWateringUI plantWateringUI;
 
     /// <summary>
-    /// ³É³¤ÆÚ²Ù×÷Ãæ°å
+    /// åˆ›å»ºç§æ¤å¤„ç†UI
     /// </summary>
     /// <param name="data"></param>
     /// <param name="position"></param>
@@ -293,10 +299,11 @@ public class SceneManager : MonoSingleton<SceneManager>
         plantHandleUi.Show(position);
     }
 
-    /// ³É³¤ÆÚ²Ù×÷Ãæ°å
+    /// <summary>
+    /// åˆ›å»ºç§æ¤æµ‡æ°´UI
     /// </summary>
-    /// <param name="data"></param>
     /// <param name="position"></param>
+    /// <param name="plantVO"></param>
     public void CreatePlantWatering(Vector3 position, PlantVO plantVO)
     {
         if (plantWateringUI == null)
@@ -336,7 +343,7 @@ public class SceneManager : MonoSingleton<SceneManager>
 
     private void TweenCameraOrthoSizeCall()
     {
-        Application.targetFrameRate = 30;//½øÈëÓÎÏ·Ö®ºó ÉèÖÃÎª30 ½µµÍÏûºÄ
+        Application.targetFrameRate = 30;//è¿›å…¥æ¸¸æˆä¹‹å å¸§ç‡è®¾ä¸º30 èŠ‚çœæ€§èƒ½
         InitHero();
         InitNpc();
     }
@@ -406,7 +413,18 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    ///  »ñÈ¡Ò»¸öÒÑ½âËø¿ÕÍÁµØ
+    /// æ›´æ–°æ‰€æœ‰åœŸåœ°çš„å·èŠ±å°æ‰‹æ˜¾ç¤º
+    /// </summary>
+    public void UpdateAllLandSteal()
+    {
+        if (lands != null)
+        {
+            lands.UpdateAllLandSteal();
+        }
+    }
+
+    /// <summary>
+    /// è·å–ä¸€ä¸ªå·²è§£é”ç©ºåœŸåœ°
     /// </summary>
     /// <returns></returns>
     public Land GetUnLockEmptyLand()
@@ -419,7 +437,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    ///  ¸ù¾İ»¨idÓÅÏÈ»ñÈ¡Ò»¸öÒÑ¾­ÖÖÖ²µÄÍÁµØ
+    /// è·å–ä¸€ä¸ªå·²è§£é”ç©ºåœŸåœ° å¹¶ç§æ¤æŒ‡å®šèŠ±
     /// </summary>
     /// <returns></returns>
     public Land GetUnLockEmptyLandByFlowerId(int flowerId)
@@ -432,7 +450,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    ///  »ñÈ¡¿ÉÒÔ½½Ë®µÄÍÁµØ
+    /// è·å–ä¸€ä¸ªå¯ä»¥æµ‡æ°´çš„åœŸåœ°
     /// </summary>
     /// <returns></returns>
     public Land GetWaterLand()
@@ -454,7 +472,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    ///  »ñÈ¡Ò»¸öÎ´½âËøµÄÍÁµØ
+    /// è·å–ä¸€ä¸ªå·²è§£é”ç©ºåœŸåœ° å¹¶ç§æ¤æŒ‡å®šèŠ±
     /// </summary>
     /// <returns></returns>
     public Land GetLockLand()
@@ -467,7 +485,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// »ñÈ¡ÒÑ½âËø¿Õ»¨Ì¨
+    /// è·å–ä¸€ä¸ªå·²è§£é”ç©ºèŠ±ç«™
     /// </summary>
     /// <returns></returns>
     public FlowerStand GetUnLockEmptyFlowerStand()
@@ -480,7 +498,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// »ñÈ¡Ò»¸öÎ´½âËøµÄ»¨Ì¨
+    /// è·å–ä¸€ä¸ªå·²è§£é”ç©ºèŠ±ç«™ å¹¶ç§æ¤æŒ‡å®šèŠ±
     /// </summary>
     /// <returns></returns>
     public FlowerStand GetLockFlowerStand()
@@ -494,7 +512,7 @@ public class SceneManager : MonoSingleton<SceneManager>
 
 
     /// <summary>
-    /// Ìí¼Ó³¡¾°¶ÔÏó
+    /// æ·»åŠ ä¸€ä¸ªåœºæ™¯å¯¹è±¡
     /// </summary>
     /// <param name="sceneObject"></param>
     public void AddSceneObject(SceneObject sceneObject)
@@ -506,7 +524,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// »ñÈ¡Ò»¸ö³¡¾°¶ÔÏó
+    /// è·å–ä¸€ä¸ªåœºæ™¯å¯¹è±¡
     /// </summary>
     /// <param name="objectUid"></param>
     /// <returns></returns>
@@ -520,7 +538,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// »ñÈ¡Ò»¸ö½¨Öş
+    /// è·å–ä¸€ä¸ªå»ºç­‘
     /// </summary>
     /// <param name="structureId"></param>
     /// <returns></returns>
@@ -543,14 +561,14 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ¸ù¾İ¼Ò¾ßÀàĞÍ»ñÈ¡Ò»¸ö¼Ò¾ß
+    /// æ ¹æ®è£…é¥°ç±»å‹è·å–ä¸€ä¸ªè£…é¥°
     /// </summary>
     /// <param name="decorationsType"></param>
     /// <param name="id"></param>
     /// <returns></returns>
     public Decoration GetDecoration(DecorationsType decorationsType, int id = -1)
     {
-        var key = decorationsType.ToString() + "_" + "False" + 0;//²ÉÈ¡¼Ò¾ßÀàĞÍºÍÊÇ·ñ·­×ªÆ´½Ó×öÎ¨Ò»key
+        var key = decorationsType.ToString() + "_" + "False" + 0;//è·å–è£…é¥°ç±»å‹å’Œæ˜¯å¦ç¿»è½¬ä½œä¸ºå”¯ä¸€key
         if (flowerShop != null)
         {
             return flowerShop.GetDecoration(key);
@@ -558,8 +576,10 @@ public class SceneManager : MonoSingleton<SceneManager>
         return null;
     }
 
+
+
     /// <summary>
-    /// ¸ù¾İ¼Ò¾ßid»ñÈ¡Ò»¸ö¼Ò¾ß
+    /// æ ¹æ®è£…é¥°idè·å–ä¸€ä¸ªè£…é¥°
     /// </summary>
     /// <param name="decorationid"></param>
     /// <returns></returns>
@@ -567,7 +587,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     {
         var florist_furnitureConfig = FlowerShopModel.Instance.GetFurniture(decorationid);
         if (florist_furnitureConfig == null) return null;
-        var key = ((DecorationsType)florist_furnitureConfig.Type).ToString() + "_" + "False" + 0;//²ÉÈ¡¼Ò¾ßÀàĞÍºÍÊÇ·ñ·­×ªÆ´½Ó×öÎ¨Ò»key
+        var key = ((DecorationsType)florist_furnitureConfig.Type).ToString() + "_" + "False" + 0;//è·å–è£…é¥°ç±»å‹å’Œæ˜¯å¦ç¿»è½¬ä½œä¸ºå”¯ä¸€key
         if (flowerShop != null)
         {
             return flowerShop.GetDecoration(key);
@@ -586,28 +606,28 @@ public class SceneManager : MonoSingleton<SceneManager>
 
     private void InitHero()
     {
-        var isNeedPrequelPlotGuide = GuideModel.Instance.IsGuide && GuideModel.Instance.curGuideStep == 1;//ÊÇ·ñĞèÒªÇ°ÖÃÒıµ¼
-        //Ô¤¼ÓÔØ»»×°Ö÷¹Ç¼ÜÎÄ¼ş
+        var isNeedPrequelPlotGuide = GuideModel.Instance.IsGuide && GuideModel.Instance.curGuideStep == 1;//æ˜¯å¦éœ€è¦å‰åºå‰§æƒ…å¼•å¯¼
+        //æå‰åŠ è½½å¥½è‹±é›„çš„æ¨¡å‹èµ„æº
         var assetHandle = ResourceManager.Instance.LoadAssetAsync<SkeletonDataAsset>(ResPath.GetDressPartSpinePath("body", 0));
         assetHandle.Completed += (AssetHandle assetHandle) =>
         {
             heroAvatar = new SceneHeroAvatar();
-            if (!isNeedPrequelPlotGuide)//Î´Ç°ÖÃÒıµ¼
+            if (!isNeedPrequelPlotGuide)//ä¸éœ€è¦å‰åºå‰§æƒ…å¼•å¯¼
             {
                 heroAvatar.Init(npcLayer, new Vector3(0f, 8f, 0));
             }
-            else//Ç°ÖÃÒıµ¼Ö÷½ÇĞèÒª×ß¹ıÈ¥²Å´¥·¢Òıµ¼
+            else//éœ€è¦å‰åºå‰§æƒ…å¼•å¯¼ï¼Œéœ€è¦ç­‰å¾…å¼•å¯¼å®Œæˆåå†åˆå§‹åŒ–è‹±é›„
             {
                 GuideModel.Instance.IsPrequelPlotGuiding = true;
                 heroAvatar.Init(npcLayer, new Vector3(18.72f, -2.71f, 0));
-                //ÏÈÒÆ¶¯¾µÍ·¹ıÈ¥ÔÙ¿ªÊ¼×ß
+                //ç­‰å¾…å¼•å¯¼å®Œæˆåï¼Œè‹±é›„ç§»åŠ¨åˆ°æŒ‡å®šä½ç½®
                 StartCoroutine(WaitForDone());
             }
             heroAvatarController = heroAvatar.AddComponent<SceneHeroAvatarController>();
             heroAvatarController.InitPolyNavMap(polyNavMap);
             heroAvatarController.heroAvatar = heroAvatar;
             heroAvatar.UpdateDress();
-            if (!isNeedPrequelPlotGuide)//²»ĞèÒªÇ°ÖÃÒıµ¼Á¢¼´¼ì²âÒıµ¼
+            if (!isNeedPrequelPlotGuide)//ä¸éœ€è¦å‰åºå‰§æƒ…å¼•å¯¼ï¼Œç›´æ¥å¼€å§‹å¼•å¯¼
             {
                 StartGuide();
             }
@@ -625,7 +645,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// Ö÷½Ç×ßÏò»¨µê
+    /// è‹±é›„ç§»åŠ¨åˆ°èŠ±å•†ä½ç½®
     /// </summary>
     private void HeroWalkToFlowerShop()
     {
@@ -681,7 +701,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ¾µÍ·ÒÆµ½ÅàÓıÎİ
+    /// è‹±é›„ç§»åŠ¨åˆ° CultivateHourse ä½ç½®
     /// </summary>
     /// <param name="endMoveCallBack"></param>
     public void MoveToCultivateHourse(UnityEngine.Events.UnityAction endMoveCallBack = null)
@@ -690,7 +710,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ¾µÍ·ÒÆµ½²å»¨
+    /// è‹±é›„ç§»åŠ¨åˆ° ArrangementFlower ä½ç½®
     /// </summary>
     /// <param name="endMoveCallBack"></param>
     public void MoveToArrangementFlower(UnityEngine.Events.UnityAction endMoveCallBack = null)
@@ -717,7 +737,7 @@ public class SceneManager : MonoSingleton<SceneManager>
 
     public void MoveToPantFlower(UnityEngine.Events.UnityAction action = null)
     {
-        var land = GetLand(1);//ÒÆµ½µÚÒ»¸öÍÁµØ
+        var land = GetLand(1);//è·å–ç¬¬ä¸€ä¸ªåœŸåœ°
         MoveToPoint(land.transform.position, 0, true, action);
     }
 
@@ -748,7 +768,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ´ò¿ª/¹Ø±Õ³¡¾°²ã(È«ÆÁ½çÃæ¿Éµ÷ÓÃ)
+    /// æ˜¾ç¤º/éšè—åœºæ™¯å±‚(åŒ…å«æ‰€æœ‰ç‰©ä½“)
     /// </summary>
     public void ShowHideSceneLayer(bool active)
     {
@@ -756,7 +776,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// ´ò¿ª/¹Ø±Õnpc²ã
+    /// æ˜¾ç¤º/éšè—npcå±‚
     /// </summary>
     public void ShowHideNpcLayer(bool active)
     {
@@ -798,7 +818,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     }
 
     /// <summary>
-    /// µÚ¶ş²½Òıµ¼¿ªÊ¼Ç°ÏÈµ÷ÓÃÕâ¸öÏÔÊ¾ÏÂ
+    /// æ˜¾ç¤º/éšè—å¼•å¯¼æ‰«å¸š
     /// </summary>
     public void ShowGuideBroom()
     {

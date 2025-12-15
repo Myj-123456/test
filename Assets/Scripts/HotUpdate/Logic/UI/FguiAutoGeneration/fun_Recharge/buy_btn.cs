@@ -8,10 +8,8 @@ namespace fun_Recharge
     public partial class buy_btn : GButton
     {
         public Controller type;
-        public GImage n1;
-        public GImage n4;
-        public GTextField titleLab;
-        public GTextField titleLab1;
+        public GButton priceBtn;
+        public GButton normalBtn;
         public const string URL = "ui://w3ox9yltdidl1n";
 
         public static buy_btn CreateInstance()
@@ -24,10 +22,8 @@ namespace fun_Recharge
             base.ConstructFromXML(xml);
 
             type = GetControllerAt(0);
-            n1 = (GImage)GetChildAt(0);
-            n4 = (GImage)GetChildAt(1);
-            titleLab = (GTextField)GetChildAt(2);
-            titleLab1 = (GTextField)GetChildAt(3);
+            priceBtn = (GButton)GetChildAt(0);
+            normalBtn = (GButton)GetChildAt(1);
         }
     }
 }

@@ -231,12 +231,12 @@ public class TaskModel : Singleton<TaskModel>
         {
             if (TypeParam == 0)
             {
-                return addStr + Lang.GetValue(TaskDesc, Lang.GetValue("main_task_1"));
+                return Lang.GetValue(TaskDesc, Lang.GetValue("main_task_1"));
             }
             else
             {
                 var itemVo = ItemModel.Instance.GetItemById(TypeParam);
-                return addStr + Lang.GetValue(TaskDesc, Lang.GetValue(itemVo.Name));
+                return Lang.GetValue(TaskDesc, Lang.GetValue(itemVo.Name));
             }
 
         }

@@ -22,6 +22,8 @@ public class FirstRechargeWindow : BaseWindow
         BindAllDelegate = fun_Recharge.fun_RechargeBinder.BindAll;
         CreateInstanceDelegate = fun_Recharge.first_recharge_view.CreateInstance;
         ClickBlankClose = true;
+        fairyBatching = false;
+        openWithTween = false;
     }
 
     public override void OnInit()
@@ -29,7 +31,7 @@ public class FirstRechargeWindow : BaseWindow
          base.OnInit();
         view = ui as fun_Recharge.first_recharge_view;
         SetBg(view.bg, "Recharge/ELIDA_shouchong_diban.png");
-        view.lab.text = Lang.GetValue("firstRecharge_4");
+        view.tip_com.text = Lang.GetValue("firstRecharge_4");
         firstPayList = RechargeModel.Instance.firstPayList;
         pages = new List<fun_Recharge.page_btn2> { view.one_btn,view.two_btn,view.three_btn};
         StringUtil.SetBtnTab(view.one_btn, Lang.GetValue("text_activity_6"));
@@ -58,9 +60,46 @@ public class FirstRechargeWindow : BaseWindow
             view.spine.forcePlay = true;
             view.spine.url = "flowers/" + flowerVo.itemDefId;
             view.spine.animationName = "step_" + 3 + "_idle";
-            view.nameLab.text = Lang.GetValue(flowerVo.item.Name);
-            UILogicUtils.SetItemShow(view.show_btn, flowerVo.itemDefId);
+            view.name_com.nameLab.text = Lang.GetValue(flowerVo.item.Name);
+            UILogicUtils.SetItemShow(view.name_com.show_btn, flowerVo.itemDefId);
         }
+
+        view.spine.url = "flowers/40011018";
+        view.spine.forcePlay = true;
+        view.spine.loop = true;
+        view.spine.animationName = "step_" + 3 + "_idle";
+
+        view.spine1.url = "firstrecharge/scyuanbeijin";
+        view.spine1.forcePlay = true;
+        view.spine1.loop = true;
+        view.spine1.animationName = "animation";
+
+        view.spine2.url = "firstrecharge/scbiaoti";
+        view.spine2.forcePlay = true;
+        view.spine2.loop = true;
+        view.spine2.animationName = "animation";
+
+
+        view.spine3.url = "firstrecharge/scxiyou";
+        view.spine3.forcePlay = true;
+        view.spine3.loop = true;
+        view.spine3.animationName = "animation";
+
+        view.buy_btn1.buy_btn.spine.url = "firstrecharge/scanniu";
+        view.buy_btn1.buy_btn.spine.loop = true;
+        view.buy_btn1.buy_btn.spine.animationName = "animation";
+
+        view.buy_btn2.buy_btn.spine.url = "firstrecharge/scanniu";
+        view.buy_btn2.buy_btn.spine.loop = true;
+        view.buy_btn2.buy_btn.spine.animationName = "animation";
+
+        view.buy_btn3.buy_btn.spine.url = "firstrecharge/scanniu";
+        view.buy_btn3.buy_btn.spine.loop = true;
+        view.buy_btn3.buy_btn.spine.animationName = "animation";
+
+        view.buy_btn4.buy_btn.spine.url = "firstrecharge/scanniu";
+        view.buy_btn4.buy_btn.spine.loop = true;
+        view.buy_btn4.buy_btn.spine.animationName = "animation";
         view.one_btn.onClick.Add(() =>
         {
             if(tabType != 0)
@@ -106,7 +145,7 @@ public class FirstRechargeWindow : BaseWindow
             RechargeController.Instance.ReqPlaceOrder(3, uint.Parse(buyData.ProductId));
         });
 
-        view.get_btn.onClick.Add(() =>
+        view.btn_com.get_btn.onClick.Add(() =>
         {
             RechargeController.Instance.ReqFristRecharge((uint)tabType + 1);
         });
@@ -117,6 +156,7 @@ public class FirstRechargeWindow : BaseWindow
     public override void OnShown()
     {
         base.OnShown();
+        view.anim.Play();
         // 其他打开面板的逻辑
         Saver.SaveAsString<int>("FirstRechargeTime" + MyselfModel.Instance.userId,(int)ServerTime.Time);
         var showDay = GetCanGet();
@@ -175,20 +215,18 @@ public class FirstRechargeWindow : BaseWindow
                 view.unlock.selectedIndex = 0;
                 if (RechargeModel.Instance.firstRechargeRewards == null || Array.IndexOf(RechargeModel.Instance.firstRechargeRewards, (uint)(tabType + 1)) == -1)
                 {
-                    view.get_btn.enabled = true;
-                    StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("handBook_14"));
+                    view.btn_com.status.selectedIndex = 0;
+                    StringUtil.SetBtnTab(view.btn_com.get_btn, Lang.GetValue("handBook_14"));
                 }
                 else
                 {
-                    view.get_btn.enabled = false;
-                    StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("invite_friends_11"));
+                    view.btn_com.status.selectedIndex = 2;
                 }
             }
             else
             {
-                view.get_btn.enabled = false;
-                view.unlock.selectedIndex = 1;
-                StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("rob_21"));
+                view.btn_com.status.selectedIndex = 1;
+                StringUtil.SetBtnTab(view.btn_com.get_btn, Lang.GetValue("rob_21"));
             }
         }
             

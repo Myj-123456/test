@@ -34,6 +34,7 @@ public class TradeSaleWindow : BaseWindow
         // 设置委托
         BindAllDelegate = fun_FriendsTrade_New.fun_FriendsTrade_NewBinder.BindAll;
         CreateInstanceDelegate = fun_FriendsTrade_New.tradeSaleView.CreateInstance;
+        ClickBlankClose = true;
     }
 
     public override void OnInit()
@@ -41,7 +42,7 @@ public class TradeSaleWindow : BaseWindow
         base.OnInit();
         _view = ui as fun_FriendsTrade_New.tradeSaleView;
 
-        SetBg(_view.bg, "Common/ELIDA_common_bigdi01.png");
+        SetBg(_view.bg, "Common/common_big_tip_bg.png");
         _view.title_0.text = Lang.GetValue("Cultivating_lottery_03");//"数量";
         _view.title_1.text = Lang.GetValue("FriendsDeal_12");//"单价";
         _view.title_2.text = Lang.GetValue("FriendsDeal_13");//"总价";
@@ -52,6 +53,7 @@ public class TradeSaleWindow : BaseWindow
         StringUtil.SetBtnTab(_view.btn_max, Lang.GetValue("FriendsDeal_16"));
 
         StringUtil.SetBtnTab(_view.findBtn, Lang.GetValue("pray_8"));
+        StringUtil.SetBtnTab(_view.flower_btn, Lang.GetValue("collection_suit_name_1"));
 
         _view.title_3.text = Lang.GetValue("trade_1");
         _view.img_gold_sum.url = ImageDataModel.GOLD_ICON_URL;
@@ -150,7 +152,7 @@ public class TradeSaleWindow : BaseWindow
     {
         _view.img_item.url = ImageDataModel.Instance.GetIconUrl(_saleItem.item);
         _view.lb_title.text = Lang.GetValue(_saleItem.item.Name);
-        _view.lb_storageCount.text = Lang.GetValue("FriendsDeal_24", _saleItem.count.ToString());
+        _view.lb_storageCount.text = Lang.GetValue("FriendsDeal_24","：<font color = '#28aa09'>" + _saleItem.count.ToString() + "</font>");
 
         _curItemInfo = TradeModel.Instance.GetDealItemsData(_saleItem.itemDefId);
         _curPrice = _curItemInfo.UnitPrices[1];
@@ -208,8 +210,11 @@ public class TradeSaleWindow : BaseWindow
     {
         for (int i = 0; i < _view.page_list.numItems; i++)
         {
-            common_New.PageListItem_new2 cell = _view.page_list.GetChildAt(_view.page_list.ItemIndexToChildIndex(i)) as common_New.PageListItem_new2;
-            cell.status.selectedIndex = i == _view.ls_ItemList.scrollPane.currentPageX ? 1 : 0;
+            common_New.PageListItem_new3 cell = _view.page_list.GetChildAt(_view.page_list.ItemIndexToChildIndex(i)) as common_New.PageListItem_new3;
+            if(cell != null)
+            {
+                cell.status.selectedIndex = i == _view.ls_ItemList.scrollPane.currentPageX ? 1 : 0;
+            }
         }
     }
 
@@ -241,13 +246,15 @@ public class TradeSaleWindow : BaseWindow
 
     private void StorageItemRenderer(int index, GObject item)
     {
-        fun_FriendsTrade_New.tradeItemCell itemCell = item as fun_FriendsTrade_New.tradeItemCell;
+        common_New.item_com itemCell = item as common_New.item_com;
         var data = storageListData[index];
         itemCell.data = data;
-        UILogicUtils.ShowNameTip(itemCell.img_Item, data.item.ItemDefId);
+        //UILogicUtils.ShowNameTip(itemCell.img_Item, data.item.ItemDefId);
+        
         var plant = FlowerHandbookModel.Instance.GetStaticSeedCondition(data.itemDefId);
         itemCell.bg.url = "MyInfo/show_flower_bg" + plant.FlowerQuality + ".png";
-        itemCell.lb_num.text = data.count.ToString();
+        itemCell.numLab.text = data.count.ToString();
+        itemCell.pic.url = ImageDataModel.Instance.GetIconUrl(data.item);
         itemCell.onClick.Add(OnClickHander);
     }
 

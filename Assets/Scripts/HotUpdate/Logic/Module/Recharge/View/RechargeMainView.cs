@@ -31,24 +31,23 @@ public class RechargeMainView : BaseWindow
          base.OnInit();
         view = ui as fun_Recharge.recharge_main_view;
         
-        SetBg(view.card_view.bg, "Recharge/ELIDA_syh_qyk_bg02.png");
-        SetBg(view.card_view.bg1, "Recharge/ELIDA_syh_qyk_fyqj02.png");
-        SetBg(view.card_view.bg2, "Recharge/baidi.png");
+        SetBg(view.card_view.bg, "Recharge/ELIDA_quanyika_beijing.png");
+        //SetBg(view.card_view.bg1, "Recharge/ELIDA_syh_qyk_fyqj02.png");
+       // SetBg(view.card_view.bg2, "Recharge/baidi.png");
 
-        SetBg(view.card_view.item1.bg, "Recharge/ELIDA_syh_qyk_ykdi01.png");
-        SetBg(view.card_view.item2.bg, "Recharge/ELIDA_syh_qyk_mggdi01.png");
+        SetBg(view.card_view.item1.bg, "Recharge/ELIDA_quanyika_yueka02.png");
+        SetBg(view.card_view.item2.bg, "Recharge/ELIDA_quanyika_yueka01.png");
 
-        SetBg(view.recharge_view.bg, "Recharge/ELIDA_chongzhi_bg01.png");
-        SetBg(view.recharge_view.bg1, "Recharge/ELIDA_chongzhi_bg02.png");
-        SetBg(view.recharge_view.bg2, "Recharge/ELIDA_chongzhi_bg06.png");
-        SetBg(view.recharge_view.bg3, "Recharge/ELIDA_chongzhi_bg07.png");
+        SetBg(view.recharge_view.bg, "Recharge/ELIDA_syh_czlb_bg0.png");
+        //SetBg(view.recharge_view.bg1, "Recharge/ELIDA_chongzhi_bg02.png");
+        //SetBg(view.recharge_view.bg2, "Recharge/ELIDA_chongzhi_bg06.png");
+        //SetBg(view.recharge_view.bg3, "Recharge/ELIDA_chongzhi_bg07.png");
 
         SetBg(view.gift_view.bg, "Recharge/ELIDA_syh_czlb_bg0.png");
         SetBg(view.gift_view.bg1, "Recharge/ELIDA_syh_czlb_renwu.png");
         SetBg(view.gift_view.bg2, "Recharge/ELIDA_syh_czlb_bg02.png");
-        SetBg(view.cumulative_view.bg, "Recharge/ELIDA_syh_ljcz_bg01.png");
-        SetBg(view.cumulative_view.bg1, "Recharge/ELIDA_syh_ljcz_neirongdi01.png");
-        SetBg(view.cumulative_view.bg2, "Recharge/ELIDA_syh_ljcz_renwu.png");
+        SetBg(view.cumulative_view.bg, "Recharge/ELIDA_lejichongzhi_beijing.png");
+        
 
         SetBg(view.tour_gift_view.bg, "Recharge/ELIDA_syh_czlb_bg0.png");
 

@@ -97,7 +97,7 @@ public class GuildModel : Singleton<GuildModel>
             }
             return _shopConfig;
         } }
-
+    public List<int> posList = new List<int> { 1, 2, 5, 3, 4 };
     public Dictionary<uint, uint> buyCntStat;//限购的配置，已经购买了多少次
 
     public List<I_GUILD_LIST_VO> guildList;
@@ -515,7 +515,8 @@ public class GuildModel : Singleton<GuildModel>
     {
         if (positionNameMap.ContainsKey((int)guildMember.powerId))
         {
-            return positionNameMap[(int)guildMember.powerId].KickingPeople == 1 && guildMember.powerId < pos;
+            return Array.IndexOf(positionNameMap[(int)guildMember.powerId].KickingPeoples, (int)pos) != -1;
+            //return positionNameMap[(int)guildMember.powerId].KickingPeople == 1 && guildMember.powerId < pos;
         }
         return false;
     }
@@ -524,7 +525,9 @@ public class GuildModel : Singleton<GuildModel>
     {
         if (positionNameMap.ContainsKey((int)guildMember.powerId))
         {
-            return  guildMember.powerId < pos - 1;
+            int mypos = posList.IndexOf((int)guildMember.powerId);
+            int tarpos = posList.IndexOf((int)pos);
+            return mypos < tarpos - 1;
         }
         return false;
     }
@@ -533,7 +536,9 @@ public class GuildModel : Singleton<GuildModel>
     {
         if (positionNameMap.ContainsKey((int)guildMember.powerId))
         {
-            return guildMember.powerId < pos && pos < 4;
+            int mypos = posList.IndexOf((int)guildMember.powerId);
+            int tarpos = posList.IndexOf((int)pos);
+            return mypos < tarpos && tarpos < 3;
         }
         return false;
     }
@@ -652,6 +657,10 @@ public class GuildModel : Singleton<GuildModel>
         }
     }
     
+    public List<Ft_club_shopConfig> GetShopList(int type)
+    {
+        return shopConfig.FindAll(value => value.Type == type);
+    }
 }
 
 public class M_GuildFunc

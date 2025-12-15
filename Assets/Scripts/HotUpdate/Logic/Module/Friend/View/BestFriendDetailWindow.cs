@@ -12,12 +12,12 @@ public class BestFriendDetailWindow : BaseWindow
 {
     private fun_Friends.newBestFriendLevelView view;
     private Ft_mfriend_configConfigData _configData;
-    
+
     public BestFriendDetailWindow()
     {
         packageName = "fun_Friends";
-        BindAllDelegate=fun_Friends.fun_FriendsBinder.BindAll;
-        CreateInstanceDelegate=fun_Friends.newBestFriendLevelView.CreateInstance;
+        BindAllDelegate = fun_Friends.fun_FriendsBinder.BindAll;
+        CreateInstanceDelegate = fun_Friends.newBestFriendLevelView.CreateInstance;
     }
     public override void OnInit()
     {
@@ -32,7 +32,7 @@ public class BestFriendDetailWindow : BaseWindow
 
         // 获取配置表数据
         _configData = ConfigManager.Instance.GetConfig<Ft_mfriend_configConfigData>("ft_mfriend_configsConfig");
-        
+
         view.list.itemRenderer = ListRendererLevel;
         view.list.SetVirtual();
         view.list.numItems = _configData?.DataList.Count ?? 40;
@@ -41,16 +41,16 @@ public class BestFriendDetailWindow : BaseWindow
     private void ListRendererLevel(int index, object item)
     {
         fun_Friends.BestLevelListItem levelItem = item as fun_Friends.BestLevelListItem;
-        if(levelItem == null)
+        if (levelItem == null)
         {
             return;
         }
-        
+
         int level = index + 1;
         levelItem.txt_count.text = level.ToString();
 
         levelItem.level_bg.selectedIndex = level % 2 == 1 ? 0 : 1;
-        
+
         // 从配置表获取数据
         if (_configData != null)
         {
@@ -60,9 +60,9 @@ public class BestFriendDetailWindow : BaseWindow
             levelItem.txt_additional.text = $"{config.FairyProb}%";
         }
     }
-    
+
     public void CloseView()
     {
-       UIManager.Instance.CloseWindow(UIName.BestFriendDetailWindow);
+        UIManager.Instance.CloseWindow(UIName.BestFriendDetailWindow);
     }
 }

@@ -12,7 +12,7 @@ using static protobuf.user.I_PROFILE_INFO_VO;
 using static protobuf.user.I_PROFILE_TIME_INFO_VO;
 
 /// <summary>
-/// ×Ô¼ºÍæ¼ÒÊı¾İ
+/// ç©å®¶æ¨¡å‹
 /// </summary>
 public class MyselfModel : Singleton<MyselfModel>
 {
@@ -21,55 +21,55 @@ public class MyselfModel : Singleton<MyselfModel>
 
     public uint userId;
     public uint level;
-    public uint exp;//µÈ¼¶¾­Ñé,°üº¬ÁËÖ®Ç°µÈ¼¶µÄ¾­Ñé
+    public uint exp;//ç©å®¶ç»éªŒå€¼,å½“å‰ç­‰çº§å‰çš„ç»éªŒå€¼
     public uint gold;
     public uint diamond;
     public uint vipTime;
     public uint registerTime;
     public uint lastLoginTime;
-    public uint fighting;//·±ÈÙ¶È
-    public uint dressCharm;//Ê±×°÷ÈÁ¦
-    public uint serverId;//·şid
+    public uint fighting;//ç©å®¶æˆ˜æ–—åŠ›
+    public uint dressCharm;//ç©å®¶è£…æ‰®é­…åŠ›å€¼
+    public uint serverId;//ç©å®¶æœåŠ¡å™¨id
 
-    public uint tipId;//µ¯´°Àñ°üid£»
+    public uint tipId;//æç¤ºid,ç”¨äºæ˜¾ç¤ºæç¤ºä¿¡æ¯
 
-    private WaterVO waterVO;//Ë®µÎÊı¾İ
+    private WaterVO waterVO;//ç©å®¶å½“å‰æµ‡æ°´ä¿¡æ¯
 
 
     public List<protobuf.user.I_PROFILE_INFO_VO> userInfoList;
 
-    public protobuf.user.I_BEHAVIORDAILY_VO behaviorDaily;//Ã¿ÈÕ0µãÇå¿ÕµÄÓÃ»§ĞÅÏ¢
+    public protobuf.user.I_BEHAVIORDAILY_VO behaviorDaily;//ç©å®¶æ¯æ—¥è¡Œä¸ºä¿¡æ¯
 
 
-    public List<I_USER_SHOP> userShop;//µêÆÌÊÕÒæ
+    public List<I_USER_SHOP> userShop;//ç©å®¶å•†åº—ä¿¡æ¯
 
     public uint lastServerTime = 0;
-    public uint maxLevel = 0;//×î´óµÈ¼¶
+    public uint maxLevel = 0;//ç©å®¶æœ€å¤§ç­‰çº§
 
-    public bool atHome = true;//ÊÇ·ñÊÇ×Ô¼º¼Ò
-    public uint interactionCnt;//ÒÑ»¥¶¯´ÎÊı
-    public uint friendId;//µ±Ç°·ÃÎÊµÄºÃÓÑid
+    public bool atHome = true;//ç©å®¶æ˜¯å¦åœ¨å®¶
+    public uint interactionCnt;//ç©å®¶ä¸npcäº¤äº’æ¬¡æ•°
+    public uint friendId;//ç©å®¶å½“å‰å¥½å‹id
 
     public int expVip = 0;
 
-    public bool isBackgroundMuted;//±³¾°ÒôÀÖ
-    public bool isEffectMuted;//ÌáÊ¾ÒôĞ§
-    public bool fastHarvest;//Ò»¼üÊÕ»¨
-    public bool plantTween;//ÖÖÖ²¶¯»­
-    public bool isInAdventure = false;//ÊÇ·ñÔÚÌ½ÏÕÍæ·¨ÖĞ
-    public bool isFirstEnterGame = true;//ÊÇ·ñÊ×´Î½øÈëÓÎÏ·
+    public bool isBackgroundMuted;//èƒŒæ™¯éŸ³ä¹é™éŸ³
+    public bool isEffectMuted;//éŸ³æ•ˆé™éŸ³
+    public bool fastHarvest;//å¿«é€Ÿæ”¶è·
+    public bool plantTween;//ç§æ¤åŠ¨ç”»
+    public bool isInAdventure = false;//æ˜¯å¦åœ¨å†’é™©æ¨¡å¼
+    public bool isFirstEnterGame = true;//æ˜¯å¦ç¬¬ä¸€æ¬¡è¿›å…¥æ¸¸æˆ
 
-    public uint npcGiftGive;//µ±ÈÕÔùËÍ¾ÓÃñÀñÎï´ÎÊı
-    public uint npcIkebanaGive;//µ±ÈÕÔùËÍ¾ÓÃñ»¨ÒÕÆ·´ÎÊı
-    public uint arenaRefreshCnt;// ¾º¼¼³¡½ñÈÕË¢ĞÂ´ÎÊı
+    public uint npcGiftGive;//ç©å®¶ä¸npcäº¤äº’æ¬¡æ•°;ç©å®¶ç»™npcçš„å¥–åŠ±æ¬¡æ•°
+    public uint npcIkebanaGive;//ç©å®¶ä¸npcäº¤äº’æ¬¡æ•°;ç©å®¶ç»™npcçš„å¥–åŠ±æ¬¡æ•°
+    public uint arenaRefreshCnt;// ç©å®¶å†’é™©æ¨¡å¼åˆ·æ–°æ¬¡æ•°
 
-    public uint waterBucketCnt;// ½ñÈÕÒÑÁìÈ¡Ë®Í°´ÎÊı
+    public uint waterBucketCnt;// ç©å®¶å½“å‰æ°´ä½å€¼
 
-    public S_MSG_WELFARE_INFO welfareInfo;//Ë®Í°ĞÅÏ¢
+    public S_MSG_WELFARE_INFO welfareInfo;//Ë®Í°ä¿¡æ¯
 
-    public List<int> waterBucketSeries;//8¸öË®Í°Î»ÖÃ×´Ì¬
-    public bool isShowUpLevel = false;//ÊÇ·ñÏÔÊ¾Éı¼¶µ¯¿ò
-    public bool isShowReward = false;//ÊÇ·ñÏÔÊ¾Í¨ÓÃ½±Àøµ¯¿ò
+    public List<int> waterBucketSeries;//8ä¸ªæ°´ä½å€¼çš„çŠ¶æ€
+    public bool isShowUpLevel = false;//æ˜¯å¦æ˜¾ç¤ºå‡çº§æç¤º
+    public bool isShowReward = false;//æ˜¯å¦æ˜¾ç¤ºå¥–åŠ±æç¤º
 
     public void InitData(S_MSG_GAMEINIT data)
     {
@@ -87,7 +87,7 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    /// ³õÊ¼»¯ÓÃ»§»ù´¡ĞÅÏ¢
+    /// åˆå§‹åŒ–ç©å®¶åŸºæœ¬ä¿¡æ¯
     /// </summary>
     private void InitProfile(protobuf.user.I_PROFILE_VO profile)
     {
@@ -112,7 +112,7 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    /// Ã¿ÈÕ0µãÇå¿ÕµÄÓÃ»§ĞÅÏ¢
+    /// æ›´æ–°ç©å®¶æ¯æ—¥è¡Œä¸ºä¿¡æ¯
     /// </summary>
     public void UpdateDailyInfo(I_DAILY_STAT_VO data)
     {
@@ -122,8 +122,8 @@ public class MyselfModel : Singleton<MyselfModel>
 
     }
     /// <summary>
-    /// ¿çÌìÇå³ıÊı¾İ
-    /// ĞèÒªÇå³ıµÄÊı¾İÔİÊ±¶¼ÔÚÕâÀïÇå³ı°É
+    /// è·¨å¤©æ¸…é™¤ç©å®¶æ¯æ—¥è¡Œä¸ºä¿¡æ¯
+    /// ç©å®¶æ¯æ—¥è¡Œä¸ºä¿¡æ¯è·¨å¤©æ¸…é™¤ï¼Œéœ€è¦åœ¨è·¨å¤©æ—¶è°ƒç”¨
     /// </summary>
     private void CrossDayClearData()
     {
@@ -137,7 +137,10 @@ public class MyselfModel : Singleton<MyselfModel>
             return (UserInfoType)value.infoType == type;
         });
     }
-    /**ÊÇ·ñÊÇvip */
+    /// <summary>
+    /// æ˜¯å¦ä¸ºvip
+    /// </summary>
+    /// <returns></returns>
     public bool IsVip()
     {
         return vipTime > ServerTime.Time;
@@ -159,7 +162,7 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    /// »ñÈ¡µ±Ç°Ë®
+    /// è·å–å½“å‰æ°´ä½å€¼
     /// </summary>
     public uint WaterCur
     {
@@ -171,9 +174,9 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    ///¼õË®µÎ
-    ///´Ë½Ó¿ÚÖ»ÄÜÇ°¶ËÔ¤±íÏÖ½½Ë®²ÅÊ¹ÓÃ
-    ///ÆäËûµÄ¸üĞÂÑªÁ¿ĞèÒª¸ù¾İ·şÎñÆ÷·µ»Ø¸üĞÂ
+    /// å‡å°‘æ°´ä½å€¼
+    /// ç©å®¶åªèƒ½åœ¨å½“å‰æ°´ä½å€¼å¤§äº0æ—¶å‡å°‘æ°´ä½å€¼
+    /// ç©å®¶æ°´ä½å€¼å‡å°‘æ—¶ï¼Œéœ€è¦æ›´æ–°æ°´ä½å€¼
     /// </summary>
     public void SubWater(uint waterNum)
     {
@@ -186,7 +189,7 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    /// »ñÈ¡µ±Ç°Ë®×ÜÁ¿
+    /// è·å–å½“å‰æ°´ä½å€¼çš„æœ€å¤§å€¼
     /// </summary>
     public uint WaterMax
     {
@@ -202,7 +205,7 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    /// ÂÖÑ¯¸üĞÂË®
+    /// æŸ¥è¯¢å½“å‰æ°´ä½å€¼
     /// </summary>
     public void OnTick()
     {
@@ -210,7 +213,7 @@ public class MyselfModel : Singleton<MyselfModel>
         {
             waterVO.Renew();
         }
-        if (lastServerTime > 0 && TimeUtil.IsCrossDay(lastServerTime, ServerTime.Time))//¿çÌìÁË
+        if (lastServerTime > 0 && TimeUtil.IsCrossDay(lastServerTime, ServerTime.Time))//è·¨å¤©
         {
             //CrossDayClearData();
             MyselfController.Instance.ReqGameCrossDay();
@@ -221,7 +224,7 @@ public class MyselfModel : Singleton<MyselfModel>
 
 
     /// <summary>
-    /// Ë®µÎ×ªÅÌµÈ´øÊ±¼äµÄĞÅÏ¢
+    /// æ°´ä½å€¼è½¬æ¢ä¸ºæ—¶é—´
     /// </summary>
     /// <param name="dynamicInfo"></param>
     private void InitDynamicInfo(List<protobuf.user.I_PROFILE_TIME_INFO_VO> datas)
@@ -242,8 +245,9 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    /// ÓÃ»§»ù´¡ĞÅÏ¢±ä¸ü
+    /// æ›´æ–°ç©å®¶ä¸ªäººä¿¡æ¯
     /// </summary>
+    /// <param name="items"></param>
     public void UpdateProfile(Dictionary<ulong, ulong> items)
     {
         foreach (KeyValuePair<ulong, ulong> item in items)
@@ -255,11 +259,11 @@ public class MyselfModel : Singleton<MyselfModel>
     private void HandlerProfile(ulong key, ulong value)
     {
         string keyStr = key.ToString();
-        if (keyStr.Length == 12)//¼æÈİ12Î»¸ñÊ½
+        if (keyStr.Length == 12)//12ä½æ•°å­—ï¼Œå¯èƒ½æ˜¯å•†å“id
         {
-            keyStr = keyStr.Substring(4);//½ØÈ¡ºó8¸ö×÷ÎªÎïÆ·id
+            keyStr = keyStr.Substring(4);//æˆªå–8ä½ä¸ºå•†å“id
         }
-        if (keyStr.Length < 8) return;//Ã»ÓĞ8Î»ÎïÆ·id³¤¶È ²»Ö´ĞĞ
+        if (keyStr.Length < 8) return;//8ä½å•†å“idï¼Œå¦åˆ™å¿½ç•¥
 
         var itemId = uint.Parse(keyStr);
         switch (itemId)
@@ -280,13 +284,16 @@ public class MyselfModel : Singleton<MyselfModel>
             case (uint)BaseType.SPD_DRUG:
             case (uint)BaseType.GRANDMA_TICKET:
             case (uint)BaseType.GUILD_MEDAL:
+            case (uint)BaseType.Friend_Coin:
                 StorageModel.Instance.UpdateStorageByItemId((int)itemId, (int)value);
                 break;
         }
         EventManager.Instance.DispatchEvent(SystemEvent.UpdateProfile, itemId);
     }
 
-    ////¸üĞÂ¾­ÑéºÍµÈ¼¶,¾­ÑéÒÔ·şÎñÆ÷Îª×¼£¬µÈ¼¶¸ù¾İ¹«Ê½¼ÆËã
+    /// <summary>
+    /// æ›´æ–°ç©å®¶ç»éªŒä¸ç­‰çº§ï¼Œä»¥é…ç½®è¡¨ä¸ºå‡†ï¼Œç­‰çº§æ•°æ®å…¬å¼è®¡ç®—
+    /// </summary>
     private void UpdateExpAndLevel(ulong exp)
     {
         if (exp > 0)
@@ -294,7 +301,7 @@ public class MyselfModel : Singleton<MyselfModel>
             var dataList = module_Profile_LevelConfigData.DataList;
             var count = dataList.Count;
 
-            //µ¹Ğò²éÕÒ
+            //ä»é…ç½®è¡¨ä¸­æŸ¥æ‰¾ç©å®¶å½“å‰ç­‰çº§
             while (--count >= 0)
             {
                 if ((ulong)dataList[count].Exp <= exp)
@@ -327,7 +334,23 @@ public class MyselfModel : Singleton<MyselfModel>
 
     private void ShowLevelupWindow(uint stepLevel)
     {
-        if (GuideModel.Instance.IsGuide)//Òıµ¼ÖĞÈç¹û´ò¿ªÁË»ñµÃ½±Àøµ¯¿ò£¬ÏÈ²»µ¯Éı¼¶µ¯¿òÁË
+
+        var minLevel = (int)level - stepLevel;
+        for (int i = (int)level; i > minLevel; i--)
+        {
+            var levelConfig = PlayerModel.Instance.GetLevelupBonus(i);
+            if (levelConfig != null)
+            {
+                var rewards = levelConfig.Rewards;
+                foreach (var reward in rewards)
+                {
+                    var itemConfig = ItemModel.Instance.GetItemByEntityID(reward.EntityID);
+                    StorageModel.Instance.AddToStorageByItemId(itemConfig.ItemDefId, reward.Value);
+                }
+            }
+        }
+
+        if (GuideModel.Instance.IsGuide)//å¦‚æœåœ¨æ–°æ‰‹å¼•å¯¼ä¸­ï¼Œåˆ™æš‚ä¸å¼¹å‡ºå‡çº§çª—å£
         {
             var getRewardWindow = UIManager.Instance.GetWindow(UIName.GetRewardWindow);
             if (getRewardWindow != null && getRewardWindow.Visible)
@@ -345,7 +368,7 @@ public class MyselfModel : Singleton<MyselfModel>
     }
 
     /// <summary>
-    /// ÓÃ»§¶¯Ì¬ĞÅÏ¢±ä¸ü
+    /// æ›´æ–°ç©å®¶åŠ¨æ€ä¿¡æ¯ï¼Œå¦‚æ°´ä½å€¼ã€å®ç®±å¼€æ”¾æ—¶é—´ç­‰
     /// </summary>
     public void UpdateDynamicInfo(List<protobuf.user.I_PROFILE_TIME_INFO_VO> dynamicInfo)
     {
@@ -357,25 +380,32 @@ public class MyselfModel : Singleton<MyselfModel>
                 {
                     waterVO.UpdateWater(uint.Parse(data.info), data.time);
                 }
+            }else if(data.infoType == 2)
+            {
+                TurnBoxManager.Instance.boxNum = int.Parse(data.info);
+                TurnBoxManager.Instance.time = (int)data.time;
+                TurnBoxManager.Instance.UpdateBoxData();
             }
         }
     }
 
     /// <summary>
-    /// //¼ì²éÊÇ·ñ»¹¿ÉÒÔ¼ÌĞø½»»¥£¨½½Ë®/Íµ»¨£©
+    /// æ£€æŸ¥æ˜¯å¦è¿˜å¯ä»¥ç»§ç»­æµ‡æ°´/å·èœ
     /// </summary>
     /// <returns></returns>
     public bool CheckInterAction()
     {
-        return interactionCnt < GlobalModel.Instance.module_profileConfig.umberOfMutualaid;
+        return interactionCnt < (GlobalModel.Instance.module_profileConfig.umberOfMutualaid + FriendModel.Instance.FriendCoinExchangeCnt);
     }
 
 
     /// <summary>
-    /// ¼ì²âÍæ¼ÒµÈ¼¶ÊÇ·ñÂú×ã
+    /// <summary>
+    /// æ£€æŸ¥æˆ‘çš„ç­‰çº§æ˜¯å¦æ»¡è¶³
+    /// </summary>
     /// </summary>
     /// <param name="checkLevel"></param>
-    /// <param name="showPromt">ÊÇ·ñÌáÊ¾</param>
+    /// <param name="showPromt">æ˜¯å¦æ˜¾ç¤ºæç¤º</param>
     /// <returns></returns>
     public bool CheckLevelMeet(uint checkLevel, bool showPromt = false)
     {
@@ -404,27 +434,27 @@ public class MyselfModel : Singleton<MyselfModel>
 public enum UserInfoType
 {
     EMPTY = 0,
-    INFO_TYPE_NICKNAME = 1, //Æ½Ì¨êÇ³Æ
-    INFO_TYPE_AVATAR = 2, //Æ½Ì¨Í·Ïñ
-    INFO_TYPE_HEAD_FRAME = 3, //µ±Ç°Ê¹ÓÃµÄÍ·Ïñ¿ò£¨ÊÇÓÎÏ·ÄÚµÄµÀ¾ß£©
+    INFO_TYPE_NICKNAME = 1, //å¹³å°æ˜µç§°
+    INFO_TYPE_AVATAR = 2, //å¹³å°å¤´åƒ
+    INFO_TYPE_HEAD_FRAME = 3, //å½“å‰ä½¿ç”¨çš„å¤´åƒæ¡†
 
-    INFO_TYPE_SKIP_VIDEO_CARD = 4, //Ìø¹ıÊÓÆµÓĞĞ§ÆÚ
-    INFO_TYPE_PLATFORM = 5, //ÓÃ»§×¢²áÆ½Ì¨
-    INFO_TYPE_PLATFORM_ID = 6, //ÓÃ»§openid
+    INFO_TYPE_SKIP_VIDEO_CARD = 4, //æ˜¯å¦è·³è¿‡è§†é¢‘å¹¿å‘Š
+    INFO_TYPE_PLATFORM = 5, //ç”¨æˆ·æ³¨å†Œå¹³å°
+    INFO_TYPE_PLATFORM_ID = 6, //ç”¨æˆ·openid
 
-    INFO_TYPE_ROB_MASTER_USER_ID = 7, //×¥»¨Å©£¬×¥×ßÎÒµÄÈË
-    INFO_TYPE_ROB_ACQUITTAL_TIME = 8, //×¥»¨Å© ÎÒ±»×¥×ßÁË£¬ÊÍ·ÅÊ±¼ä
+    INFO_TYPE_ROB_MASTER_USER_ID = 7, //æŠ¢ä¸»ç”¨æˆ·id  
+    INFO_TYPE_ROB_ACQUITTAL_TIME = 8, //æŠ¢ä¸»ç”¨æˆ·ç¡®è®¤æ—¶é—´
 
-    PLOT = 9, //ÓÃ»§ÉÏÖÜÏÊ»¨ÅÅĞĞ°ñ½±ÀøÏÂ±êid
-    INFO_TYPE_RANK_FLOWER_AWARD_EXPIRETIME = 10, //ÓÃ»§ÉÏÖÜÏÊ»¨ÅÅĞĞ°ñ½±Àø¹ıÆÚÊ±¼ä£¨Ó¦¸ÃÊÇ½±ÀøÊÇtitleÖ®ÀàµÄ£©
-    INFO_TYPE_RANK_WATER_AWARD = 11, //ÓÃ»§ÉÏÖÜ½½Ë®ÅÅĞĞ°ñ½±ÀøÏÂ±êid
-    INFO_TYPE_RANK_WATER_AWARD_EXPIRETIME = 12, //ÓÃ»§ÉÏÖÜÏÊ»¨ÅÅĞĞ°ñ½±Àø¹ıÆÚÊ±¼ä£¨Ó¦¸ÃÊÇ½±ÀøÊÇtitleÖ®ÀàµÄ£©
-    INFO_TYPE_RANK_CULTIVATE_AWARD = 13, //ÓÃ»§ÉÏÖÜÅàÓıÅÅĞĞ°ñ½±ÀøÏÂ±êid
-    INFO_TYPE_RANK_CULTIVATE_AWARD_EXPIRETIME = 14, //ÓÃ»§ÉÏÖÜÅàÓıÅÅĞĞ°ñ½±Àø¹ıÆÚÊ±¼ä£¨Ó¦¸ÃÊÇ½±ÀøÊÇtitleÖ®ÀàµÄ£©
-    INFO_TYPE_GUILD_ID = 15, //ÎÒÏÖÔÚËùÔÚµÄÉçÍÅid
-    INFO_LOGIN_PLATFORM = 16, //µ±Ç°µÇÂ¼µÄÆ½Ì¨
-    INFO_VIDEO_BUFF = 17, //¿´ÊÓÆµ3Ğ¡Ê±ÄÚÊÕÒæ·­±¶£¨17001£©
-    INFO_GUIDE = 18, //Òıµ¼
-    LIKE_SHOW = 20,//ÓÃ»§Ñ¡ÔñµÄÏ²»¶µÄÏÊ»¨»òÕß»¨ÒÕÆ·,¶à¸öÖ®¼äÓÃ#ºÅ¸ô¿ª
-    TITLE = 21,//ÓÃ»§Ñ¡ÔñµÄ³ÆºÅ£¨ÊÇÓÎÏ·ÄÚµÄµÀ¾ß£©
+    PLOT = 9, //ç”¨æˆ·å½“å‰æ‰€åœ¨åœ°å—id
+    INFO_TYPE_RANK_FLOWER_AWARD_EXPIRETIME = 10, //ç”¨æˆ·å½“å‰åœ°å—çš„èŠ±æœµå¥–åŠ±è¿‡æœŸæ—¶é—´
+    INFO_TYPE_RANK_WATER_AWARD = 11, //ç”¨æˆ·å½“å‰åœ°å—çš„æ°´å¥–åŠ±id
+    INFO_TYPE_RANK_WATER_AWARD_EXPIRETIME = 12, //ç”¨æˆ·å½“å‰åœ°å—çš„æ°´å¥–åŠ±è¿‡æœŸæ—¶é—´
+    INFO_TYPE_RANK_CULTIVATE_AWARD = 13, //ç”¨æˆ·å½“å‰åœ°å—çš„èœå¥–åŠ±id
+    INFO_TYPE_RANK_CULTIVATE_AWARD_EXPIRETIME = 14, //ç”¨æˆ·å½“å‰åœ°å—çš„èœå¥–åŠ±è¿‡æœŸæ—¶é—´
+    INFO_TYPE_GUILD_ID = 15, //ç”¨æˆ·å½“å‰æ‰€åœ¨å…¬ä¼šid
+    INFO_LOGIN_PLATFORM = 16, //å½“å‰ç™»å½•å¹³å°
+    INFO_VIDEO_BUFF = 17, //è§†é¢‘å¹¿å‘Š3ç§’ç¼“å†²æ—¶é—´ï¼Œå•ä½æ¯«ç§’
+    INFO_GUIDE = 18, //æ˜¯å¦æ–°æ‰‹å¼•å¯¼
+    LIKE_SHOW = 20,//ç”¨æˆ·æ˜¯å¦é€‰æ‹©äº†æ˜¾ç¤ºå¥½å‹ç‚¹èµçš„å•†å“
+    TITLE = 21,//ç”¨æˆ·é€‰æ‹©çš„æ ‡é¢˜
 }

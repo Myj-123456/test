@@ -33,7 +33,7 @@ namespace Elida.Config {
     
     // 奖励
     [ProtoMember(5)]
-    public GiftRewardObject[] GiftRewards;
+    public string GiftReward;
     
     // 增加大礼物积分
     [ProtoMember(6)]

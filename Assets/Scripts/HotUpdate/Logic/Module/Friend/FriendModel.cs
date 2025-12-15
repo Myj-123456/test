@@ -23,17 +23,17 @@ public class FriendModel : Singleton<FriendModel>
     public List<I_CRONY_VO> cronyList = new List<I_CRONY_VO>();//密友列表
 
     private uint unlockCronyCnt;
-    /// 已解锁的密友位数量
+    // 已解锁的密友位数量
     public uint UnlockCronyCnt
     {
         get { return unlockCronyCnt; }
     }
-    /// 根据服务器协议数据更新已解锁的密友位数量
+    // 根据服务器协议数据更新已解锁的密友位数量
     public void UpdateUnlockCronyCntFromServer(uint count)
     {
         unlockCronyCnt = count;
     }
-    private uint friendCoinExchangeCnt=0;
+    private uint friendCoinExchangeCnt = 0;
     public uint FriendCoinExchangeCnt
     {
         get { return friendCoinExchangeCnt; }
@@ -59,41 +59,30 @@ public class FriendModel : Singleton<FriendModel>
     }
     // 密友申请时间存储键
     private const string APPLY_TIME_KEY = "CronyApplyTime_";
-    /// <summary>
-    /// 获得密友数据
-    /// </summary>
-    /// <returns></returns>
+
+    // 获得密友数据
     public Ft_mfriend_configConfig GetBestFriendConfigData(int level)
     {
         Ft_mfriend_configConfig data;
-        _configDataDic.TryGetValue(level,out data);
-        //foreach (var item in _configDataDic)
-        //{
-        //    Debug.Log(":"+item.Key+":"+item.Value.Id+":经验上限:"+ item.Value.Exp);
-        //}
-        if(data==null) { Debug.LogError("等级不存在:"+ level);}
+        _configDataDic.TryGetValue(level, out data);
+        if (data == null) { Debug.LogError("等级不存在:" + level); }
         return data;
     }
-    //public int HandleBestFriendLevel(int exp)
-    //{
 
-    //}
-    /// 保存密友申请时间到本地存储
+    // 保存密友申请时间到本地存储
     private void SaveApplyTimeDictionary()
     {
-        // 清除旧数据
         foreach (var kvp in applyTimeDictionary)
         {
             Saver.DeleteData(APPLY_TIME_KEY + kvp.Key);
         }
-        // 保存新数据
         foreach (var kvp in applyTimeDictionary)
         {
             Saver.SaveAsString(APPLY_TIME_KEY + kvp.Key, kvp.Value.ToString());
         }
     }
 
-    /// 从本地存储加载密友申请时间
+    // 从本地存储加载密友申请时间
     private void LoadApplyTimeDictionary()
     {
         // 清除当前数据
@@ -115,9 +104,8 @@ public class FriendModel : Singleton<FriendModel>
             }
         }
     }
-    /// <summary>
-    /// 保存密友申请ID列表到本地存储
-    /// </summary>
+
+    // 保存密友申请ID列表到本地存储
     private void SaveApplyIdList()
     {
         if (applyTimeDictionary.Count > 0)
@@ -131,9 +119,7 @@ public class FriendModel : Singleton<FriendModel>
         }
     }
 
-    /// <summary>
-    /// 初始化密友申请数据
-    /// </summary>
+    // 初始化密友申请数据
     public void InitCronyApplyData()
     {
         // 从本地存储加载密友申请时间
@@ -161,6 +147,7 @@ public class FriendModel : Singleton<FriendModel>
             blackUserIds.RemoveAt(index);
         }
     }
+
     public void AddApplyListToFriendList(uint[] friendIds)
     {
         foreach (uint id in friendIds)
@@ -177,16 +164,12 @@ public class FriendModel : Singleton<FriendModel>
             friendData.townName = applyData.townName;
             friendData.headImgId = applyData.headImgId;
             friendData.headFrame = applyData.headFrame;
-            //friendData.flowerLevel = applyData.flowerLevel;
-            //friendData.flowerLevelExpireTime = applyData.flowerLevelExpireTime;
             friendData.lastLoginTime = applyData.lastLoginTime;
             friendData.isMark = false;
             friendData.canSteal = false;
             friendList.Add(friendData);
             applyList.RemoveAt(index);
             friendCount++;
-
-            //应从服务器获取当时建立关系的时间
             // 记录好友关系建立时间
             friendRelationTime[id] = MyselfModel.Instance.lastServerTime;
         }
@@ -329,7 +312,6 @@ public class FriendModel : Singleton<FriendModel>
         return -1;
     }
 
-    //���ݺ���id��ȡ��������
     public I_FRIEND_PROFILE GetFriendInfo(uint friendId)
     {
         return friendList.Find(value => value.userId == friendId);
@@ -351,8 +333,6 @@ public class FriendModel : Singleton<FriendModel>
             blackData.townName = friendData.townName;
             blackData.headImgId = friendData.headImgId;
             blackData.headFrame = friendData.headFrame;
-            //blackData.flowerLevel = friendData.flowerLevel;
-            //blackData.flowerLevelExpireTime = friendData.flowerLevelExpireTime;
             blackData.lastLoginTime = friendData.lastLoginTime;
             blackList.Add(blackData);
             friendList.RemoveAt(index);
@@ -402,17 +382,13 @@ public class FriendModel : Singleton<FriendModel>
         }
         return arr;
     }
-    //��ȡ������Ϣ
+
     public I_CRONY_VO GetCronyData(uint friendId)
     {
         return cronyList.Find(value => value.friendId == friendId);
     }
-    
-    /// <summary>
-    /// 根据密友经验值计算密友等级
-    /// </summary>
-    /// <param name="exp">密友经验值</param>
-    /// <returns>密友等级</returns>
+
+    // 根据密友经验值计算密友等级
     public int CalculateCronyLevel(int exp)
     {
         // 如果配置为空，返回默认等级1
@@ -420,23 +396,17 @@ public class FriendModel : Singleton<FriendModel>
         {
             return 1;
         }
-        
         int level = 1; // 默认等级为1
-        
         var sortedConfigs = configDataDic.OrderBy(kvp => kvp.Key).ToList();
-       
         int maxConfigLevel = sortedConfigs.Last().Key;
-        
-        // 遍历排序后的配置，找到当前经验值对应的最高等级
+        // 遍历所有配置，找到当前经验值对应的最高等级
         foreach (var kvp in sortedConfigs)
         {
             int currentLevel = kvp.Key;
             Ft_mfriend_configConfig config = kvp.Value;
-            
-            // 如果当前经验值大于等于该等级所需经验值，更新等级
             if (exp >= config.Exp)
             {
-                level = Mathf.Min(currentLevel + 1, maxConfigLevel);
+                level = Mathf.Min(currentLevel+1,maxConfigLevel);
             }
             else
             {
@@ -446,9 +416,7 @@ public class FriendModel : Singleton<FriendModel>
         return level;
     }
 
-    /// <summary>
-    /// 检查密友关系是否正在解除中
-    /// </summary>
+    // 检查密友关系是否正在解除中
     public bool IsCronyRelationshipCancelling(uint friendId)
     {
         if (friendId == 0) return false;
@@ -456,17 +424,13 @@ public class FriendModel : Singleton<FriendModel>
         {
             if (cronyData.friendId == friendId)
             {
-                // 检查解除时间是否有效
                 if (cronyData.cancelTime <= 0) return false;
-                // 密友关系正在解除中
                 return true;
             }
         }
         return false;
     }
-    /// <summary>
-    /// 获取密友解除的剩余时间
-    /// </summary>
+    // 获取密友解除的剩余时间
     public int GetCronyRemainingCancelTime(uint friendId)
     {
         var cronyData = GetCronyData(friendId);
@@ -479,24 +443,14 @@ public class FriendModel : Singleton<FriendModel>
         {
             currentServerTime = MyselfModel.Instance.lastServerTime;
         }
-        // 确保剩余时间不为负
-        int remainingSeconds = Mathf.Max(0, (int)(currentServerTime-cronyData.cancelTime));
+        int remainingSeconds = Mathf.Max(0, (int)(currentServerTime - cronyData.cancelTime));
         return remainingSeconds;
     }
-    /// <summary>
-    /// 获取密友解除的剩余时间
-    /// </summary>
-    /// <param name="friendId"></param>
-    /// <returns></returns>
+
+    // 获取密友解除的剩余时间
     public int GetCronyRemainingCancelTime2(uint friendId)
     {
         const int twelveHoursInSeconds = 24 * 60 * 60;
-//#if UNITY_EDITOR
-//        const int twelveHoursInSeconds = 3 * 60;
-//#else
-//        const int twelveHoursInSeconds = 24 * 60 * 60;
-//#endif
-
         var cronyData = GetCronyData(friendId);
         if (cronyData == null || cronyData.cancelTime <= 0)
         {
@@ -508,8 +462,7 @@ public class FriendModel : Singleton<FriendModel>
             currentServerTime = MyselfModel.Instance.lastServerTime;
         }
         int timed = Mathf.Max(0, (int)(currentServerTime - cronyData.cancelTime));
-        // 确保剩余时间不为负
-        int remainingSeconds = Mathf.Max(0,twelveHoursInSeconds - timed);
+        int remainingSeconds = Mathf.Max(0, twelveHoursInSeconds - timed);
         return remainingSeconds;
     }
 
@@ -517,8 +470,6 @@ public class FriendModel : Singleton<FriendModel>
     public bool IsFriendRelationOver12Hours(uint friendId)
     {
         const uint twelveHoursInSeconds = 12 * 60 * 60;
-
-        // 如果没有记录，返回false
         if (!friendRelationTime.ContainsKey(friendId))
         {
             return false;
@@ -526,8 +477,6 @@ public class FriendModel : Singleton<FriendModel>
         uint relationStartTime = friendRelationTime[friendId];
         uint currentServerTime = MyselfModel.Instance.lastServerTime;
         uint elapsedTime = currentServerTime - relationStartTime;
-        // 检查是否已满12小时
-        //return elapsedTime >= twelveHoursInSeconds;
         return true;
     }
     // 获取好友关系剩余时间

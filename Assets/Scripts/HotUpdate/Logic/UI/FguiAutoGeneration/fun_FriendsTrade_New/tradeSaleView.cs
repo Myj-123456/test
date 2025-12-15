@@ -7,22 +7,22 @@ namespace fun_FriendsTrade_New
 {
     public partial class tradeSaleView : GComponent
     {
-        public GImage n2;
         public GLoader bg;
-        public GImage n3;
-        public GImage n6;
-        public GImage n5;
-        public GImage n26;
-        public GImage n27;
-        public GImage n25;
+        public GImage n46;
+        public GImage n41;
+        public GImage n42;
+        public GImage n44;
+        public GImage n45;
+        public GImage n47;
+        public GImage n51;
+        public GImage n55;
+        public GImage n49;
+        public GImage _1;
+        public GImage n48;
         public GLoader img_item;
-        public GImage n13;
-        public GImage n16;
-        public GImage n17;
-        public GImage n29;
         public GLoader img_gold_sum;
         public GTextField lb_title;
-        public GTextField lb_storageCount;
+        public GRichTextField lb_storageCount;
         public GTextField title_0;
         public GTextField title_1;
         public GTextField title_2;
@@ -45,6 +45,8 @@ namespace fun_FriendsTrade_New
         public GButton btn_password;
         public GGraph touch_price;
         public GGraph touch_Count;
+        public GTextField titleLab;
+        public GButton flower_btn;
         public const string URL = "ui://jugv3wv4q9bjm";
 
         public static tradeSaleView CreateInstance()
@@ -56,22 +58,22 @@ namespace fun_FriendsTrade_New
         {
             base.ConstructFromXML(xml);
 
-            n2 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n3 = (GImage)GetChildAt(2);
-            n6 = (GImage)GetChildAt(3);
-            n5 = (GImage)GetChildAt(4);
-            n26 = (GImage)GetChildAt(5);
-            n27 = (GImage)GetChildAt(6);
-            n25 = (GImage)GetChildAt(7);
-            img_item = (GLoader)GetChildAt(8);
-            n13 = (GImage)GetChildAt(9);
-            n16 = (GImage)GetChildAt(10);
-            n17 = (GImage)GetChildAt(11);
-            n29 = (GImage)GetChildAt(12);
+            bg = (GLoader)GetChildAt(0);
+            n46 = (GImage)GetChildAt(1);
+            n41 = (GImage)GetChildAt(2);
+            n42 = (GImage)GetChildAt(3);
+            n44 = (GImage)GetChildAt(4);
+            n45 = (GImage)GetChildAt(5);
+            n47 = (GImage)GetChildAt(6);
+            n51 = (GImage)GetChildAt(7);
+            n55 = (GImage)GetChildAt(8);
+            n49 = (GImage)GetChildAt(9);
+            _1 = (GImage)GetChildAt(10);
+            n48 = (GImage)GetChildAt(11);
+            img_item = (GLoader)GetChildAt(12);
             img_gold_sum = (GLoader)GetChildAt(13);
             lb_title = (GTextField)GetChildAt(14);
-            lb_storageCount = (GTextField)GetChildAt(15);
+            lb_storageCount = (GRichTextField)GetChildAt(15);
             title_0 = (GTextField)GetChildAt(16);
             title_1 = (GTextField)GetChildAt(17);
             title_2 = (GTextField)GetChildAt(18);
@@ -94,6 +96,8 @@ namespace fun_FriendsTrade_New
             btn_password = (GButton)GetChildAt(35);
             touch_price = (GGraph)GetChildAt(36);
             touch_Count = (GGraph)GetChildAt(37);
+            titleLab = (GTextField)GetChildAt(38);
+            flower_btn = (GButton)GetChildAt(39);
         }
     }
 }

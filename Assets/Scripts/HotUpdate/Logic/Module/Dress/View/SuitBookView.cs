@@ -74,7 +74,7 @@ public class SuitBookView
     private void ClickItem(EventContext context)
     {
         var index = (int)(context.sender as GComponent).data;
-        UIManager.Instance.OpenPanel<DressInfoWindow>(UIName.DressInfoWindow, UILayer.UI, index);
+        UIManager.Instance.OpenWindow<DressInfoWindow>(UIName.DressInfoWindow, index);
 
     }
     private void RenderQualityList(int index, GObject item)

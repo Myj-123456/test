@@ -99,8 +99,15 @@ public class DailyTaskWindow : BaseView
 
     private void DayGetProReward(EventContext context)
     {
+        var item= context.sender as fun_DailyTask.pro_item;
         var id = (int)(context.sender as GComponent).data;
-        TaskController.Instance.ReqTaskProAreward((uint)id);
+        if (item.status.selectedIndex==1)
+        {
+            TaskController.Instance.ReqTaskProAreward((uint)id);
+        }else if(item.status.selectedIndex==0)
+        {
+            UIManager.Instance.OpenPanel<TaskProRewardPreviewWindow>(UIName.TaskProRewardPreviewWindow, UILayer.UI, id);
+        }
     }
     private void WeekGetProReward(EventContext context)
     {
@@ -133,7 +140,7 @@ public class DailyTaskWindow : BaseView
         {
             var value = vo.Rewards[idx];
             var rewardItem = reward as fun_DailyTask.DailyTaskCell;
-            int rate = DailyTaskModel.Instance.GetTaskPercentage();
+            int rate = DailyTaskModel.Instance.GetTaskPercentage((int)obj.level);
             double totalCount = Math.Ceiling((double)(value.Value * rate * obj.needNum) / 100);
             if(IDUtil.GetEntityValue(value.EntityID) == (int)BaseType.EXP)
             {
@@ -156,10 +163,13 @@ public class DailyTaskWindow : BaseView
         //item.iconSpecified.selectedIndex = vo.TaskType - 1;
         var color = obj.curCnt >= obj.needNum ? "#4D4B4B" : "#f57c68";
         item.progressTxt.text = Lang.GetValue("Daily_task_16", color, obj.curCnt.ToString(), obj.needNum.ToString());
-
-        StringUtil.SetBtnTab(item.getBtn1, Lang.GetValue("Treasure_button5"));
+        
         StringUtil.SetBtnTab(item.getBtn, Lang.GetValue("common_claim_button"));
         item.receiveStatus.selectedIndex = (int)obj.awardStatus;
+        if(item.receiveStatus.selectedIndex==2)
+            StringUtil.SetBtnTab(item.disBtn, Lang.GetValue("invite_friends_11"));
+        else if(item.receiveStatus.selectedIndex==0)
+            StringUtil.SetBtnTab(item.disBtn, Lang.GetValue("invite_friends_17"));
         item.getBtn.onClick.Add(GetdailyTaskReward);
     }
 
@@ -175,6 +185,7 @@ public class DailyTaskWindow : BaseView
         {
             view.list.numItems = DailyTaskModel.Instance.dailyTask.Count;
             var dayProData = TaskModel.Instance.GetProReward(1);
+            
             view.proLab.text = dayProData.progress.ToString();
             view.pro_day_com.pro.value = dayProData.progress;
 
@@ -183,16 +194,18 @@ public class DailyTaskWindow : BaseView
                 var item = value.Value;
                 var proInfo = TaskModel.Instance.GetTaskProInfo(value.Key);
                 item.proLab.text = proInfo.ProgressNum.ToString();
-                if(dayProData.rewardId != null && Array.IndexOf(dayProData.rewardId, (uint)value.Key) != -1)
+                //需要判断状态
+                if (dayProData.rewardId != null && Array.IndexOf(dayProData.rewardId, (uint)value.Key) != -1)
                 {
-
-                }else if(dayProData.progress > proInfo.ProgressNum)
+                    item.status.selectedIndex = 2;
+                }
+                else if(dayProData.progress >= proInfo.ProgressNum)
                 {
-
+                    item.status.selectedIndex = 1;
                 }
                 else
                 {
-
+                    item.status.selectedIndex = 0;
                 }
             }
         }

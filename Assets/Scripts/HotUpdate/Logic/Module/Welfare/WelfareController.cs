@@ -75,7 +75,7 @@ public class WelfareController : BaseController<WelfareController>
     //成长之路领取奖励
     public void RookieReward(S_MSG_ROOKIE_REWARD data)
     {
-        var diff1 = data.rookieRewards.Except(WelfareModel.Instance.rookieRewards).ToArray();
+        var diff1 = WelfareModel.Instance.rookieRewards == null? data.rookieRewards : data.rookieRewards.Except(WelfareModel.Instance.rookieRewards).ToArray();
         if(diff1.Length > 0)
         {
             var info = WelfareModel.Instance.GetGrowthInfo((int)diff1[0]);
@@ -104,9 +104,6 @@ public class WelfareController : BaseController<WelfareController>
         {
             DropManager.ShowDrop(dropList);
         });
-        TurnBoxManager.Instance.boxNum--;
-        TurnBoxManager.Instance.time = (int)ServerTime.Time;
-        TurnBoxManager.Instance.UpdateBoxData();
     }
 
     public void ReqTurnTable()

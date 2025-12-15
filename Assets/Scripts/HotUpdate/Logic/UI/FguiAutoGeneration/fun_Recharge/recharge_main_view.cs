@@ -13,11 +13,9 @@ namespace fun_Recharge
         public gift_view gift_view;
         public cumulative_view cumulative_view;
         public tour_gift_view tour_gift_view;
-        public GImage n16;
-        public GImage n3;
+        public GImage n21;
         public GButton close_btn;
         public GList list;
-        public GTextField tipLab;
         public GGroup n18;
         public const string URL = "ui://w3ox9yltdidl14";
 
@@ -36,12 +34,10 @@ namespace fun_Recharge
             gift_view = (gift_view)GetChildAt(2);
             cumulative_view = (cumulative_view)GetChildAt(3);
             tour_gift_view = (tour_gift_view)GetChildAt(4);
-            n16 = (GImage)GetChildAt(5);
-            n3 = (GImage)GetChildAt(6);
-            close_btn = (GButton)GetChildAt(7);
-            list = (GList)GetChildAt(8);
-            tipLab = (GTextField)GetChildAt(9);
-            n18 = (GGroup)GetChildAt(10);
+            n21 = (GImage)GetChildAt(5);
+            close_btn = (GButton)GetChildAt(6);
+            list = (GList)GetChildAt(7);
+            n18 = (GGroup)GetChildAt(8);
         }
     }
 }

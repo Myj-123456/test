@@ -61,7 +61,14 @@ public class DressView : BaseView
         view.cloth_view.spine.url = "mao";
         view.cloth_view.spine.loop = true;
         view.cloth_view.spine.animationName = "animation1";
-
+        view.cloth_view.photo_btn.onClick.Add(() =>
+        {
+            UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
+        });
+        view.cloth_view.back_btn.onClick.Add(() =>
+        {
+            UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
+        });
         view.cloth_view.last_btn.onClick.Add(() =>
         {
             if (dressStepList.Count > 1)

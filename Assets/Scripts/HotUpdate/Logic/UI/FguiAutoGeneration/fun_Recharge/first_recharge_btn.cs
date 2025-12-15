@@ -8,7 +8,7 @@ namespace fun_Recharge
     public partial class first_recharge_btn : GComponent
     {
         public Controller status;
-        public GButton buy_btn;
+        public yellow_btn buy_btn;
         public GImage n11;
         public GTextField getLab;
         public GImage n3;
@@ -28,7 +28,7 @@ namespace fun_Recharge
             base.ConstructFromXML(xml);
 
             status = GetControllerAt(0);
-            buy_btn = (GButton)GetChildAt(0);
+            buy_btn = (yellow_btn)GetChildAt(0);
             n11 = (GImage)GetChildAt(1);
             getLab = (GTextField)GetChildAt(2);
             n3 = (GImage)GetChildAt(3);

@@ -37,7 +37,7 @@ public class ChangeNameWindow : BaseWindow
             }
 
             var guildName = view.txt_input.text.Trim();
-            
+
             MyselfController.Instance.ReqUpdateTownName(guildName);
             view.tipLab.visible = true;
             view.txt_input.text = "";
@@ -79,6 +79,11 @@ public class ChangeNameWindow : BaseWindow
     {
         base.OnHide();
         // 其他关闭面板的逻辑
+        if (GuideModel.Instance.curGuideStep == 354 && GuideModel.Instance.IsGuiding)
+        {
+            GuideModel.Instance.IsGuiding = false;
+            GuideController.Instance.NextGuide();
+        }
     }
 }
 

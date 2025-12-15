@@ -7,7 +7,7 @@ namespace common_New
 {
     public partial class yellow_price_btn : GButton
     {
-        public GImage n6;
+        public GImage n10;
         public GTextField titleLab;
         public GTextField titleLab1;
         public GImage n9;
@@ -22,7 +22,7 @@ namespace common_New
         {
             base.ConstructFromXML(xml);
 
-            n6 = (GImage)GetChildAt(0);
+            n10 = (GImage)GetChildAt(0);
             titleLab = (GTextField)GetChildAt(1);
             titleLab1 = (GTextField)GetChildAt(2);
             n9 = (GImage)GetChildAt(3);

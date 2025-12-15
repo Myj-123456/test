@@ -18,7 +18,7 @@ public class VisitFriendView : BaseView
     private float playerInfoY = 0;
     private float ui_friendListY = 0;
     private Color originColor;
-    private int Number=1;
+    private int Number = 1;
     private int _friendCoinCount = 0;
     private I_FRIEND_PROFILE _curfriendData;//当前访问朋友信息
     private int curConverFriendConitCount = 1;//当前准备兑换好友币数
@@ -32,7 +32,6 @@ public class VisitFriendView : BaseView
         IsShowOrHideMainUI = false;
         IsAddShowNum = false;
     }
-
     public override void OnInit()
     {
         base.OnInit();
@@ -53,18 +52,18 @@ public class VisitFriendView : BaseView
         {
             PlantController.Instance.ReqBatchSteal(MyselfModel.Instance.friendId);
         });
-        view.n33.onClick.Add(() => {
+        view.btn_visitdetails.onClick.Add(() => {
             HandleIntroduceBtnClick();
         });
-        view.n41.onClick.Add(() => {
+        view.btn_currency.onClick.Add(() => {
             HandleConverBtnClick();
         });
         UpdateFriendCoinCount();
         UpdateConverUI();
 
-        view.NumAddBtn.onClick.Add(() => { ChangeCurrentConverFriendConitCount(1); });
-        view.LessenBtn.onClick.Add(() => { ChangeCurrentConverFriendConitCount(-1); });
-        view.CloseBtn.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
+        view.btn_addNum.onClick.Add(() => { ChangeCurrentConverFriendConitCount(1); });
+        view.btn_lessen.onClick.Add(() => { ChangeCurrentConverFriendConitCount(-1); });
+        view.bg_sign.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
         StringUtil.SetBtnTab(view.EnterBtn, "确定");
         view.EnterBtn.onClick.Add(() => { ConverEnterClick(); });
         StringUtil.SetBtnTab(view.CancelBtn, "取消");
@@ -74,19 +73,19 @@ public class VisitFriendView : BaseView
     {
         UpdateFriendCoinCount();
         UpdateInteractionTimes();
-
+        // 更新所有土地的偷花小手显示
+        SceneManager.Instance.UpdateAllLandSteal();
     }
-/// <summary>
-/// 更新好友币
-/// </summary>
-private void UpdateFriendCoinCount()
+
+    // 更新好友币
+    private void UpdateFriendCoinCount()
     {
         try
         {
             const int FriendCoinItemId = 41013044;
             _friendCoinCount = StorageModel.Instance.GetItemCount(FriendCoinItemId);
             view.FriendCoinNum.text = _friendCoinCount.ToString();
-            
+
         }
         catch (System.Exception ex)
         {
@@ -95,50 +94,41 @@ private void UpdateFriendCoinCount()
             view.FriendCoinNum.text = _friendCoinCount.ToString();
         }
     }
-    /// <summary>
-    /// 更新兑换界面UI
-    /// </summary>
+
+    // 更新兑换界面UI
     void UpdateConverUI()
     {
-        view.n68.text = curConverFriendConitCount.ToString();
-        view.n86.text = curConverFriendConitCount.ToString();
+        protobuf.friend.I_FRIEND_PROFILE vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
+        _curfriendData = vo_;
+        view.txt_1.text = "兑换摘取" + vo_.townName +"鲜花次数：";
+        view.text_count.text = curConverFriendConitCount.ToString();
+        view.text_consume.text = curConverFriendConitCount.ToString();
         int surplusExchangeCount = FriendCoinExchangeLimit - (int)FriendModel.Instance.FriendCoinExchangeCnt;
-        view.n91.text = surplusExchangeCount + "/"+FriendCoinExchangeLimit.ToString();
-        view.n90.text = string.Format("(单次最多只能购买{0}次!)", FriendCoinExchangeLimit);
-
-
-        
+        view.text_visitCount.text = surplusExchangeCount + "/" + FriendCoinExchangeLimit.ToString();
+        view.txt_Buyname.text = string.Format("(单次最多只能购买{0}次!)", FriendCoinExchangeLimit);
     }
-    /// <summary>
-    /// 改变当前兑换数
-    /// </summary>
+
+    // 改变当前兑换数
     void ChangeCurrentConverFriendConitCount(int num)
     {
         if (MathF.Abs(num) > FriendCoinExchangeLimit || MathF.Abs(num) == 0) return;
         curConverFriendConitCount = Mathf.Clamp(curConverFriendConitCount + num, 1, FriendCoinExchangeLimit);
-        view.NumAddBtn.visible = !(curConverFriendConitCount >= FriendCoinExchangeLimit);
-        view.LessenBtn.visible = !(curConverFriendConitCount <= 1); 
-        view.n68.text = curConverFriendConitCount.ToString();
-        view.n86.text = curConverFriendConitCount.ToString();
+        view.btn_addNum.visible = !(curConverFriendConitCount >= FriendCoinExchangeLimit);
+        view.btn_lessen.visible = !(curConverFriendConitCount <= 1);
+        view.text_count.text = curConverFriendConitCount.ToString();
+        view.text_consume.text = curConverFriendConitCount.ToString();
     }
-    /// <summary>
-    /// 确定兑换
-    /// </summary>
+
+    // 确定兑换
     private void ConverEnterClick()
     {
         var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid;
         var surplusTimes = umberOfMutualaid - MyselfModel.Instance.interactionCnt;
-        view.n91.text = FriendModel.Instance.FriendCoinExchangeCnt + "/" + FriendCoinExchangeLimit.ToString();
-        //if ((surplusTimes + curConverFriendConitCount) > FriendCoinExchangeLimit)
-        //{
-        //    ADK.UILogicUtils.ShowNotice("可兑换已达上限！");
-        //    return;
-        //}
+        view.text_visitCount.text = FriendModel.Instance.FriendCoinExchangeCnt + "/" + FriendCoinExchangeLimit.ToString();
         FriendController.Instance.ReqFriendCoinExchange(MyselfModel.Instance.friendId, (uint)curConverFriendConitCount);
     }
-    /// <summary>
-    /// 处理详情点击按钮
-    /// </summary>
+
+    // 处理详情点击按钮
     private void HandleIntroduceBtnClick()
     {
         if (view.popUpTap.selectedIndex != 1)
@@ -149,11 +139,9 @@ private void UpdateFriendCoinCount()
         {
             view.popUpTap.selectedIndex = 0;
         }
-        //UIManager.Instance.OpenWindow<VisitRecordView>(UIName.VisitRecordView);
     }
-    /// <summary>
-    /// 处理兑换点击按钮
-    /// </summary>
+
+    // 处理兑换点击按钮
     private void HandleConverBtnClick()
     {
         if (view.popUpTap.selectedIndex != 2)
@@ -166,6 +154,7 @@ private void UpdateFriendCoinCount()
         }
         UpdateConverUI();
     }
+
     private void OnScroll()
     {
         if (lastSpotPage != view.ui_friendList.list_visitFriend.scrollPane.currentPageX)
@@ -209,11 +198,10 @@ private void UpdateFriendCoinCount()
         }
     }
 
-
     private void UpdatePlayInfo()
     {
         protobuf.friend.I_FRIEND_PROFILE vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
-        _curfriendData=vo_ ;
+        _curfriendData = vo_;
         if (vo_ != null)
         {
             StringUtil.SetBtnUrl(view.head, "Avatar/ELIDA_common_touxiangdi01.png");
@@ -248,7 +236,7 @@ private void UpdateFriendCoinCount()
 
     private void UpdateInteractionTimes()
     {
-        var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid +FriendModel.Instance.FriendCoinExchangeCnt;
+        var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid + FriendModel.Instance.FriendCoinExchangeCnt;
         //var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid;
         var surplusTimes = umberOfMutualaid - MyselfModel.Instance.interactionCnt;
         view.txt_interactionTimes.color = surplusTimes > 0 ? originColor : Color.red;
@@ -261,7 +249,7 @@ private void UpdateFriendCoinCount()
         {
             MyselfModel.Instance.atHome = true;
             UIManager.Instance.ClosePanel(UIName.VisitFriendView);
-            UIManager.Instance.OpenPanel<MainView>(UIName.MainView,UILayer.MainUI);
+            UIManager.Instance.OpenPanel<MainView>(UIName.MainView, UILayer.MainUI);
             SceneManager.Instance.BackHomeRefreshScene();
         });
         AddEventListener(FriendEvent.FriendSteal, OnFriendSteal);

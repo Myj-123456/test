@@ -8,9 +8,11 @@ namespace fun_DailyTask
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(btnSmallDis.URL, typeof(btnSmallDis));
+            UIObjectFactory.SetPackageItemExtension(btnSmallGet.URL, typeof(btnSmallGet));
+            UIObjectFactory.SetPackageItemExtension(TaskProRewardPreview.URL, typeof(TaskProRewardPreview));
             UIObjectFactory.SetPackageItemExtension(daily_task_view.URL, typeof(daily_task_view));
             UIObjectFactory.SetPackageItemExtension(achiev_task_view.URL, typeof(achiev_task_view));
-            UIObjectFactory.SetPackageItemExtension(btn.URL, typeof(btn));
             UIObjectFactory.SetPackageItemExtension(DailyTaskItem.URL, typeof(DailyTaskItem));
             UIObjectFactory.SetPackageItemExtension(dailyTaskProgress.URL, typeof(dailyTaskProgress));
             UIObjectFactory.SetPackageItemExtension(DailyTaskCell.URL, typeof(DailyTaskCell));

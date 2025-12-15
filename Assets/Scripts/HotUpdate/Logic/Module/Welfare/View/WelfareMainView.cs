@@ -31,7 +31,7 @@ public class WelfareMainView : BaseWindow
          base.OnInit();
         view = ui as fun_Welfare.welfare_main_view;
         SetBg(view.sign_view.bg, "Welfare/ELIDA_meiriqiandao_bg.png");
-        SetBg(view.turntable_view.bg, "Welfare/ELIDA_meiriqiandao_bg.png");
+        SetBg(view.turntable_view.bg, "Welfare/ELIDA_jxbk_bg.png");
         SetBg(view.growth_view.bg, "Welfare/ELIDA_xsczzl_bg01.png");
         SetBg(view.growth_view.bg1, "Welfare/ELIDA_xsczzl_bg_hua.png");
         SetBg(view.growth_view.bg2, "Welfare/ELIDA_xsczzl_bg03.png");

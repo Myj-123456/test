@@ -59,14 +59,17 @@ public class GuildMemberPopWindow : BaseWindow
 
         _view.btn_promotion.onClick.Add(() =>
         {
-            if (userInfo.powerId == 1) return;
-            GuildController.Instance.ReqGuildPromotion(userInfo.userId, userInfo.powerId - 1);
+            var idx = GuildModel.Instance.posList.IndexOf((int)userInfo.powerId);
+            if (idx == 0) return;
+            
+            GuildController.Instance.ReqGuildPromotion(userInfo.userId, (uint)GuildModel.Instance.posList[idx - 1]);
         });
 
         _view.btn_demotion.onClick.Add(() =>
         {
-            if (userInfo.powerId == 4) return;
-            GuildController.Instance.ReqGuildPromotion(userInfo.userId, userInfo.powerId + 1);
+            var idx = GuildModel.Instance.posList.IndexOf((int)userInfo.powerId);
+            if (idx == GuildModel.Instance.posList.Count - 1) return;
+            GuildController.Instance.ReqGuildPromotion(userInfo.userId, (uint)GuildModel.Instance.posList[idx + 1]);
         });
 
         EventManager.Instance.AddEventListener(GuildEvent.GuildTransfer, PlayerPositionChange);

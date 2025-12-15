@@ -136,7 +136,7 @@ public class FlowerOrderController : BaseController<FlowerOrderController>
     //视频订单观看
     public void OrderVideo(S_MSG_ORDER_VIDEO data)
     {
-        var orderData = FlowerOrderModel.Instance.GetOrderVo(1);
+        var orderData = FlowerOrderModel.Instance.GetOrderVo(data.position);
         orderData.status = 1;
         DispatchEvent(FlowerOrderEvent.ResOrderSubmit);
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   ProjectConf:
     projectName: ElidaClient
     Appid: wxe1857007737b42ed
-    CDN: https://elida-cdn.tigermoon.cn/qmhj/wxRL/v1.0.7
+    CDN: https://elida-cdn.tigermoon.cn/qmhj/wxRL/v1.0.8
     assetLoadType: 0
     compressDataPackage: 1
     VideoUrl: 

@@ -157,6 +157,15 @@ namespace ADK
             }
         }
 
+        public static void SetBtnTab4(FairyGUI.GComponent btn, string txt)
+        {
+            if (txt.Length == 4)
+            {
+                if (btn.GetChild("titleLab") != null) btn.GetChild("titleLab").text = txt.Substring(0, 2);
+                if (btn.GetChild("titleLab1") != null) btn.GetChild("titleLab1").text = txt.Substring(2, 2);
+            }
+        }
+
         public static void SetBtnUrl(FairyGUI.GComponent btn, string txt)
         {
             if (btn.GetChild("pic") != null) (btn.GetChild("pic") as FairyGUI.GLoader).url = txt;

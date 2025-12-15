@@ -15,18 +15,20 @@ public class CardView
     public CardView(fun_Recharge.card_view ui)
     {
         view = ui;
-        view.item1.titleLab.text = Lang.GetValue("recharge_main_4");
+        //view.item1.titleLab.text = Lang.GetValue("recharge_main_4");
         view.item1.sunLab.text = view.item2.sunLab.text = Lang.GetValue("recharge_main_10");
-        view.item1.txt_1.lab.text = Lang.GetValue("recharge_main_5");
+        view.item1.tipLab2.text = Lang.GetValue("recharge_main_5");
         view.item1.txt_2.lab.text = Lang.GetValue("recharge_main_6");
         view.item1.txt_3.lab.text = Lang.GetValue("recharge_main_7", MyselfModel.Instance.expVip.ToString());
         view.item1.txt_4.lab.text = Lang.GetValue("recharge_main_8", GlobalModel.Instance.module_profileConfig.waterLimitVip.ToString());
         view.item1.txt_5.lab.text = Lang.GetValue("recharge_main_9","1");
         view.item1.tipLab.text = Lang.GetValue("recharge_main_11");
 
-        view.item2.titleLab.text = Lang.GetValue("recharge_main_19");
+        //view.item2.titleLab.text = Lang.GetValue("recharge_main_19");
         view.item2.sunLab.text = view.item2.sunLab.text = Lang.GetValue("recharge_main_10");
-        view.item2.txt_1.lab.text = Lang.GetValue("recharge_main_20");
+        view.item2.sunLab2.text = Lang.GetValue("recharge_main_20");
+        view.item2.sunLab3.text = Lang.GetValue("recharge_main_31");
+
         view.item2.txt_2.lab.text = Lang.GetValue("recharge_main_21");
         view.item2.txt_3.lab.text = Lang.GetValue("flower_order_01");
         view.item2.txt_4.lab.text = Lang.GetValue("npc_order_10");
@@ -50,11 +52,11 @@ public class CardView
         
         view.item1.reward_list1.itemRenderer = (int index, GObject item) =>
         {
-            var cell = item as fun_Recharge.reward_item;
+            var cell = item as fun_Recharge.item_com;
             var info = vipData.Items[index];
             var itemVo = ItemModel.Instance.GetItemByEntityID(info.EntityID);
             cell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-            cell.countLab.text = info.Value.ToString();
+            cell.numLab.text = info.Value.ToString();
             UILogicUtils.SetItemShow(cell, itemVo.ItemDefId);
         };
         view.item1.reward_list1.numItems = vipData.Items.Length;
@@ -62,11 +64,11 @@ public class CardView
         var dayReward = GlobalModel.Instance.module_profileConfig.everyVipReward.ToList();
         view.item1.reward_list2.itemRenderer = (int index, GObject item) =>
         {
-            var cell = item as fun_Recharge.reward_item;
+            var cell = item as fun_Recharge.item_com;
             var info = dayReward[index];
             var itemVo = ItemModel.Instance.GetItemByEntityID(info.Key);
             cell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-            cell.countLab.text = info.Value.ToString();
+            cell.numLab.text = info.Value.ToString();
             UILogicUtils.SetItemShow(cell, itemVo.ItemDefId);
         };
         view.item1.reward_list2.numItems = dayReward.Count;
@@ -75,6 +77,10 @@ public class CardView
         {
             view.item1.show.selectedIndex = view.item1.show.selectedIndex == 0?1:0;
         });
+        if (MyselfModel.Instance.IsVip() && (MyselfModel.Instance.behaviorDaily.monthCardAward != 0))
+            view.item1.hasGet.selectedIndex = 1;
+        else
+            view.item1.hasGet.selectedIndex = 0;
         view.item1.buy_btn.onClick.Add(() => {
             if (MyselfModel.Instance.IsVip())
             {
@@ -97,7 +103,7 @@ public class CardView
         {
             RechargeController.Instance.ReqPlaceOrder(2, (uint)videoData.IndexId);
         });
-        StringUtil.SetBtnTab(view.item1.buy_btn, Lang.GetValue("recharge_main_18", (videoData.Price / 10).ToString()));
+        StringUtil.SetBtnTab(view.item1.buy_btn.normalBtn, Lang.GetValue("recharge_main_18", (vipData.Price / 10).ToString()));
         EventManager.Instance.AddEventListener(RechargeEvent.VipPay, UpdateVip);
         EventManager.Instance.AddEventListener(RechargeEvent.MonthCard, UpdateVip);
         EventManager.Instance.AddEventListener(RechargeEvent.VideoPay, UpdateVedioTime);
@@ -120,17 +126,16 @@ public class CardView
         {
             if(MyselfModel.Instance.behaviorDaily.monthCardAward == 0)
             {
-                StringUtil.SetBtnTab(view.item1.buy_btn, Lang.GetValue("common_claim_button"));
+                StringUtil.SetBtnTab(view.item1.buy_btn.normalBtn, Lang.GetValue("common_claim_button"));
             }
             else
             {
-                StringUtil.SetBtnTab(view.item1.buy_btn, Lang.GetValue("recharge_main_23"));
-                view.item1.buy_btn.enabled = false;
+                view.item1.hasGet.selectedIndex = 1;
             }
         }
         else
         {
-            StringUtil.SetBtnTab(view.item1.buy_btn, Lang.GetValue("recharge_main_18", (vipData.Price / 10).ToString()));
+            StringUtil.SetBtnTab(view.item1.buy_btn.normalBtn, Lang.GetValue("recharge_main_18", (vipData.Price / 10).ToString()));
         }
         UpdateVipTime();
     }
@@ -169,15 +174,15 @@ public class CardView
         var video = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_SKIP_VIDEO_CARD);
         if (RechargeModel.Instance.haveDiamondValue != null && RechargeModel.Instance.haveDiamondValue.ContainsKey((uint)videoData.IndexId))
         {
-            StringUtil.SetBtnTab(view.item2.buy_btn, Lang.GetValue("recharge_main_18", (videoData.Price / 10).ToString()));
+            StringUtil.SetBtnTab(view.item2.buy_btn.normalBtn, Lang.GetValue("recharge_main_18", (videoData.Price / 10).ToString()));
             
             view.item2.half.selectedIndex = 0;
             view.item2.buy_btn.type.selectedIndex = 0;
         }
         else
         {
-            StringUtil.SetBtnTab(view.item2.buy_btn, Lang.GetValue("recharge_main_18", (videoData.Price / 10 / 2).ToString()));
-            StringUtil.SetBtnTab3(view.item2.buy_btn, Lang.GetValue("recharge_main_18", (videoData.Price / 10).ToString()));
+            StringUtil.SetBtnTab(view.item2.buy_btn.priceBtn, Lang.GetValue("recharge_main_18", (videoData.Price / 10 / 2).ToString()));
+            StringUtil.SetBtnTab3(view.item2.buy_btn.priceBtn, Lang.GetValue("recharge_main_18", (videoData.Price / 10).ToString()));
             view.item2.buy_btn.type.selectedIndex = 1;
             view.item2.half.selectedIndex = 1;
         }

@@ -1,6 +1,7 @@
 40011105.png
 size:1990,206
 filter:Linear,Linear
+pma:true
 a1
 bounds:717,85,119,96
 offsets:0,6,121,102

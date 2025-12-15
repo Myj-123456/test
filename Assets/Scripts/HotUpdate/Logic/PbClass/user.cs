@@ -117,7 +117,7 @@ namespace protobuf.user
         public uint tradePasswordCnt;
 
         [ProtoBuf.ProtoMember(6)]
-        public uint guildDrawShareCnt;
+        public uint donateCnt;
 
         [ProtoBuf.ProtoMember(7)]
         public uint poltCnt;

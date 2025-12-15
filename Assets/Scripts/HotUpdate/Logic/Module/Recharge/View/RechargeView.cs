@@ -15,12 +15,12 @@ public class RechargeView
    public RechargeView(fun_Recharge.newRecharge ui)
     {
         view = ui;
-        view.revharge.y = view.n25.y + 349;
-        view.revharge.height = view.rect.y - view.n25.y - 452;
-        if(view.revharge.height > 1061)
-        {
-            view.revharge.height = 1061;
-        }
+        //view.revharge.y = view.n25.y + 349;
+        //view.revharge.height = view.rect.y - view.n25.y - 452;
+        //if(view.revharge.height > 1061)
+        //{
+        //    view.revharge.height = 1061;
+        //}
         OnInit();
     }
 
@@ -31,9 +31,9 @@ public class RechargeView
         EventManager.Instance.AddEventListener(RechargeEvent.haveDiamondPay, UpdateList);
         EventManager.Instance.AddEventListener(RechargeEvent.HaveGamePay, UpdateList);
         EventManager.Instance.AddEventListener(RechargeEvent.RechargeInfo, UpdateList);
-        view.spine.url = "beijing";
-        view.spine.loop = true;
-        view.spine.animationName = "idle";
+        //view.spine.url = "beijing";
+        //view.spine.loop = true;
+        //view.spine.animationName = "idle";
         
     }
 
@@ -52,15 +52,16 @@ public class RechargeView
         var cell = item as fun_Recharge.newRecharge_cell;
         var data = RechargeModel.Instance.gamePayList[index];
         cell.img_loader.url = "Recharge/" + data.Resource + ".png";
-        cell.txt_value.text = (data.Type == 1? Lang.GetValue("gem"): Lang.GetValue("gold")) + "*" + data.Count;
-        cell.costLab.text = "￥" + (int)data.Price;
-        cell.costLab1.text = "￥" + (int)data.Price;
+        cell.txt_value.text = (data.Type == 1? Lang.GetValue("gem"): Lang.GetValue("gold")) + data.Count;
+        StringUtil.SetBtnTab(cell.n16, Lang.GetValue("recharge_main_18", data.Price + ""));
+        //cell.costLab.text = "￥" + (int)data.Price;
+        //cell.costLab1.text = "￥" + (int)data.Price;
         if (RechargeModel.Instance.gamePay.threeBuyId == 0 && data.IsThree > 0)
         {
             cell.preferentialTab.selectedIndex = 1;
-            cell.spine1.url = "shouchong";
-            cell.spine1.loop = true;
-            cell.spine1.animationName = "idle";
+            //cell.spine1.url = "shouchong";
+            //cell.spine1.loop = true;
+            //cell.spine1.animationName = "idle";
             cell.double_txt_value.text = "+" + data.IsThree;
             cell.extraTxt.text = Lang.GetValue("recharge_main_24");
         }
@@ -75,9 +76,9 @@ public class RechargeView
                 cell.double_txt_value.text = "+" + data.FirstExtraGive;
                 cell.extraTxt.text = Lang.GetValue("title_recharge4");
                 cell.preferentialTab.selectedIndex = 1;
-                cell.spine1.url = "shouchong";
-                cell.spine1.loop = true;
-                cell.spine1.animationName = "idle";
+                //cell.spine1.url = "shouchong";
+                //cell.spine1.loop = true;
+                //cell.spine1.animationName = "idle";
             }
             
         }

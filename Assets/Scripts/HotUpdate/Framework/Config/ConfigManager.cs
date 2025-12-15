@@ -62,11 +62,5 @@ public class ConfigManager : Singleton<ConfigManager>
         GetConfig<Ft_ikebana_artConfigData>("ft_ikebana_artsConfig");//鲜花组合表
         
     }
-
-    public IEnumerator PreParseAuditVersionConfig()
-    {
-        GetConfig<Ft_zhcnConfigData>("ft_zhcnsConfig");//多语言
-        yield return null;
-    }
 }
 

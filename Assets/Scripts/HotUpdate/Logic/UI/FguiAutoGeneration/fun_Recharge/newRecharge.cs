@@ -8,13 +8,12 @@ namespace fun_Recharge
     public partial class newRecharge : GComponent
     {
         public GLoader bg;
-        public GLoader bg1;
-        public GLoader bg2;
-        public GLoader bg3;
-        public GImage n25;
         public recharge_list revharge;
         public GGraph rect;
-        public GLoader3D spine;
+        public GImage n34;
+        public GImage n35;
+        public GTextField tipLab;
+        public GImage n36;
         public const string URL = "ui://w3ox9yltqheb0";
 
         public static newRecharge CreateInstance()
@@ -27,13 +26,12 @@ namespace fun_Recharge
             base.ConstructFromXML(xml);
 
             bg = (GLoader)GetChildAt(0);
-            bg1 = (GLoader)GetChildAt(1);
-            bg2 = (GLoader)GetChildAt(2);
-            bg3 = (GLoader)GetChildAt(3);
-            n25 = (GImage)GetChildAt(4);
-            revharge = (recharge_list)GetChildAt(5);
-            rect = (GGraph)GetChildAt(6);
-            spine = (GLoader3D)GetChildAt(7);
+            revharge = (recharge_list)GetChildAt(1);
+            rect = (GGraph)GetChildAt(2);
+            n34 = (GImage)GetChildAt(3);
+            n35 = (GImage)GetChildAt(4);
+            tipLab = (GTextField)GetChildAt(5);
+            n36 = (GImage)GetChildAt(6);
         }
     }
 }

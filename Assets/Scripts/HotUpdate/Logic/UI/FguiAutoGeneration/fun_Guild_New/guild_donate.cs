@@ -21,8 +21,8 @@ namespace fun_Guild_New
         public GRichTextField txt_num_title;
         public GTextField txt_num;
         public GTextField proLab;
-        public guild_donate_list_cell video_donate;
         public GList list_donate;
+        public guild_donate_list_cell video_donate;
         public const string URL = "ui://qz6135j3r9vt1ayr89f";
 
         public static guild_donate CreateInstance()
@@ -48,8 +48,8 @@ namespace fun_Guild_New
             txt_num_title = (GRichTextField)GetChildAt(10);
             txt_num = (GTextField)GetChildAt(11);
             proLab = (GTextField)GetChildAt(12);
-            video_donate = (guild_donate_list_cell)GetChildAt(13);
-            list_donate = (GList)GetChildAt(14);
+            list_donate = (GList)GetChildAt(13);
+            video_donate = (guild_donate_list_cell)GetChildAt(14);
         }
     }
 }

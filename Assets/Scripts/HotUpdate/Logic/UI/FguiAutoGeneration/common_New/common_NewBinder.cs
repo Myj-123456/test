@@ -13,6 +13,14 @@ namespace common_New
             UIObjectFactory.SetPackageItemExtension(TipTextContent.URL, typeof(TipTextContent));
             UIObjectFactory.SetPackageItemExtension(pageBtn3.URL, typeof(pageBtn3));
             UIObjectFactory.SetPackageItemExtension(submit_btn1.URL, typeof(submit_btn1));
+            UIObjectFactory.SetPackageItemExtension(common_yellow_pic.URL, typeof(common_yellow_pic));
+            UIObjectFactory.SetPackageItemExtension(common_btn2.URL, typeof(common_btn2));
+            UIObjectFactory.SetPackageItemExtension(common_page.URL, typeof(common_page));
+            UIObjectFactory.SetPackageItemExtension(common_add1.URL, typeof(common_add1));
+            UIObjectFactory.SetPackageItemExtension(common_btn3.URL, typeof(common_btn3));
+            UIObjectFactory.SetPackageItemExtension(common_right.URL, typeof(common_right));
+            UIObjectFactory.SetPackageItemExtension(PageListItem_new3.URL, typeof(PageListItem_new3));
+            UIObjectFactory.SetPackageItemExtension(common_page1.URL, typeof(common_page1));
             UIObjectFactory.SetPackageItemExtension(Item_flower_need.URL, typeof(Item_flower_need));
             UIObjectFactory.SetPackageItemExtension(ItemFlowerTips.URL, typeof(ItemFlowerTips));
             UIObjectFactory.SetPackageItemExtension(MoonFestivalHead.URL, typeof(MoonFestivalHead));

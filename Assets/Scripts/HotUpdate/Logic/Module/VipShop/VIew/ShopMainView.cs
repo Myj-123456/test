@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using ADK;
-public class ShopMainView : BaseView
+public class ShopMainView : BaseWindow
 {
    private fun_VipShop.shop_main_view view;
     private int tabType;
@@ -17,22 +17,19 @@ public class ShopMainView : BaseView
         // 设置委托
         BindAllDelegate = fun_VipShop.fun_VipShopBinder.BindAll;
         CreateInstanceDelegate = fun_VipShop.shop_main_view.CreateInstance;
+        FullScreen = true;
+        openWithTween = false;
     }
 
     public override void OnInit()
     {
          base.OnInit();
         view = ui as fun_VipShop.shop_main_view;
-        SetBg(view.cultivation_view.bg, "VipShop/ELIDA_shangpu_zs_bg.jpg");
+        SetBg(view.bg, "Recharge/ELIDA_shangpu_bg.png");
 
-        SetBg(view.vip_shop.bg, "VipShop/ELIDA_shangpu_jxsp_bg01.png");
-        SetBg(view.vip_shop.bg1, "VipShop/ELIDA_shangpu_jxsp_bg02.png");
-
-        SetBg(view.other_view.bg, "Cultivation/ELIDA_peiyu_peiyushangdiandi.jpg");
-
-        StringUtil.SetBtnTab(view.seed_btn, Lang.GetValue("cultivate_shop_04"));
-        StringUtil.SetBtnTab(view.other_btn, Lang.GetValue("shop_main_1"));
-        StringUtil.SetBtnTab(view.vip_btn, Lang.GetValue("shop_main_2"));
+        StringUtil.SetBtnTab4(view.seed_btn, Lang.GetValue("cultivate_shop_04"));
+        StringUtil.SetBtnTab4(view.other_btn, Lang.GetValue("shop_main_1"));
+        StringUtil.SetBtnTab4(view.vip_btn, Lang.GetValue("shop_main_2"));
 
         cultivationShop = new CultivationShopWindow(view.cultivation_view);
         vipShop = new VipShopWindow(view.vip_shop);
@@ -90,7 +87,7 @@ public class ShopMainView : BaseView
     private void UnlockBtn()
     {
         view.seed_btn.visible = GlobalModel.Instance.GetUnlocked(SysId.RandomShop);
-        view.other_btn.visible = GlobalModel.Instance.GetUnlocked(SysId.Furniture_Shop);
+        view.other_btn.visible = false;
         view.vip_btn.visible = GlobalModel.Instance.GetUnlocked(SysId.VipPopup);
     }
     public override void OnHide()

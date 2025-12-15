@@ -31,17 +31,28 @@ public class PlantHandleUI
         plantHandleUi.free_speed.onClick.Add(() =>
         {
             Hide();
+            
             UILogicUtils.ShowConfirm(Lang.GetValue("speed_flower"), OnFreeSpeedUp);
         });
 
         plantHandleUi.bt_js_all.onClick.Add(() =>
         {
+            if (!MyselfModel.Instance.IsVip())
+            {
+                UILogicUtils.ShowNotice("Çë¿ªÆôVip");
+                return;
+            }
             Hide();
             UILogicUtils.ShowConfirm(Lang.GetValue("accelerate_confirm"), OnOneKeySpeedUp);
         });
 
         plantHandleUi.bt_cc_all.onClick.Add(() =>
         {
+            if (!MyselfModel.Instance.IsVip())
+            {
+                UILogicUtils.ShowNotice("Çë¿ªÆôVip");
+                return;
+            }
             Hide();
             UILogicUtils.ShowConfirm(Lang.GetValue("Vip_function5"), OnOneKeyMove);
         });

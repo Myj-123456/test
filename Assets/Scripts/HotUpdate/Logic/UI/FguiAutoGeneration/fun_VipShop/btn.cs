@@ -7,7 +7,7 @@ namespace fun_VipShop
 {
     public partial class btn : GButton
     {
-        public GImage n1;
+        public GImage n2;
         public const string URL = "ui://wm7arakyvedm1ayr7st";
 
         public static btn CreateInstance()
@@ -19,7 +19,7 @@ namespace fun_VipShop
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
+            n2 = (GImage)GetChildAt(0);
         }
     }
 }

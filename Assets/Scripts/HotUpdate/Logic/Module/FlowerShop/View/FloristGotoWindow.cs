@@ -35,7 +35,7 @@ public class FloristGotoWindow : BaseWindow
             }
             else if (type == 3)
             {
-                UIManager.Instance.OpenPanel<CultivationView>(UIName.CultivationView);
+                UIManager.Instance.OpenPanel<CultivationView>(UIName.CultivationView, UILayer.SecondUI);
             }
             else if (type == 4)
             {

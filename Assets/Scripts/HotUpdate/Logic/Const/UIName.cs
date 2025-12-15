@@ -39,6 +39,7 @@ public class UIName
     public const string RobShieldWindow = "RobShieldWindow";
     public const string RobMessageWindow = "RobMessageWindow";
     public const string DailyTaskWindow = "DailyTaskWindow";
+    public const string TaskProRewardPreviewWindow = "TaskProRewardPreviewWindow";
     public const string CultivationShopWindow = "CultivationShopWindow";
     public const string FlowerOrderWindow = "FlowerOrderWindow";
     public const string StorageWindow = "StorageWindow";
@@ -283,6 +284,7 @@ public class UIName
 
     public const string DrawGiftWindow = "DrawGiftWindow";
     public const string AchievTaskView = "AchievTaskView";
+
     public const string VisitRecordView = "VisitRecordView";
 }
 

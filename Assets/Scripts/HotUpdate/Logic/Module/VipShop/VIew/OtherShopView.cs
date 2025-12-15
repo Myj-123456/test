@@ -35,8 +35,9 @@ public class OtherShopView
         StringUtil.SetBtnUrl(cell.buy_btn, ImageDataModel.Instance.GetIconUrl(costItem));
         StringUtil.SetBtnTab(cell.buy_btn, info.Expends[0].Value.ToString());
         var itemVo = ItemModel.Instance.GetItemByEntityID(info.Rewards[0].EntityID);
-        cell.img.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-        cell.countLab.text = info.Rewards[0].Value.ToString();
+        var reward = cell.reward as common_New.item_com;
+        reward.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
+        reward.numLab.text = info.Rewards[0].Value.ToString();
         
         cell.name_txt.text = Lang.GetValue(itemVo.Name);
         var count = DrawModel.Instance.GetExchangeCount((uint)info.Id);

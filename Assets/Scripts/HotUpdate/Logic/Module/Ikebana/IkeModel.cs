@@ -29,6 +29,8 @@ public class IkeModel : Singleton<IkeModel>
     //public List<StaticSucculentIke> staticSucculentIke;
     //已制作的花艺品
     public Dictionary<uint, I_VASE_REWARD_STATUS> vaseRewardInfo = new Dictionary<uint, I_VASE_REWARD_STATUS>();
+
+    public int runHide = 0;
     public StaticFlowerPoint GetStaticFlowerPoint(int vaseid)
     {
         if (staticFlowerPointMap.TryGetValue(vaseid, out StaticFlowerPoint staticFlowerPoint))
@@ -655,7 +657,7 @@ public class IkeModel : Singleton<IkeModel>
         var formula = GetFormula(id);
         foreach(var value in formula.FlowerCombinationIds)
         {
-            var num = StorageModel.Instance.GetItemCount(int.Parse(formula.FlowerCombinationIds[2].CounterCount));
+            var num = StorageModel.Instance.GetItemCount(int.Parse(value.CounterCount));
             if(count > num)
             {
                 return false;

@@ -12,8 +12,9 @@ namespace fun_VipShop
             UIObjectFactory.SetPackageItemExtension(ShopView.URL, typeof(ShopView));
             UIObjectFactory.SetPackageItemExtension(shop_main_view.URL, typeof(shop_main_view));
             UIObjectFactory.SetPackageItemExtension(OtherView.URL, typeof(OtherView));
+            UIObjectFactory.SetPackageItemExtension(btn2.URL, typeof(btn2));
+            UIObjectFactory.SetPackageItemExtension(greenPicBtn1.URL, typeof(greenPicBtn1));
             UIObjectFactory.SetPackageItemExtension(VipShop.URL, typeof(VipShop));
-            UIObjectFactory.SetPackageItemExtension(page_btn.URL, typeof(page_btn));
             UIObjectFactory.SetPackageItemExtension(vip_item.URL, typeof(vip_item));
             UIObjectFactory.SetPackageItemExtension(btn.URL, typeof(btn));
             UIObjectFactory.SetPackageItemExtension(btn1.URL, typeof(btn1));

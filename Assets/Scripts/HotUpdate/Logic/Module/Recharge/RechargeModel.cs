@@ -8,62 +8,82 @@ using UnityEngine;
 using static protobuf.login.S_MSG_GAMEINIT;
 using static protobuf.recharge.S_MSG_RECHARGE_INFO;
 
+public struct RechargeDelevierData
+{
+    public Dictionary<string, ulong> items;
+    public uint payConfType;
+    public uint payDefId;
+}
 public class RechargeModel : Singleton<RechargeModel>
 {
     private Dictionary<string, Ft_game_payConfig> _gamePayHome;
-    public Dictionary<string, Ft_game_payConfig> gamePayHome { get
+    public Dictionary<string, Ft_game_payConfig> gamePayHome
+    {
+        get
         {
-            if(_gamePayHome == null)
+            if (_gamePayHome == null)
             {
                 Ft_game_payConfigData payData = ConfigManager.Instance.GetConfig<Ft_game_payConfigData>("ft_game_paysConfig");
                 _gamePayHome = payData.DataMap;
             }
             return _gamePayHome;
-        } }
+        }
+    }
 
     private Dictionary<int, Ft_diamond_valueConfig> _diamondValueHome;
-    public Dictionary<int, Ft_diamond_valueConfig> diamondValueHome { get
+    public Dictionary<int, Ft_diamond_valueConfig> diamondValueHome
+    {
+        get
         {
-            if(_diamondValueHome == null)
+            if (_diamondValueHome == null)
             {
                 Ft_diamond_valueConfigData diamondData = ConfigManager.Instance.GetConfig<Ft_diamond_valueConfigData>("ft_diamond_valuesConfig");
                 _diamondValueHome = diamondData.DataMap;
             }
             return _diamondValueHome;
-        } }
+        }
+    }
     private List<Ft_recharge_giftConfig> _rechargeGiftList;
-    public List<Ft_recharge_giftConfig> rechargeGiftList { get
+    public List<Ft_recharge_giftConfig> rechargeGiftList
+    {
+        get
         {
-            if(_rechargeGiftList == null)
+            if (_rechargeGiftList == null)
             {
                 var rechargeGiftData = ConfigManager.Instance.GetConfig<Ft_recharge_giftConfigData>("ft_recharge_giftsConfig");
                 _rechargeGiftList = rechargeGiftData.DataList;
             }
             return _rechargeGiftList;
-        } }
+        }
+    }
 
 
     private List<Ft_game_payConfig> _gamePayList;
-    public List<Ft_game_payConfig> gamePayList { get
+    public List<Ft_game_payConfig> gamePayList
+    {
+        get
         {
-            if(_gamePayList == null)
+            if (_gamePayList == null)
             {
                 _gamePayList = new List<Ft_game_payConfig>();
-                foreach(var value in gamePayHome)
+                foreach (var value in gamePayHome)
                 {
-                    if(value.Value.Type == 1)
+                    if (value.Value.Type == 1)
                     {
                         _gamePayList.Add(value.Value);
                     }
                 }
             }
             return _gamePayList;
-        } }
+        }
+    }
 
     private List<Ft_game_payConfig> _firstPayList;
-    public List<Ft_game_payConfig> firstPayList { get
+    public List<Ft_game_payConfig> firstPayList
+    {
+        get
         {
-            if(_firstPayList == null)
+            if (_firstPayList == null)
             {
                 _firstPayList = new List<Ft_game_payConfig>();
                 foreach (var value in gamePayHome)
@@ -75,18 +95,22 @@ public class RechargeModel : Singleton<RechargeModel>
                 }
             }
             return _firstPayList;
-        } }
+        }
+    }
 
     private List<Ft_tour_giftConfig> _tourGiftList;
-    public List<Ft_tour_giftConfig> tourGiftList { get
+    public List<Ft_tour_giftConfig> tourGiftList
+    {
+        get
         {
-            if(_tourGiftList == null)
+            if (_tourGiftList == null)
             {
                 var tourGiftData = ConfigManager.Instance.GetConfig<Ft_tour_giftConfigData>("ft_tour_giftsConfig");
                 _tourGiftList = tourGiftData.DataList;
             }
             return _tourGiftList;
-        } }
+        }
+    }
 
     public List<Ft_diamond_valueConfig> goldValueList;
 
@@ -96,7 +120,7 @@ public class RechargeModel : Singleton<RechargeModel>
     public List<I_GIFTPACK_VO> giftPackList;//正在生效的礼包
     public List<uint> giftHaveBuy;//已购买的礼包
 
-    public Dictionary<uint,uint> haveDiamondValue; //配置中已购买的特惠礼包
+    public Dictionary<uint, uint> haveDiamondValue; //配置中已购买的特惠礼包
 
     public Dictionary<int, Dictionary<string, int>> firstRechargeReward = new Dictionary<int, Dictionary<string, int>>();
 
@@ -128,9 +152,9 @@ public class RechargeModel : Singleton<RechargeModel>
 
     public Ft_diamond_valueConfig GetDiamondVo(int type)
     {
-       foreach(var value in diamondValueHome)
+        foreach (var value in diamondValueHome)
         {
-            if(value.Value.Type == type)
+            if (value.Value.Type == type)
             {
                 return value.Value;
             }
@@ -153,7 +177,8 @@ public class RechargeModel : Singleton<RechargeModel>
             if (value.Value.Type == (int)E_DIAMOND_VALUE_TYPE.DAILY)
             {
                 dataList.Insert(0, value.Value);
-            }else if(value.Value.Type == (int)E_DIAMOND_VALUE_TYPE.NORMAL)
+            }
+            else if (value.Value.Type == (int)E_DIAMOND_VALUE_TYPE.NORMAL)
             {
                 dataList.Add(value.Value);
             }
@@ -181,7 +206,7 @@ public class RechargeModel : Singleton<RechargeModel>
 
     public bool IsFirstRechargeEnd()
     {
-        for(int i = 0;i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             if (firstRechargeRewards == null || Array.IndexOf(firstRechargeRewards, (uint)(i + 1)) == -1)
             {

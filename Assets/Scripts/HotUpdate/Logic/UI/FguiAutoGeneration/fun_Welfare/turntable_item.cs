@@ -7,7 +7,7 @@ namespace fun_Welfare
 {
     public partial class turntable_item : GComponent
     {
-        public GImage n0;
+        public GImage n3;
         public GLoader pic;
         public GTextField numLab;
         public const string URL = "ui://awswhm01s7sl1yjp846";
@@ -21,7 +21,7 @@ namespace fun_Welfare
         {
             base.ConstructFromXML(xml);
 
-            n0 = (GImage)GetChildAt(0);
+            n3 = (GImage)GetChildAt(0);
             pic = (GLoader)GetChildAt(1);
             numLab = (GTextField)GetChildAt(2);
         }

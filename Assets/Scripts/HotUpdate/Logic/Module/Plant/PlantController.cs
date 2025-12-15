@@ -69,13 +69,15 @@ public class PlantController : BaseController<PlantController>
             if (land != null)
             {
                 land.Plant((int)plant.flowerId);
+                //种植获取剧情贝壳
+                if (MyselfModel.Instance.behaviorDaily.poltCnt < GlobalModel.Instance.module_profileConfig.poltItemLimit)
+                {
+                    MyselfModel.Instance.behaviorDaily.poltCnt += 1;
+                    Vector2 pt = ADK.UILogicUtils.TransformPos(land.transform.position);
+                    DropManager.ShowDropItem1(GlobalModel.Instance.module_profileConfig.poltItemId, GlobalModel.Instance.module_profileConfig.poltItemGet, true, pt);
+                }
             }
         }
-
-        //if (GuideModel.Instance.IsGuide && GuideModel.Instance.curGuideStep == 19)//引导的是种植
-        //{
-        //    GuideController.Instance.NextGuide();
-        //}
     }
 
 
@@ -121,10 +123,6 @@ public class PlantController : BaseController<PlantController>
             }
         }
         showWatering = false;
-        //if (GuideModel.Instance.IsGuide && GuideModel.Instance.curGuideStep == 23)//引导的是种植
-        //{
-        //    GuideController.Instance.NextGuide();
-        //}
     }
 
     public void ReqHarvest(uint[] landIds)
@@ -188,20 +186,6 @@ public class PlantController : BaseController<PlantController>
         //检测一次小黑板订单信息
         FlowerOrderController.Instance.ReqOderInfo();
         EventManager.Instance.DispatchEvent(SceneEvent.FlowerHarvest);
-        //if (GuideModel.Instance.IsGuide)//引导的是种植
-        //{
-        //    if (GuideModel.Instance.curGuideStep == 26)
-        //    {
-        //        if (data.plantList.Count >= 4)//如果收获了4朵花会触发升级获得新花弹框，那么切换下一步
-        //        {
-        //            GuideController.Instance.NextGuide();
-        //        }
-        //        else//不够升级弹出获得新花弹框，直接跳到28
-        //        {
-        //            GuideController.Instance.GuideStep(28);
-        //        }
-        //    }
-        //}
     }
 
     /// <summary>
@@ -309,10 +293,10 @@ public class PlantController : BaseController<PlantController>
     public void BatchSteal(S_MSG_FRIEND_BATCH_STEAL data)
     {
         MyselfModel.Instance.interactionCnt = data.interactionCnt;
-        foreach(var value in data.decorIds)
+        foreach (var value in data.decorIds)
         {
             var plantVo = VisitFriendModel.Instance.GetPlantVo(value);
-            if(plantVo != null)
+            if (plantVo != null)
             {
                 plantVo.stealInfo.Add(MyselfModel.Instance.userId, 1);
                 var land = SceneManager.Instance.GetLand((int)value);
@@ -322,7 +306,7 @@ public class PlantController : BaseController<PlantController>
                 }
             }
         }
-        
+
         var dropList = ItemModel.Instance.GetDropData(data.items);
         DropManager.ShowDrop(dropList);
         if (MyselfModel.Instance.interactionCnt >= GlobalModel.Instance.module_profileConfig.umberOfMutualaid)
@@ -336,28 +320,28 @@ public class PlantController : BaseController<PlantController>
     {
         var decorIds = new List<uint>();
         var count = MyselfModel.Instance.interactionCnt;
-        for (var i = 1;i < 61;i++)
+        for (var i = 1; i < 61; i++)
         {
             var land = SceneManager.Instance.GetLand(i);
-          
+
             if (land.CheckStealEnable())
             {
                 count++;
                 decorIds.Add((uint)i);
             }
-            if(count >= GlobalModel.Instance.module_profileConfig.umberOfMutualaid)
+            if (count >= GlobalModel.Instance.module_profileConfig.umberOfMutualaid)
             {
                 break;
             }
         }
-        if(decorIds.Count > 0)
+        if (decorIds.Count > 0)
         {
             C_MSG_FRIEND_BATCH_STEAL c_MSG_FRIEND_BATCH_STEAL = new C_MSG_FRIEND_BATCH_STEAL();
             c_MSG_FRIEND_BATCH_STEAL.friendId = friendId;
             c_MSG_FRIEND_BATCH_STEAL.decorIds = decorIds.ToArray();
             SendCmd((int)MessageCode.C_MSG_FRIEND_BATCH_STEAL, c_MSG_FRIEND_BATCH_STEAL);
         }
-        
+
     }
 }
 

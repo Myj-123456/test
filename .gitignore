@@ -1,3 +1,4 @@
+
 # 忽略Unity生成的元数据文件和日志文件
 Temp/
 Library/
@@ -19,6 +20,4 @@ Build/
 # Cache/
 /Bundles
 /*.csproj
-.vs/client
-UserSettings
-.vs
+/.vs

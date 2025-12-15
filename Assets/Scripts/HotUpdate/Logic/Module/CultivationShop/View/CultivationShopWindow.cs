@@ -108,8 +108,9 @@ public class CultivationShopWindow
         //StringUtil.SetBtnTab(cell.getted, Lang.GetValue("guildStore_28"));
         var itemData = ItemModel.Instance.GetItemByEntityID(vo.GetItem.ToString());
         cell.name_txt.text = Lang.GetValue(itemData.Name);
-        cell.img.url = ImageDataModel.Instance.GetIconUrlByEntityId(vo.GetItem);
-        cell.bg.url = ImageDataModel.Instance.GetItemQuality(itemData.Quality);
+        var rewardItem = cell.reward as common_New.item_com;
+        rewardItem.pic.url = ImageDataModel.Instance.GetIconUrlByEntityId(vo.GetItem);
+        rewardItem.bg.url = ImageDataModel.Instance.GetItemQuality(itemData.Quality);
         int count = StorageModel.Instance.GetItemCount(vo.GetItem.ToString());
         //cell.group_count.visible = false;
         if (count > 0)
@@ -122,10 +123,10 @@ public class CultivationShopWindow
         StringUtil.SetBtnTab(cell.buy_btn, (data.itemCnt * data.price).ToString());
         StringUtil.SetBtnUrl(cell.buy_btn, ImageDataModel.Instance.GetIconUrlByEntityId(vo.CostItem));
         cell.sell.selectedIndex = (int)data.isBuy;
-        cell.countLab.text = data.itemCnt.ToString();
+        rewardItem.numLab.text = data.itemCnt.ToString();
+        UILogicUtils.SetItemShow(rewardItem, itemData.ItemDefId);
         //cell.buy_btn.enabled = data.isBuy == 0;
         cell.limitLab.text = Lang.GetValue("draw_limit_buy_2") + "：" + (data.isBuy == 0 ? 1 : 0) + "/1";
-        cell.img.grayed = data.isBuy == 1;
         cell.buy_btn.onClick.Add(BuyHandler);
     }
 

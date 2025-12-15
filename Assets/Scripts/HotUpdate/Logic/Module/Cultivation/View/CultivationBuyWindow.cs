@@ -29,6 +29,8 @@ public class CultivationBuyWindow : BaseWindow
         StringUtil.SetBtnTab(view.goBtn, Lang.GetValue("cultivation_buy_3"));
         StringUtil.SetBtnTab(view.buyBtn, Lang.GetValue("cultivation_buy_4"));
 
+        StringUtil.SetBtnUrl(view.buyBtn, ImageDataModel.CASH_ICON_URL);
+
         view.tipLab.text = Lang.GetValue("cultivation_buy_2");
 
         view.list.itemRenderer = RenderList;
@@ -40,7 +42,7 @@ public class CultivationBuyWindow : BaseWindow
                 return;
             }
             UIManager.Instance.CloseWindow(UIName.CultivationBuyWindow);
-            UIManager.Instance.OpenPanel<ShopMainView>(UIName.ShopMainView,UILayer.UI,0);
+            UIManager.Instance.OpenWindow<ShopMainView>(UIName.ShopMainView,0);
         });
 
         view.buyBtn.onClick.Add(() =>

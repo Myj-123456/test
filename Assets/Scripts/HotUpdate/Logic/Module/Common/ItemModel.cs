@@ -106,6 +106,23 @@ public class ItemModel : Singleton<ItemModel>
         }
         return dropList;
     }
+    public List<StorageItemVO> GetDropData(Dictionary<string, ulong> items, bool filterFlower = false)
+    {
+        var dropList = new List<StorageItemVO>();
+        foreach (var item in items)
+        {
+            var itemDefId = IDUtil.GetEntityValue(item.Key.ToString());
+            if (filterFlower && IsFlower(itemDefId))
+            {
+                continue;
+            }
+            var drop = new StorageItemVO();
+            drop.itemDefId = itemDefId;
+            drop.count = (int)item.Value;
+            dropList.Add(drop);
+        }
+        return dropList;
+    }
     public List<StorageItemVO> GetDropData(Dictionary<long, long> items, bool filterFlower = false)
     {
         var dropList = new List<StorageItemVO>();

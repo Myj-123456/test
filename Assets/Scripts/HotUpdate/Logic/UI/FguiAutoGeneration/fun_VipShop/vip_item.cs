@@ -8,21 +8,26 @@ namespace fun_VipShop
     public partial class vip_item : GComponent
     {
         public Controller type;
-        public GImage n0;
-        public GImage n10;
+        public Controller dis;
+        public Controller status;
+        public GImage n17;
+        public GImage n18;
+        public GLoader bg;
         public GLoader pic;
-        public GLoader cost_img;
-        public GImage n8;
-        public GImage n11;
-        public GImage n12;
+        public GImage n20;
+        public GTextField day_lab;
+        public GGroup n30;
+        public GImage n19;
+        public GTextField discount;
+        public GGroup n25;
         public GTextField timeLab;
-        public GGroup n14;
-        public GTextField numLab;
         public GTextField limitLab;
         public GTextField nameLab;
-        public GTextField costLab;
-        public GTextField discount;
-        public GGraph buy_btn;
+        public GTextField numLab;
+        public GImage n28;
+        public greenPicBtn1 buy_btn;
+        public greenPicBtn buy_btn1;
+        public GGroup n31;
         public const string URL = "ui://wm7arakyvedm1ayr7sm";
 
         public static vip_item CreateInstance()
@@ -35,21 +40,26 @@ namespace fun_VipShop
             base.ConstructFromXML(xml);
 
             type = GetControllerAt(0);
-            n0 = (GImage)GetChildAt(0);
-            n10 = (GImage)GetChildAt(1);
-            pic = (GLoader)GetChildAt(2);
-            cost_img = (GLoader)GetChildAt(3);
-            n8 = (GImage)GetChildAt(4);
-            n11 = (GImage)GetChildAt(5);
-            n12 = (GImage)GetChildAt(6);
-            timeLab = (GTextField)GetChildAt(7);
-            n14 = (GGroup)GetChildAt(8);
-            numLab = (GTextField)GetChildAt(9);
-            limitLab = (GTextField)GetChildAt(10);
-            nameLab = (GTextField)GetChildAt(11);
-            costLab = (GTextField)GetChildAt(12);
-            discount = (GTextField)GetChildAt(13);
-            buy_btn = (GGraph)GetChildAt(14);
+            dis = GetControllerAt(1);
+            status = GetControllerAt(2);
+            n17 = (GImage)GetChildAt(0);
+            n18 = (GImage)GetChildAt(1);
+            bg = (GLoader)GetChildAt(2);
+            pic = (GLoader)GetChildAt(3);
+            n20 = (GImage)GetChildAt(4);
+            day_lab = (GTextField)GetChildAt(5);
+            n30 = (GGroup)GetChildAt(6);
+            n19 = (GImage)GetChildAt(7);
+            discount = (GTextField)GetChildAt(8);
+            n25 = (GGroup)GetChildAt(9);
+            timeLab = (GTextField)GetChildAt(10);
+            limitLab = (GTextField)GetChildAt(11);
+            nameLab = (GTextField)GetChildAt(12);
+            numLab = (GTextField)GetChildAt(13);
+            n28 = (GImage)GetChildAt(14);
+            buy_btn = (greenPicBtn1)GetChildAt(15);
+            buy_btn1 = (greenPicBtn)GetChildAt(16);
+            n31 = (GGroup)GetChildAt(17);
         }
     }
 }

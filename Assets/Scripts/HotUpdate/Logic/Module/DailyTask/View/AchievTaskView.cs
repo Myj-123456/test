@@ -102,21 +102,26 @@ public class AchievTaskView : BaseView
             rewardItem.img.url = ImageDataModel.Instance.GetIconUrlByEntityId(value.EntityID);
             rewardItem.bg.url = "MyInfo/show_flower_bg1.png";
         };
-        if(achiev.awardStatus == 1)
+        if (achiev.awardStatus == 1)
         {
             StringUtil.SetBtnTab(cell.getBtn, Lang.GetValue("invite_friends_11"));
-            cell.getBtn.enabled = false;
+            cell.receiveStatus.selectedIndex = 2;
         }
-        else if(achiev.curCnt < achievInfo.TaskNum)
+        else if (achiev.curCnt < achievInfo.TaskNum)
         {
             StringUtil.SetBtnTab(cell.getBtn, Lang.GetValue("incomplete"));
-            cell.getBtn.enabled = false;
+            cell.receiveStatus.selectedIndex = 0;
         }
         else
         {
             StringUtil.SetBtnTab(cell.getBtn, Lang.GetValue("common_claim_button"));
-            cell.getBtn.enabled = true;
+            cell.receiveStatus.selectedIndex = 1;
         }
+
+        if (cell.receiveStatus.selectedIndex == 2)
+            StringUtil.SetBtnTab(cell.disBtn, Lang.GetValue("invite_friends_11"));
+        else if (cell.receiveStatus.selectedIndex == 0)
+            StringUtil.SetBtnTab(cell.disBtn, Lang.GetValue("invite_friends_17"));
         cell.reward_list.numItems = achievInfo.Rewards.Length;
         cell.getBtn.data = achiev.taskId;
         cell.getBtn.onClick.Add(AchievReward);

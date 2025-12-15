@@ -3,6 +3,7 @@ using UnityEngine;
 using Elida.Config;
 using YooAsset;
 using UnityEngine.Video;
+using System.Collections;
 
 public class GuideView : BaseView
 {
@@ -125,9 +126,33 @@ public class GuideView : BaseView
         viewSkin.npcDialogue.visible = true;
         ShowNpcSpine(curConfigData.NpcSpineType == 0 ? "lu" : "huli");//读取配置
         viewSkin.npcDialogue.txt_name.text = curConfigData.NpcSpineType == 0 ? "鹿白" : "粉红小狐妖";//读取配置
-        viewSkin.npcDialogue.txt_des.text = curConfigData.GuideStr;//读取配置
+        //viewSkin.npcDialogue.txt_des.text = curConfigData.GuideStr;//读取配置
+        StartTyping(curConfigData.GuideStr);
         viewSkin.npcDialogue.scale = new Vector2(0.8f, 0.8f);
         viewSkin.npcDialogue.TweenScale(new Vector2(1, 1), 0.3f).SetEase(EaseType.BackOut);
+    }
+
+    private string fullText;
+    private float typingSpeed = 0.05f; // 每个字符的显示间隔
+    private Coroutine typingCoroutine;
+    private void StartTyping(string text)
+    {
+        fullText = text;
+        viewSkin.npcDialogue.txt_des.text = "";
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+        typingCoroutine = StartCoroutine(TypeText());
+    }
+
+    private IEnumerator TypeText()
+    {
+        foreach (char letter in fullText.ToCharArray())
+        {
+            viewSkin.npcDialogue.txt_des.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        typingCoroutine = null;
     }
 
     private void ShowNpcSpine(string aniName)
@@ -201,6 +226,15 @@ public class GuideView : BaseView
                 guideTransform = orderNpc.GetBubbleTransform();
             }
         }
+        else if (curConfigData.IndexId == 332)//引导水桶
+        {
+            var bucket = BucketManager.Instance.GetBucket();
+            if (bucket != null)
+            {
+                sceneObject = bucket;
+                guideTransform = bucket.transform;
+            }
+        }
         else
         {
             sceneObject = SceneManager.Instance.GetStructure(curConfigData.StructureId);
@@ -230,33 +264,51 @@ public class GuideView : BaseView
         if (transform == null) return;
         Vector2 pt = ADK.UILogicUtils.TransformPos(transform.position);
         viewSkin.mask.visible = true;
-        var collider2d = transform.GetComponent<BoxCollider2D>();
-        if (collider2d != null)
+        viewSkin.mask.shape.DrawEllipse(Color.white);
+
+        if (curConfigData.GuideCircleWidth != 0 && curConfigData.GuideCircleHeight != 0)
         {
-            // 计算摄像机视口大小
-            float cameraHeight = 2f * Camera.main.orthographicSize;
-            float cameraWidth = cameraHeight * Camera.main.aspect;
-
-            // 计算图片在摄像机视口中的宽高（世界单位）
-            float imageWidthInCamera = collider2d.size.x;
-            float imageHeightInCamera = collider2d.size.y;
-
-            // 计算图片在屏幕中的像素宽高
-            float imageWidthInPixels = imageWidthInCamera * (Screen.width / cameraWidth);
-            float imageHeightInPixels = imageHeightInCamera * (Screen.height / cameraHeight);
-            var realSize = new Vector2(imageWidthInPixels, imageHeightInPixels);
+            var realSize = new Vector2(curConfigData.GuideCircleWidth, curConfigData.GuideCircleHeight);
             viewSkin.mask.size = realSize * 2;
             viewSkin.mask.TweenResize(realSize, 0.2f);
         }
         else
         {
-            var realSize = new Vector2(150, 150);
-            viewSkin.mask.size = realSize * 2;
-            viewSkin.mask.TweenResize(realSize, 0.2f);
-        }
 
+            var collider2d = transform.GetComponent<BoxCollider2D>();
+            if (collider2d != null)
+            {
+                // 计算摄像机视口大小
+                float cameraHeight = 2f * Camera.main.orthographicSize;
+                float cameraWidth = cameraHeight * Camera.main.aspect;
+
+                // 计算图片在摄像机视口中的宽高（世界单位）
+                float imageWidthInCamera = collider2d.size.x;
+                float imageHeightInCamera = collider2d.size.y;
+
+                // 计算图片在屏幕中的像素宽高
+                float imageWidthInPixels = imageWidthInCamera * (Screen.width / cameraWidth);
+                float imageHeightInPixels = imageHeightInCamera * (Screen.height / cameraHeight);
+                var realSize = new Vector2(imageWidthInPixels, imageHeightInPixels);
+                viewSkin.mask.size = realSize * 2;
+                viewSkin.mask.TweenResize(realSize, 0.2f);
+            }
+            else
+            {
+                var realSize = new Vector2(150, 150);
+                viewSkin.mask.size = realSize * 2;
+                viewSkin.mask.TweenResize(realSize, 0.2f);
+            }
+        }
         pt += new Vector2(curConfigData.GuideOffsetX, curConfigData.GuideOffsetY);
-        viewSkin.mask.position = pt;
+        if (curConfigData.GuideCircleOffsetX != 0 || curConfigData.GuideCircleOffsetY != 0)
+        {
+            viewSkin.mask.position = pt + new Vector2(curConfigData.GuideCircleOffsetX, curConfigData.GuideCircleOffsetY);
+        }
+        else
+        {
+            viewSkin.mask.position = pt;
+        }
 
         if (guideHand == null)
         {
@@ -279,10 +331,17 @@ public class GuideView : BaseView
         if (target == null) return;
         viewSkin.mask.visible = true;
         var realSize = target.size;
-        Debug.Log("realSize:" + realSize);
+        var dif = realSize.x - realSize.y;
+        if (Mathf.Abs(dif) > 40)//画矩形
+        {
+            viewSkin.mask.shape.DrawRoundRect(1, Color.black, Color.white, 5f, 5f, 5f, 5f);
+        }
+        else//画圆形
+        {
+            viewSkin.mask.shape.DrawEllipse(Color.white);
+        }
         viewSkin.mask.size = realSize * 2;
         viewSkin.mask.TweenResize(realSize, 0.2f);
-        Debug.Log("position:" + target.position);
         var p = target.parent.LocalToGlobal(target.position);//转为全局坐标
         var p2 = viewSkin.GlobalToLocal(p);//再转为引导界面的本地坐标
         if (!target.pivotAsAnchor)//未勾选原点在左上角
@@ -297,9 +356,6 @@ public class GuideView : BaseView
 
         p2 += new Vector2(curConfigData.GuideOffsetX, curConfigData.GuideOffsetY);
         viewSkin.mask.position = p2;
-
-        Debug.Log("p2:" + p2);
-
         if (guideHand == null)
         {
             guideHand = (fun_Guide.GuideHand)fun_Guide.GuideHand.CreateInstance().asCom;

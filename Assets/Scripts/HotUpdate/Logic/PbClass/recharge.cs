@@ -102,6 +102,13 @@ namespace protobuf.recharge
         [ProtoBuf.ProtoMember(2)]
         public uint price;
 
+        [ProtoBuf.ProtoMember(3)]
+        [System.ComponentModel.DefaultValue("")]
+        public string appAccountToken = "";
+
+        [ProtoBuf.ProtoMember(4)]
+        public uint payType;
+
     }
 
     [ProtoBuf.ProtoContract]

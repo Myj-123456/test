@@ -15,13 +15,13 @@ namespace Elida.Config {
   [ProtoContract()]
   public class Ft_club_permissionConfig {
     
-    // 公会职位(1会长,2副会长,3小队长,4会员)
+    // 公会职位(1会长,2副会长,3精英,4会员5理事)
     [ProtoMember(1)]
     public int GuildPosition;
     
     // 踢人权限
     [ProtoMember(2)]
-    public int KickingPeople;
+    public int[] KickingPeoples;
     
     // 改公告权限
     [ProtoMember(3)]
@@ -39,24 +39,28 @@ namespace Elida.Config {
     [ProtoMember(6)]
     public int RenMember;
     
-    // 审批权限
+    // 任命理事
     [ProtoMember(7)]
+    public int RenDirector;
+    
+    // 审批权限
+    [ProtoMember(8)]
     public int Application;
     
     // 开启花房权限
-    [ProtoMember(8)]
+    [ProtoMember(9)]
     public int FlowerHouse;
     
     // 修改图标权限
-    [ProtoMember(9)]
+    [ProtoMember(10)]
     public int IconChange;
     
     // 修改审批条件权限
-    [ProtoMember(10)]
+    [ProtoMember(11)]
     public int JoinCondition;
     
     // 名字
-    [ProtoMember(11)]
+    [ProtoMember(12)]
     public string Name;
   }
 }

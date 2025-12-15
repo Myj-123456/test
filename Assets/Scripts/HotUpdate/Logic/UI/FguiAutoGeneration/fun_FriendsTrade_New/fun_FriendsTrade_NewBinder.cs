@@ -18,7 +18,6 @@ namespace fun_FriendsTrade_New
             UIObjectFactory.SetPackageItemExtension(tradeView.URL, typeof(tradeView));
             UIObjectFactory.SetPackageItemExtension(btn.URL, typeof(btn));
             UIObjectFactory.SetPackageItemExtension(tradeSaleView.URL, typeof(tradeSaleView));
-            UIObjectFactory.SetPackageItemExtension(tradeItemCell.URL, typeof(tradeItemCell));
             UIObjectFactory.SetPackageItemExtension(recycleView.URL, typeof(recycleView));
             UIObjectFactory.SetPackageItemExtension(tradeMessage.URL, typeof(tradeMessage));
             UIObjectFactory.SetPackageItemExtension(trade_item.URL, typeof(trade_item));

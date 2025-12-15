@@ -19,20 +19,24 @@ namespace Elida.Config {
     [ProtoMember(1)]
     public int IndexId;
     
-    // 物品id
+    // 类型
     [ProtoMember(2)]
+    public int Type;
+    
+    // 物品id
+    [ProtoMember(3)]
     public ItemIdObject[] ItemIds;
     
     // 购买消耗
-    [ProtoMember(3)]
+    [ProtoMember(4)]
     public PriceObject[] Prices;
     
     // 限购配置
-    [ProtoMember(4)]
+    [ProtoMember(5)]
     public int[] LimitConfigs;
     
     // 花盟X级解锁
-    [ProtoMember(5)]
+    [ProtoMember(6)]
     public int UnlockClubLv;
   }
 }

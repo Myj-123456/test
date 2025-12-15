@@ -21,7 +21,7 @@ public class RechargeController : BaseController<RechargeController>
         AddNetListener<S_MSG_PLACE_ORDER>((int)MessageCode.S_MSG_PLACE_ORDER, PlaceOrder);
 
         //发货
-        AddNetListener<S_MSG_DELIVER>((int)MessageCode.S_MSG_DELIVER, Deliver);
+        //AddNetListener<S_MSG_DELIVER>((int)MessageCode.S_MSG_DELIVER, Deliver);
         //累充奖励
         AddNetListener<S_MSG_ACC_RECHARGE>((int)MessageCode.S_MSG_ACC_RECHARGE, AccRecharge);
         //首充奖励
@@ -78,7 +78,7 @@ public class RechargeController : BaseController<RechargeController>
     {
         var dropData = new List<StorageItemVO>();
         var target = GlobalModel.Instance.module_profileConfig.everyVipReward;
-        foreach(var reward in target)
+        foreach (var reward in target)
         {
             var dropItem = new StorageItemVO();
             dropItem.itemDefId = IDUtil.GetEntityValue(reward.Key);
@@ -114,9 +114,21 @@ public class RechargeController : BaseController<RechargeController>
         SendCmd((int)MessageCode.C_MSG_GIFT_PACK_INFO, c_MSG_GIFT_PACK_INFO);
     }
 
+    /// <summary>
+    /// 下单返回接口
+    /// </summary>
     public void PlaceOrder(S_MSG_PLACE_ORDER data)
     {
-        ReqDeliver(data.orderNo);
+        if (!string.IsNullOrEmpty(data.appAccountToken))//ios内购支付需要的appAccountToken payType为40时才返回，不然返回空字符串
+        {
+            Debug.Log("appAccountToken:" + data.appAccountToken);
+            //ApplePlatform.Instance.SetApplicationUsername(data.appAccountToken);
+            //ApplePlatform.Instance.PurchaseProduct("com.hy.qmhj.diamond6");
+        }
+        else//直接下单
+        {
+            ReqDeliver(data.orderNo);
+        }
     }
 
 
@@ -128,16 +140,16 @@ public class RechargeController : BaseController<RechargeController>
     /// <param name="osType">操作系统类型 1:web 2：安卓 3：ios</param>
     /// <param name="payType">支付类型 1:微信米大师支付 2:微信jsapi支付 3：微信NATIVE支付 11:抖音钻石支付 12：抖音虚拟币支付 30：web支付</param>
     /// <param name="platformType">支付渠道 1:web 2:微信 3：抖音 4:app</param>
-    public void ReqPlaceOrder(uint payConfType,uint payDefId)
+    public void ReqPlaceOrder(uint payConfType, uint payDefId)
     {
         C_MSG_PLACE_ORDER c_MSG_PLACE_ORDER = new C_MSG_PLACE_ORDER();
         c_MSG_PLACE_ORDER.payConfType = payConfType;
         c_MSG_PLACE_ORDER.payDefId = payDefId;
-        if(Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android)
         {
             c_MSG_PLACE_ORDER.osType = 2;
         }
-        else if(Application.platform == RuntimePlatform.IPhonePlayer)
+        else if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
             c_MSG_PLACE_ORDER.osType = 3;
         }
@@ -145,101 +157,122 @@ public class RechargeController : BaseController<RechargeController>
         {
             c_MSG_PLACE_ORDER.osType = 1;
         }
-        if(LoginHelper.GetPlatform() == "app")
+        if (LoginHelper.GetPlatform() == "app")
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 4;
-        }else if(LoginHelper.GetPlatform() == "wm")
+        }
+        else if (LoginHelper.GetPlatform() == "wm")
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 2;
         }
-        else if(LoginHelper.GetPlatform() == "dev")
+        else if (LoginHelper.GetPlatform() == "dev")
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 1;
+        }
+        else if (LoginHelper.GetPlatform() == "ios")
+        {
+            c_MSG_PLACE_ORDER.payType = 40;
+            c_MSG_PLACE_ORDER.platformType = 6;
         }
         else
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 1;
         }
-        
+
         SendCmd((int)MessageCode.C_MSG_PLACE_ORDER, c_MSG_PLACE_ORDER);
-    }
-
-    public void Deliver(S_MSG_DELIVER data)
-    {
-        var dropData = ItemModel.Instance.GetDropData(data.items);
-        if(dropData.Count > 0)
-        {
-            DropManager.ShowDrop(dropData);
-        }
-        else
-        {
-            UILogicUtils.ShowNotice(Lang.GetValue("functionBuilding_button") + Lang.GetValue("guildMatch_78"));
-        }
-        ReqRechargeInfo();
-        if(data.payConfType == 3)
-        {
-            //if (!RechargeModel.Instance.haveGamePay.Contains(data.payDefId))
-            //{
-            //    RechargeModel.Instance.haveGamePay.Add(data.payDefId);
-            //    EventManager.Instance.DispatchEvent(RechargeEvent.HaveGamePay);
-            //}
-        }
-        else if(data.payConfType == 2)
-        {
-            
-            if (RechargeModel.Instance.diamondValueHome.ContainsKey((int)data.payDefId))
-            {
-                var value = RechargeModel.Instance.diamondValueHome[(int)data.payDefId];
-                switch ((E_DIAMOND_VALUE_TYPE)value.Type)
-                {
-                    case E_DIAMOND_VALUE_TYPE.DAILY://每日循环特惠礼包
-                       
-                        break;
-                    case E_DIAMOND_VALUE_TYPE.NORMAL://每日循环特惠礼包
-                        EventManager.Instance.DispatchEvent(RechargeEvent.Normal);
-                        break;
-                    case E_DIAMOND_VALUE_TYPE.VIP://Vip特权
-                        
-                        EventManager.Instance.DispatchEvent(RechargeEvent.VipPay);
-                        break;
-                    case E_DIAMOND_VALUE_TYPE.VIDEO_PRIVILEGE://视频特权
-                        
-                        
-                         EventManager.Instance.DispatchEvent(RechargeEvent.VideoPay);
-                        break;
-
-                    case E_DIAMOND_VALUE_TYPE.CONTRACT://高级合约
-                    case E_DIAMOND_VALUE_TYPE.CONTRACT_SUPER://至尊合约
-                    case E_DIAMOND_VALUE_TYPE.BUY_CONTRACT_LEVEL://购买合约等级
-                        var activityId = DrawModel.Instance.GetActivityId(ActivityType.Contract);
-                        ContractController.Instance.ReqContractInfo((uint)activityId);
-                        break;
-                }
-            }
-               
-                
-            
-        }
-        else if (data.payConfType == 1)
-        {
-            RechargeController.Instance.ReqGiftPackInfo();
-        }else if(data.payConfType == 4)
-        {
-            EventManager.Instance.DispatchEvent(RechargeEvent.DrawGift);
-        }
-
     }
 
     public void ReqDeliver(string orderNo)
     {
-        C_MSG_DELIVER c_MSG_DELIVER = new C_MSG_DELIVER();
-        c_MSG_DELIVER.orderNo = orderNo;
-        SendCmd((int)MessageCode.C_MSG_DELIVER, c_MSG_DELIVER);
+        Http.Get<RechargeDelevierData>(ApiName.RECHARGE_DELIVER, OnRechargeDelevier, false, LoginModel.Instance.loginToken, orderNo);
     }
+
+    private void OnRechargeDelevier(ResponseResult<RechargeDelevierData> responseResult)
+    {
+        if (responseResult.code == 0)
+        {
+            var data = responseResult.data;
+            var dropData = ItemModel.Instance.GetDropData(data.items);
+            if (dropData.Count > 0)
+            {
+                DropManager.ShowDrop(dropData);
+            }
+            else
+            {
+                UILogicUtils.ShowNotice(Lang.GetValue("functionBuilding_button") + Lang.GetValue("guildMatch_78"));
+            }
+            ReqRechargeInfo();
+            if (data.payConfType == 3)
+            {
+                //if (!RechargeModel.Instance.haveGamePay.Contains(data.payDefId))
+                //{
+                //    RechargeModel.Instance.haveGamePay.Add(data.payDefId);
+                //    EventManager.Instance.DispatchEvent(RechargeEvent.HaveGamePay);
+                //}
+            }
+            else if (data.payConfType == 2)
+            {
+
+                if (RechargeModel.Instance.diamondValueHome.ContainsKey((int)data.payDefId))
+                {
+                    var value = RechargeModel.Instance.diamondValueHome[(int)data.payDefId];
+                    switch ((E_DIAMOND_VALUE_TYPE)value.Type)
+                    {
+                        case E_DIAMOND_VALUE_TYPE.DAILY://每日循环特惠礼包
+
+                            break;
+                        case E_DIAMOND_VALUE_TYPE.NORMAL://每日循环特惠礼包
+                            EventManager.Instance.DispatchEvent(RechargeEvent.Normal);
+                            break;
+                        case E_DIAMOND_VALUE_TYPE.VIP://Vip特权
+
+                            EventManager.Instance.DispatchEvent(RechargeEvent.VipPay);
+                            break;
+                        case E_DIAMOND_VALUE_TYPE.VIDEO_PRIVILEGE://视频特权
+
+
+                            EventManager.Instance.DispatchEvent(RechargeEvent.VideoPay);
+                            break;
+
+                        case E_DIAMOND_VALUE_TYPE.CONTRACT://高级合约
+                        case E_DIAMOND_VALUE_TYPE.CONTRACT_SUPER://至尊合约
+                        case E_DIAMOND_VALUE_TYPE.BUY_CONTRACT_LEVEL://购买合约等级
+                            var activityId = DrawModel.Instance.GetActivityId(ActivityType.Contract);
+                            ContractController.Instance.ReqContractInfo((uint)activityId);
+                            break;
+                    }
+                }
+
+
+
+            }
+            else if (data.payConfType == 1)
+            {
+                RechargeController.Instance.ReqGiftPackInfo();
+            }
+            else if (data.payConfType == 4)
+            {
+                EventManager.Instance.DispatchEvent(RechargeEvent.DrawGift);
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(responseResult.message))
+            {
+                ADK.UILogicUtils.ShowNotice(responseResult.message);
+            }
+            else
+            {
+                ADK.UILogicUtils.ShowNotice("错误码：" + responseResult.code);
+            }
+        }
+
+    }
+
     //商城免费领取
     public void RechargeFree(S_MSG_RECHARGE_FREE data)
     {
@@ -249,7 +282,8 @@ public class RechargeController : BaseController<RechargeController>
         if (data.payConfType == 1)
         {
 
-        }else if(data.payConfType == 2)
+        }
+        else if (data.payConfType == 2)
         {
             if (RechargeModel.Instance.haveDiamondValue.ContainsKey(data.payDefId))
             {
@@ -268,7 +302,7 @@ public class RechargeController : BaseController<RechargeController>
 
 
     }
-    public void ReqRechargeFree(uint payConfType,uint payDefId)
+    public void ReqRechargeFree(uint payConfType, uint payDefId)
     {
         C_MSG_RECHARGE_FREE c_MSG_RECHARGE_FREE = new C_MSG_RECHARGE_FREE();
         c_MSG_RECHARGE_FREE.payConfType = payConfType;
@@ -287,7 +321,7 @@ public class RechargeController : BaseController<RechargeController>
         EventManager.Instance.DispatchEvent(RechargeEvent.TourReward);
     }
 
-    public void ReqTourReward(uint tourId,uint indexId)
+    public void ReqTourReward(uint tourId, uint indexId)
     {
         C_MSG_TOUR_REWARD c_MSG_TOUR_REWARD = new C_MSG_TOUR_REWARD();
         c_MSG_TOUR_REWARD.tourId = tourId;

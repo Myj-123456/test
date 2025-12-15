@@ -119,22 +119,22 @@ public class PlotWindow : BaseWindow
                 dialogueItem.c1.selectedIndex = 1;
                 dialogueItem.pivotX = 0.25f;
                 dialogueItem.pivotY = 0.4f;
-                dialogueItem.txt_msg2.text = Lang.GetValue(poltDialogueConfig.dialogue);
+                //dialogueItem.txt_msg2.text = Lang.GetValue(poltDialogueConfig.dialogue);
+                StartTyping(dialogueItem.txt_msg2, Lang.GetValue(poltDialogueConfig.dialogue));
                 creatDialogueItem.x = 100;
                 dialogueItem.scale = Vector2.zero;
                 dialogueItem.TweenScale(Vector2.one, 0.2f).SetEase(EaseType.CircIn);
-
             }
             else if (poltDialogueConfig.leftRight == 2)//右边
             {
                 dialogueItem.c1.selectedIndex = 0;
                 dialogueItem.pivotX = 0.75f;
                 dialogueItem.pivotY = 0.4f;
-                dialogueItem.txt_msg1.text = Lang.GetValue(poltDialogueConfig.dialogue);
+                //dialogueItem.txt_msg1.text = Lang.GetValue(poltDialogueConfig.dialogue);
+                StartTyping(dialogueItem.txt_msg1, Lang.GetValue(poltDialogueConfig.dialogue));
                 creatDialogueItem.x = 140;
                 dialogueItem.scale = Vector2.zero;
                 dialogueItem.TweenScale(Vector2.one, 0.2f).SetEase(EaseType.CircIn);
-
             }
         }
         else if (poltDialogueConfig.type == 2)//旁白居中就行了
@@ -142,12 +142,36 @@ public class PlotWindow : BaseWindow
             creatDialogueItem.x = 14;
             var narrationItem = (creatDialogueItem as fun_Plot.NarrationItem).item;
             narrationItem.scale = Vector2.zero;
-            narrationItem.txt_msg.text = Lang.GetValue(poltDialogueConfig.dialogue);
+            //narrationItem.txt_msg.text = Lang.GetValue(poltDialogueConfig.dialogue);
+            StartTyping(narrationItem.txt_msg, Lang.GetValue(poltDialogueConfig.dialogue));
             //直接从中间缓动出来
             narrationItem.TweenScale(Vector2.one, 0.2f).SetEase(EaseType.CircIn);
         }
 
         showDialogueCount += 1;
+    }
+
+    private string fullText;
+    private float typingSpeed = 0.05f; // 每个字符的显示间隔
+    private Coroutine typingCoroutine;
+    private void StartTyping(GTextField textFile, string text)
+    {
+        fullText = text;
+        textFile.text = "";
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+        typingCoroutine = StartCoroutine(TypeText(textFile));
+    }
+
+    private IEnumerator TypeText(GTextField textFile)
+    {
+        foreach (char letter in fullText.ToCharArray())
+        {
+            textFile.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        typingCoroutine = null;
     }
 
     private static List<fun_Plot.DialogueItem> cache;

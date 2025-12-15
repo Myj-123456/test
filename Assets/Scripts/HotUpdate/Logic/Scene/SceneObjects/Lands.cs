@@ -5,13 +5,13 @@ using UnityEngine;
 using YooAsset;
 
 /// <summary>
-///µØ¿é
+///åœ°å—
 /// </summary>
 public class Lands
 {
     private int startLandId = 0;
     private Dictionary<int, Land> LandDic = new Dictionary<int, Land>();
-    private uint[] unLockLandIdMap = new uint[60]//ÍÁµØ½âËøË³ĞòÓ³ÉäĞÂµÄ
+    private uint[] unLockLandIdMap = new uint[60]//åœŸåœ°è§£é”é¡ºåºæ˜ å°„æ–°çš„
     {
         1, 2, 3, 16, 17, 18,
         4, 5, 6, 19, 20, 21,
@@ -26,6 +26,11 @@ public class Lands
     };
     public void InitLands(Transform LandArea1, Transform LandArea2, Transform LandArea3, Transform LandArea4)
     {
+        // æ¸…é™¤æ‰€æœ‰æ—§çš„åœŸåœ°å¯¹è±¡ï¼Œé¿å…å¥½å‹èŠ±å›­æ•°æ®æ®‹ç•™
+        foreach (var land in LandDic.Values)
+        {
+            land.Clear();
+        }
         startLandId = 0;
         AddAreaLand(LandArea1);
         AddAreaLand(LandArea2);
@@ -36,13 +41,13 @@ public class Lands
 
 
     /// <summary>
-    /// Ìí¼ÓÒ»¸öÇøÓòÍÁµØ
+    /// æ·»åŠ ä¸€ä¸ªåŒºåŸŸåœŸåœ°
     /// </summary>
     /// <param name="structureData"></param>
     private void AddAreaLand(Transform transform)
     {
-        var gadRatio = 1f;//¼ä¸ô±ÈÂÊ
-        var lineGadRatio = 0.3f;//ĞĞ¼ä¸ô±ÈÂÊ(¿ØÖÆĞĞ¼ä¸ô)
+        var gadRatio = 1f;//é—´éš”æ¯”ç‡
+        var lineGadRatio = 0.3f;//è¡Œé—´éš”æ¯”ç‡(æ§åˆ¶è¡Œé—´éš”)
         var halfLandWidth = 0.7f;
         halfLandWidth += halfLandWidth * gadRatio;
         var halfLandHeight = 0.395f;
@@ -52,22 +57,22 @@ public class Lands
         var col = 3;
         var offX = 0f;
         var offY = 0f;
-        const float waitCreateTimeGap = 0.033f;//´ó¸ÅÒ»Ö¡Ò»¸ö
+        const float waitCreateTimeGap = 0.033f;//å¤§æ¦‚ä¸€å¸§ä¸€ä¸ª
 
-        for (var i = 0; i < row; i++)//ÏÈÅÅÁĞÔÙÅÅĞĞ
+        for (var i = 0; i < row; i++)//å…ˆæ’åˆ—å†æ’è¡Œ
         {
             for (var j = 0; j < col; j++)
             {
                 waitCreateTime = waitCreateTimeGap * startLandId;
                 startLandId += 1;
 
-                //ÏÂÃæÊÇÎªÁËÊÊÅäĞÂµØÍ¼×öµÄÆ«ÒÆ
-                if (i * col + j < 6)//Ç°6¸ö
+                //ä¸‹é¢æ˜¯ä¸ºäº†é€‚é…æ–°åœ°å›¾åšçš„åç§»
+                if (i * col + j < 6)//å‰6ä¸ª
                 {
                     offX = 0.78f;
                     offY = 0.61f;
                 }
-                else//ºó9¸ö
+                else//å9ä¸ª
                 {
                     offX = -0.48f;
                     offY = -0.282f;
@@ -141,7 +146,18 @@ public class Lands
     }
 
     /// <summary>
-    /// »ñÈ¡¿ÉÊÕ»ñµÄÍÁµØidÁĞ±í
+    /// æ›´æ–°æ‰€æœ‰åœŸåœ°çš„å·èŠ±å°æ‰‹æ˜¾ç¤º
+    /// </summary>
+    public void UpdateAllLandSteal()
+    {
+        foreach (var k in LandDic)
+        {
+            k.Value.UpdateFriendSteal();
+        }
+    }
+
+    /// <summary>
+    /// è·å–å¯æ”¶è·çš„åœŸåœ°idåˆ—è¡¨
     /// </summary>
     /// <returns></returns>
     public List<uint> GetHarvestLandIds()
@@ -158,14 +174,14 @@ public class Lands
     }
 
     /// <summary>
-    /// »ñÈ¡Ò»¸öÒÑ½âËø¿ÕÍÁµØ
+    /// è·å–ä¸€ä¸ªå·²è§£é”ç©ºåœŸåœ°
     /// </summary>
     /// <returns></returns>
     public Land GetUnLockEmptyLand()
     {
         foreach (var land in LandDic)
         {
-            if (land.Value.plantVO != null && land.Value.plantVO.flowerId <= 0)//ÒÑ½âËøÎ´ÖÖÖ²
+            if (land.Value.plantVO != null && land.Value.plantVO.flowerId <= 0)//å·²è§£é”æœªç§æ¤
             {
                 return land.Value;
             }
@@ -174,7 +190,7 @@ public class Lands
     }
 
     /// <summary>
-    /// »ñÈ¡Ò»¸öÒÑ¾­ÖÖÖ²Ö¸¶¨»¨µÄÍÁµØ
+    /// è·å–ä¸€ä¸ªå·²ç»ç§æ¤æŒ‡å®šèŠ±çš„åœŸåœ°
     /// </summary>
     /// <param name="flowerId"></param>
     /// <returns></returns>
@@ -191,7 +207,7 @@ public class Lands
     }
 
     /// <summary>
-    /// »ñÈ¡Ò»¸öÒÑ¾­ÖÖÖ²µÄÍÁµØ
+    /// è·å–ä¸€ä¸ªå·²ç»ç§æ¤çš„åœŸåœ°
     /// </summary>
     /// <param name="flowerId"></param>
     /// <returns></returns>
@@ -208,7 +224,7 @@ public class Lands
     }
 
     /// <summary>
-    /// »ñÈ¡¿ÉÒÔ½½Ë®µÄÍÁµØ
+    /// è·å–å¯ä»¥æµ‡æ°´çš„åœŸåœ°
     /// </summary>
     /// <returns></returns>
     public Land GetWaterLand()
@@ -219,7 +235,7 @@ public class Lands
     }
 
     /// <summary>
-    /// »ñÈ¡¿ÉÒÔÊÕ»ñµÄÍÁµØ
+    /// è·å–å¯ä»¥æ”¶è·çš„åœŸåœ°
     /// </summary>
     /// <returns></returns>
     public Land GetHarvestLand()
@@ -235,25 +251,25 @@ public class Lands
     }
 
     /// <summary>
-    /// ¸ù¾İ»¨idÓÅÏÈ»ñÈ¡Ò»¸öÒÑ¾­ÖÖÖ²µÄÍÁµØ
-    /// Ã»ÓĞ»ñÈ¡Ò»¸ö¿ÕÍÁµØ
-    /// ×îºóÄ¬ÈÏ
+    /// æ ¹æ®èŠ±idä¼˜å…ˆè·å–ä¸€ä¸ªå·²ç»ç§æ¤çš„åœŸåœ°
+    /// æ²¡æœ‰è·å–ä¸€ä¸ªç©ºåœŸåœ°
+    /// æœ€åé»˜è®¤
     /// </summary>
     /// <param name="flowerId"></param>
     /// <returns></returns>
     public Land GetUnLockEmptyLandByFlowerId(int flowerId)
     {
         Land land = null;
-        if (flowerId > 0)//»ñÈ¡Ò»¸öÖ¸¶¨ÒÑÖÖÖ²µÄÍÁµØ
+        if (flowerId > 0)//è·å–ä¸€ä¸ªæŒ‡å®šå·²ç§æ¤çš„åœŸåœ°
         {
             land = GetPlantLandByFlowerId(flowerId);
             if (land != null) return land;
         }
-        return GetWaterLand();//ÒÑ¾­ÖÖÖ²µÄÍÁµØ£¬Ã»ÓĞ»ñÈ¡Ò»¿é¿ÕÍÁµØ
+        return GetWaterLand();//å·²ç»ç§æ¤çš„åœŸåœ°ï¼Œæ²¡æœ‰è·å–ä¸€å—ç©ºåœŸåœ°
     }
 
     /// <summary>
-    /// »ñÈ¡Ò»¸öÎ´½âËøµÄÍÁµØ
+    /// è·å–ä¸€ä¸ªæœªè§£é”çš„åœŸåœ°
     /// </summary>
     /// <returns></returns>
     public Land GetLockLand()
@@ -261,7 +277,7 @@ public class Lands
         foreach (var landId in unLockLandIdMap)
         {
             var land = GetLand((int)landId);
-            if (land != null && land.plantVO == null)//Î´½âËø
+            if (land != null && land.plantVO == null)//æœªè§£é”
             {
                 return land;
             }

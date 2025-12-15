@@ -7,7 +7,7 @@ namespace fun_VipShop
 {
     public partial class greenPicBtn : GButton
     {
-        public GImage n6;
+        public GImage n9;
         public GLoader pic;
         public GTextField titleLab;
         public const string URL = "ui://wm7arakyvedm1yjp83p";
@@ -21,7 +21,7 @@ namespace fun_VipShop
         {
             base.ConstructFromXML(xml);
 
-            n6 = (GImage)GetChildAt(0);
+            n9 = (GImage)GetChildAt(0);
             pic = (GLoader)GetChildAt(1);
             titleLab = (GTextField)GetChildAt(2);
         }

@@ -25,6 +25,7 @@ public class AddPreWindow : BaseWindow
         SetBg(view.bg, "Common/common_small_tip_bg.png");
         StringUtil.SetBtnTab(view.vip_com.vip_btn,"开通");
         StringUtil.SetBtnTab(view.video_com.video_btn, "试用");
+        view.vip_com.titleLab.text = "VIP特权";
         view.video_com.tip_lab.text = "2倍金币";
         view.vip_com.tip_lab.text = "1.25倍经验";
         var videoData = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.VIDEO_PRIVILEGE);

@@ -106,11 +106,11 @@ public class TaskJumpHelper
         }
         else if (taskInfo.TaskType == 7)//在vip商店购买n次
         {
-            UIManager.Instance.OpenPanel<ShopMainView>(UIName.ShopMainView, UILayer.UI, 2);
+            UIManager.Instance.OpenWindow<ShopMainView>(UIName.ShopMainView, 2);
         }
         else if (taskInfo.TaskType == 8)//培育商店内购买n次
         {
-            UIManager.Instance.OpenPanel<ShopMainView>(UIName.ShopMainView, UILayer.UI, 0);
+            UIManager.Instance.OpenWindow<ShopMainView>(UIName.ShopMainView, 0);
         }
         else if (taskInfo.TaskType == 9)//完成黑板订单n次
         {

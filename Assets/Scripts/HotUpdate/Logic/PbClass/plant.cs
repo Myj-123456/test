@@ -252,6 +252,22 @@ namespace protobuf.plant
     }
 
     [ProtoBuf.ProtoContract]
+    public class C_MSG_PLANT_MATURE
+    {
+        [ProtoBuf.ProtoMember(1, IsPacked = true)]
+        public uint[] decorIds;
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_PLANT_MATURE
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public System.Collections.Generic.List<I_PLANT_VO> plantList = new System.Collections.Generic.List<I_PLANT_VO>();
+
+    }
+
+    [ProtoBuf.ProtoContract]
     public class C_MSG_PLANT_FREE_SPEEDUP
     {
         [ProtoBuf.ProtoMember(1, IsPacked = true)]

@@ -50,17 +50,5 @@ namespace Elida.Config {
     // 完成奖励
     [ProtoMember(9)]
     public RewardObject[] Rewards;
-    
-    // 所属系列
-    [ProtoMember(10)]
-    public int Achievseries;
-    
-    // 下一个成就id
-    [ProtoMember(11)]
-    public int NextId;
-    
-    // 是否初始
-    [ProtoMember(12)]
-    public int IsStart;
   }
 }

@@ -78,5 +78,21 @@ namespace Elida.Config {
     // 引导列表目标的下标
     [ProtoMember(16)]
     public int Index;
+    
+    // 高亮引导光圈宽度
+    [ProtoMember(17)]
+    public float GuideCircleWidth;
+    
+    // 高亮引导光圈高度
+    [ProtoMember(18)]
+    public float GuideCircleHeight;
+    
+    // 高亮引导光圈x偏移
+    [ProtoMember(19)]
+    public float GuideCircleOffsetX;
+    
+    // 高亮引导光圈y偏移
+    [ProtoMember(20)]
+    public float GuideCircleOffsetY;
   }
 }

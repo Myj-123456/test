@@ -43,7 +43,7 @@ public class StorageModel : Singleton<StorageModel>
     public Dictionary<int, StorageItemVO> itemList;
 
     //服务器通知物品id，新增需要自己加上去
-    private int[] serverNotificeIds = new int[] { (int)BaseType.EXP, (int)BaseType.GOLD, (int)BaseType.CASH, (int)BaseType.FST_WATER, (int)BaseType.SPD_DRUG, (int)BaseType.TURNTABLE_COIN, (int)BaseType.GRANDMA_TICKET, (int)BaseType.GUILD_MEDAL };
+    private int[] serverNotificeIds = new int[] { (int)BaseType.EXP, (int)BaseType.GOLD, (int)BaseType.CASH, (int)BaseType.FST_WATER, (int)BaseType.SPD_DRUG, (int)BaseType.TURNTABLE_COIN, (int)BaseType.GRANDMA_TICKET, (int)BaseType.GUILD_MEDAL, (int)BaseType.Friend_Coin };
 
     public Ft_gift_packConfig GetItemGiftInfo(int id)
     {

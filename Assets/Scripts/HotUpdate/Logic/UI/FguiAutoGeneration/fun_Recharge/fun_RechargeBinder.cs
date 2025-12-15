@@ -8,6 +8,11 @@ namespace fun_Recharge
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(first_tip.URL, typeof(first_tip));
+            UIObjectFactory.SetPackageItemExtension(first_tip1.URL, typeof(first_tip1));
+            UIObjectFactory.SetPackageItemExtension(first_tip2.URL, typeof(first_tip2));
+            UIObjectFactory.SetPackageItemExtension(first_btn.URL, typeof(first_btn));
+            UIObjectFactory.SetPackageItemExtension(yellow_btn.URL, typeof(yellow_btn));
             UIObjectFactory.SetPackageItemExtension(recharge_main_view.URL, typeof(recharge_main_view));
             UIObjectFactory.SetPackageItemExtension(page_btn.URL, typeof(page_btn));
             UIObjectFactory.SetPackageItemExtension(card_view.URL, typeof(card_view));
@@ -16,7 +21,6 @@ namespace fun_Recharge
             UIObjectFactory.SetPackageItemExtension(card_text_item.URL, typeof(card_text_item));
             UIObjectFactory.SetPackageItemExtension(reward_item.URL, typeof(reward_item));
             UIObjectFactory.SetPackageItemExtension(buy_btn.URL, typeof(buy_btn));
-            UIObjectFactory.SetPackageItemExtension(look_btn.URL, typeof(look_btn));
             UIObjectFactory.SetPackageItemExtension(one_key_com.URL, typeof(one_key_com));
             UIObjectFactory.SetPackageItemExtension(card_item2.URL, typeof(card_item2));
             UIObjectFactory.SetPackageItemExtension(recharge_list.URL, typeof(recharge_list));
@@ -26,8 +30,6 @@ namespace fun_Recharge
             UIObjectFactory.SetPackageItemExtension(first_recharge_view.URL, typeof(first_recharge_view));
             UIObjectFactory.SetPackageItemExtension(buy_btn1.URL, typeof(buy_btn1));
             UIObjectFactory.SetPackageItemExtension(reward_item1.URL, typeof(reward_item1));
-            UIObjectFactory.SetPackageItemExtension(reward_item2.URL, typeof(reward_item2));
-            UIObjectFactory.SetPackageItemExtension(btn.URL, typeof(btn));
             UIObjectFactory.SetPackageItemExtension(page_btn1.URL, typeof(page_btn1));
             UIObjectFactory.SetPackageItemExtension(item_com.URL, typeof(item_com));
             UIObjectFactory.SetPackageItemExtension(vip_buy_view.URL, typeof(vip_buy_view));

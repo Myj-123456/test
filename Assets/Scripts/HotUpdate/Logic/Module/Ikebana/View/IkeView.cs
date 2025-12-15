@@ -354,6 +354,11 @@ public class IkeView : BaseView
     public override void OnHide()
     {
         base.OnHide();
+        if(IkeModel.Instance.runHide != 0)
+        {
+            IkeModel.Instance.runHide = 0;
+            return;
+        }
         // 其他关闭面板的逻辑
         if (openOrder != null && openOrder.orderId != 0)
         {

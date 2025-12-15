@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ADK;
 
-public class DressInfoWindow : BaseView
+public class DressInfoWindow : BaseWindow
 {
    private fun_Dress.dress_info_view view;
     private SuitConfig curInfo;
@@ -21,6 +21,8 @@ public class DressInfoWindow : BaseView
         BindAllDelegate = fun_Dress.fun_DressBinder.BindAll;
         CreateInstanceDelegate = fun_Dress.dress_info_view.CreateInstance;
         fairyBatching = false;
+        openWithTween = false;
+        FullScreen = true;
     }
 
     public override void OnInit()

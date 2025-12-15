@@ -194,44 +194,6 @@ public class UIManager : Singleton<UIManager>
     }
 
     /// <summary>
-    /// 同步方式从Resource文件夹打开界面
-    /// </summary>
-    /// <typeparam name="TPanel"></typeparam>
-    /// <param name="panelName"></param>
-    /// <param name="layer"></param>
-    public void OpenPanelFromResource<TPanel>(string panelName, UILayer layer = UILayer.UI) where TPanel : BaseView, new()
-    {
-        Debug.Log("OpenPanel: " + panelName);
-        BaseView panel;
-        if (!panelDic.TryGetValue(panelName, out panel))
-        {
-            panel = new TPanel();
-            UIPackage.AddPackage(panel.packageName);
-            panel.BindAllDelegate?.Invoke();
-            var contentPanel = panel.CreateInstanceDelegate?.Invoke().asCom;
-            panel.ui = contentPanel;
-
-            contentPanel.MakeFullScreen();
-            contentPanel.AddRelation(gRoot, RelationType.Size);
-
-            var uiLayer = GetLayer(layer);
-            if (uiLayer != null)
-            {
-                uiLayer.AddChild(contentPanel);
-                panel.OnInit();
-                panel.Visible = true;
-                panel.OnShown();
-                panelDic.Add(panelName, panel);
-            }
-        }
-        else
-        {
-            panel.Visible = true;
-            panel.OnShown();
-        }
-    }
-
-    /// <summary>
     /// 异步方式打开界面 传递数据
     /// </summary>
     /// <typeparam name="TPanel"></typeparam>
@@ -391,9 +353,9 @@ public class UIManager : Singleton<UIManager>
             window.Visible = true;
             contentPanel.data = window;
             uiLayer.AddChildAt(contentPanel, uiLayer.numChildren);
+            windowDic.Add(window.uiName, window);
             AddShowWindowNum(window);
             ShowWindow(window, true);
-            windowDic.Add(window.uiName, window);
         }
     }
 

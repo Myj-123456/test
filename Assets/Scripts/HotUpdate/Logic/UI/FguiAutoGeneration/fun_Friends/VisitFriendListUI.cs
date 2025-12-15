@@ -14,7 +14,7 @@ namespace fun_Friends
         public GList list_visitFriend;
         public btnHome btn_home;
         public GTextField txt_noFriendPrompt;
-        public one_key_btn one_key_btn;
+        public btn_onekey one_key_btn;
         public const string URL = "ui://fteyf9nzivvl1yjp7th";
 
         public static VisitFriendListUI CreateInstance()
@@ -33,7 +33,7 @@ namespace fun_Friends
             list_visitFriend = (GList)GetChildAt(4);
             btn_home = (btnHome)GetChildAt(5);
             txt_noFriendPrompt = (GTextField)GetChildAt(6);
-            one_key_btn = (one_key_btn)GetChildAt(7);
+            one_key_btn = (btn_onekey)GetChildAt(7);
         }
     }
 }

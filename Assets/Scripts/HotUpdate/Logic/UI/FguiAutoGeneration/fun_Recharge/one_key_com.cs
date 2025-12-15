@@ -7,7 +7,7 @@ namespace fun_Recharge
 {
     public partial class one_key_com : GComponent
     {
-        public GImage n1;
+        public GImage n10;
         public GTextField titleLab;
         public GTextField txt_1;
         public GTextField txt_2;
@@ -26,7 +26,7 @@ namespace fun_Recharge
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
+            n10 = (GImage)GetChildAt(0);
             titleLab = (GTextField)GetChildAt(1);
             txt_1 = (GTextField)GetChildAt(2);
             txt_2 = (GTextField)GetChildAt(3);

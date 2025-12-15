@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -121,7 +121,8 @@ namespace ADK
         PETAL = 19000008,//花瓣
         ROB_TOKEN = 19000006,//抢夺令
         ColorPower = 41013001,//颜色之力
-        GUILDGOLD = 19000012//社团资金
+        GUILDGOLD = 19000012,//社团资金
+        Friend_Coin = 41013044,//好友币
     }
 
     public class BaseTypeEntity

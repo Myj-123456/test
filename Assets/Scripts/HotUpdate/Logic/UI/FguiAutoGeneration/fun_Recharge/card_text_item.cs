@@ -8,8 +8,7 @@ namespace fun_Recharge
     public partial class card_text_item : GComponent
     {
         public Controller type;
-        public GImage n1;
-        public GImage n4;
+        public GImage n5;
         public GRichTextField lab;
         public const string URL = "ui://w3ox9yltdidl1i";
 
@@ -23,9 +22,8 @@ namespace fun_Recharge
             base.ConstructFromXML(xml);
 
             type = GetControllerAt(0);
-            n1 = (GImage)GetChildAt(0);
-            n4 = (GImage)GetChildAt(1);
-            lab = (GRichTextField)GetChildAt(2);
+            n5 = (GImage)GetChildAt(0);
+            lab = (GRichTextField)GetChildAt(1);
         }
     }
 }

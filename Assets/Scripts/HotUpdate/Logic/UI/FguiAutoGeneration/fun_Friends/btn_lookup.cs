@@ -11,7 +11,6 @@ namespace fun_Friends
         public GImage n0;
         public const string URL = "ui://fteyf9nzg3sj1yjp7tn";
 
-
         public static btn_lookup CreateInstance()
         {
             return (btn_lookup)UIPackage.CreateObject("fun_Friends", "btn_lookup");

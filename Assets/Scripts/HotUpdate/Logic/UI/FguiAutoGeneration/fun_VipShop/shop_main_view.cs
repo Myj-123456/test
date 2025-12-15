@@ -8,13 +8,15 @@ namespace fun_VipShop
     public partial class shop_main_view : GComponent
     {
         public Controller tab;
+        public GLoader bg;
         public ShopView cultivation_view;
         public OtherView other_view;
         public VipShop vip_shop;
+        public GImage n11;
         public GButton close_btn;
-        public page_btn seed_btn;
-        public page_btn other_btn;
-        public page_btn vip_btn;
+        public GButton seed_btn;
+        public GButton other_btn;
+        public GButton vip_btn;
         public GGroup n8;
         public const string URL = "ui://wm7arakybwswh";
 
@@ -28,14 +30,16 @@ namespace fun_VipShop
             base.ConstructFromXML(xml);
 
             tab = GetControllerAt(0);
-            cultivation_view = (ShopView)GetChildAt(0);
-            other_view = (OtherView)GetChildAt(1);
-            vip_shop = (VipShop)GetChildAt(2);
-            close_btn = (GButton)GetChildAt(3);
-            seed_btn = (page_btn)GetChildAt(4);
-            other_btn = (page_btn)GetChildAt(5);
-            vip_btn = (page_btn)GetChildAt(6);
-            n8 = (GGroup)GetChildAt(7);
+            bg = (GLoader)GetChildAt(0);
+            cultivation_view = (ShopView)GetChildAt(1);
+            other_view = (OtherView)GetChildAt(2);
+            vip_shop = (VipShop)GetChildAt(3);
+            n11 = (GImage)GetChildAt(4);
+            close_btn = (GButton)GetChildAt(5);
+            seed_btn = (GButton)GetChildAt(6);
+            other_btn = (GButton)GetChildAt(7);
+            vip_btn = (GButton)GetChildAt(8);
+            n8 = (GGroup)GetChildAt(9);
         }
     }
 }

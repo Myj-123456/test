@@ -9,50 +9,59 @@ using static protobuf.dailyTask.S_MSG_ROOKIE_INFO;
 public class WelfareModel : Singleton<WelfareModel>
 {
     private List<Ft_sign_dayConfig> _signList;
-    public List<Ft_sign_dayConfig> signList { get
+    public List<Ft_sign_dayConfig> signList
+    {
+        get
         {
-            if(_signList == null)
+            if (_signList == null)
             {
                 var signData = ConfigManager.Instance.GetConfig<Ft_sign_dayConfigData>("ft_sign_daysConfig");
                 _signList = signData.DataList;
             }
             return _signList;
-        } }
+        }
+    }
 
-    //³É³¤Ö®Â·
+    //èŒæ–°ä¹‹è·¯
     private List<Ft_rookie_taskConfig> _growthList;
-    public List<Ft_rookie_taskConfig> growthList { get
+    public List<Ft_rookie_taskConfig> growthList
+    {
+        get
         {
-            if(_growthList == null)
+            if (_growthList == null)
             {
                 var growthData = ConfigManager.Instance.GetConfig<Ft_rookie_taskConfigData>("ft_rookie_tasksConfig");
                 _growthList = growthData.DataList;
             }
             return _growthList;
-        } }
+        }
+    }
 
     private Dictionary<int, Ft_turntableConfig> _turnMap;
-    public Dictionary<int, Ft_turntableConfig> turnMap { get
+    public Dictionary<int, Ft_turntableConfig> turnMap
+    {
+        get
         {
-            if(_turnMap == null)
+            if (_turnMap == null)
             {
                 var turnData = ConfigManager.Instance.GetConfig<Ft_turntableConfigData>("ft_turntablesConfig");
                 _turnMap = turnData.DataMap;
             }
             return _turnMap;
-        } }
+        }
+    }
 
-    public uint currentDay;//µ±Ç°µÚ¼¸Ìì;
-    public bool todayHaveDraw;//½ñÈÕÊÇ·ñÁìÈ¡½±Àø
-    public uint status;//0-¹¦ÄÜÎ´½âËø 1-Î´Íê³É 2-ÒÑÍê³É
-    public uint currentSignDay;//ÔÂÇ©µ½£¬µÚ¼¸Ìì Îª0 ¾ÍÊÇ¹¦ÄÜÎ´½âËø
-    public uint signDay; //ÔÂÇ©µ½£¬µ±Ç°ÒÑ¾­Ç©µ½ÁËµÚ¼¸Ìì,ÒÑ¾­°üº¬ÁË²¹Ç©ÌìÊı
-    public bool isSign;//½ñÈÕÊÇ·ñÒÑ¾­Ç©µ½
-    public uint retroactiveDays;//µ±Ç°ÒÑ²¹Ç©ÌìÊı
+    public uint currentDay;//å½“å‰ç¬¬å‡ å¤©;
+    public bool todayHaveDraw;//ä»Šå¤©æ˜¯å¦å·²é¢†å–å¥–åŠ±
+    public uint status;//0-æ´»åŠ¨æœªå¼€å§‹ 1-æœªå®Œæˆ 2-å·²å®Œæˆ
+    public uint currentSignDay;//è¡¥ç­¾æœ€å¤§å¤©æ•° ä¸º0 åˆ™æ˜¯ä»Šå¤©æœªè¡¥ç­¾
+    public uint signDay; //ç­¾åˆ°å¤©æ•°å½“å‰å·²ç»ç­¾åˆ°äº†å¤šå°‘å¤©,å·²ç»ç®—ä¸Šäº†è¡¥ç­¾å¤©æ•°
+    public bool isSign;//ä»Šå¤©æ˜¯å¦å·²ç»ç­¾åˆ°
+    public uint retroactiveDays;//å½“å‰å·²è¡¥ç­¾å¤©æ•°
 
-    public List<I_ROOKIE_TASK> rookieTask;//³É³¤ÈÎÎñ
-    public uint days;//ÒÑ¿ªÆôÌìÊı
-    public uint[] rookieRewards;// rookie½±Àøid
+    public List<I_ROOKIE_TASK> rookieTask;//èŒæ–°ä»»åŠ¡
+    public uint days;//å·²ç™»å½•å¤©æ•°
+    public uint[] rookieRewards;// rookieä»»åŠ¡id
 
     public Ft_turntableConfig GetTurnInfo(int id)
     {
@@ -90,7 +99,7 @@ public class WelfareModel : Singleton<WelfareModel>
     }
     public int GetStatusRookie(uint indexId)
     {
-        if(rookieRewards != null && Array.IndexOf(rookieRewards,indexId) != -1)
+        if (rookieRewards != null && Array.IndexOf(rookieRewards, indexId) != -1)
         {
             return 2;
         }
@@ -116,7 +125,7 @@ public class WelfareModel : Singleton<WelfareModel>
         return listData;
     }
 
-    //ÅĞ¶Ï³É³¤Ö®Â·½±ÀøÁìÍê
+    //åˆ¤æ–­èŒæ–°ä¹‹è·¯æ˜¯å¦å®Œæˆ
     public bool IsGrowthGetted()
     {
         var bol = rookieRewards != null && rookieRewards.Length == growthList.Count;

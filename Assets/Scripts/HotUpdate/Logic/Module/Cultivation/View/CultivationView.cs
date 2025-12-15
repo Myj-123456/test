@@ -46,7 +46,7 @@ public class CultivationView : BaseView
         base.OnInit();
         viewSkin = ui as fun_CultivateSeeds.cultivation_new_panel;
 
-        SetBg(viewSkin.bg,"Cultivation/ELIDA_peiyu_bg.jpg");
+        SetBg(viewSkin.bg, "Cultivation/ELIDA_peiyu_bg.jpg");
         animeContainer = new GLoader3D();
         animeContainer.autoSize = true;
         viewSkin.AddChild(animeContainer);
@@ -95,7 +95,7 @@ public class CultivationView : BaseView
             {
                 return;
             }
-            UIManager.Instance.OpenPanel<ShopMainView>(UIName.ShopMainView,UILayer.UI,0);
+            UIManager.Instance.OpenWindow<ShopMainView>(UIName.ShopMainView, 0);
         });
 
         //viewSkin.btn_video.enabled = false;
@@ -133,7 +133,16 @@ public class CultivationView : BaseView
 
         viewSkin.go_plant.onClick.Add(() =>
         {
-            UIManager.Instance.ClosePanel(UIName.CultivationView);
+            IkeModel.Instance.runHide = 1;
+            if (GuideModel.Instance.IsGuiding)
+            {
+                UIManager.Instance.ClosePanel(UIName.CultivationView);
+            }
+            else
+            {
+                UIManager.Instance.CloseAllPannel(true);
+            }
+
             EventManager.Instance.DispatchEvent(GuideEvent.HideGuideUI);
             SceneManager.Instance.MoveToPantFlower(() =>
             {
@@ -196,7 +205,7 @@ public class CultivationView : BaseView
         StaticSeedCondition staticSeedCondition = currCultivationList[index];
         cell.data = staticSeedCondition;
         Module_item_defConfig itemData = ItemModel.Instance.GetItemById(staticSeedCondition.FlowerId);
-        if(itemData != null)
+        if (itemData != null)
         {
             cell.pic.url = ImageDataModel.Instance.GetFlowerStatusUrl(staticSeedCondition.FlowerId, 2);
             cell.name_txt.text = Lang.GetValue(itemData.Name);
@@ -206,7 +215,7 @@ public class CultivationView : BaseView
             return;
         }
         //cell.pic.url = ImageDataModel.Instance.GetIconUrlByItemId(staticSeedCondition.FlowerId);
-        
+
     }
 
     private void OnItemClick(EventContext context)
@@ -224,17 +233,17 @@ public class CultivationView : BaseView
             UpdateCost(itemCostArr[i], staticSeedCondition.ItemIds[i]);
         }
         viewSkin.cultivation_btn.enabled = false;
-        
+
         DOTween.Sequence().Append(DOTween.To(() => viewSkin.effect_img.y, x => viewSkin.effect_img.y = x, effectEndY, 0.5f).SetEase(Ease.OutCubic))
             .Append(DOTween.To(() => viewSkin.effect_img.alpha, x => viewSkin.effect_img.alpha = x, 0f, 0.25f).SetEase(Ease.OutCubic)).OnComplete(() =>
             {
                 viewSkin.effect_img.alpha = 1;
                 viewSkin.effect_img.url = "";
                 viewSkin.flower_name.text = "";
-                
+
                 //viewSkin.form.visible = false;
                 viewSkin.flower_img.grayed = false;
-                UpdateFlowerImg(currSelectFlower, 0,true);
+                UpdateFlowerImg(currSelectFlower, 0, true);
                 viewSkin.status.selectedIndex = 2;
 
 
@@ -275,7 +284,7 @@ public class CultivationView : BaseView
         }
     }
 
-    private void UpdateFlowerImg(int flowerId, int status,bool isPlayGrow)
+    private void UpdateFlowerImg(int flowerId, int status, bool isPlayGrow)
     {
         Module_item_defConfig itemVo = ItemModel.Instance.GetItemById(flowerId);
         if (itemVo != null)
@@ -326,7 +335,8 @@ public class CultivationView : BaseView
         {
             viewSkin.spine.loop = true;
             viewSkin.spine.animationName = "step_1_idle";
-        }else if(name == "step_2_grow")
+        }
+        else if (name == "step_2_grow")
         {
             viewSkin.spine.loop = true;
             viewSkin.spine.animationName = "step_2_idle";
@@ -454,7 +464,7 @@ public class CultivationView : BaseView
                 {
                     UpdateFlowerImg(CultivationModel.Instance.flowerId, 1, false);
                 }
-                
+
                 viewSkin.status.selectedIndex = 3;
                 float cost = Mathf.Ceil(leftTime / CultivationModel.Instance.costMinTime / 60) * CultivationModel.Instance.costMinRate;
                 StringUtil.SetBtnTab(skipBtn, "x" + cost);
@@ -478,7 +488,7 @@ public class CultivationView : BaseView
                         timer.Clear();
                         timer = null;
                         UpdateData();
-                        if(GuideModel.Instance.IsGuiding && GuideModel.Instance.curGuideStep == 13)
+                        if (GuideModel.Instance.IsGuiding && GuideModel.Instance.curGuideStep == 13)
                         {
                             GuideController.Instance.NextGuide();
                         }

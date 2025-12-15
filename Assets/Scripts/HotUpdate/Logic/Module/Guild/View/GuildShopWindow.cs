@@ -37,7 +37,7 @@ public class GuildShopWindow : BaseWindow
     {
         base.OnShown();
         // 其他打开面板的逻辑
-        listData = GuildModel.Instance.shopConfig;
+        listData = GuildModel.Instance.GetShopList(1);
         page = (int)Mathf.Ceil((float)listData.Count / 3f);
         GuildController.Instance.ReqGuildShopInfo();
     }

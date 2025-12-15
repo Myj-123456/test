@@ -25,7 +25,7 @@ public class CumulativeView
         view.page_list.itemRenderer = RenderPageList;
         //view.page_list.SetVirtual();
         listData = RechargeModel.Instance.rechargeGiftList;
-        view.page_list.numItems = listData.Count;
+        
         view.spine.loop = true;
         view.spine.forcePlay = true;
         view.left_btn.onClick.Add(() =>
@@ -99,22 +99,34 @@ public class CumulativeView
             view.nameLab.text = Lang.GetValue(flowerVo.Name);
             var condition = FlowerHandbookModel.Instance.GetStaticSeedCondition1(flowerVo.ItemDefId);
             view.nameLab.strokeColor = StringUtil.HexToColor(txtColorArr[condition.FlowerQuality - 1]);
-            view.name_bg.url = "HandBookNew/name_bg_color_" + condition.FlowerQuality + ".png";
+            view.name_bg.url = "HandBookNew/name_bg_small_color_" + condition.FlowerQuality + ".png";
             view.rare_img.url = "HandBookNew/rare_icon_" + condition.FlowerQuality + ".png";
+            view.decLab.text = Lang.GetValue("rcumulative_1", info.AccumulatedRecharge.ToString(), Lang.GetValue(flowerVo.Name));
         }
         else
         {
-            //view.icon.url = info.sho
+            
             view.type.selectedIndex = 0;
         }
         view.pro.value = RechargeModel.Instance.rechargeAmount;
-        view.numLab.text = Lang.GetValue("cumulative_3") + RechargeModel.Instance.rechargeAmount;
-        view.goto_btn.visible = RechargeModel.Instance.rechargeAmount < info.AccumulatedRecharge;
+        view.numLab.text = Lang.GetValue("cumulative_3") + "[color=#28f500]" + RechargeModel.Instance.rechargeAmount+ "[/color]";
+        
 
         view.proLab.text = (RechargeModel.Instance.rechargeAmount > info.AccumulatedRecharge? info.AccumulatedRecharge: RechargeModel.Instance.rechargeAmount) + "/" + info.AccumulatedRecharge;
         view.list.numItems = rewards.Length;
-        view.get_btn.visible = RechargeModel.Instance.rechargeAmount >= info.AccumulatedRecharge;
-        view.get_btn.enabled = RechargeModel.Instance.rechargeAmount >= info.AccumulatedRecharge ? RechargeModel.Instance.rechargeRewards == null || Array.IndexOf(RechargeModel.Instance.rechargeRewards,(uint)info.Id) == -1: false;
+        if (RechargeModel.Instance.rechargeRewards != null && Array.IndexOf(RechargeModel.Instance.rechargeRewards, (uint)info.Id) != -1)
+        {
+            view.status.selectedIndex = 2;
+        }
+        else if(RechargeModel.Instance.rechargeAmount >= info.AccumulatedRecharge)
+        {
+            view.status.selectedIndex = 1;
+        }
+        else
+        {
+            view.status.selectedIndex = 0;
+        }
+        view.page_list.numItems = listData.Count;
         UpdateBtnStatus();
     }
     private void UpdateBtnStatus()
@@ -139,13 +151,13 @@ public class CumulativeView
     }
     private void ListRender(int index,GObject item)
     {
-        var cell = item as fun_Recharge.reward_item2;
+        var cell = item as common_New.item_com;
         var rewardInfo = rewards[index];
         var itemVo = ItemModel.Instance.GetItemByEntityID(rewardInfo.EntityID);
         if(itemVo!= null)
         {
             cell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-            cell.countLab.text = rewardInfo.Value.ToString();
+            cell.numLab.text = rewardInfo.Value.ToString();
             UILogicUtils.SetItemShow(cell, itemVo.ItemDefId);
         }
         
@@ -157,6 +169,14 @@ public class CumulativeView
         var cell = item as fun_Recharge.page_btn1;
         var info = listData[index];
         cell.titleLab.text = Lang.GetValue("recharge_main_18", info.AccumulatedRecharge.ToString());
+        if (RechargeModel.Instance.rechargeRewards != null && Array.IndexOf(RechargeModel.Instance.rechargeRewards, (uint)info.Id) != -1 || RechargeModel.Instance.rechargeAmount < info.AccumulatedRecharge)
+        {
+            cell.red_point.visible = false;
+        }
+        else
+        {
+            cell.red_point.visible = true;
+        }
         cell.data = index;
         cell.onClick.Add(SelectBtn);
     }

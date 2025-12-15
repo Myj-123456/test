@@ -30,7 +30,7 @@ public class VipShopWindow
     {
         _view.titleLab.text = Lang.GetValue("shop_main_2");
         _view.tipLab.text = Lang.GetValue("Vip_store_txt3");
-        _view.tipLab1.text = Lang.GetValue("shop_main_3");
+        
         _view.pic.url = ImageDataModel.CASH_ICON_URL;
         _view.list.itemRenderer = RenderCommonSale;
         _view.list.SetVirtual();
@@ -78,6 +78,7 @@ public class VipShopWindow
         var shopData = listData[index];
         var shop = VipShopModel.Instance.GetVipShopData((uint)shopData.Id);
         cell.type.selectedIndex = shopData.Type;
+        cell.dis.selectedIndex = shopData.Discount == 0 ? 0 : 1;
         if(shopData.Type == 1)
         {
             if(timer1 != null)
@@ -89,14 +90,22 @@ public class VipShopWindow
             timer1 = new CountDownTimer(cell.timeLab, endTime, true, 2);
         }
         cell.discount.text = Lang.GetValue("Discount_information_10011", shopData.Discount.ToString());
+        var itemVo = ItemModel.Instance.GetItemByEntityID(shopData.ItemId.ToString());
+        cell.bg.url = ImageDataModel.Instance.GetItemQuality(itemVo.Quality);
         cell.pic.url = ImageDataModel.Instance.GetIconUrlByEntityId(shopData.ItemId);
         cell.nameLab.text = ItemModel.Instance.GetNameByEntityID(shopData.ItemId.ToString());
         cell.numLab.text = shopData.ItemNum.ToString();
         cell.limitLab.text = Lang.GetValue("draw_limit_buy_2") + "（" + (shop == null ? shopData.Times : shopData.Times - shop.buyCount) + "/" + shopData.Times + "）";
-        cell.costLab.text = shopData.Price.ToString();
-        cell.cost_img.url = VipShopModel.Instance.GetURLByPriceType(shopData.PriceType);
+        
+        var orpic = Mathf.Ceil((float)shopData.Price / shopData.Discount * 10);
+        StringUtil.SetBtnTab(cell.buy_btn, shopData.Price.ToString());
+        StringUtil.SetBtnTab3(cell.buy_btn, orpic.ToString());
+        StringUtil.SetBtnUrl(cell.buy_btn, VipShopModel.Instance.GetURLByPriceType(shopData.PriceType));
+        StringUtil.SetBtnTab(cell.buy_btn1, shopData.Price.ToString());
+        StringUtil.SetBtnUrl(cell.buy_btn1, VipShopModel.Instance.GetURLByPriceType(shopData.PriceType));
 
-        cell.buy_btn.enabled = shop == null || shopData.Times > shop.buyCount;
+        cell.status.selectedIndex = (shop == null || shopData.Times > shop.buyCount) ? 0 : 1;
+        //cell.buy_btn.enabled = shop == null || shopData.Times > shop.buyCount;
         cell.buy_btn.data = shopData;
         cell.buy_btn.onClick.Add(BuyItem);
     }
@@ -132,6 +141,7 @@ public class VipShopWindow
        var orderVo = OrderModel.Instance.GetOrderInfo(flowerVo.FlowerId);
         _view.buy_btn.enabled = vipShop == null || vipShop.buyCount < shopData.Times;
         _view.buy_btn.data = shopData;
+        _view.nameLab.text = Lang.GetValue(itemVo.Name);
         if(_view.spine.url == "" || _view.spine.url != flowerVo.FlowerId.ToString())
         {
             _view.spine.url = "flowers/" + flowerVo.FlowerId;
@@ -149,9 +159,8 @@ public class VipShopWindow
         _view.cashlab.text = Lang.GetValue("shop_main_6") + orderVo.Experience;
         var endTime = shopData.EndTime - (int)ServerTime.Time;
         _view.timeLab.text = "";
-        timer = new CountDownTimer(_view.timeLab, endTime,false);
-        timer.prefixString = Lang.GetValue("shop_main_4");
-        timer.Run();
+        timer = new CountDownTimer(_view.timeLab, endTime,true);
+        
         timer.CompleteCallBacker = () =>
         {
             _view.timeLab.text = "";

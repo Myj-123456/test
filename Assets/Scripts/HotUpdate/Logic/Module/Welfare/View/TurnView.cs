@@ -8,6 +8,7 @@ using ADK;
 public class TurnView
 {
    private fun_Welfare.turntable_view view;
+   private CountDownTimer countDownTimer;
 
    public TurnView(fun_Welfare.turntable_view ui)
     {
@@ -20,8 +21,6 @@ public class TurnView
             WelfareController.Instance.ReqTurnTable();
         });
         EventManager.Instance.AddEventListener(WelfareEvent.TurnTable, UpdateData);
-
-
     }
 
     public void OnShown()
@@ -30,8 +29,39 @@ public class TurnView
     }
     private void UpdateData()
     {
-        view.numLab.text = TurnBoxManager.Instance.boxNum + "/" + GlobalModel.Instance.module_profileConfig.keMaxNum;
+        if (TurnBoxManager.Instance.boxNum > 0)
+        {
+            view.numLab.text = TurnBoxManager.Instance.boxNum + "/" + GlobalModel.Instance.module_profileConfig.keMaxNum;
+        }
+        else
+        {
+            view.textColorctrl.selectedIndex = 1;
+        }
         view.get_btn.enabled = TurnBoxManager.Instance.boxNum > 0;
+        
+        // 更新倒计时显示
+        if (TurnBoxManager.Instance.boxNum < GlobalModel.Instance.module_profileConfig.keMaxNum && TurnBoxManager.Instance.timer != null)
+        {
+            // 清理旧的倒计时器
+            if (countDownTimer != null)
+            {
+                countDownTimer.Clear();
+                countDownTimer = null;
+            }
+            
+            // 创建新的倒计时器，将time_text传递给它
+            countDownTimer = new CountDownTimer(view.time_text, TurnBoxManager.Instance.timer.time,true,2);
+        }
+        else
+        {
+            // 没有倒计时时清空文本
+            view.time_text.text = "00:00:00";
+            if (countDownTimer != null)
+            {
+                countDownTimer.Clear();
+                countDownTimer = null;
+            }
+        }
     }
 
     private void InitItemShow()
@@ -49,7 +79,12 @@ public class TurnView
 
     public void OnHide()
     {
-        
+        // 隐藏时清理倒计时器
+        if (countDownTimer != null)
+        {
+            countDownTimer.Clear();
+            countDownTimer = null;
+        }
     }
 }
 

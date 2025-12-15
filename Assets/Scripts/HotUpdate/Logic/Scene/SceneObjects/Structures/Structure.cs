@@ -197,7 +197,7 @@ public class Structure : SceneObject
         }
         else if (structureData.buildingDefId == 29000002)//培育花房
         {
-            UIManager.Instance.OpenPanel<CultivationView>(UIName.CultivationView);
+            UIManager.Instance.OpenPanel<CultivationView>(UIName.CultivationView, UILayer.SecondUI);
         }
         else if (structureData.buildingDefId == 29000005)//好友交易
         {
@@ -223,7 +223,8 @@ public class Structure : SceneObject
             {
                 return;
             }
-            UIManager.Instance.OpenWindow<MailWindow>(UIName.MailWindow);
+            UIManager.Instance.OpenWindow<VisitRecordView>(UIName.VisitRecordView);
+            //UIManager.Instance.OpenWindow<MailWindow>(UIName.MailWindow);
         }
         else if (structureData.buildingDefId == 29000012)//小萝莉npc收集
         {
@@ -285,7 +286,7 @@ public class Structure : SceneObject
     }
     public void UpdateWaterPro()
     {
-        if (structureData.buildingDefId == 29000016 && MyselfModel.Instance.welfareInfo.waterBucketTime != 0 && (MyselfModel.Instance.behaviorDaily.waterBucketCnt + GetHaveBucket()) < GlobalModel.Instance.module_profileConfig.bucketMaxDay)
+        if (structureData.buildingDefId == 29000016 && MyselfModel.Instance.welfareInfo.waterBucketTime != 0)
         {
             var isMax = true;
             var endTime = GetEndTime();
@@ -298,14 +299,13 @@ public class Structure : SceneObject
                     break;
                 }
             }
-            if (!isMax)
+            if (!isMax && endTime >= 0)
             {
                 water_pro.gameObject.SetActive(true);
                 (water_pro.ui as fun_Scene.water_pro1).max = GlobalModel.Instance.module_profileConfig.bucketRecoverCD;
                 (water_pro.ui as fun_Scene.water_pro1).value = GlobalModel.Instance.module_profileConfig.bucketRecoverCD - endTime;
                 (water_pro.ui as fun_Scene.water_pro1).TweenValue(GlobalModel.Instance.module_profileConfig.bucketRecoverCD, endTime).SetEase(FairyGUI.EaseType.Linear).OnComplete(()=> {
                     UpdateWaterPro();
-                    Debug.Log("生成了水桶：" + ServerTime.Time);
                 });
                 
             }
@@ -323,7 +323,14 @@ public class Structure : SceneObject
 
     private int GetEndTime()
     {
-        var endTime = ServerTime.Time - MyselfModel.Instance.welfareInfo.waterBucketTime;
+        if(MyselfModel.Instance.behaviorDaily.waterBucketCnt + GetHaveBucket() >= GlobalModel.Instance.module_profileConfig.bucketMaxDay){
+            return -1;
+        }
+        int endTime = (int)ServerTime.Time - (int)MyselfModel.Instance.welfareInfo.waterBucketTime;
+        if(endTime < 0)
+        {
+            endTime = 0;
+        }
         if (endTime >= GlobalModel.Instance.module_profileConfig.bucketRecoverCD)
         {
             var num = endTime / GlobalModel.Instance.module_profileConfig.bucketRecoverCD;

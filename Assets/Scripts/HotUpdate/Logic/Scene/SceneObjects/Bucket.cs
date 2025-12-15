@@ -44,10 +44,10 @@ public class Bucket : SceneObject
         int randomNumber = Random.Range(1, 101);
         var videoVo = VideoModel.Instance.GetVideo((int)VideoSeeType.mouse_video_id);
         var num = VideoModel.Instance.GetWatchVideoCount((int)VideoSeeType.mouse_video_id);
-        if (randomNumber <= GlobalModel.Instance.module_profileConfig.bucketVideoProb && num < videoVo.Sp_limit)
+        if (!GuideModel.Instance.IsGuiding && randomNumber <= GlobalModel.Instance.module_profileConfig.bucketVideoProb && num < videoVo.Sp_limit)
         {
             UIManager.Instance.OpenWindow<WaterVideoWindow>(UIName.WaterVideoWindow, pos);
-            
+
         }
         else
         {

@@ -28,7 +28,7 @@ public class ResPath
     public static string GetSpinePath(string fileName)
     {
         var spiSymbolIndex = fileName.IndexOf("/");
-        if (spiSymbolIndex != -1)//ÎÄ¼şÄ¿Â¼²ğ·Ö
+        if (spiSymbolIndex != -1)//æ–‡ä»¶ç›®å½•å¤„ç†
         {
             var parentDir = fileName.Substring(0, spiSymbolIndex);
             var newFileName = fileName.Substring(spiSymbolIndex + 1);
@@ -126,14 +126,14 @@ public class ResPath
     }
 
     /// <summary>
-    /// »ñÈ¡»»×°²¿Î»spine¶¯»­
+    /// è·å–æœé¥°éƒ¨ä½spineèµ„æº
     /// </summary>
     /// <param name="partName"></param>
-    /// <param name="partId">0ÎªÄ¬ÈÏµÄ</param>
+    /// <param name="partId">0ä¸ºé»˜è®¤çš„</param>
     /// <returns></returns>
     public static string GetDressPartSpinePath(string partName, int partId)
     {
-        if (partName == "body")//body¶¼ÊÇÍ¨ÓÃµÄ ²»·ÖpartId
+        if (partName == "body")//bodyæ˜¯é€šç”¨çš„ å¿½ç•¥partId
         {
             return $"Assets/ResAB/Animation/Spine/dress/{partName}/{partName}_SkeletonData.asset";
         }

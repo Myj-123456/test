@@ -11,6 +11,7 @@ namespace fun_Recharge
         public GImage n13;
         public GImage n14;
         public GTextField titleLab;
+        public GImage red_point;
         public const string URL = "ui://w3ox9yltg0s01ayr82m";
 
         public static page_btn1 CreateInstance()
@@ -26,6 +27,7 @@ namespace fun_Recharge
             n13 = (GImage)GetChildAt(0);
             n14 = (GImage)GetChildAt(1);
             titleLab = (GTextField)GetChildAt(2);
+            red_point = (GImage)GetChildAt(3);
         }
     }
 }

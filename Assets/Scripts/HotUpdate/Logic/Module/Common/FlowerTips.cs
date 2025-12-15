@@ -25,7 +25,7 @@ public class FlowerTips : BaseWindow
         view.goto_btn.onClick.Add(() =>
         {
             UIManager.Instance.CloseAllWindown();
-            UIManager.Instance.OpenPanel<CultivationView>(UIName.CultivationView);
+            UIManager.Instance.OpenPanel<CultivationView>(UIName.CultivationView, UILayer.SecondUI);
         });
     }
 

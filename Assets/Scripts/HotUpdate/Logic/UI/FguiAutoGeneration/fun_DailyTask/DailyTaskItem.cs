@@ -14,8 +14,8 @@ namespace fun_DailyTask
         public GTextField taskTxt;
         public GRichTextField progressTxt;
         public GList list;
-        public GButton getBtn;
-        public GButton getBtn1;
+        public btnSmallDis disBtn;
+        public btnSmallGet getBtn;
         public const string URL = "ui://ueo46waas23e1ayr810";
 
         public static DailyTaskItem CreateInstance()
@@ -34,8 +34,8 @@ namespace fun_DailyTask
             taskTxt = (GTextField)GetChildAt(3);
             progressTxt = (GRichTextField)GetChildAt(4);
             list = (GList)GetChildAt(5);
-            getBtn = (GButton)GetChildAt(6);
-            getBtn1 = (GButton)GetChildAt(7);
+            disBtn = (btnSmallDis)GetChildAt(6);
+            getBtn = (btnSmallGet)GetChildAt(7);
         }
     }
 }

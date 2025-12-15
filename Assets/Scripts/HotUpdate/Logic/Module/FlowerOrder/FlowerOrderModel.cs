@@ -64,7 +64,7 @@ public class FlowerOrderModel : Singleton<FlowerOrderModel>
     /// <returns></returns>
     public I_ORDER_VO GetCanSubmitOrderVo()
     {
-        for (uint i = 1; i < 7; i++)
+        for (uint i = 1; i < 8; i++)
         {
             var orderVo = GetOrderVo(i);
             if (orderVo != null && orderVo.cdTime <= ServerTime.Time && GetIsEnoughByPosition(i))//获取一个未cd并且满足鲜花条件的

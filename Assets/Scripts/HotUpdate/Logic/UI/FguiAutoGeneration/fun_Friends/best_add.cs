@@ -7,13 +7,13 @@ namespace fun_Friends
 {
     public partial class best_add : GButton
     {
-        public Controller button;
         public Controller addController;
+        public Controller button;
         public GImage n2;
         public GImage n4;
         public BestFriendItem n3;
         public GImage n5;
-        public const string URL = "ui://fteyf9nzfn3b1yjp7uu";
+        public const string URL = "ui://fteyf9nzg3sj1yjp7ts";
 
         public static best_add CreateInstance()
         {
@@ -24,8 +24,8 @@ namespace fun_Friends
         {
             base.ConstructFromXML(xml);
 
-            button = GetControllerAt(0);
-            addController = GetControllerAt(1);
+            addController = GetControllerAt(0);
+            button = GetControllerAt(1);
             n2 = (GImage)GetChildAt(0);
             n4 = (GImage)GetChildAt(1);
             n3 = (BestFriendItem)GetChildAt(2);

@@ -25,6 +25,7 @@ public class TaskController : BaseController<TaskController>
         UILogicUtils.ShowGetReward(dropList, () =>
         {
             DropManager.ShowDrop(dropList);
+            GlobalModel.Instance.OpenMainTask();
         });
         TaskModel.Instance.mainTask.mainTaskCnt = data.mainTaskCnt;
         TaskModel.Instance.mainTask.mainTaskId = data.mainTaskId;

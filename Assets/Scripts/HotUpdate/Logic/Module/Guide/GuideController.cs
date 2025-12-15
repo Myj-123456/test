@@ -192,6 +192,13 @@ public class GuideController : BaseController<GuideController>
                     NextGuide();
                 }
             }
+            if (GuideModel.Instance.curGuideStep == 332)
+            {
+                if (messageId == 1502)
+                {
+                    NextGuide();
+                }
+            }
         }
     }
 
@@ -243,6 +250,10 @@ public class GuideController : BaseController<GuideController>
         {
             GuideStep(300);
         }
+        else if (mainTaskId == 15)//完成任务15引导收集水桶
+        {
+            GuideStep(330);
+        }
         else if (mainTaskId == 29)//完成任务29引导加好友 
         {
             GuideStep(350);
@@ -261,7 +272,7 @@ public class GuideController : BaseController<GuideController>
     {
         if (GuideModel.Instance.IsGuiding) return;
         //配置了skipStep=0的先在这里配置下
-        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 307 || GuideModel.Instance.curGuideStep == 354 || GuideModel.Instance.curGuideStep == 403;//不检测
+        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 307 || GuideModel.Instance.curGuideStep == 355 || GuideModel.Instance.curGuideStep == 403;//不检测
         if (unCheckGuide || GuideModel.Instance.IsGuide)
         {
             if (banWeakGuide && !GuideModel.Instance.IsStrongGuide())//禁止弱引导跳转
@@ -356,7 +367,7 @@ public class GuideController : BaseController<GuideController>
             GuideModel.Instance.curGuideStep = (uint)GuideModel.Instance.curConfigData.SkipStep;
         }
         //配置了skipStep=0的先在这里配置下
-        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 307 || GuideModel.Instance.curGuideStep == 354 || GuideModel.Instance.curGuideStep == 403;//不检测
+        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 307 || GuideModel.Instance.curGuideStep == 355 || GuideModel.Instance.curGuideStep == 403;//不检测
         if (!unCheckGuide && !GuideModel.Instance.IsGuide)
         {
             UIManager.Instance.ClosePanel(UIName.GuideView);
@@ -373,16 +384,25 @@ public class GuideController : BaseController<GuideController>
         var isGuidePlant = GuideModel.Instance.curGuideStep == 23 || GuideModel.Instance.curGuideStep == 26;//浇水和收获不需要等待检测ui
         if (!isGuidePlant && GuideModel.Instance.curConfigData.GuideType == (int)GuideType.PANEL_UI)//如果引导是UI
         {
-            BasePanel view = GuideModel.Instance.curConfigData.PanelType == 1 ? UIManager.Instance.GetView(GuideModel.Instance.curConfigData.OpenView) : UIManager.Instance.GetWindow(GuideModel.Instance.curConfigData.OpenView); ;
+            BasePanel view = GuideModel.Instance.curConfigData.PanelType == 1 ? UIManager.Instance.GetView(GuideModel.Instance.curConfigData.OpenView) : UIManager.Instance.GetWindow(GuideModel.Instance.curConfigData.OpenView);
             if (view != null && view.Visible)
             {
                 needWaitOpenUI = false;
             }
             else
             {
-                needWaitOpenUI = true;
-                Debug.Log("需要引导的界面未打开，请等待viewName :" + GuideModel.Instance.curConfigData.OpenView);
-                yield break;
+                if (GuideModel.Instance.curGuideStep == 354)//自动打开对应界面
+                {
+                    UIManager.Instance.ClosePanel(UIName.GuideView);
+                    UIManager.Instance.OpenPanelByName(GuideModel.Instance.curConfigData.OpenView);
+                    yield break;
+                }
+                else
+                {
+                    needWaitOpenUI = true;
+                    Debug.Log("需要引导的界面未打开，请等待viewName :" + GuideModel.Instance.curConfigData.OpenView);
+                    yield break;
+                }
             }
         }
         Debug.Log("引导 curGuideStep: " + GuideModel.Instance.curGuideStep);
@@ -475,6 +495,7 @@ public class GuideController : BaseController<GuideController>
         {
             return;
         }
+        EventManager.Instance.DispatchEvent(GuideEvent.HideGuideUI);
         if (GuideModel.Instance.curGuideStep == 12 || GuideModel.Instance.curGuideStep == 13 || GuideModel.Instance.curGuideStep == 14 || GuideModel.Instance.curGuideStep == 104 || GuideModel.Instance.curGuideStep == 209 || GuideModel.Instance.curGuideStep == 215 || GuideModel.Instance.curGuideStep == 254 || GuideModel.Instance.curGuideStep == 257 || GuideModel.Instance.curGuideStep == 306)
         {
             return;

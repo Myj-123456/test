@@ -27,6 +27,9 @@ namespace protobuf.dailyTask
         [ProtoBuf.ProtoMember(6)]
         public uint type;
 
+        [ProtoBuf.ProtoMember(7)]
+        public uint level;
+
     }
 
     [ProtoBuf.ProtoContract]

@@ -196,12 +196,9 @@ namespace protobuf.guild
         public uint money;
 
         [ProtoBuf.ProtoMember(13)]
-        public uint donateCnt;
-
-        [ProtoBuf.ProtoMember(14)]
         public uint title;
 
-        [ProtoBuf.ProtoMember(15)]
+        [ProtoBuf.ProtoMember(14)]
         public uint serverId;
 
     }
@@ -217,9 +214,6 @@ namespace protobuf.guild
 
         [ProtoBuf.ProtoMember(3)]
         public uint money;
-
-        [ProtoBuf.ProtoMember(4)]
-        public uint donateCnt;
 
     }
 

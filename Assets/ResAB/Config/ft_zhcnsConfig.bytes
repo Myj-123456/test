@@ -9290,10 +9290,10 @@ a
 main_task_type1收获{0}{1}次
 "
 main_task_type2制作{0}{1}件
-+
-main_task_type3累积升级鲜花{0}次
-(
-main_task_type4累积培育{0}种花
+%
+main_task_type3升级鲜花{0}次
+"
+main_task_type4培育{0}种花
 +
 main_task_type5完成{0}次顾客订单
 +
@@ -9308,10 +9308,10 @@ a
 main_task_type10消耗剧情贝壳{0}个
 &
 main_task_type11消耗玉石{0}个
-)
-main_task_type12累积获得{0}金币
-)
-main_task_type13累积获得{0}玉石
+#
+main_task_type12获得{0}金币
+#
+main_task_type13获得{0}玉石
 ,
 main_task_type14摘取好友{0}朵鲜花
 &
@@ -9320,12 +9320,12 @@ a
 main_task_type16种植{0}{1}次
 &
 main_task_type17拥有好友{0}个
+ 
+main_task_type18登录{0}天
 &
-main_task_type18累积登录{0}天
-,
-main_task_type19累积解锁土地{0}块
-,
-main_task_type20累积解锁花台{0}个
+main_task_type19解锁土地{0}块
+&
+main_task_type20解锁花台{0}个
 )
 main_task_type21等级提升至{0}级
 &
@@ -9334,8 +9334,8 @@ a
 main_task_type23花台出售{0}{1}次
 #
 main_task_type24成功培育{0}
-/
-main_task_type25累积上架{0}件花艺品
+)
+main_task_type25上架{0}件花艺品
 ,
 main_task_type26累积收集水桶{0}个
 &
@@ -9344,12 +9344,12 @@ a
 main_task_type28$九尾花阁累积兑换{0}次鲜花
 ,
 main_task_type29完成主线任务{0}次
-/
-main_task_type30钓锦鲤累积雇佣{0}次
+)
+main_task_type30钓锦鲤雇佣{0}次
 /
 main_task_type31与随机事件互动{0}次
-2
-main_task_type32本周累积获得{0}活跃度
+,
+main_task_type32本周获得{0}活跃度
 )
 main_task_type33创建或加入公会
 ,
@@ -9360,14 +9360,14 @@ a
 main_task_type36开启锦鲤宝藏{0}次
 ,
 main_task_type37超值礼包购买{0}次
-A
-main_task_type38-出售花艺品累积获得的金币达到{0}
+;
+main_task_type38'出售花艺品获得的金币达到{0}
 ,
 main_task_type39完成{0}次花盟捐献
-5
-main_task_type40!累积购买{0}次锦鲤的栏位
-,
-main_task_type41累积派遣花仙{0}次
+/
+main_task_type40购买{0}次锦鲤的栏位
+&
+main_task_type41派遣花仙{0}次
 #
 main_task_type42消耗{0}金币
 ,
@@ -9378,14 +9378,14 @@ A
 main_task_type45工会种植{0}次
 &
 main_task_type46拥有{0}个花瓶
-/
-main_task_type47累积花艺经验达到{0}
+)
+main_task_type47花艺经验达到{0}
 
-task_title_1经营店铺
+task_title_1鲜花培育
 
-task_title_2鲜花种植
+task_title_2花瓶藏家
 
-task_title_3个人成长
+task_title_3花艺之路
 
 task_title_4生活日常
 
@@ -9754,3 +9754,245 @@ k
 water_1部分领取
 
 main_task_4累积
+!
+achievName_1_1芳草学徒Ⅰ
+!
+achievName_1_2芳草学徒Ⅱ
+!
+achievName_1_3百花使者Ⅰ
+!
+achievName_1_4百花使者Ⅱ
+!
+achievName_1_5百花使者Ⅲ
+!
+achievName_1_6司花使者Ⅰ
+!
+achievName_1_7司花使者Ⅱ
+!
+achievName_1_8司花使者Ⅲ
+
+achievName_1_9百花师Ⅰ
+
+achievName_1_10百花师Ⅱ
+
+achievName_1_11百花师Ⅲ
+
+achievName_1_12百花师Ⅳ
+
+achievName_1_13百花师Ⅴ
+
+achievName_1_14御花师Ⅰ
+
+achievName_1_15御花师Ⅱ
+
+achievName_1_16御花师Ⅲ
+
+achievName_1_17御花师Ⅳ
+
+achievName_1_18御花师Ⅴ
+
+achievName_1_19百花尊Ⅰ
+
+achievName_1_20百花尊Ⅱ
+
+achievName_1_21百花尊Ⅲ
+
+achievName_1_22百花尊Ⅳ
+
+achievName_1_23百花尊Ⅴ
+
+achievName_1_24万华尊Ⅰ
+
+achievName_1_25万华尊Ⅱ
+
+achievName_1_26万华尊Ⅲ
+
+achievName_1_27万华尊Ⅳ
+
+achievName_1_28万华尊Ⅴ
+"
+achievName_1_29芳菲之主Ⅰ
+"
+achievName_1_30芳菲之主Ⅱ
+$
+achievName_2_1花瓶小萌新Ⅰ
+$
+achievName_2_2花瓶小萌新Ⅱ
+
+achievName_2_3寻藏客Ⅰ
+
+achievName_2_4寻藏客Ⅱ
+
+achievName_2_5拾藏家Ⅰ
+
+achievName_2_6拾藏家Ⅱ
+
+achievName_2_7拾藏家Ⅲ
+
+achievName_2_8鉴藏士Ⅰ
+
+achievName_2_9鉴藏士Ⅱ
+
+achievName_2_10鉴藏士Ⅲ
+
+achievName_2_11蕴藏师Ⅰ
+
+achievName_2_12蕴藏师Ⅱ
+
+achievName_2_13蕴藏师Ⅲ
+"
+achievName_2_14琳琅藏家Ⅰ
+"
+achievName_2_15琳琅藏家Ⅱ
+"
+achievName_2_16琳琅藏家Ⅲ
+"
+achievName_2_17琳琅藏家Ⅳ
+"
+achievName_2_18琳琅藏家Ⅴ
+"
+achievName_2_19百川藏宗Ⅰ
+"
+achievName_2_20百川藏宗Ⅱ
+"
+achievName_2_21百川藏宗Ⅲ
+"
+achievName_2_22百川藏宗Ⅳ
+"
+achievName_2_23百川藏宗Ⅴ
+"
+achievName_2_24千华藏尊Ⅰ
+"
+achievName_2_25千华藏尊Ⅱ
+"
+achievName_2_26千华藏尊Ⅲ
+"
+achievName_2_27千华藏尊Ⅳ
+"
+achievName_2_28千华藏尊Ⅴ
+"
+achievName_2_29万花藏主Ⅰ
+"
+achievName_2_30万花藏主Ⅱ
+$
+achievName_3_1插花小萌新Ⅰ
+$
+achievName_3_2插花小萌新Ⅱ
+!
+achievName_3_3插花学徒Ⅰ
+!
+achievName_3_4插花学徒Ⅱ
+!
+achievName_3_5插花新秀Ⅰ
+!
+achievName_3_6插花新秀Ⅱ
+!
+achievName_3_7插花新秀Ⅲ
+!
+achievName_3_8插花能手Ⅰ
+!
+achievName_3_9插花能手Ⅱ
+"
+achievName_3_10插花能手Ⅲ
+"
+achievName_3_11插花妙手Ⅰ
+"
+achievName_3_12插花妙手Ⅱ
+"
+achievName_3_13插花妙手Ⅲ
+"
+achievName_3_14插花巧匠Ⅰ
+"
+achievName_3_15插花巧匠Ⅱ
+"
+achievName_3_16插花巧匠Ⅲ
+"
+achievName_3_17插花巧匠Ⅳ
+"
+achievName_3_18插花巧匠Ⅴ
+"
+achievName_3_19插花名匠Ⅰ
+"
+achievName_3_20插花名匠Ⅱ
+"
+achievName_3_21插花名匠Ⅲ
+"
+achievName_3_22插花名匠Ⅳ
+"
+achievName_3_23插花名匠Ⅴ
+"
+achievName_3_24插花名师Ⅰ
+"
+achievName_3_25插花名师Ⅱ
+"
+achievName_3_26插花名师Ⅲ
+"
+achievName_3_27插花名师Ⅳ
+"
+achievName_3_28插花名师Ⅴ
+"
+achievName_3_29插花大师Ⅰ
+"
+achievName_3_30插花大师Ⅱ
+
+cheng_chart1萌芽学徒
+
+cheng_chart2芳草学徒
+
+cheng_chart3百花使者
+
+cheng_chart4司花使者
+
+cheng_chart5	百花师
+
+cheng_chart6	御花师
+
+cheng_chart7	百花尊
+
+cheng_chart8	万华尊
+
+cheng_chart9芳菲之主
+
+cheng_chart10	寻藏客
+
+cheng_chart11	拾藏家
+
+cheng_chart12	鉴藏士
+
+cheng_chart13	蕴藏师
+
+cheng_chart14琳琅藏家
+
+cheng_chart15百川藏宗
+
+cheng_chart16千华藏尊
+
+cheng_chart17万花藏主
+
+cheng_chart18花艺学徒
+
+cheng_chart19花艺新秀
+
+cheng_chart20花艺能手
+
+cheng_chart21花艺妙手
+
+cheng_chart22花艺巧匠
+
+cheng_chart23花艺名匠
+
+cheng_chart24花艺名师
+
+cheng_chart25	小财主
+
+cheng_chart26天上宫阙
+
+Draw_Gift_43001立冬礼包
+L
+firstRecharge_49任选以下档位，立享三倍元宝，仅此一次！
+
+diamond_draw_1	抽一次
+
+diamond_draw_2	抽十次
+u
+Daily_task_proc<font color='{0}'>需要</font><font color='{1}'>{2}</font><font color='{0}'>活跃度解锁</font>

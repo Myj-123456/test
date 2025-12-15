@@ -329,7 +329,7 @@ public class MainView : BaseView
                 viewSkin.rightBtns.TweenMoveX(GRoot.inst.width, animTime).SetEase(EaseType.CubicOut);
                 viewSkin.power.TweenMoveX(-viewSkin.power.width, animTime).SetEase(EaseType.CubicOut);
                 viewSkin.task_btn.TweenMoveX(-viewSkin.task_btn.width, animTime).SetEase(EaseType.CubicOut);
-                viewSkin.bottomBtns.TweenMoveY(GRoot.inst.height - 336, animTime).SetEase(EaseType.CubicOut).OnComplete(() =>
+                viewSkin.bottomBtns.TweenMoveY(GRoot.inst.height - 290, animTime).SetEase(EaseType.CubicOut).OnComplete(() =>
                 {
                     if (isPlant)
                     {
@@ -403,13 +403,10 @@ public class MainView : BaseView
         {
             type = 2;
         }
-        else if (GlobalModel.Instance.GetUnlocked(SysId.Furniture_Shop))
-        {
-            type = 1;
-        }
+        
         if (type != -1)
         {
-            UIManager.Instance.OpenPanel<ShopMainView>(UIName.ShopMainView, UILayer.UI, type);
+            UIManager.Instance.OpenWindow<ShopMainView>(UIName.ShopMainView, type);
         }
         
     }
@@ -420,7 +417,7 @@ public class MainView : BaseView
         {
             return;
         }
-        UIManager.Instance.OpenPanel<ShopMainView>(UIName.ShopMainView, UILayer.UI, 2);
+        UIManager.Instance.OpenWindow<ShopMainView>(UIName.ShopMainView, 2);
     }
 
     private void OnGuild()
@@ -562,7 +559,7 @@ public class MainView : BaseView
             return;
         }
         HideMoreFunUI();
-        UIManager.Instance.OpenPanel<ShopMainView>(UIName.ShopMainView, UILayer.UI, 0);
+        UIManager.Instance.OpenWindow<ShopMainView>(UIName.ShopMainView, 0);
     }
 
     private void OnQdhn()

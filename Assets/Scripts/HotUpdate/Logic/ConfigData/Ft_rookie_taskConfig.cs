@@ -47,7 +47,7 @@ namespace Elida.Config {
     [ProtoMember(8)]
     public string TaskDesc;
     
-    // 挑战
+    // 跳转
     [ProtoMember(9)]
     public int JumpId;
   }

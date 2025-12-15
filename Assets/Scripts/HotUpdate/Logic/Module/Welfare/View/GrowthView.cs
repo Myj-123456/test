@@ -77,7 +77,7 @@ public class GrowthView
     public void OnShown()
     {
         WelfareController.Instance.ReqRookieInfo();
-        UpdatePro();
+        
     }
     private void UpdateData()
     {
@@ -96,6 +96,7 @@ public class GrowthView
     {
         listData = WelfareModel.Instance.GetDayList(tabType + 1);
         view.list.numItems = listData.Count;
+        UpdatePro();
     }
 
     private void RenderList(int index,GObject item)
@@ -160,6 +161,7 @@ public class GrowthView
         var cell = item as fun_Welfare.day_btn;
         cell.type.selectedIndex = index;
         cell.unlock.selectedIndex = WelfareModel.Instance.days > index?0:1;
+        cell.touchable = WelfareModel.Instance.days > index;
         cell.data = index;
         cell.onClick.Add(SelectDay);
     }

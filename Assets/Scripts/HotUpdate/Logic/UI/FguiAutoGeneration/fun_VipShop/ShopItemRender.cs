@@ -8,13 +8,14 @@ namespace fun_VipShop
     public partial class ShopItemRender : GComponent
     {
         public Controller sell;
-        public GImage n47;
-        public GLoader bg;
-        public GLoader img;
-        public GButton buy_btn;
+        public GImage n51;
+        public GComponent reward;
+        public greenPicBtn buy_btn;
         public GTextField name_txt;
         public GTextField limitLab;
-        public GTextField countLab;
+        public GImage n53;
+        public GTextField selllab;
+        public GGroup n55;
         public const string URL = "ui://wm7arakybwsw1ayr7s5";
 
         public static ShopItemRender CreateInstance()
@@ -27,13 +28,14 @@ namespace fun_VipShop
             base.ConstructFromXML(xml);
 
             sell = GetControllerAt(0);
-            n47 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            img = (GLoader)GetChildAt(2);
-            buy_btn = (GButton)GetChildAt(3);
-            name_txt = (GTextField)GetChildAt(4);
-            limitLab = (GTextField)GetChildAt(5);
-            countLab = (GTextField)GetChildAt(6);
+            n51 = (GImage)GetChildAt(0);
+            reward = (GComponent)GetChildAt(1);
+            buy_btn = (greenPicBtn)GetChildAt(2);
+            name_txt = (GTextField)GetChildAt(3);
+            limitLab = (GTextField)GetChildAt(4);
+            n53 = (GImage)GetChildAt(5);
+            selllab = (GTextField)GetChildAt(6);
+            n55 = (GGroup)GetChildAt(7);
         }
     }
 }

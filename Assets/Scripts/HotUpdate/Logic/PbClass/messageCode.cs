@@ -72,6 +72,8 @@ namespace protobuf.messagecode
         S_MSG_SEED_UPGRADE = 1214,
         C_MSG_PLANT_SPEED = 1215,
         S_MSG_PLANT_SPEED = 1216,
+        C_MSG_PLANT_MATURE = 1257,
+        S_MSG_PLANT_MATURE = 1258,
         C_MSG_CULTIVATE_SPEEDUP = 1217,
         S_MSG_CULTIVATE_SPEEDUP = 1218,
         C_MSG_CULTIVATE_REPAIR = 1219,

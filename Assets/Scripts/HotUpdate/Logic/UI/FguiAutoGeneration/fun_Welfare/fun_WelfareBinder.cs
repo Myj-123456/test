@@ -24,11 +24,14 @@ namespace fun_Welfare
             UIObjectFactory.SetPackageItemExtension(sign_item.URL, typeof(sign_item));
             UIObjectFactory.SetPackageItemExtension(sign_view.URL, typeof(sign_view));
             UIObjectFactory.SetPackageItemExtension(sign_item1.URL, typeof(sign_item1));
+            UIObjectFactory.SetPackageItemExtension(get_btn.URL, typeof(get_btn));
             UIObjectFactory.SetPackageItemExtension(video_double_view.URL, typeof(video_double_view));
             UIObjectFactory.SetPackageItemExtension(turntable_item.URL, typeof(turntable_item));
             UIObjectFactory.SetPackageItemExtension(turntable_com.URL, typeof(turntable_com));
             UIObjectFactory.SetPackageItemExtension(seventh_sign_view.URL, typeof(seventh_sign_view));
             UIObjectFactory.SetPackageItemExtension(seventh_sign_item.URL, typeof(seventh_sign_item));
+            UIObjectFactory.SetPackageItemExtension(share_btn.URL, typeof(share_btn));
+            UIObjectFactory.SetPackageItemExtension(skip_btn.URL, typeof(skip_btn));
             UIObjectFactory.SetPackageItemExtension(turntable_view.URL, typeof(turntable_view));
         }
     }

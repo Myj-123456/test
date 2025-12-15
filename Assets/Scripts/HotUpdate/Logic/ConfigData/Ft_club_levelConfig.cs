@@ -27,12 +27,20 @@ namespace Elida.Config {
     [ProtoMember(3)]
     public int JumlahOrang;
     
-    // 精英人数
+    // 副会长
     [ProtoMember(4)]
+    public int VicePresident;
+    
+    // 精英人数
+    [ProtoMember(5)]
     public int Experience;
     
-    // 副会长
-    [ProtoMember(5)]
-    public int VicePresident;
+    // 理事
+    [ProtoMember(6)]
+    public int Director;
+    
+    // 每日资金人数上限
+    [ProtoMember(7)]
+    public int BuildMax;
   }
 }

@@ -173,6 +173,8 @@ K
 chouItemId41013045
 
 chouOrderNum3
+
+chouOrderTime60
 #
 mFriendPostionCost[100,200,300]
 
@@ -193,7 +195,7 @@ chouItemId41013045
 
 FriendCoinExchange8
 
-FriendCoinDayLimit350
+FriendCoinDayLimit500
 
 FriendCoinMaxLimit800
 
