@@ -227,7 +227,7 @@ public class GuildMatchModel : Singleton<GuildMatchModel>
         {
             return null;
         }
-        return memberList.Find(value => value.userId == userId);
+        return memberList.Find(value => value.userInfo.userId == userId);
     }
 
     public int GetMaxScore()

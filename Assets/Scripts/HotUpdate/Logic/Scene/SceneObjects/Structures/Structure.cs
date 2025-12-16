@@ -94,7 +94,7 @@ public class Structure : SceneObject
             if (reward != null)
             {
                 var itemDefId = reward.ItemDefId;
-                AddSpineAnimation("flowers/40011110", "step_3_idle", new Vector3(0f, -0.29f, 0), new Vector3(0.6f, 0.6f, 1));
+                AddSpineAnimation("uiflowers/40011110", "step_3_idle", new Vector3(0f, -0.29f, 0), new Vector3(0.6f, 0.6f, 1));
             }
         }
         if (structureData.buildingDefId == 29000012)//树特殊点 需要按照轴心点去排序
@@ -293,7 +293,7 @@ public class Structure : SceneObject
             BucketManager.Instance.UpdateBucket();
             foreach (var value in MyselfModel.Instance.waterBucketSeries)
             {
-                if(value == 0)
+                if (value == 0)
                 {
                     isMax = false;
                     break;
@@ -304,10 +304,11 @@ public class Structure : SceneObject
                 water_pro.gameObject.SetActive(true);
                 (water_pro.ui as fun_Scene.water_pro1).max = GlobalModel.Instance.module_profileConfig.bucketRecoverCD;
                 (water_pro.ui as fun_Scene.water_pro1).value = GlobalModel.Instance.module_profileConfig.bucketRecoverCD - endTime;
-                (water_pro.ui as fun_Scene.water_pro1).TweenValue(GlobalModel.Instance.module_profileConfig.bucketRecoverCD, endTime).SetEase(FairyGUI.EaseType.Linear).OnComplete(()=> {
+                (water_pro.ui as fun_Scene.water_pro1).TweenValue(GlobalModel.Instance.module_profileConfig.bucketRecoverCD, endTime).SetEase(FairyGUI.EaseType.Linear).OnComplete(() =>
+                {
                     UpdateWaterPro();
                 });
-                
+
             }
             else
             {
@@ -323,25 +324,26 @@ public class Structure : SceneObject
 
     private int GetEndTime()
     {
-        if(MyselfModel.Instance.behaviorDaily.waterBucketCnt + GetHaveBucket() >= GlobalModel.Instance.module_profileConfig.bucketMaxDay){
+        if (MyselfModel.Instance.behaviorDaily.waterBucketCnt + GetHaveBucket() >= GlobalModel.Instance.module_profileConfig.bucketMaxDay)
+        {
             return -1;
         }
         int endTime = (int)ServerTime.Time - (int)MyselfModel.Instance.welfareInfo.waterBucketTime;
-        if(endTime < 0)
+        if (endTime < 0)
         {
             endTime = 0;
         }
         if (endTime >= GlobalModel.Instance.module_profileConfig.bucketRecoverCD)
         {
             var num = endTime / GlobalModel.Instance.module_profileConfig.bucketRecoverCD;
-            for(int i = 0;i < MyselfModel.Instance.waterBucketSeries.Count; i++)
+            for (int i = 0; i < MyselfModel.Instance.waterBucketSeries.Count; i++)
             {
-                if(MyselfModel.Instance.waterBucketSeries[i] == 0)
+                if (MyselfModel.Instance.waterBucketSeries[i] == 0)
                 {
                     MyselfModel.Instance.waterBucketSeries[i] = 1;
                     num--;
                 }
-                if(num <= 0)
+                if (num <= 0)
                 {
                     break;
                 }
@@ -366,7 +368,7 @@ public class Structure : SceneObject
             {
                 num++;
             }
-            
+
         }
         return num;
     }

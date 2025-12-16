@@ -60,7 +60,7 @@ public class GuideView : BaseView
     private void AddEvent()
     {
         viewSkin.npcDialogue.onClick.Add(ClickNextGuide);
-        viewSkin.showImage.btn_next.onClick.Add(OnVideoClickNextGuide);
+        viewSkin.showImage.btn_next.onClick.Add(ClickNextGuide);
         EventManager.Instance.AddEventListener(GuideEvent.HideGuideHand, OnHandGuideHand);
         EventManager.Instance.AddEventListener(GuideEvent.HideGuideUI, HideGuideUI);
         EventManager.Instance.AddEventListener(GuideEvent.NextGuide, UpdateGuide);
@@ -92,19 +92,6 @@ public class GuideView : BaseView
             case (int)GuideType.SHOW_VIDEO:
                 ShowVideo();
                 break;
-        }
-    }
-
-    private void OnVideoClickNextGuide()
-    {
-        ClickNextGuide();
-        if (GuideModel.Instance.curGuideStep == 23)
-        {
-            if (videoInstance != null)
-            {
-                GameObject.Destroy(videoInstance);
-                videoInstance = null;
-            }
         }
     }
     private void ClickNextGuide()

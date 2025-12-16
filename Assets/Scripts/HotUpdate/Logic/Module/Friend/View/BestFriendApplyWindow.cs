@@ -28,10 +28,10 @@ public class BestFriendApplyWindow : BaseWindow
         view = ui as fun_Friends.newBestFriendView;
         
         // 设置标题
-        view.titleLab.text = "申请列表"; 
+        view.best_Title.text = "申请列表"; 
         
         // 设置背景
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
+        SetBg(view.bg, "Common/common_big_tip_bg.png");
         
         // 初始化列表渲染器
         view.list.itemRenderer = ListRendererApply;
@@ -79,17 +79,17 @@ public class BestFriendApplyWindow : BaseWindow
                 I_USER_PROFILE userInfo = null;
                 if (FriendModel.Instance.friendList != null)
                 {
-                    var friendData = FriendModel.Instance.friendList.Find(f => f.userId == userId);
+                    var friendData = FriendModel.Instance.friendList.Find(f => f.userInfo.userId == userId);
                     if (friendData != null)
                     {
                         // 将好友信息转换为用户信息格式
                         userInfo = new I_USER_PROFILE();
-                        userInfo.userId = friendData.userId;
-                        userInfo.userLevel = friendData.userLevel;
-                        userInfo.townName = friendData.townName;
-                        userInfo.headImgId = friendData.headImgId;
-                        userInfo.headFrame = friendData.headFrame;
-                        userInfo.lastLoginTime = friendData.lastLoginTime;
+                        userInfo.userId = friendData.userInfo.userId;
+                        userInfo.userLevel = friendData.userInfo.userLevel;
+                        userInfo.townName = friendData.userInfo.townName;
+                        userInfo.headImgId = friendData.userInfo.headImgId;
+                        userInfo.headFrame = friendData.userInfo.headFrame;
+                        userInfo.lastLoginTime = friendData.userInfo.lastLoginTime;
                     }
                 }
                 

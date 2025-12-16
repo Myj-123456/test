@@ -63,22 +63,22 @@ public class GuildMembersWindow
         var userInfo = listData[index];
         cell.data = userInfo;
         cell.head.imgLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
-        cell.head.txt_lv.text = userInfo.userLevel.ToString();
-        cell.txt_name.text = userInfo.townName;
+        cell.head.txt_lv.text = userInfo.userInfo.userLevel.ToString();
+        cell.txt_name.text = userInfo.userInfo.townName;
         cell.txt_position.txt_position.text = GuildModel.Instance.GetPositionName(userInfo.powerId);
         cell.txt_position.type.selectedIndex = userInfo.powerId < 3 ? (int)userInfo.powerId - 1 : 2;
 
-        cell.power_num.text = TextUtil.ChangeCoinShow1(userInfo.fighting);
+        cell.power_num.text = TextUtil.ChangeCoinShow1(userInfo.userInfo.fighting);
         GuildModel.Instance.GetMemberListNext(index);
         cell.txt_money.text = Lang.GetValue("guild.tt_donate", userInfo.money.ToString());//贡献：{0}
-        cell.txt_loginTime.text = Lang.GetValue("guild.tt_loginTime", TimeUtil.GenerateTimeDesc((int)userInfo.lastLoginTime));//最后登录：{0}
+        cell.txt_loginTime.text = Lang.GetValue("guild.tt_loginTime", TimeUtil.GenerateTimeDesc((int)userInfo.userInfo.lastLoginTime));//最后登录：{0}
         cell.onClick.Add(ClickMember);
     }
 
     private void ClickMember(EventContext context)
     {
         I_MEMBER_VO param = (context.sender as GComponent).data as I_MEMBER_VO;
-        if (param.userId == MyselfModel.Instance.userId)
+        if (param.userInfo.userId == MyselfModel.Instance.userId)
         {
             return;
         }

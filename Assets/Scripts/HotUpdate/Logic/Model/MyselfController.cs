@@ -273,7 +273,10 @@ public class MyselfController : BaseController<MyselfController>
         MyselfModel.Instance.behaviorDaily.waterBucketCnt = data.WaterBucketCnt;
         MyselfModel.Instance.waterBucketSeries = TextUtil.ToStringList(data.waterBucketSeries);
         MyselfModel.Instance.welfareInfo.waterBucketTime = data.waterBucketTime;
-
+        if(data.type == 2)
+        {
+            VideoModel.Instance.AddWatchVideoCount((int)VideoSeeType.mouse_video_id);
+        }
         EventManager.Instance.DispatchEvent(PlayerEvent.WaterBucketAward);
     }
 

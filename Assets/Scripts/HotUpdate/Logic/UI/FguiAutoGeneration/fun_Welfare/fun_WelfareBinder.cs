@@ -8,10 +8,10 @@ namespace fun_Welfare
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(page_btn.URL, typeof(page_btn));
             UIObjectFactory.SetPackageItemExtension(welfare_main_view.URL, typeof(welfare_main_view));
             UIObjectFactory.SetPackageItemExtension(growth_view.URL, typeof(growth_view));
             UIObjectFactory.SetPackageItemExtension(pro1.URL, typeof(pro1));
-            UIObjectFactory.SetPackageItemExtension(page_btn.URL, typeof(page_btn));
             UIObjectFactory.SetPackageItemExtension(box1.URL, typeof(box1));
             UIObjectFactory.SetPackageItemExtension(day_btn.URL, typeof(day_btn));
             UIObjectFactory.SetPackageItemExtension(growth_item.URL, typeof(growth_item));

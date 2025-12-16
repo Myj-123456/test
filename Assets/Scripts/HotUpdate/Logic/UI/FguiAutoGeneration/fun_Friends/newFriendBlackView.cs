@@ -8,14 +8,12 @@ namespace fun_Friends
     public partial class newFriendBlackView : GComponent
     {
         public Controller status;
-        public GImage n2;
         public GLoader bg;
-        public GImage n5;
-        public GTextField titleLab;
-        public GTextField titleLab1;
         public GButton close_btn;
         public GList list;
         public GComponent nullTip;
+        public GTextField best_Title;
+        public GImage n10;
         public const string URL = "ui://fteyf9nzi64uz";
 
         public static newFriendBlackView CreateInstance()
@@ -28,14 +26,12 @@ namespace fun_Friends
             base.ConstructFromXML(xml);
 
             status = GetControllerAt(0);
-            n2 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n5 = (GImage)GetChildAt(2);
-            titleLab = (GTextField)GetChildAt(3);
-            titleLab1 = (GTextField)GetChildAt(4);
-            close_btn = (GButton)GetChildAt(5);
-            list = (GList)GetChildAt(6);
-            nullTip = (GComponent)GetChildAt(7);
+            bg = (GLoader)GetChildAt(0);
+            close_btn = (GButton)GetChildAt(1);
+            list = (GList)GetChildAt(2);
+            nullTip = (GComponent)GetChildAt(3);
+            best_Title = (GTextField)GetChildAt(4);
+            n10 = (GImage)GetChildAt(5);
         }
     }
 }

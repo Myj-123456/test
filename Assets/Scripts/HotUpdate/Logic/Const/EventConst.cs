@@ -282,6 +282,7 @@ public class GuideEvent
 {
     public static string HideGuideHand = "HideGuideHand";//隐藏引导手
     public static string HideGuideUI = "HideGuideUI";//隐藏引导UI
+    public static string ContinueCurGuide = "ContinueCurGuide";//继续当前引导
     public static string NextGuide = "NextGuide";//下一步引导
 }
 

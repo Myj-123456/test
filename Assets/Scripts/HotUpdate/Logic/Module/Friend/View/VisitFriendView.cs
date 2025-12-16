@@ -7,6 +7,7 @@ using protobuf.friend;
 using ADK;
 using protobuf.common;
 using System;
+using static protobuf.friend.S_MSG_FRIEND_LIST;
 
 public class VisitFriendView : BaseView
 {
@@ -20,7 +21,7 @@ public class VisitFriendView : BaseView
     private Color originColor;
     private int Number = 1;
     private int _friendCoinCount = 0;
-    private I_FRIEND_PROFILE _curfriendData;//当前访问朋友信息
+    private I_FRIEND_PROFILE_VO _curfriendData;//当前访问朋友信息
     private int curConverFriendConitCount = 1;//当前准备兑换好友币数
     private const int FriendCoinExchangeLimit = 8;//每个好友每日好友币兑换摸花上限
     public VisitFriendView()
@@ -73,6 +74,8 @@ public class VisitFriendView : BaseView
     {
         UpdateFriendCoinCount();
         UpdateInteractionTimes();
+        // 更新兑换相关UI显示
+        UpdateConverUI();
         // 更新所有土地的偷花小手显示
         SceneManager.Instance.UpdateAllLandSteal();
     }
@@ -98,9 +101,9 @@ public class VisitFriendView : BaseView
     // 更新兑换界面UI
     void UpdateConverUI()
     {
-        protobuf.friend.I_FRIEND_PROFILE vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
+        I_FRIEND_PROFILE_VO vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
         _curfriendData = vo_;
-        view.txt_1.text = "兑换摘取" + vo_.townName +"鲜花次数：";
+        view.txt_1.text = "兑换摘取" + TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName) +"鲜花次数：";
         view.text_count.text = curConverFriendConitCount.ToString();
         view.text_consume.text = curConverFriendConitCount.ToString();
         int surplusExchangeCount = FriendCoinExchangeLimit - (int)FriendModel.Instance.FriendCoinExchangeCnt;
@@ -124,7 +127,9 @@ public class VisitFriendView : BaseView
     {
         var umberOfMutualaid = GlobalModel.Instance.module_profileConfig.umberOfMutualaid;
         var surplusTimes = umberOfMutualaid - MyselfModel.Instance.interactionCnt;
-        view.text_visitCount.text = FriendModel.Instance.FriendCoinExchangeCnt + "/" + FriendCoinExchangeLimit.ToString();
+        // 计算并显示剩余数量
+        int surplusExchangeCount = FriendCoinExchangeLimit - (int)FriendModel.Instance.FriendCoinExchangeCnt;
+        view.text_visitCount.text = surplusExchangeCount + "/" + FriendCoinExchangeLimit.ToString();
         FriendController.Instance.ReqFriendCoinExchange(MyselfModel.Instance.friendId, (uint)curConverFriendConitCount);
     }
 
@@ -146,6 +151,7 @@ public class VisitFriendView : BaseView
     {
         if (view.popUpTap.selectedIndex != 2)
         {
+            SetBg(view.n46, "Common/common_three_tip_bg.png");
             view.popUpTap.selectedIndex = 2;
         }
         else
@@ -200,17 +206,17 @@ public class VisitFriendView : BaseView
 
     private void UpdatePlayInfo()
     {
-        protobuf.friend.I_FRIEND_PROFILE vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
+        I_FRIEND_PROFILE_VO vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
         _curfriendData = vo_;
         if (vo_ != null)
         {
             StringUtil.SetBtnUrl(view.head, "Avatar/ELIDA_common_touxiangdi01.png");
-            view.txt_name.text = vo_.townName;
-            view.txt_lv.text = vo_.userLevel.ToString();
+            view.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
+            view.txt_lv.text = vo_.userInfo.userLevel.ToString();
         }
     }
 
-    private List<I_FRIEND_PROFILE> friendListfilter;
+    private List<I_FRIEND_PROFILE_VO> friendListfilter;
     private void UpdateVisitFriendList()
     {
         var count = friendListfilter.Count;
@@ -224,14 +230,14 @@ public class VisitFriendView : BaseView
         var vo = friendListfilter[index];
         ui.data = vo;
         StringUtil.SetBtnUrl(ui.head, "Avatar/ELIDA_common_touxiangdi01.png");
-        ui.txt_name.text = vo.townName;
-        ui.txt_lv.text = vo.userLevel.ToString();
+        ui.txt_name.text = vo.userInfo.townName;
+        ui.txt_lv.text = vo.userInfo.userLevel.ToString();
     }
 
     private void OnItemClick(EventContext context)
     {
-        var vo = (context.data as GComponent).data as I_FRIEND_PROFILE;
-        FriendController.Instance.ReqFriendVisit(vo.userId);
+        var vo = (context.data as GComponent).data as I_FRIEND_PROFILE_VO;
+        FriendController.Instance.ReqFriendVisit(vo.userInfo.userId);
     }
 
     private void UpdateInteractionTimes()

@@ -13,8 +13,10 @@ namespace fun_Welfare
         public turntable_view turntable_view;
         public seventh_sign_view seven_view;
         public video_double_view video_view;
-        public GList page_list;
+        public GImage n9;
         public GButton close_btn;
+        public GList list;
+        public GGroup n18;
         public const string URL = "ui://awswhm01g0s00";
 
         public static welfare_main_view CreateInstance()
@@ -32,8 +34,10 @@ namespace fun_Welfare
             turntable_view = (turntable_view)GetChildAt(2);
             seven_view = (seventh_sign_view)GetChildAt(3);
             video_view = (video_double_view)GetChildAt(4);
-            page_list = (GList)GetChildAt(5);
+            n9 = (GImage)GetChildAt(5);
             close_btn = (GButton)GetChildAt(6);
+            list = (GList)GetChildAt(7);
+            n18 = (GGroup)GetChildAt(8);
         }
     }
 }

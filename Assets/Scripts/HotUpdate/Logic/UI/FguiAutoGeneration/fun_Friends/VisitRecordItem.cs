@@ -8,7 +8,7 @@ namespace fun_Friends
     public partial class VisitRecordItem : GComponent
     {
         public Controller txtcontroller;
-        public GImage n1;
+        public GImage n21;
         public GComponent heead;
         public GComponent picFrame;
         public GImage icon;
@@ -33,7 +33,7 @@ namespace fun_Friends
             base.ConstructFromXML(xml);
 
             txtcontroller = GetControllerAt(0);
-            n1 = (GImage)GetChildAt(0);
+            n21 = (GImage)GetChildAt(0);
             heead = (GComponent)GetChildAt(1);
             picFrame = (GComponent)GetChildAt(2);
             icon = (GImage)GetChildAt(3);

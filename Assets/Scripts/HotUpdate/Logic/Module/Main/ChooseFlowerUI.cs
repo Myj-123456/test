@@ -105,6 +105,7 @@ public class ChooseFlowerUI : BaseUI
     /// </summary>
     public void OnShowTweenCom()
     {
+        EventManager.Instance.DispatchEvent(GuideEvent.ContinueCurGuide);
         ShowTargetWeakGuide();
     }
 

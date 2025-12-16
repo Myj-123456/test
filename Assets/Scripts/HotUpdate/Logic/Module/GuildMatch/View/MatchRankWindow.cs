@@ -172,9 +172,9 @@ public class MatchRankWindow : BaseWindow
         {
             cell.head.pic.url = "Avatar/ELIDA_common_touxiangdi01.png";
             
-            cell.levelLab.text = userInfo.userLevel.ToString();
-            cell.nameLab.text = userInfo.townName;
-            cell.powerLab.text = Lang.GetValue("power_name")+"："+ TextUtil.ChangeCoinShow1(userInfo.fighting);
+            cell.levelLab.text = userInfo.userInfo.userLevel.ToString();
+            cell.nameLab.text = userInfo.userInfo.townName;
+            cell.powerLab.text = Lang.GetValue("power_name")+"："+ TextUtil.ChangeCoinShow1(userInfo.userInfo.fighting);
         }
     }
 

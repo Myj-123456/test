@@ -160,6 +160,14 @@ public class GuildDonateWindow : BaseWindow
             UILogicUtils.ShowNotice(Lang.GetValue("guild.notEnough", str));
             return;
         }
+        if(GuildModel.Instance.donateMemberCnt >= 25 && (GuildModel.Instance.meDonateSeq == 0 || GuildModel.Instance.meDonateSeq > 25))
+        {
+            UILogicUtils.ShowConfirm(Lang.GetValue("guild_donate_tip"), () =>
+             {
+                 GuildController.Instance.ReqGuildDonate((uint)id);
+             });
+            return;
+        }
         GuildController.Instance.addMony = donateData.Peraga;
         GuildController.Instance.ReqGuildDonate((uint)id);
     }

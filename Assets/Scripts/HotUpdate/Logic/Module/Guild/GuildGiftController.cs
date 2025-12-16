@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using protobuf.guild;
 using protobuf.messagecode;
 using UnityEngine;
-
+using ADK;
 public class GuildGiftController : BaseController<GuildGiftController>
 {
     private int nomalNum = 0;
@@ -51,6 +51,11 @@ public class GuildGiftController : BaseController<GuildGiftController>
     {
         GuildGiftModel.Instance.UpdateGiftInfo(data);
         GuildModel.Instance.guild.giftScore = data.giftScore;
+        var dropList = ItemModel.Instance.GetDropData(data.items);
+        UILogicUtils.ShowGetReward(dropList, () =>
+        {
+            DropManager.ShowDrop(dropList);
+        });
         EventManager.Instance.DispatchEvent(GuildGiftEvent.GuildGiftDraw);
     }
 

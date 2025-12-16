@@ -9,14 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static protobuf.friend.S_MSG_CRONY_LIST;
+using static protobuf.friend.S_MSG_FRIEND_APPLY_LIST;
+using static protobuf.friend.S_MSG_FRIEND_BLACK_LIST;
+using static protobuf.friend.S_MSG_FRIEND_LIST;
+using static protobuf.friend.S_MSG_FRIEND_RECOMMEND_LIST;
 
 public class FriendModel : Singleton<FriendModel>
 {
     public uint friendCount;
-    public List<I_FRIEND_PROFILE> friendList = new List<I_FRIEND_PROFILE>();
-    public List<I_USER_PROFILE> applyList = new List<I_USER_PROFILE>();
-    public List<I_USER_PROFILE> blackList = new List<I_USER_PROFILE>();
-    public List<I_USER_PROFILE> recommendList = new List<I_USER_PROFILE>();
+    public List<I_FRIEND_PROFILE_VO> friendList = new List<I_FRIEND_PROFILE_VO>();
+    public List<I_APPLY_VO> applyList = new List<I_APPLY_VO>();
+    public List<I_BLACK_VO> blackList = new List<I_BLACK_VO>();
+    public List<I_RECOMMEND_VO> recommendList = new List<I_RECOMMEND_VO>();
     // 存储好友关系建立时间
     public Dictionary<uint, uint> friendRelationTime = new Dictionary<uint, uint>();
 
@@ -152,19 +156,19 @@ public class FriendModel : Singleton<FriendModel>
     {
         foreach (uint id in friendIds)
         {
-            I_FRIEND_PROFILE friendData = new I_FRIEND_PROFILE();
+            I_FRIEND_PROFILE_VO friendData = new I_FRIEND_PROFILE_VO();
             int index = GetApplyListIndex(id);
             if (index == -1)
             {
                 return;
             }
-            I_USER_PROFILE applyData = applyList[index];
-            friendData.userId = applyData.userId;
-            friendData.userLevel = applyData.userLevel;
-            friendData.townName = applyData.townName;
-            friendData.headImgId = applyData.headImgId;
-            friendData.headFrame = applyData.headFrame;
-            friendData.lastLoginTime = applyData.lastLoginTime;
+            I_APPLY_VO applyData = applyList[index];
+            friendData.userInfo.userId = applyData.userInfo.userId;
+            friendData.userInfo.userLevel = applyData.userInfo.userLevel;
+            friendData.userInfo.townName = applyData.userInfo.townName;
+            friendData.userInfo.headImgId = applyData.userInfo.headImgId;
+            friendData.userInfo.headFrame = applyData.userInfo.headFrame;
+            friendData.userInfo.lastLoginTime = applyData.userInfo.lastLoginTime;
             friendData.isMark = false;
             friendData.canSteal = false;
             friendList.Add(friendData);
@@ -204,7 +208,7 @@ public class FriendModel : Singleton<FriendModel>
     {
         for (int i = 0; i < applyList.Count; i++)
         {
-            if (applyList[i].userId == id)
+            if (applyList[i].userInfo.userId == id)
             {
                 return i;
             }
@@ -216,7 +220,7 @@ public class FriendModel : Singleton<FriendModel>
     {
         for (int i = 0; i < recommendList.Count; i++)
         {
-            if (recommendList[i].userId == id)
+            if (recommendList[i].userInfo.userId == id)
             {
                 return i;
             }
@@ -228,7 +232,7 @@ public class FriendModel : Singleton<FriendModel>
     {
         foreach (var friendData in friendList)
         {
-            if (friendData.userId == friendId)
+            if (friendData.userInfo.userId == friendId)
             {
                 friendData.isMark = mark;
                 break;
@@ -236,11 +240,11 @@ public class FriendModel : Singleton<FriendModel>
         }
     }
 
-    public I_FRIEND_PROFILE GetFriendData(uint friendId)
+    public I_FRIEND_PROFILE_VO GetFriendData(uint friendId)
     {
         foreach (var friendData in friendList)
         {
-            if (friendData.userId == friendId)
+            if (friendData.userInfo.userId == friendId)
             {
                 return friendData;
             }
@@ -248,12 +252,12 @@ public class FriendModel : Singleton<FriendModel>
         return null;
     }
 
-    public List<I_FRIEND_PROFILE> GetFriendListfilter(uint friendId)
+    public List<I_FRIEND_PROFILE_VO> GetFriendListfilter(uint friendId)
     {
-        List<I_FRIEND_PROFILE> filterFriendList = new List<I_FRIEND_PROFILE>();
+        List<I_FRIEND_PROFILE_VO> filterFriendList = new List<I_FRIEND_PROFILE_VO>();
         foreach (var friendData in friendList)
         {
-            if (friendData.userId != friendId)
+            if (friendData.userInfo.userId != friendId)
             {
                 filterFriendList.Add(friendData);
             }
@@ -304,7 +308,7 @@ public class FriendModel : Singleton<FriendModel>
         }
         for (int i = 0; i < friendList.Count; i++)
         {
-            if (friendList[i].userId == id)
+            if (friendList[i].userInfo.userId == id)
             {
                 return i;
             }
@@ -312,9 +316,9 @@ public class FriendModel : Singleton<FriendModel>
         return -1;
     }
 
-    public I_FRIEND_PROFILE GetFriendInfo(uint friendId)
+    public I_FRIEND_PROFILE_VO GetFriendInfo(uint friendId)
     {
-        return friendList.Find(value => value.userId == friendId);
+        return friendList.Find(value => value.userInfo.userId == friendId);
     }
 
     public void AddFriendListToBlackList(uint[] friendIds)
@@ -326,14 +330,14 @@ public class FriendModel : Singleton<FriendModel>
             {
                 return;
             }
-            I_FRIEND_PROFILE friendData = friendList[index];
-            I_USER_PROFILE blackData = new I_USER_PROFILE();
-            blackData.userId = friendData.userId;
-            blackData.userLevel = friendData.userLevel;
-            blackData.townName = friendData.townName;
-            blackData.headImgId = friendData.headImgId;
-            blackData.headFrame = friendData.headFrame;
-            blackData.lastLoginTime = friendData.lastLoginTime;
+            I_FRIEND_PROFILE_VO friendData = friendList[index];
+            I_BLACK_VO blackData = new I_BLACK_VO();
+            blackData.userInfo.userId = friendData.userInfo.userId;
+            blackData.userInfo.userLevel = friendData.userInfo.userLevel;
+            blackData.userInfo.townName = friendData.userInfo.townName;
+            blackData.userInfo.headImgId = friendData.userInfo.headImgId;
+            blackData.userInfo.headFrame = friendData.userInfo.headFrame;
+            blackData.userInfo.lastLoginTime = friendData.userInfo.lastLoginTime;
             blackList.Add(blackData);
             friendList.RemoveAt(index);
             friendCount--;
@@ -358,7 +362,7 @@ public class FriendModel : Singleton<FriendModel>
         }
         for (int i = 0; i < blackList.Count; i++)
         {
-            if (blackList[i].userId == id)
+            if (blackList[i].userInfo.userId == id)
             {
                 return i;
             }
@@ -366,16 +370,16 @@ public class FriendModel : Singleton<FriendModel>
         return -1;
     }
 
-    public List<I_FRIEND_PROFILE> FindFriendDataArr(string str)
+    public List<I_FRIEND_PROFILE_VO> FindFriendDataArr(string str)
     {
         if (str == "")
         {
             return friendList;
         }
-        var arr = new List<I_FRIEND_PROFILE>();
+        var arr = new List<I_FRIEND_PROFILE_VO>();
         foreach (var value in friendList)
         {
-            if (value.userId.ToString().Contains(str) || value.townName.Contains(str))
+            if (value.userInfo.userId.ToString().Contains(str) || value.userInfo.townName.Contains(str))
             {
                 arr.Add(value);
             }

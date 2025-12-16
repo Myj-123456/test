@@ -32,27 +32,27 @@ public class GuildMemberPopWindow : BaseWindow
         StringUtil.SetBtnTab(_view.btn_ban, Lang.GetValue("guild.bt_pop_ban"));
         _view.btn_addFriend.onClick.Add(() =>
         {
-            FriendController.Instance.ReqFriendApply(new uint[] { userInfo.userId });
+            FriendController.Instance.ReqFriendApply(new uint[] { userInfo.userInfo.userId });
             _view.btn_addFriend.visible = false;
             PlayerPositionChange();
         });
 
         _view.btn_transferLeader.onClick.Add(() =>
         {
-            string str = "<font color='#b25847'>" + Lang.GetValue("guild.trasnferConfirm", userInfo.townName) + "</font>";
+            string str = "<font color='#b25847'>" + Lang.GetValue("guild.trasnferConfirm", userInfo.userInfo.townName) + "</font>";
             UILogicUtils.ShowConfirm(str, () =>
             {
-                GuildController.Instance.ReqGuildPromotion(userInfo.userId,1);
+                GuildController.Instance.ReqGuildPromotion(userInfo.userInfo.userId,1);
             });
 
         });
 
         _view.btn_ban.onClick.Add(() =>
         {
-            string str = "<font color='#b25847'>" + Lang.GetValue("guild.banConfirm", userInfo.townName) + "</font>";
+            string str = "<font color='#b25847'>" + Lang.GetValue("guild.banConfirm", userInfo.userInfo.townName) + "</font>";
             UILogicUtils.ShowConfirm(str, () =>
             {
-                GuildController.Instance.ReqGuildKick(userInfo.userId);
+                GuildController.Instance.ReqGuildKick(userInfo.userInfo.userId);
             });
 
         });
@@ -62,14 +62,14 @@ public class GuildMemberPopWindow : BaseWindow
             var idx = GuildModel.Instance.posList.IndexOf((int)userInfo.powerId);
             if (idx == 0) return;
             
-            GuildController.Instance.ReqGuildPromotion(userInfo.userId, (uint)GuildModel.Instance.posList[idx - 1]);
+            GuildController.Instance.ReqGuildPromotion(userInfo.userInfo.userId, (uint)GuildModel.Instance.posList[idx - 1]);
         });
 
         _view.btn_demotion.onClick.Add(() =>
         {
             var idx = GuildModel.Instance.posList.IndexOf((int)userInfo.powerId);
             if (idx == GuildModel.Instance.posList.Count - 1) return;
-            GuildController.Instance.ReqGuildPromotion(userInfo.userId, (uint)GuildModel.Instance.posList[idx + 1]);
+            GuildController.Instance.ReqGuildPromotion(userInfo.userInfo.userId, (uint)GuildModel.Instance.posList[idx + 1]);
         });
 
         EventManager.Instance.AddEventListener(GuildEvent.GuildTransfer, PlayerPositionChange);
@@ -188,13 +188,13 @@ public class GuildMemberPopWindow : BaseWindow
     private void SetUserInfo()
     {
         var view = _view;
-        view.txt_name.text = userInfo.townName;
+        view.txt_name.text = userInfo.userInfo.townName;
         view.txt_position.text = GuildModel.Instance.GetPositionName(userInfo.powerId);
         view.head.imgLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
         
-        view.head.txt_lv.text = userInfo.userLevel.ToString();
+        view.head.txt_lv.text = userInfo.userInfo.userLevel.ToString();
         view.txt_money.text = Lang.GetValue("guild.tt_donate", userInfo.money.ToString());//贡献：{0}
-        view.txt_loginTime.text = Lang.GetValue("guild.tt_loginTime", TimeUtil.GenerateTimeDesc((int)userInfo.lastLoginTime));//最后登录：{0}
+        view.txt_loginTime.text = Lang.GetValue("guild.tt_loginTime", TimeUtil.GenerateTimeDesc((int)userInfo.userInfo.lastLoginTime));//最后登录：{0}
     }
 
     private void CloseView()

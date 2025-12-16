@@ -10,6 +10,7 @@ namespace fun_Friends
         {
             UIObjectFactory.SetPackageItemExtension(newFriends.URL, typeof(newFriends));
             UIObjectFactory.SetPackageItemExtension(btn_onekey.URL, typeof(btn_onekey));
+            UIObjectFactory.SetPackageItemExtension(btn_lock.URL, typeof(btn_lock));
             UIObjectFactory.SetPackageItemExtension(BestFriendItem.URL, typeof(BestFriendItem));
             UIObjectFactory.SetPackageItemExtension(BestLevelListItem.URL, typeof(BestLevelListItem));
             UIObjectFactory.SetPackageItemExtension(BestListItem.URL, typeof(BestListItem));
@@ -37,6 +38,8 @@ namespace fun_Friends
             UIObjectFactory.SetPackageItemExtension(btn_currency.URL, typeof(btn_currency));
             UIObjectFactory.SetPackageItemExtension(btn_lessen.URL, typeof(btn_lessen));
             UIObjectFactory.SetPackageItemExtension(btn_addNum.URL, typeof(btn_addNum));
+            UIObjectFactory.SetPackageItemExtension(best_clickBtn1.URL, typeof(best_clickBtn1));
+            UIObjectFactory.SetPackageItemExtension(best_clickBtn2.URL, typeof(best_clickBtn2));
             UIObjectFactory.SetPackageItemExtension(btn_best_book.URL, typeof(btn_best_book));
             UIObjectFactory.SetPackageItemExtension(VisitRecordView.URL, typeof(VisitRecordView));
             UIObjectFactory.SetPackageItemExtension(VisitRecordItem.URL, typeof(VisitRecordItem));

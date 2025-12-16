@@ -8,8 +8,8 @@ namespace fun_Friends
     public partial class clickBtnbuy : GButton
     {
         public GImage n6;
-        public GImage n7;
         public GTextField titleLab;
+        public GImage n7;
         public const string URL = "ui://fteyf9nzg3sj1yjp7to";
 
         public static clickBtnbuy CreateInstance()
@@ -22,8 +22,8 @@ namespace fun_Friends
             base.ConstructFromXML(xml);
 
             n6 = (GImage)GetChildAt(0);
-            n7 = (GImage)GetChildAt(1);
-            titleLab = (GTextField)GetChildAt(2);
+            titleLab = (GTextField)GetChildAt(1);
+            n7 = (GImage)GetChildAt(2);
         }
     }
 }

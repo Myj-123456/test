@@ -5,11 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using protobuf.common;
 using ADK;
+using static protobuf.friend.S_MSG_FRIEND_BLACK_LIST;
 
 public class FriendBlackWindow : BaseWindow
 {
    private fun_Friends.newFriendBlackView view;
-    private List<I_USER_PROFILE> blackListData;
+    private List<I_BLACK_VO> blackListData;
 
     public FriendBlackWindow()
     {
@@ -23,11 +24,11 @@ public class FriendBlackWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Friends.newFriendBlackView;
-        view.titleLab.text = Lang.GetValue("Friend_36");
-        view.titleLab1.text = Lang.GetValue("Friend_36");
+        view.best_Title.text = Lang.GetValue("Friend_36");
+        //view.titleLab1.text = Lang.GetValue("Friend_36");
         StringUtil.SetBtnTab(view.nullTip, Lang.GetValue("storeEarningNoData"));
 
-        SetBg(view.bg,"Common/ELIDA_common_bigdi01.png");
+        SetBg(view.bg, "Common/common_two_tip_bg.png");
         view.list.itemRenderer = ItemRenderer;
         view.list.SetVirtual();
 
@@ -56,11 +57,11 @@ public class FriendBlackWindow : BaseWindow
         item.data = vo_;
 
         StringUtil.SetBtnTab(item.btn_remove, Lang.GetValue("cp_desc_16"));//解除
-        item.idTxt.text = "ID:" + vo_.userId;
+        item.idTxt.text = "ID:" + vo_.userInfo.userId;
         StringUtil.SetBtnUrl(item.heead, "Avatar/ELIDA_common_touxiangdi01.png");
-        item.txt_lv.text = vo_.userLevel.ToString();
+        item.txt_lv.text = vo_.userInfo.userLevel.ToString();
         //item.head_img.url = "Avatar/ELIDA_common_touxiangdi01.png";
-        item.txt_name.text = vo_.townName;
+        item.txt_name.text = vo_.userInfo.townName;
         
         //item.friend_vip_icon.visible = false;
         item.btn_remove.onClick.Add(ClickRemoveBtnHandler);
@@ -68,8 +69,8 @@ public class FriendBlackWindow : BaseWindow
 
     private void ClickRemoveBtnHandler(EventContext context)
     {
-        var data = (context.sender as GComponent).parent.data as I_USER_PROFILE;
-        FriendController.Instance.ReqFriendBlackDel(data.userId );
+        var data = (context.sender as GComponent).parent.data as I_BLACK_VO;
+        FriendController.Instance.ReqFriendBlackDel(data.userInfo.userId );
     }
 
     private void CloseView()

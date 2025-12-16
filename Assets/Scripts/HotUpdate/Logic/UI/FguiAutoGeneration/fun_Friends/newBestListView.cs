@@ -9,9 +9,9 @@ namespace fun_Friends
     {
         public Controller status;
         public Controller applybestTip;
-        public GImage n2;
         public GLoader bg;
-        public GTextField titleLab;
+        public GTextField best_Title;
+        public GImage n56;
         public GButton close_btn;
         public GList list;
         public GComponent nullTip;
@@ -26,19 +26,28 @@ namespace fun_Friends
         public btn_best_book btn_best_buyBook;
         public GTextField n25;
         public GGraph n26;
-        public GImage n43;
-        public GTextField text_desc;
-        public GButton btn_bestbuy;
-        public GButton btn_bestjieshu;
-        public GButton bg_sign;
-        public GImage n46;
-        public GImage n47;
+        public GLoader n61;
+        public GLoader jieshu_bg;
+        public GLoader n60;
         public GTextField n48;
+        public GImage n46;
+        public GTextField text_desc;
+        public GImage n57;
+        public GTextField best_buyText;
+        public clickBtnbuy btn_bestbuy;
+        public GButton bg_sign;
         public GImage n49;
         public GTextField text_best_buyBookCount;
-        public GImage n52;
-        public GTextField n53;
         public GGroup n42;
+        public GGraph n62;
+        public GLoader n63;
+        public GImage n64;
+        public GTextField jieshu_txt;
+        public GTextField best_desc;
+        public GButton btn_bestjieshu;
+        public GButton btn_bestTipClose1;
+        public GButton btn_bestTipClose;
+        public GGroup n70;
         public const string URL = "ui://fteyf9nzg3sj1yjp7tq";
 
         public static newBestListView CreateInstance()
@@ -52,9 +61,9 @@ namespace fun_Friends
 
             status = GetControllerAt(0);
             applybestTip = GetControllerAt(1);
-            n2 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            titleLab = (GTextField)GetChildAt(2);
+            bg = (GLoader)GetChildAt(0);
+            best_Title = (GTextField)GetChildAt(1);
+            n56 = (GImage)GetChildAt(2);
             close_btn = (GButton)GetChildAt(3);
             list = (GList)GetChildAt(4);
             nullTip = (GComponent)GetChildAt(5);
@@ -69,19 +78,28 @@ namespace fun_Friends
             btn_best_buyBook = (btn_best_book)GetChildAt(14);
             n25 = (GTextField)GetChildAt(15);
             n26 = (GGraph)GetChildAt(16);
-            n43 = (GImage)GetChildAt(17);
-            text_desc = (GTextField)GetChildAt(18);
-            btn_bestbuy = (GButton)GetChildAt(19);
-            btn_bestjieshu = (GButton)GetChildAt(20);
-            bg_sign = (GButton)GetChildAt(21);
-            n46 = (GImage)GetChildAt(22);
-            n47 = (GImage)GetChildAt(23);
-            n48 = (GTextField)GetChildAt(24);
-            n49 = (GImage)GetChildAt(25);
-            text_best_buyBookCount = (GTextField)GetChildAt(26);
-            n52 = (GImage)GetChildAt(27);
-            n53 = (GTextField)GetChildAt(28);
+            n61 = (GLoader)GetChildAt(17);
+            jieshu_bg = (GLoader)GetChildAt(18);
+            n60 = (GLoader)GetChildAt(19);
+            n48 = (GTextField)GetChildAt(20);
+            n46 = (GImage)GetChildAt(21);
+            text_desc = (GTextField)GetChildAt(22);
+            n57 = (GImage)GetChildAt(23);
+            best_buyText = (GTextField)GetChildAt(24);
+            btn_bestbuy = (clickBtnbuy)GetChildAt(25);
+            bg_sign = (GButton)GetChildAt(26);
+            n49 = (GImage)GetChildAt(27);
+            text_best_buyBookCount = (GTextField)GetChildAt(28);
             n42 = (GGroup)GetChildAt(29);
+            n62 = (GGraph)GetChildAt(30);
+            n63 = (GLoader)GetChildAt(31);
+            n64 = (GImage)GetChildAt(32);
+            jieshu_txt = (GTextField)GetChildAt(33);
+            best_desc = (GTextField)GetChildAt(34);
+            btn_bestjieshu = (GButton)GetChildAt(35);
+            btn_bestTipClose1 = (GButton)GetChildAt(36);
+            btn_bestTipClose = (GButton)GetChildAt(37);
+            n70 = (GGroup)GetChildAt(38);
         }
     }
 }

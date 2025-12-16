@@ -9996,3 +9996,7 @@ L
 diamond_draw_2	抽十次
 u
 Daily_task_proc<font color='{0}'>需要</font><font color='{1}'>{2}</font><font color='{0}'>活跃度解锁</font>
+F
+rcumulative_15充值[color=#29e804]{0}元[/color]即可获得{1}！
+5
+trade_unlock_tip!确定花费{0}解锁该位置！

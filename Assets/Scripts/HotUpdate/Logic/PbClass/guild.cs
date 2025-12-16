@@ -127,79 +127,19 @@ namespace protobuf.guild
     }
 
     [ProtoBuf.ProtoContract]
-    public class I_PRESIDENT_VO
-    {
-        [ProtoBuf.ProtoMember(1)]
-        public uint userId;
-
-        [ProtoBuf.ProtoMember(2)]
-        public uint userLevel;
-
-        [ProtoBuf.ProtoMember(3)]
-        [System.ComponentModel.DefaultValue("")]
-        public string townName = "";
-
-        [ProtoBuf.ProtoMember(4)]
-        [System.ComponentModel.DefaultValue("")]
-        public string headImgId = "";
-
-        [ProtoBuf.ProtoMember(5)]
-        public uint headFrame;
-
-        [ProtoBuf.ProtoMember(6)]
-        public uint lastLoginTime;
-
-        [ProtoBuf.ProtoMember(7)]
-        public uint fighting;
-
-        [ProtoBuf.ProtoMember(8)]
-        public uint title;
-
-        [ProtoBuf.ProtoMember(9)]
-        public uint serverId;
-
-    }
-
-    [ProtoBuf.ProtoContract]
     public class I_MEMBER_VO
     {
         [ProtoBuf.ProtoMember(1)]
-        public uint userId;
+        public protobuf.common.I_USER_PROFILE userInfo;
 
         [ProtoBuf.ProtoMember(2)]
-        public uint userLevel;
-
-        [ProtoBuf.ProtoMember(3)]
-        [System.ComponentModel.DefaultValue("")]
-        public string townName = "";
-
-        [ProtoBuf.ProtoMember(4)]
-        [System.ComponentModel.DefaultValue("")]
-        public string headImgId = "";
-
-        [ProtoBuf.ProtoMember(5)]
-        public uint headFrame;
-
-        [ProtoBuf.ProtoMember(8)]
-        public uint lastLoginTime;
-
-        [ProtoBuf.ProtoMember(9)]
         public uint powerId;
 
-        [ProtoBuf.ProtoMember(10)]
-        public uint fighting;
-
-        [ProtoBuf.ProtoMember(11)]
+        [ProtoBuf.ProtoMember(3)]
         public bool online;
 
-        [ProtoBuf.ProtoMember(12)]
+        [ProtoBuf.ProtoMember(4)]
         public uint money;
-
-        [ProtoBuf.ProtoMember(13)]
-        public uint title;
-
-        [ProtoBuf.ProtoMember(14)]
-        public uint serverId;
 
     }
 
@@ -298,7 +238,7 @@ namespace protobuf.guild
         public I_GUILD_VO guild;
 
         [ProtoBuf.ProtoMember(2)]
-        public I_PRESIDENT_VO presidentInfo;
+        public protobuf.common.I_USER_PROFILE presidentInfo;
 
         [ProtoBuf.ProtoMember(3)]
         public I_GUILD_ME_VO me;
@@ -311,6 +251,12 @@ namespace protobuf.guild
 
         [ProtoBuf.ProtoMember(6)]
         public bool bargainAppearStatus;
+
+        [ProtoBuf.ProtoMember(7)]
+        public uint donateMemberCnt;
+
+        [ProtoBuf.ProtoMember(8)]
+        public uint meDonateSeq;
 
     }
 
@@ -608,6 +554,15 @@ namespace protobuf.guild
         [ProtoBuf.ProtoMember(3)]
         public uint guildDonate;
 
+        [ProtoBuf.ProtoMember(4)]
+        public bool getPerage;
+
+        [ProtoBuf.ProtoMember(5)]
+        public uint donateMemberCnt;
+
+        [ProtoBuf.ProtoMember(6)]
+        public uint meDonateSeq;
+
     }
 
     [ProtoBuf.ProtoContract]
@@ -712,6 +667,9 @@ namespace protobuf.guild
 
         [ProtoBuf.ProtoMember(4)]
         public uint rareNum;
+
+        [ProtoBuf.ProtoMember(5)]
+        public System.Collections.Generic.Dictionary<ulong, ulong> items = new System.Collections.Generic.Dictionary<ulong, ulong>();
 
     }
 

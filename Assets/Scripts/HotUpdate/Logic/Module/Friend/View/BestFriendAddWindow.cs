@@ -6,12 +6,12 @@ using protobuf.friend;
 using protobuf.messagecode;
 using FairyGUI;
 using ADK;
-
+using static protobuf.friend.S_MSG_FRIEND_LIST;
 
 public class BestFriendAddWindow : BaseWindow
 {
     private fun_Friends.newBestListView view;
-    private List<I_FRIEND_PROFILE> friendListData=new List<I_FRIEND_PROFILE>();
+    private List<I_FRIEND_PROFILE_VO> friendListData=new List<I_FRIEND_PROFILE_VO>();
     private uint _currentFriendId = 0;
     private int _cronyBookCount = 0;
     public BestFriendAddWindow()
@@ -24,8 +24,8 @@ public class BestFriendAddWindow : BaseWindow
     {
         base.OnInit();
         view = ui as fun_Friends.newBestListView;
-        view.titleLab.text = "申请密友";
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
+        view.best_Title.text = "申请密友";
+        SetBg(view.bg, "Common/common_big_tip_bg.png");
         view.n25.text=0.ToString();
         view.list.itemRenderer = ListRendererAdd;
         view.list.SetVirtual();
@@ -40,7 +40,15 @@ public class BestFriendAddWindow : BaseWindow
         });
         view.n16.text = "";
         view.btn_lookup.onClick.Add(OnLookupFriend);
-        
+        view.jieshu_bg.url = "HandBookNew/name_bg_small_color_3.png";
+        view.n60.url = "HandBookNew/rare_icon_3.png";
+
+        view.btn_best_buyBook.onClick.Add(() =>
+        {
+            SetBg(view.n61, "Common/common_two_tip_bg.png");
+            view.applybestTip.selectedIndex = 2;
+        });
+
         // 添加输入框焦点事件
         view.n16.onFocusIn.Add(OnFindTxtFocusIn);
         view.n16.onFocusOut.Add(OnFindTxtFocusOut);
@@ -52,6 +60,7 @@ public class BestFriendAddWindow : BaseWindow
     {
         base.OnShown();
         FriendController.Instance.ReqFriendList();
+        UpdateCronyBookCount();
     }
     public override void OnHide()
     {
@@ -69,13 +78,13 @@ public class BestFriendAddWindow : BaseWindow
         view.list.visible = friendListData.Count > 0;
         view.nullTip.visible = friendListData.Count <= 0;
     }
-    private int FriendSort(I_FRIEND_PROFILE a, I_FRIEND_PROFILE b)
+    private int FriendSort(I_FRIEND_PROFILE_VO a, I_FRIEND_PROFILE_VO b)
     {
-       if(a.userLevel!=b.userLevel)
+       if(a.userInfo.userLevel!=b.userInfo.userLevel)
        {
-           return b.userLevel.CompareTo(a.userLevel);
+           return b.userInfo.userLevel.CompareTo(a.userInfo.userLevel);
        }
-       return a.townName.CompareTo(b.townName);
+       return a.userInfo.townName.CompareTo(b.userInfo.townName);
     }
     private void ListRendererAdd(int index, GObject item)
     {
@@ -84,26 +93,25 @@ public class BestFriendAddWindow : BaseWindow
         var vo_ = friendListData[index];
 
         StringUtil.SetBtnUrl(ui_.heead, "Avatar/ELIDA_common_touxiangdi01.png");
-        ui_.txt_lv.text = vo_.userLevel.ToString();
-        ui_.txt_name.text = vo_.townName;
+        ui_.txt_lv.text = vo_.userInfo.userLevel.ToString();
+        ui_.txt_name.text = vo_.userInfo.townName;
         
         // 显示在线状态或离线时间
-        ui_.Text_time.text = TimeUtil.GenerateTimeDesc((int)vo_.lastLoginTime);
+        ui_.Text_time.text = TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
         
         // 检查对方是否已经是密友
-        if (FriendModel.Instance.GetCronyData(vo_.userId) != null)
+        if (FriendModel.Instance.GetCronyData(vo_.userInfo.userId) != null)
         {
             // 已成为密友，设置控制器索引为2并禁用申请按钮
-            ui_.txtcontroller.selectedIndex = 2;
-            ui_.btn_newApply.touchable = false;
+            ui_.btn_newApply.enabled = false;
         }
         // 检查对方等级是否达到20级
-        else if (vo_.userLevel < 20)
+        else if (vo_.userInfo.userLevel < 20)
         {
             ui_.txtcontroller.selectedIndex=1;
         }
         // 检查好友关系是否超过12小时
-        else if (!FriendModel.Instance.IsFriendRelationOver12Hours(vo_.userId))
+        else if (!FriendModel.Instance.IsFriendRelationOver12Hours(vo_.userInfo.userId))
         {
             // 好友关系未满12小时，设置控制器索引为1并禁用申请按钮
             ui_.txtcontroller.selectedIndex=1;
@@ -112,31 +120,31 @@ public class BestFriendAddWindow : BaseWindow
         else
         {
             // 检查是否处于申请中
-            if (FriendModel.Instance.applyTimeDictionary.ContainsKey(vo_.userId) && !FriendModel.Instance.IsApplyExpired(vo_.userId))
+            if (FriendModel.Instance.applyTimeDictionary.ContainsKey(vo_.userInfo.userId) && !FriendModel.Instance.IsApplyExpired(vo_.userInfo.userId))
             {
-                ui_.txtcontroller.selectedIndex = 2;
-                ui_.btn_newApply.touchable = false;
+                StringUtil.SetBtnTab(ui_.btn_newApply, "已申请");
+                ui_.btn_newApply.enabled = false;
             }
             // 检查是否处于被申请中
-            else if (FriendModel.Instance.applyUserIds.Contains(vo_.userId))
+            else if (FriendModel.Instance.applyUserIds.Contains(vo_.userInfo.userId))
             {
-                ui_.txtcontroller.selectedIndex = 2;
-                ui_.btn_newApply.touchable = false;
+                StringUtil.SetBtnTab(ui_.btn_newApply, "已申请");
+                ui_.btn_newApply.enabled = false;
             }
             else
             {
                 // 默认状态，允许发起申请
                 ui_.txtcontroller.selectedIndex = 0;
-                ui_.btn_newApply.touchable = true;
+                ui_.btn_newApply.enabled = true;
             }
         }
         StringUtil.SetBtnTab(ui_.btn_newApply,"发起申请");
         ui_.btn_newApply.onClick.Clear();
-        ui_.btn_newApply.onClick.Add(()=> OnApplyBestFrend(vo_.userId));
+        ui_.btn_newApply.onClick.Add(()=> OnApplyBestFrend(vo_.userInfo.userId));
     }
     private void OnApplyBestFrend(uint friendId)
     {
-            _currentFriendId = friendId;
+        _currentFriendId = friendId;
             UpdateCronyBookCount();
 
             if (_cronyBookCount > 0)
@@ -162,7 +170,6 @@ public class BestFriendAddWindow : BaseWindow
         catch (System.Exception ex)
         {
             Debug.LogError("获取结书数量失败: " + ex.Message);
-            // 异常时不修改_cronyBookCount，保持原有值不变
             view.n25.text = _cronyBookCount.ToString();
             view.text_best_buyBookCount.text = _cronyBookCount.ToString();
         }
@@ -170,16 +177,27 @@ public class BestFriendAddWindow : BaseWindow
 
     private void ShowUseBookUI()
     {
+        SetBg(view.n63, "Common/common_three_tip_bg.png");
         view.applybestTip.selectedIndex = 1;
-        StringUtil.SetBtnTab(view.btn_bestjieshu, "确定使用");
+        StringUtil.SetBtnTab(view.btn_bestjieshu, "确定");
         view.btn_bestjieshu.onClick.Clear();
         view.btn_bestjieshu.onClick.Add(UseCronyBook);
+        StringUtil.SetBtnTab(view.btn_bestTipClose,"取消");
+        view.btn_bestTipClose.onClick.Add(() =>
+        {
+            view.applybestTip.selectedIndex = 0;
+        });
+        view.btn_bestTipClose1.onClick.Add(() =>
+        {
+            view.applybestTip.selectedIndex = 0;
+        });
     }
 
     private void ShowBuyBookUI()
     {
+        SetBg(view.n61,"Common/common_two_tip_bg.png");
+        StringUtil.SetBtnTab(view.btn_bestbuy, "100");
         view.applybestTip.selectedIndex = 2;
-        StringUtil.SetBtnTab(view.btn_bestbuy, "购买结书");
         view.btn_bestbuy.onClick.Clear();
         view.btn_bestbuy.onClick.Add(BuyCronyBook);
     }
@@ -199,7 +217,7 @@ public class BestFriendAddWindow : BaseWindow
         // 检查该好友是否已经是密友
         if (FriendModel.Instance.GetCronyData(_currentFriendId) != null)
         {
-            UILogicUtils.ShowNotice("该好友已经是您的密友");
+            UILogicUtils.ShowNotice("该好友已经是您的蜜友");
             view.applybestTip.selectedIndex = 0;
             return;
         }
@@ -207,33 +225,28 @@ public class BestFriendAddWindow : BaseWindow
         try
         {
             // 发送申请前再次检查
-            FriendModel.Instance.SendApplyBestFriend(_currentFriendId);
-            
-            // 只在成功发送后减少结书数量
+            FriendController.Instance.ReqCronyApply(_currentFriendId);
             _cronyBookCount--;
             // 更新显示
             view.applybestTip.selectedIndex = 0;
             UpdateCronyBookDisplay();
+            // 找到对应的列表项
+            UpdateFriendItemController(_currentFriendId);
             
-            // 找到对应的列表项并设置控制器索引为2
-            UpdateFriendItemController(_currentFriendId, 2);
-            
-            // 显示成功提示
             UILogicUtils.ShowNotice("密友申请已发送");
         }
         catch (System.Exception ex)
         {
             // 失败时不减少结书数量
             UILogicUtils.ShowNotice("发送申请失败，请重试");
-            Debug.LogError("发送密友申请失败: " + ex.Message);
-            
-            // 重新获取结书数量以确保准确性
+            Debug.LogError("发送蜜友申请失败: " + ex.Message);
+            // 重新获取结书数量
             UpdateCronyBookCount();
         }
     }
     
     // 更新好友列表项的控制器索引
-    private void UpdateFriendItemController(uint friendId, int index)
+    private void UpdateFriendItemController(uint friendId)
     {
         // 遍历列表找到对应好友ID的项
         for (int i = 0; i < view.list.numItems; i++)
@@ -245,13 +258,12 @@ public class BestFriendAddWindow : BaseWindow
                 if (uiItem != null)
                 {
                     // 找到对应ID的好友数据
-                    int dataIndex = friendListData.FindIndex(f => f.userId == friendId);
+                    int dataIndex = friendListData.FindIndex(f => f.userInfo.userId == friendId);
                     if (dataIndex == i)
                     {
-                        // 统一设置为索引2，表示已发送申请状态
-                        uiItem.txtcontroller.selectedIndex = 2;
+                        StringUtil.SetBtnTab(uiItem.btn_newApply, "已申请");
                         // 禁用申请按钮，防止重复点击
-                        uiItem.btn_newApply.touchable = false;
+                        uiItem.btn_newApply.enabled = false;
                         break;
                     }
                 }
@@ -267,11 +279,9 @@ public class BestFriendAddWindow : BaseWindow
             UILogicUtils.ShowNotice("玉石不足，无法购买结书");
             return;
         }
-
         try
         {
             FriendController.Instance.ReqCronyBookItem();
-            // 移除立即重置UI状态的代码，让OnCronyBookBuySuccess回调来处理UI更新
         }
         catch (System.Exception ex)
         {
@@ -279,7 +289,6 @@ public class BestFriendAddWindow : BaseWindow
             Debug.LogError("购买结书失败: " + ex.Message);
         }
     }
-
     private void OnCronyBookBuySuccess()
     {
         UILogicUtils.ShowNotice("购买结书成功");
@@ -292,14 +301,13 @@ public class BestFriendAddWindow : BaseWindow
         view.n25.text = _cronyBookCount.ToString();
         view.text_best_buyBookCount.text = _cronyBookCount.ToString();
     }
+
     public void CloseView()
     {
        UIManager.Instance.CloseWindow(UIName.BestFriendAddWindow);
     }
-    
-    /// <summary>
-    /// 查找好友按钮点击事件
-    /// </summary>
+
+    // 查找好友按钮点击事件
     private void OnLookupFriend()
     {
         string str = view.n16.text.Trim();
@@ -326,9 +334,7 @@ public class BestFriendAddWindow : BaseWindow
         }
     }
     
-    /// <summary>
-    /// 输入框获得焦点
-    /// </summary>
+    // 输入框获得焦点
     private void OnFindTxtFocusIn()
     {
         // 假设UI中有提示文本组件，需要隐藏
@@ -339,9 +345,7 @@ public class BestFriendAddWindow : BaseWindow
         }
     }
     
-    /// <summary>
-    /// 输入框失去焦点
-    /// </summary>
+    // 输入框失去焦点
     private void OnFindTxtFocusOut()
     {
         // 假设UI中有提示文本组件，需要在输入框为空时显示

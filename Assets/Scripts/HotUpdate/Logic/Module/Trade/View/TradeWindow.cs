@@ -142,7 +142,7 @@ public class TradeWindow : BaseView
         var idx = pos % 2;
         if (idx == 0)
         {
-           index = pos / 2;
+           index = pos / 2 - 1;
         }
         else
         {
@@ -152,11 +152,11 @@ public class TradeWindow : BaseView
         fun_FriendsTrade_New.trade_saleItem item = null;
         if (idx == 0)
         {
-            item = list_item.item1;
+            item = list_item.item2;
         }
         else
         {
-            item = list_item.item2;
+            item = list_item.item1;
         }
         //var item = _view.ls_sale.GetChildAt(index) as fun_FriendsTrade_New.trade_saleItem;
         item.lockSpine.loop = false;
@@ -256,11 +256,16 @@ public class TradeWindow : BaseView
     {
         //int index = (int)(context.sender as GComponent).parent.data;
         var conf = TradeModel.Instance.dealGrids[index + 1];
-        if (conf.Type == 16001)
+        if (conf.Type == 2)
         {
+            if(conf.GoldUnlock > TradeModel.Instance.tradeGoldCnt)
+            {
+                return;
+            }
             TradeController.Instance.ReqTradeUnlock((uint)index + 1);
             return;
         }
+        var tips = "";
         if ((int)BaseType.GOLD == IDUtil.GetEntityValue(conf.UnlockConsumes[0].EntityID))
         {
             if (MyselfModel.Instance.gold < conf.UnlockConsumes[0].Value)
@@ -268,6 +273,7 @@ public class TradeWindow : BaseView
                 UILogicUtils.ShowNotice(Lang.GetValue("common_hint_txt2"));
                 return;
             }
+            tips = conf.UnlockConsumes[0].Value + Lang.GetValue("gold");
         }
         else
         {
@@ -276,9 +282,11 @@ public class TradeWindow : BaseView
                 UILogicUtils.ShowNotice(Lang.GetValue("common_hint_txt3"));
                 return;
             }
+            tips = conf.UnlockConsumes[0].Value + Lang.GetValue("gem");
         }
-        TradeController.Instance.ReqTradeUnlock((uint)index + 1);
-
+        UILogicUtils.ShowConfirm(Lang.GetValue("trade_unlock_tip", tips),()=> {
+            TradeController.Instance.ReqTradeUnlock((uint)index + 1);
+        });
     }
 
     private void StallClickHander(EventContext context)
@@ -334,10 +342,6 @@ public class TradeWindow : BaseView
         }
         else
         {
-            if (conf.Type == 16001 && cell.status.selectedIndex != 4)
-            {
-                return;
-            }
             UnlockCage(index);
         }
         

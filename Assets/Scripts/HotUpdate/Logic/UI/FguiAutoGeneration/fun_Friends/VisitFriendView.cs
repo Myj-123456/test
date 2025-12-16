@@ -28,9 +28,7 @@ namespace fun_Friends
         public GTextField n27;
         public GGroup n29;
         public GGraph n30;
-        public GImage n31;
-        public GImage n32;
-        public GTextField setTitle;
+        public GLoader n46;
         public GTextField txt_1;
         public GButton EnterBtn;
         public GButton CancelBtn;
@@ -42,6 +40,8 @@ namespace fun_Friends
         public GTextField text_count;
         public GTextField text_consume;
         public GImage n45;
+        public GImage n47;
+        public GTextField best_buyText;
         public GGroup n40;
         public const string URL = "ui://fteyf9nzk3gl1yjp7ta";
 
@@ -75,20 +75,20 @@ namespace fun_Friends
             n27 = (GTextField)GetChildAt(17);
             n29 = (GGroup)GetChildAt(18);
             n30 = (GGraph)GetChildAt(19);
-            n31 = (GImage)GetChildAt(20);
-            n32 = (GImage)GetChildAt(21);
-            setTitle = (GTextField)GetChildAt(22);
-            txt_1 = (GTextField)GetChildAt(23);
-            EnterBtn = (GButton)GetChildAt(24);
-            CancelBtn = (GButton)GetChildAt(25);
-            bg_sign = (GButton)GetChildAt(26);
-            text_visitCount = (GTextField)GetChildAt(27);
-            txt_Buyname = (GTextField)GetChildAt(28);
-            btn_lessen = (btn_lessen)GetChildAt(29);
-            btn_addNum = (btn_addNum)GetChildAt(30);
-            text_count = (GTextField)GetChildAt(31);
-            text_consume = (GTextField)GetChildAt(32);
-            n45 = (GImage)GetChildAt(33);
+            n46 = (GLoader)GetChildAt(20);
+            txt_1 = (GTextField)GetChildAt(21);
+            EnterBtn = (GButton)GetChildAt(22);
+            CancelBtn = (GButton)GetChildAt(23);
+            bg_sign = (GButton)GetChildAt(24);
+            text_visitCount = (GTextField)GetChildAt(25);
+            txt_Buyname = (GTextField)GetChildAt(26);
+            btn_lessen = (btn_lessen)GetChildAt(27);
+            btn_addNum = (btn_addNum)GetChildAt(28);
+            text_count = (GTextField)GetChildAt(29);
+            text_consume = (GTextField)GetChildAt(30);
+            n45 = (GImage)GetChildAt(31);
+            n47 = (GImage)GetChildAt(32);
+            best_buyText = (GTextField)GetChildAt(33);
             n40 = (GGroup)GetChildAt(34);
         }
     }

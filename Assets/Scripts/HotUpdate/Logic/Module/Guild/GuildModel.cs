@@ -114,7 +114,7 @@ public class GuildModel : Singleton<GuildModel>
 
     public I_GUILD_ME_VO guildMember;//我在社团中的成员信息
 
-    public I_PRESIDENT_VO presidentInfo;//社团会长
+    public I_USER_PROFILE presidentInfo;//社团会长
 
     //public I_PRESIDENT_VO presiddnt
 
@@ -132,6 +132,8 @@ public class GuildModel : Singleton<GuildModel>
     public List<I_BRIEF_MEMBER_VO> guildMembers;//社团成员信息，社团聊天记录要显示职位
 
     public uint guildDonate; //社团捐献进度
+    public uint donateMemberCnt;//今日已捐献人数
+    public uint meDonateSeq;//我今天是第几个捐献的，0：我今天还没捐献
 
     public List<uint> haveDrawDonateIds; //已领取的社团捐献进度奖励id
 
@@ -320,7 +322,7 @@ public class GuildModel : Singleton<GuildModel>
     {
         foreach(var userData in memberList)
         {
-            if(userData.userId == targetUserId)
+            if(userData.userInfo.userId == targetUserId)
             {
                 userData.powerId = powerId;
             }
@@ -332,7 +334,7 @@ public class GuildModel : Singleton<GuildModel>
         int index = -1;
         for(int i = 0;i < memberList.Count; i++)
         {
-            if(memberList[i].userId == targetUserId)
+            if(memberList[i].userInfo.userId == targetUserId)
             {
                 index = i;
                 break;
@@ -348,7 +350,7 @@ public class GuildModel : Singleton<GuildModel>
     {
         foreach(var userInfo in memberList)
         {
-            if(userInfo.userId == targetUserId)
+            if(userInfo.userInfo.userId == targetUserId)
             {
                 userInfo.powerId = position;
                 break;
@@ -487,7 +489,7 @@ public class GuildModel : Singleton<GuildModel>
     {
         if(memberList != null)
         {
-            var userData = memberList.Find(value => value.userId == id);
+            var userData = memberList.Find(value => value.userInfo.userId == id);
             if (userData == null) return 0;
             return userData.powerId;
         }
@@ -538,7 +540,7 @@ public class GuildModel : Singleton<GuildModel>
         {
             int mypos = posList.IndexOf((int)guildMember.powerId);
             int tarpos = posList.IndexOf((int)pos);
-            return mypos < tarpos && tarpos < 3;
+            return mypos < tarpos && tarpos < 4;
         }
         return false;
     }

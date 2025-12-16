@@ -90,6 +90,7 @@ namespace common_New
             UIObjectFactory.SetPackageItemExtension(roleBubble.URL, typeof(roleBubble));
             UIObjectFactory.SetPackageItemExtension(BtnClose.URL, typeof(BtnClose));
             UIObjectFactory.SetPackageItemExtension(greenPicBtn2.URL, typeof(greenPicBtn2));
+            UIObjectFactory.SetPackageItemExtension(CloseBtn_3.URL, typeof(CloseBtn_3));
             UIObjectFactory.SetPackageItemExtension(marquee_com.URL, typeof(marquee_com));
             UIObjectFactory.SetPackageItemExtension(GuideHand.URL, typeof(GuideHand));
             UIObjectFactory.SetPackageItemExtension(ItemGridTip.URL, typeof(ItemGridTip));

@@ -43,7 +43,7 @@ public class WelfareMainView : BaseWindow
         turnView = new TurnView(view.turntable_view);
         sevenView = new SevenView(view.seven_view);
         videoDoubleView = new VideoDoubleView(view.video_view);
-        view.page_list.itemRenderer = RenderList;
+        view.list.itemRenderer = RenderList;
     }
 
     public override void OnShown()
@@ -107,13 +107,13 @@ public class WelfareMainView : BaseWindow
 
             pageData.Add(i);
         }
-        view.page_list.numItems = pageData.Count;
+        view.list.numItems = pageData.Count;
         int index = pageData.IndexOf(type);
         if(index == -1)
         {
             index = 0;
         }
-        view.page_list.selectedIndex = index;
+        view.list.selectedIndex = index;
         view.tab.selectedIndex = pageData[index];
         ChangeTab(pageData[index]);
     }

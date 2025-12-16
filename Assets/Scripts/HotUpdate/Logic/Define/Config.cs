@@ -11,7 +11,7 @@ public class Config
     public static string pid = "122_guohui";
     public static bool EnableNetLog = true;
     public static string cdnResPath = "https://elida-cdn.tigermoon.cn";
-    public static string appVer = "v1.0.8";//app版本
+    public static string appVer = "v1.0.9";//app版本
     public static bool isShowLoginView = false;//是否显示登录界面(用于内部测试)
 }
 

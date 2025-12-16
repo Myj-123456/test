@@ -64,7 +64,7 @@ namespace protobuf.welfare
         public uint pos;
 
         [ProtoBuf.ProtoMember(4)]
-        public bool type;
+        public uint type;
 
         [ProtoBuf.ProtoMember(5)]
         [System.ComponentModel.DefaultValue("")]

@@ -7,89 +7,6 @@
 namespace protobuf.friend
 {
     [ProtoBuf.ProtoContract]
-    public class I_FRIEND_PROFILE
-    {
-        [ProtoBuf.ProtoMember(1)]
-        public uint userId;
-
-        [ProtoBuf.ProtoMember(2)]
-        public uint userLevel;
-
-        [ProtoBuf.ProtoMember(3)]
-        [System.ComponentModel.DefaultValue("")]
-        public string townName = "";
-
-        [ProtoBuf.ProtoMember(4)]
-        [System.ComponentModel.DefaultValue("")]
-        public string headImgId = "";
-
-        [ProtoBuf.ProtoMember(5)]
-        public uint headFrame;
-
-        [ProtoBuf.ProtoMember(8)]
-        public uint lastLoginTime;
-
-        [ProtoBuf.ProtoMember(9)]
-        public bool isMark;
-
-        [ProtoBuf.ProtoMember(10)]
-        public bool canSteal;
-
-        [ProtoBuf.ProtoMember(11)]
-        public ulong fighting;
-
-        [ProtoBuf.ProtoMember(12)]
-        public uint title;
-
-        [ProtoBuf.ProtoMember(13)]
-        public uint serverId;
-
-    }
-
-    [ProtoBuf.ProtoContract]
-    public class I_CRONY_FRIEND_PROFILE
-    {
-        [ProtoBuf.ProtoMember(1)]
-        public uint userId;
-
-        [ProtoBuf.ProtoMember(2)]
-        public uint userLevel;
-
-        [ProtoBuf.ProtoMember(3)]
-        [System.ComponentModel.DefaultValue("")]
-        public string townName = "";
-
-        [ProtoBuf.ProtoMember(4)]
-        [System.ComponentModel.DefaultValue("")]
-        public string headImgId = "";
-
-        [ProtoBuf.ProtoMember(5)]
-        public uint headFrame;
-
-        [ProtoBuf.ProtoMember(6)]
-        public uint lastLoginTime;
-
-        [ProtoBuf.ProtoMember(7)]
-        public uint title;
-
-        [ProtoBuf.ProtoMember(8)]
-        public uint serverId;
-
-        [ProtoBuf.ProtoMember(9)]
-        public ulong fighting;
-
-        [ProtoBuf.ProtoMember(10)]
-        public ulong time;
-
-        [ProtoBuf.ProtoMember(11)]
-        public bool isCrony;
-
-        [ProtoBuf.ProtoMember(12)]
-        public bool isApplyCrony;
-
-    }
-
-    [ProtoBuf.ProtoContract]
     public class C_MSG_FRIEND_LIST
     {
         [ProtoBuf.ProtoMember(1)]
@@ -104,10 +21,27 @@ namespace protobuf.friend
     public class S_MSG_FRIEND_LIST
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<I_FRIEND_PROFILE> friendList = new System.Collections.Generic.List<I_FRIEND_PROFILE>();
+        public System.Collections.Generic.List<I_FRIEND_PROFILE_VO> friendList = new System.Collections.Generic.List<I_FRIEND_PROFILE_VO>();
 
         [ProtoBuf.ProtoMember(2)]
         public uint count;
+
+        [ProtoBuf.ProtoContract]
+        public class I_FRIEND_PROFILE_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public protobuf.common.I_USER_PROFILE userInfo;
+
+            [ProtoBuf.ProtoMember(2)]
+            public bool isMark;
+
+            [ProtoBuf.ProtoMember(3)]
+            public bool canSteal;
+
+            [ProtoBuf.ProtoMember(4)]
+            public bool online;
+
+        }
 
     }
 
@@ -241,7 +175,18 @@ namespace protobuf.friend
     public class S_MSG_FRIEND_APPLY_LIST
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<protobuf.common.I_USER_PROFILE> applyList = new System.Collections.Generic.List<protobuf.common.I_USER_PROFILE>();
+        public System.Collections.Generic.List<I_APPLY_VO> applyList = new System.Collections.Generic.List<I_APPLY_VO>();
+
+        [ProtoBuf.ProtoContract]
+        public class I_APPLY_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public protobuf.common.I_USER_PROFILE userInfo;
+
+            [ProtoBuf.ProtoMember(2)]
+            public bool online;
+
+        }
 
     }
 
@@ -349,7 +294,18 @@ namespace protobuf.friend
     public class S_MSG_FRIEND_BLACK_LIST
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<protobuf.common.I_USER_PROFILE> blackList = new System.Collections.Generic.List<protobuf.common.I_USER_PROFILE>();
+        public System.Collections.Generic.List<I_BLACK_VO> blackList = new System.Collections.Generic.List<I_BLACK_VO>();
+
+        [ProtoBuf.ProtoContract]
+        public class I_BLACK_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public protobuf.common.I_USER_PROFILE userInfo;
+
+            [ProtoBuf.ProtoMember(2)]
+            public bool online;
+
+        }
 
     }
 
@@ -378,7 +334,18 @@ namespace protobuf.friend
     public class S_MSG_FRIEND_RECOMMEND_LIST
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<protobuf.common.I_USER_PROFILE> recommendList = new System.Collections.Generic.List<protobuf.common.I_USER_PROFILE>();
+        public System.Collections.Generic.List<I_RECOMMEND_VO> recommendList = new System.Collections.Generic.List<I_RECOMMEND_VO>();
+
+        [ProtoBuf.ProtoContract]
+        public class I_RECOMMEND_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public protobuf.common.I_USER_PROFILE userInfo;
+
+            [ProtoBuf.ProtoMember(2)]
+            public bool online;
+
+        }
 
     }
 
@@ -408,7 +375,7 @@ namespace protobuf.friend
         public System.Collections.Generic.List<I_ITEM_VO> items = new System.Collections.Generic.List<I_ITEM_VO>();
 
         [ProtoBuf.ProtoMember(2)]
-        public I_FRIEND_PROFILE userInfo;
+        public I_STEAL_PROFILE_VO stealUserInfo;
 
         [ProtoBuf.ProtoMember(3)]
         public uint targetUserId;
@@ -427,6 +394,20 @@ namespace protobuf.friend
 
             [ProtoBuf.ProtoMember(3)]
             public uint cronyCnt;
+
+        }
+
+        [ProtoBuf.ProtoContract]
+        public class I_STEAL_PROFILE_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public protobuf.common.I_USER_PROFILE userInfo;
+
+            [ProtoBuf.ProtoMember(2)]
+            public bool online;
+
+            [ProtoBuf.ProtoMember(3)]
+            public bool canSteal;
 
         }
 
@@ -463,10 +444,30 @@ namespace protobuf.friend
     public class S_MSG_CRONY_FRIEND_LIST
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<I_CRONY_FRIEND_PROFILE> friendList = new System.Collections.Generic.List<I_CRONY_FRIEND_PROFILE>();
+        public System.Collections.Generic.List<I_CRONY_VO> friendList = new System.Collections.Generic.List<I_CRONY_VO>();
 
         [ProtoBuf.ProtoMember(2)]
         public uint count;
+
+        [ProtoBuf.ProtoContract]
+        public class I_CRONY_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public protobuf.common.I_USER_PROFILE userInfo;
+
+            [ProtoBuf.ProtoMember(2)]
+            public ulong time;
+
+            [ProtoBuf.ProtoMember(3)]
+            public bool isCrony;
+
+            [ProtoBuf.ProtoMember(4)]
+            public bool isApplyCrony;
+
+            [ProtoBuf.ProtoMember(5)]
+            public bool online;
+
+        }
 
     }
 

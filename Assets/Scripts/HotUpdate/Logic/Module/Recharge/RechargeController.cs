@@ -119,15 +119,16 @@ public class RechargeController : BaseController<RechargeController>
     /// </summary>
     public void PlaceOrder(S_MSG_PLACE_ORDER data)
     {
-        if (!string.IsNullOrEmpty(data.appAccountToken))//ios内购支付需要的appAccountToken payType为40时才返回，不然返回空字符串
+        if (data.payType == 40)//payType为40为IOS
         {
-            Debug.Log("appAccountToken:" + data.appAccountToken);
-            //ApplePlatform.Instance.SetApplicationUsername(data.appAccountToken);
-            //ApplePlatform.Instance.PurchaseProduct("com.hy.qmhj.diamond6");
+            if (!string.IsNullOrEmpty(data.appAccountToken))//ios内购支付需要的appAccountToken payType为40时才返回，不然返回空字符串
+            {
+                Debug.Log("appAccountToken:" + data.appAccountToken);
+            }
         }
-        else//直接下单
+        else
         {
-            ReqDeliver(data.orderNo);
+            ReqDeliver(data.orderNo);//直接下单
         }
     }
 

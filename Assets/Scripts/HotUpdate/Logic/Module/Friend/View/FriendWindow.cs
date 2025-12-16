@@ -10,7 +10,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-
+using static protobuf.friend.S_MSG_FRIEND_APPLY_LIST;
+using static protobuf.friend.S_MSG_FRIEND_LIST;
+using static protobuf.friend.S_MSG_FRIEND_RECOMMEND_LIST;
 
 public class FriendWindow : BaseWindow
 {
@@ -18,19 +20,19 @@ public class FriendWindow : BaseWindow
 
     private int curTab = -1;
 
-    private List<I_FRIEND_PROFILE> friendListData;
+    private List<I_FRIEND_PROFILE_VO> friendListData;
 
-    private List<I_USER_PROFILE> applyListData;
+    private List<I_APPLY_VO> applyListData;
 
-    private List<I_USER_PROFILE> recommendListData;
+    private List<I_RECOMMEND_VO> recommendListData;
 
-    private List<I_FRIEND_PROFILE> bestFriendListData;
+    //private List<I_FRIEND_PROFILE> bestFriendListData;
 
     private CountDownTimer timer;
     private CountDownTimer cronyCancelTimer;
     private CountDownTimer cronyCancelPopTimer;
 
-    private I_FRIEND_PROFILE curSelectedItem;
+    private I_FRIEND_PROFILE_VO curSelectedItem;
 
     private int[] tweenSign;
     private Dictionary<int, UIHeroAvatar> heroAvatarMap;
@@ -148,9 +150,9 @@ public class FriendWindow : BaseWindow
         EventManager.Instance.AddEventListener(FriendEvent.CronyBackCancel, OnCronyBackCancelCallback);
 
 
-        StringUtil.SetBtnTab(view.btn_list, Lang.GetValue("slang_2"));
-        StringUtil.SetBtnTab(view.btn_app, Lang.GetValue("slang_3"));
-        StringUtil.SetBtnTab(view.btn_refer, Lang.GetValue("slang_4"));
+        SetBtnTab1(view.btn_list, Lang.GetValue("slang_2"));
+        SetBtnTab1(view.btn_app, Lang.GetValue("slang_3"));
+        SetBtnTab1(view.btn_refer, Lang.GetValue("slang_4"));
         StringUtil.SetBtnTab(view.btn_addAccount, Lang.GetValue("slang_6"));//添加账户
         StringUtil.SetBtnTab(view.btn_add, Lang.GetValue("gui_btn_sure"));
         view.txt_friend_static.text = Lang.GetValue("slang_88");//点击输入好友ID
@@ -170,7 +172,7 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnTab(view.btn_openBlack, Lang.GetValue("Friend_31"));//查看黑名单
         StringUtil.SetBtnTab(view.btn_addBlack, Lang.GetValue("Friend_32"));//加入黑名单
 
-        StringUtil.SetBtnTab(view.btn_best, "密友");//密友
+        StringUtil.SetBtnTab(view.btn_best, "蜜友");//密友
         StringUtil.SetBtnTab(view.btn_best_privilege, "特权");
         StringUtil.SetBtnTab(view.btn_best_apply, "申请");
         StringUtil.SetBtnTab(view.btn_best_contact, "聊天");
@@ -203,9 +205,9 @@ public class FriendWindow : BaseWindow
         {
             foreach (var friendData in FriendModel.Instance.friendList)
             {
-                if (FriendModel.Instance.friendRelationTime.ContainsKey(friendData.userId))
+                if (FriendModel.Instance.friendRelationTime.ContainsKey(friendData.userInfo.userId))
                 {
-                    uint relationTime = FriendModel.Instance.friendRelationTime[friendData.userId];
+                    uint relationTime = FriendModel.Instance.friendRelationTime[friendData.userInfo.userId];
                     uint currentTime = MyselfModel.Instance.lastServerTime;
                     uint relationDuration = currentTime - relationTime;
                     if (relationDuration >= 12 * 60 * 60)
@@ -219,10 +221,10 @@ public class FriendWindow : BaseWindow
         // 设置控制器索引：有密友数据或有符合条件的普通好友时为1，否则为0
         view.bestNullTips.selectedIndex = (hasCronyData || hasQualifiedFriend) ? 1 : 0;
         // 根据是否有密友数据设置不同的背景图片
-        SetBg(view.best_bg, hasCronyData ? "Friend/ELIDA_haoyou_bg.png" : "Friend/ELIDA_miyou_bg.png");
-        view.anim.loop = true;
-        view.anim.url = "haoyou";
-        view.anim.animationName = "idle";
+        SetBg(view.best_bg, hasCronyData ? "Friend/ELIDA_miyou_bg.png" : "");
+        //view.anim.loop = true;
+        //view.anim.url = "haoyou";
+        //view.anim.animationName = "idle";
 
         view.bg_sign.onClick.Add(() =>
         {
@@ -247,11 +249,13 @@ public class FriendWindow : BaseWindow
                 return;
             }
             // 检查当前密友关系是否已经在解除中
-            bool isAlreadyCancelling = FriendModel.Instance.IsCronyRelationshipCancelling(curSelectedItem.userId);
+            bool isAlreadyCancelling = FriendModel.Instance.IsCronyRelationshipCancelling(curSelectedItem.userInfo.userId);
             if (!isAlreadyCancelling)
             {
+                SetBg(view.n226, "Common/common_three_tip_bg.png");
                 view.bestTips.selectedIndex = 3;
-                view.best_relievedesc.text = "解除后闺蜜等级和经验将被清空，确认解除后将在24小时倒计时结束后正式解除，确定要解除与" + curSelectedItem.townName + "的密友关系吗？";
+                view.best_relievedesc.text = "解除后闺蜜等级和经验将被清空，确认解除后将在24小时倒计时结束后正式解除，确定要解除与"
+                                             + TextUtil.GetServerName(curSelectedItem.userInfo.serverId, curSelectedItem.userInfo.townName) + "的密友关系吗？";
             }
             else
             {
@@ -267,11 +271,12 @@ public class FriendWindow : BaseWindow
             view.btn_best_relieve.visible = false;
             view.btn_best_relieve2.visible = true;
             //发起解除密友关系请求到服务器
-            FriendController.Instance.ReqCronyCancel(curSelectedItem.userId);
+            FriendController.Instance.ReqCronyCancel(curSelectedItem.userInfo.userId);
             UpdateCronyCancelTimeDisplay();
         });
         view.btn_best_relieve2.onClick.Add(() =>
         {
+            SetBg(view.n227, "Common/common_three_tip_bg.png");
             view.bestTips.selectedIndex = 4;
             UpdateJadeCostDisplay();
         });
@@ -279,14 +284,14 @@ public class FriendWindow : BaseWindow
         view.btn_bestedia.onClick.Add(() =>
         {
             //根据剩余倒计时计算所需玉石
-            var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
+            var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userInfo.userId);
             if (cronyData == null || cronyData.cancelTime <= 0)
             {
                 return;
             }
             view.bestTips.selectedIndex = 0;
             //确认立即解除
-            FriendController.Instance.ReqCronySpeedCancel(curSelectedItem.userId);
+            FriendController.Instance.ReqCronySpeedCancel(curSelectedItem.userInfo.userId);
         });
         StringUtil.SetBtnTab(view.btn_best_unrelieve, "取消");
         view.btn_best_unrelieve.onClick.Add(() =>
@@ -303,10 +308,10 @@ public class FriendWindow : BaseWindow
             if (curSelectedItem != null)
             {
                 // 检查该密友是否真的在解除队列中
-                var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
+                var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userInfo.userId);
                 if (cronyData != null && cronyData.cancelTime > 0)
                 {
-                    FriendController.Instance.ReqCronyBackCancel(curSelectedItem.userId);
+                    FriendController.Instance.ReqCronyBackCancel(curSelectedItem.userInfo.userId);
                 }
             }
         });
@@ -314,7 +319,7 @@ public class FriendWindow : BaseWindow
         {
             view.bestTips.selectedIndex = 0;
         });
-        view.btn_bestediaclose.onClick.Add(() =>
+        view.btn_close.onClick.Add(() =>
         {
             view.bestTips.selectedIndex = 0;
         });
@@ -326,6 +331,7 @@ public class FriendWindow : BaseWindow
         });
         view.btn_addAccount.onClick.Add(() =>
         {
+            SetBg(view.n222, "Common/common_three_tip_bg.png");
             view.inputFirendID.selectedIndex = 1;
             view.txt_friend_static.visible = true;
             view.txt_friendCode.visible = true;
@@ -357,7 +363,7 @@ public class FriendWindow : BaseWindow
             if (curSelectedItem != null)
             {
                 //调用拜访方法
-                FriendController.Instance.ReqFriendVisit(curSelectedItem.userId);
+                FriendController.Instance.ReqFriendVisit(curSelectedItem.userInfo.userId);
             }
             else
             {
@@ -369,7 +375,7 @@ public class FriendWindow : BaseWindow
             if (curSelectedItem != null)
             {
                 // 获取当前选中的密友数据，打开聊天窗口
-                FriendChatModel.Instance.CreateFriendChat(curSelectedItem.userId);
+                FriendChatModel.Instance.CreateFriendChat(curSelectedItem.userInfo.userId);
             }
             else
             {
@@ -394,6 +400,15 @@ public class FriendWindow : BaseWindow
         view.txt_friendCode.onFocusOut.Add(OnTxtFocusOut);
     }
 
+    public static void SetBtnTab1(FairyGUI.GComponent btn,string txt)
+    {
+        if (txt.Length == 4)
+        {
+            if (btn.GetChild("titleLab") != null) btn.GetChild("titleLab").text = txt.Substring(0,2);
+            if (btn.GetChild("titleLab1") != null) btn.GetChild("titleLab1").text = txt.Substring(2, 2);
+        }
+    }
+
     // 更新bestNullTips控制器状态
     private void UpdateBestNullTipsStatus()
     {
@@ -406,7 +421,7 @@ public class FriendWindow : BaseWindow
         // 设置控制器索引：有密友数据或有普通好友数据时为1，否则为0
         view.bestNullTips.selectedIndex = (hasCronyData || hasFriendData) ? 1 : 0;
         // 根据是否有密友数据设置不同的背景图片
-        SetBg(view.best_bg, hasCronyData ? "Friend/ELIDA_haoyou_bg.png" : "Friend/ELIDA_miyou_bg.png");
+        SetBg(view.best_bg, hasCronyData ? "Friend/ELIDA_miyou_bg.png" : "");
     }
 
     public override void OnShown()
@@ -435,15 +450,15 @@ public class FriendWindow : BaseWindow
         UILogicUtils.ClearTweenOfViewList(view.recommendList);
         UILogicUtils.ClearTweenOfViewList(view.newFriendComeList);
         curSelectedItem = null;
-        //密友界面不显示动画
-        if (curTab == 3)
-        {
-            view.anim.visible = false;
-        }
-        else
-        {
-            view.anim.visible = true;
-        }
+        ////密友界面不显示动画
+        //if (curTab == 3)
+        //{
+        //    view.anim.visible = false;
+        //}
+        //else
+        //{
+        //    view.anim.visible = true;
+        //}
 
         if (curTab == 0)
         {
@@ -522,8 +537,8 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
         ui_.data = vo_;
         //ui_.friend_vip_icon.visible = false;
-        ui_.txt_name.text = vo_.townName;
-        ui_.txt_lv.text = vo_.userLevel + "";
+        ui_.txt_name.text = vo_.userInfo.townName;
+        ui_.txt_lv.text = vo_.userInfo.userLevel + "";
         StringUtil.SetBtnTab(ui_.btn_add, Lang.GetValue("Friend_17"));//申请
 
         ui_.btn_add.onClick.Add(OnRecommondAdd);
@@ -539,8 +554,8 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
         ui_.data = vo_;
         //ui_.friend_vip_icon.visible = false;
-        ui_.txt_name.text = vo_.townName;
-        ui_.txt_lv.text = vo_.userLevel + "";
+        ui_.txt_name.text = vo_.userInfo.townName;
+        ui_.txt_lv.text = vo_.userInfo.userLevel + "";
         StringUtil.SetBtnTab(ui_.btn_yes, Lang.GetValue("Friend_15"));//添加
         StringUtil.SetBtnTab(ui_.btn_no, Lang.GetValue("Friend_16"));//拒绝
 
@@ -595,11 +610,11 @@ public class FriendWindow : BaseWindow
         ui_.stats.selectedIndex = 0;
         ui_.data = vo_;
         ui_.text_sign.text = Lang.GetValue("slang_94");//状态：
-        ui_.offlineTxt.text = Lang.GetValue("slang_192") + TimeUtil.GenerateTimeDesc((int)vo_.lastLoginTime);
+        ui_.offlineTxt.text = Lang.GetValue("slang_192") + TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
         //ui_.head.p.url = "Avatar/ELIDA_common_touxiangdi01.png";
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
-        ui_.txt_name.text = vo_.townName;
-        ui_.txt_lv.text = vo_.userLevel + "";
+        ui_.txt_name.text = vo_.userInfo.townName;
+        ui_.txt_lv.text = vo_.userInfo.userLevel + "";
         StringUtil.SetBtnTab(ui_.btn_visit, Lang.GetValue("Friend_12"));//拜 访
         StringUtil.SetBtnTab(ui_.btn_setting, Lang.GetValue("setting_txt1"));
         StringUtil.SetBtnTab(ui_.giftBtn, Lang.GetValue("text_treasure_item9"));
@@ -611,7 +626,7 @@ public class FriendWindow : BaseWindow
         ui_.pic_sign.visible = vo_.canSteal;
         ui_.timeStarIcon.visible = false;
         ui_.petIcon.visible = false;
-        ui_.giftBtn.data = vo_.userId;
+        ui_.giftBtn.data = vo_.userInfo.userId;
         ui_.giftBtn.onClick.Add(CreateChat);
         //ui_.friend_vip_icon.visible = false;
     }
@@ -656,11 +671,12 @@ public class FriendWindow : BaseWindow
 
     public void OnFriendSetting(EventContext context)
     {
-        var vo_ = (context.sender as GComponent).parent.data as I_FRIEND_PROFILE;
+        var vo_ = (context.sender as GComponent).parent.data as I_FRIEND_PROFILE_VO;
+        SetBg(view.n223, "Common/common_three_tip_bg.png");
         view.btn_clearSign.visible = vo_.isMark;
         view.btn_sign.visible = !vo_.isMark;
-        view.txt_lv.text = vo_.userLevel.ToString();
-        view.name_txt.text = vo_.townName;
+        view.txt_lv.text = vo_.userInfo.userLevel.ToString();
+        view.name_txt.text = vo_.userInfo.townName;
         StringUtil.SetBtnUrl(view.head, "Avatar/ELIDA_common_touxiangdi01.png");
 
         curSelectedItem = vo_;
@@ -669,20 +685,20 @@ public class FriendWindow : BaseWindow
 
     public void OnVisitFriend(EventContext context)
     {
-        var friendData = (context.sender as GComponent).parent.data as I_FRIEND_PROFILE;
-        FriendController.Instance.ReqFriendVisit(friendData.userId);
+        var friendData = (context.sender as GComponent).parent.data as I_FRIEND_PROFILE_VO;
+        FriendController.Instance.ReqFriendVisit(friendData.userInfo.userId);
     }
 
     private void OnAddFriend(EventContext context)
     {
-        var friendData = (context.sender as GComponent).parent.data as I_USER_PROFILE;
-        FriendController.Instance.ReqFriendAgree(new uint[] { friendData.userId });
+        var friendData = (context.sender as GComponent).parent.data as I_APPLY_VO;
+        FriendController.Instance.ReqFriendAgree(new uint[] { friendData.userInfo.userId });
     }
 
     private void OnDenyFriend(EventContext context)
     {
-        var friendData = (context.sender as GComponent).parent.data as I_USER_PROFILE;
-        FriendController.Instance.ReqFriendReject(new uint[] { friendData.userId });
+        var friendData = (context.sender as GComponent).parent.data as I_APPLY_VO;
+        FriendController.Instance.ReqFriendReject(new uint[] { friendData.userInfo.userId });
     }
 
     public void OneAddFriend()
@@ -692,7 +708,7 @@ public class FriendWindow : BaseWindow
         {
             foreach (var friendData in applyListData)
             {
-                ids.Add(friendData.userId);
+                ids.Add(friendData.userInfo.userId);
             }
             FriendController.Instance.ReqFriendAgree(ids.ToArray());
         }
@@ -705,7 +721,7 @@ public class FriendWindow : BaseWindow
         {
             foreach (var friendData in applyListData)
             {
-                ids.Add(friendData.userId);
+                ids.Add(friendData.userInfo.userId);
             }
             FriendController.Instance.ReqFriendReject(ids.ToArray());
         }
@@ -724,8 +740,8 @@ public class FriendWindow : BaseWindow
 
     private void OnRecommondAdd(EventContext context)
     {
-        var friendData = (context.sender as GComponent).parent.data as I_USER_PROFILE;
-        FriendController.Instance.ReqFriendApply(new uint[] { friendData.userId });
+        var friendData = (context.sender as GComponent).parent.data as I_RECOMMEND_VO;
+        FriendController.Instance.ReqFriendApply(new uint[] { friendData.userInfo.userId });
 
     }
 
@@ -736,7 +752,7 @@ public class FriendWindow : BaseWindow
         {
             foreach (var friendData in recommendListData)
             {
-                ids.Add(friendData.userId);
+                ids.Add(friendData.userInfo.userId);
             }
             FriendController.Instance.ReqFriendApply(ids.ToArray());
         }
@@ -748,7 +764,7 @@ public class FriendWindow : BaseWindow
         {
             return;
         }
-        FriendController.Instance.ReqFriendDel(curSelectedItem.userId);
+        FriendController.Instance.ReqFriendDel(curSelectedItem.userInfo.userId);
         view.inputFirendID.selectedIndex = 0;
     }
 
@@ -758,7 +774,7 @@ public class FriendWindow : BaseWindow
         {
             return;
         }
-        FriendController.Instance.ReqFriendMark(curSelectedItem.userId, true);
+        FriendController.Instance.ReqFriendMark(curSelectedItem.userInfo.userId, true);
         view.inputFirendID.selectedIndex = 0;
     }
 
@@ -768,7 +784,7 @@ public class FriendWindow : BaseWindow
         {
             return;
         }
-        FriendController.Instance.ReqFriendInsertBlack(curSelectedItem.userId);
+        FriendController.Instance.ReqFriendInsertBlack(curSelectedItem.userInfo.userId);
         view.inputFirendID.selectedIndex = 0;
     }
 
@@ -778,11 +794,11 @@ public class FriendWindow : BaseWindow
         {
             return;
         }
-        FriendController.Instance.ReqFriendMark(curSelectedItem.userId, false);
+        FriendController.Instance.ReqFriendMark(curSelectedItem.userInfo.userId, false);
         view.inputFirendID.selectedIndex = 0;
     }
 
-    public int FriendSort(I_FRIEND_PROFILE a, I_FRIEND_PROFILE b)
+    public int FriendSort(I_FRIEND_PROFILE_VO a, I_FRIEND_PROFILE_VO b)
     {
 
         if (!a.isMark && b.isMark)
@@ -859,7 +875,7 @@ public class FriendWindow : BaseWindow
         // 刷新密友人物服装
         if (curSelectedItem != null)
         {
-            var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
+            var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userInfo.userId);
             if (cronyData != null)
             {
                 // 重新加载对方人物服装
@@ -927,7 +943,7 @@ public class FriendWindow : BaseWindow
                                 var friendData = FriendModel.Instance.GetFriendData(cronyData.friendId);
                                 if (friendData != null)
                                 {
-                                    ui_.n3.txt_lv.text = friendData.userLevel.ToString();
+                                    ui_.n3.txt_lv.text = friendData.userInfo.userLevel.ToString();
                                 }
                             }
                             //设置名字
@@ -939,7 +955,7 @@ public class FriendWindow : BaseWindow
                                     var friendData = FriendModel.Instance.GetFriendData(cronyData.friendId);
                                     if (friendData != null)
                                     {
-                                        nameTxt.text = friendData.townName;
+                                        nameTxt.text = friendData.userInfo.townName;
                                     }
                                 }
                             }
@@ -1018,7 +1034,7 @@ public class FriendWindow : BaseWindow
                                 var friendData = FriendModel.Instance.GetFriendData(cronyData.friendId);
                                 if (friendData != null)
                                 {
-                                    lvTxt.text = friendData.userLevel.ToString();
+                                    lvTxt.text = friendData.userInfo.userLevel.ToString();
                                 }
                             }
                             //设置名字
@@ -1028,7 +1044,7 @@ public class FriendWindow : BaseWindow
                                 var friendData = FriendModel.Instance.GetFriendData(cronyData.friendId);
                                 if (friendData != null)
                                 {
-                                    nameTxt.text = friendData.townName;
+                                    nameTxt.text = friendData.userInfo.townName;
                                 }
                             }
                             //设置图标
@@ -1125,7 +1141,7 @@ public class FriendWindow : BaseWindow
             return;
         }
         // 检查是否有正在解除中的密友关系
-        var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
+        var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userInfo.userId);
         if (cronyData == null || cronyData.cancelTime <= 0)
         {
             // 重置按钮状态
@@ -1164,7 +1180,7 @@ public class FriendWindow : BaseWindow
                     if (curSelectedItem != null)
                     {
                         // 向服务器发送解除密友请求
-                        FriendController.Instance.ReqCronySpeedCancel(curSelectedItem.userId);
+                        FriendController.Instance.ReqCronySpeedCancel(curSelectedItem.userInfo.userId);
                         view.btn_best_relieve.visible = true;
                         view.btn_best_relieve2.visible = false;
                         view.btn_best_relieve2.txt_relieveTime.text = "";
@@ -1189,11 +1205,11 @@ public class FriendWindow : BaseWindow
         {
             return;
         }
-        bool isCancelling = FriendModel.Instance.IsCronyRelationshipCancelling(curSelectedItem.userId);
+        bool isCancelling = FriendModel.Instance.IsCronyRelationshipCancelling(curSelectedItem.userInfo.userId);
         if (isCancelling)
         {
             // 直接计算剩余时间
-            var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userId);
+            var cronyData = FriendModel.Instance.GetCronyData(curSelectedItem.userInfo.userId);
             if (cronyData == null || cronyData.cancelTime <= 0)
             {
                 view.text_money.text = "200";
@@ -1204,7 +1220,7 @@ public class FriendWindow : BaseWindow
             {
                 currentServerTime = MyselfModel.Instance.lastServerTime;
             }
-            int remainingSeconds = FriendModel.Instance.GetCronyRemainingCancelTime2(curSelectedItem.userId);
+            int remainingSeconds = FriendModel.Instance.GetCronyRemainingCancelTime2(curSelectedItem.userInfo.userId);
             int jadeCost = CalculateJadeCostForImmediateRemove(remainingSeconds);
             view.text_money.text = jadeCost.ToString();
         }
@@ -1227,7 +1243,7 @@ public class FriendWindow : BaseWindow
         //删除当前选中密友的人物模型
         if (curSelectedItem != null)
         {
-            int friendKey = (int)curSelectedItem.userId;
+            int friendKey = (int)curSelectedItem.userInfo.userId;
             if (heroAvatarMap.ContainsKey(friendKey))
             {
                 heroAvatarMap.Remove(friendKey);
@@ -1320,6 +1336,7 @@ public class FriendWindow : BaseWindow
             return;
         }
         view.bestTips.selectedIndex = 2;
+        SetBg(view.n225, "Common/common_three_tip_bg.png");
 
         // 根据点击的位置动态设置等级文本
         int requiredLevel = 0;

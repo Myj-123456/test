@@ -8,9 +8,9 @@ namespace fun_Friends
     public partial class VisitRecordView : GComponent
     {
         public Controller status;
-        public GImage n2;
         public GLoader bg;
-        public GTextField titleLab;
+        public GTextField best_Title;
+        public GImage n56;
         public GButton close_btn;
         public GList list;
         public GComponent nullTip;
@@ -33,9 +33,9 @@ namespace fun_Friends
             base.ConstructFromXML(xml);
 
             status = GetControllerAt(0);
-            n2 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            titleLab = (GTextField)GetChildAt(2);
+            bg = (GLoader)GetChildAt(0);
+            best_Title = (GTextField)GetChildAt(1);
+            n56 = (GImage)GetChildAt(2);
             close_btn = (GButton)GetChildAt(3);
             list = (GList)GetChildAt(4);
             nullTip = (GComponent)GetChildAt(5);

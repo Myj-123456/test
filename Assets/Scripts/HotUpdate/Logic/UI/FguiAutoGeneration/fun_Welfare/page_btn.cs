@@ -9,14 +9,10 @@ namespace fun_Welfare
     {
         public Controller button;
         public Controller status;
-        public GImage n1;
-        public GImage n4;
-        public GImage n15;
-        public GImage n16;
-        public GImage n17;
-        public GImage n14;
+        public GImage n27;
+        public GImage n28;
         public GTextField titleLab;
-        public const string URL = "ui://awswhm01g0s01ayr82q";
+        public const string URL = "ui://awswhm01f26r1yjp84s";
 
         public static page_btn CreateInstance()
         {
@@ -29,13 +25,9 @@ namespace fun_Welfare
 
             button = GetControllerAt(0);
             status = GetControllerAt(1);
-            n1 = (GImage)GetChildAt(0);
-            n4 = (GImage)GetChildAt(1);
-            n15 = (GImage)GetChildAt(2);
-            n16 = (GImage)GetChildAt(3);
-            n17 = (GImage)GetChildAt(4);
-            n14 = (GImage)GetChildAt(5);
-            titleLab = (GTextField)GetChildAt(6);
+            n27 = (GImage)GetChildAt(0);
+            n28 = (GImage)GetChildAt(1);
+            titleLab = (GTextField)GetChildAt(2);
         }
     }
 }

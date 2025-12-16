@@ -58,11 +58,6 @@ public class MonthDrawView
         {
             UIManager.Instance.OpenWindow<DrawGiftWindow>(UIName.DrawGiftWindow, activityId);
         });
-        view.spine.url = "flowers/40011110";
-        //view.spine.url = "flowers/" + reward.ItemDefId;
-        view.spine.forcePlay = true;
-        view.spine.loop = true;
-        view.spine.animationName = "step_" + 3 + "_idle";
 
         view.spine1.url = "choukbj";
         view.spine1.forcePlay = true;
@@ -112,7 +107,7 @@ public class MonthDrawView
             view.nameLab.text = Lang.GetValue(reward.Name);
             if (view.spine.url != reward.ItemDefId.ToString())
             {
-                view.spine.url = "flowers/" + reward.ItemDefId;
+                view.spine.url = "uiflowers/" + reward.ItemDefId;
                 view.spine.forcePlay = true;
                 view.spine.loop = true;
                 view.spine.animationName = "step_" + 3 + "_idle";

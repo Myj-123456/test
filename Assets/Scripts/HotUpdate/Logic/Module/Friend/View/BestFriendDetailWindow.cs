@@ -23,8 +23,8 @@ public class BestFriendDetailWindow : BaseWindow
     {
         base.OnInit();
         view = ui as fun_Friends.newBestFriendLevelView;
-        view.titleLab.text = "密友等级";
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
+        view.best_Title.text = "密友等级";
+        SetBg(view.bg, "Common/common_two_tip_bg.png");
         view.title1.text = "密友等级";
         view.title2.text = "摸花+1概率";
         view.title3.text = "好友币兑换";

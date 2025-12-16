@@ -7,7 +7,7 @@ namespace fun_Friends
 {
     public partial class blackListItem : GComponent
     {
-        public GImage n1;
+        public GImage n10;
         public GComponent heead;
         public GComponent picFrame;
         public GImage icon;
@@ -26,7 +26,7 @@ namespace fun_Friends
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
+            n10 = (GImage)GetChildAt(0);
             heead = (GComponent)GetChildAt(1);
             picFrame = (GComponent)GetChildAt(2);
             icon = (GImage)GetChildAt(3);

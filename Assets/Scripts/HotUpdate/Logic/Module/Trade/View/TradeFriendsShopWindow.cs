@@ -103,7 +103,7 @@ public class TradeFriendsShopWindow : BaseView
             {
                 itemCell.status.selectedIndex = 0;
                 itemCell.lb_count.text = stall.num.ToString();
-                itemCell.lb_price.text = stall.price.ToString();
+                itemCell.lb_price.text = (stall.price * stall.num).ToString();
                 itemCell.img_item.url = ImageDataModel.Instance.GetIconUrlByEntityId((long)stall.itemId);
                 itemCell.img_gold.url = ImageDataModel.GOLD_ICON_URL;
                 itemCell.data = index;

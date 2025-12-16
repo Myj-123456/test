@@ -294,6 +294,44 @@ namespace protobuf.guild
     }
 
     [ProtoBuf.ProtoContract]
+    public class C_MSG_GUILD_COMPETITION_MVP_RANK
+    {
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_GUILD_COMPETITION_MVP_RANK
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public System.Collections.Generic.List<I_COMPETITION_MVP_RANK_VO> rankList = new System.Collections.Generic.List<I_COMPETITION_MVP_RANK_VO>();
+
+        [ProtoBuf.ProtoContract]
+        public class I_COMPETITION_MVP_RANK_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public uint rankNum;
+
+            [ProtoBuf.ProtoMember(2)]
+            public uint guildId;
+
+            [ProtoBuf.ProtoMember(3)]
+            [System.ComponentModel.DefaultValue("")]
+            public string guildName = "";
+
+            [ProtoBuf.ProtoMember(4)]
+            public uint score;
+
+            [ProtoBuf.ProtoMember(5)]
+            [System.ComponentModel.DefaultValue("")]
+            public string flagId = "";
+
+            [ProtoBuf.ProtoMember(6)]
+            public protobuf.common.I_USER_PROFILE userInfo;
+
+        }
+
+    }
+
+    [ProtoBuf.ProtoContract]
     public class C_MSG_GUILD_COMPETITION_MEMBER_RANK
     {
     }

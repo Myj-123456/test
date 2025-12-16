@@ -15,11 +15,11 @@ MonoBehaviour:
   ProjectConf:
     projectName: ElidaClient
     Appid: wxe1857007737b42ed
-    CDN: https://elida-cdn.tigermoon.cn/qmhj/wxRL/v1.0.8
+    CDN: https://elida-cdn.tigermoon.cn/qmhj/wxRL/v1.0.9
     assetLoadType: 0
     compressDataPackage: 1
     VideoUrl: 
-    DST: D:/WorkSpace/game/youyaoqi/client/Wxgame
+    DST: D:/WorkSpace/game/youyaoqi/client_dev/client/Wxgame
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -50,7 +50,7 @@ MonoBehaviour:
     AutoProfile: 0
     ScriptOnly: 0
     Il2CppOptimizeSize: 1
-    profilingFuncs: 1
+    profilingFuncs: 0
     Webgl2: 0
     fbslim: 0
     DeleteStreamingAssets: 1
@@ -58,7 +58,7 @@ MonoBehaviour:
     CleanBuild: 0
     CustomNodePath: 
     autoAdaptScreen: 0
-    showMonitorSuggestModal: 1
+    showMonitorSuggestModal: 0
     enableProfileStats: 0
     enableRenderAnalysis: 0
     enablePerfAnalysis: 0

@@ -5,6 +5,7 @@ using protobuf.friend;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static protobuf.friend.I_STEAL_MESSAGE_VO;
 
 public class VisitRecordView : BaseWindow
 {
@@ -21,7 +22,7 @@ public class VisitRecordView : BaseWindow
     {
         base.OnInit();
         view = ui as fun_Friends.VisitRecordView;
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
+        SetBg(view.bg, "Common/common_big_tip_bg.png");
         EventManager.Instance.AddEventListener(FriendEvent.FriendStealMesg, FriendStealCallBack);
         view.list.SetVirtual();
         view.list.itemRenderer = ItemRender;
@@ -44,13 +45,13 @@ public class VisitRecordView : BaseWindow
         {
             var stealMesItem = stealMesData[index];
             uint userId = stealMesItem.targetUserId;
-            var friendData = stealMesItem.userInfo;
+            var friendData = stealMesItem.stealUserInfo;
             if (friendData != null)
             {
-                ui_.txt_lv.text = friendData.userLevel.ToString();
-                ui_.txt_name.text = friendData.townName;
+                ui_.txt_lv.text = friendData.userInfo.userLevel.ToString();
+                ui_.txt_name.text = friendData.userInfo.townName;
                 ui_.txt_daysVisit.text = TimeUtil.GenerateTimeDesc((int)stealMesItem.reqTime)+"摘取了";
-                ui_.Text_time.text = TimeUtil.GenerateTimeDesc((int)stealMesItem.userInfo.lastLoginTime);
+                ui_.Text_time.text = TimeUtil.GenerateTimeDesc((int)stealMesItem.stealUserInfo.userInfo.lastLoginTime);
                 ui_.n14.visible = MyselfModel.Instance.IsVip();
 
                 // 统计当前好友偷完花之后返回的好友币数量
@@ -84,10 +85,10 @@ public class VisitRecordView : BaseWindow
         var btn = context.sender as GButton;
         if (btn != null && btn.data != null)
         {
-            var friendData = btn.data as I_FRIEND_PROFILE;
+            var friendData = btn.data as I_STEAL_PROFILE_VO;
             if (friendData != null)
             {
-                FriendController.Instance.ReqFriendVisit(friendData.userId);
+                FriendController.Instance.ReqFriendVisit(friendData.userInfo.userId);
                 UIManager.Instance.CloseWindow(UIName.VisitRecordView);
             }
         }

@@ -58,6 +58,20 @@ public class GuideController : BaseController<GuideController>
         EventManager.Instance.AddEventListener<SceneObject>(SceneEvent.SceneObjectClick, OnSceneObjectClick);
         EventManager.Instance.AddEventListener<uint>(TaskEvent.ResMainTaskReward, OnMainTaskReward);
         EventManager.Instance.AddEventListener<int>(NetEvent.TriggerNet, OnTriggerNet);
+        EventManager.Instance.AddEventListener(GuideEvent.ContinueCurGuide, OnContinueCurGuide);
+    }
+
+    private void OnContinueCurGuide()
+    {
+        if (!GuideModel.Instance.IsGuide)
+        {
+            return;
+        }
+        if (isWaitTween)
+        {
+            ContinueCurGuide();
+            isWaitTween = false;
+        }
     }
 
     /// <summary>
@@ -199,9 +213,29 @@ public class GuideController : BaseController<GuideController>
                     NextGuide();
                 }
             }
+            if (GuideModel.Instance.curGuideStep == 402)
+            {
+                if (messageId == 1222)
+                {
+                    //引导培育商城第一个物品已被提前购买了 那么不要引导了
+                    if (CultivationShopModel.Instance.cultivateShops.Count <= 0 || CultivationShopModel.Instance.cultivateShops[0].isBuy == 1)
+                    {
+                        CloseGuide();
+                    }
+                    else
+                    {
+                        NextGuide();
+                    }
+                }
+            }
         }
     }
 
+    public void CloseGuide()
+    {
+        UIManager.Instance.ClosePanel(UIName.GuideView);
+        GuideModel.Instance.IsGuiding = false;
+    }
 
     /// <summary>
     /// 界面打开后继续引导
@@ -307,9 +341,29 @@ public class GuideController : BaseController<GuideController>
         }
         if (!GuideModel.Instance.IsGuide)
         {
-            UIManager.Instance.ClosePanel(UIName.GuideView);
-            GuideModel.Instance.IsGuiding = false;
+            CloseGuide();
             return;
+        }
+        Coroutiner.StartCoroutine(GuidePreCheck2());
+    }
+
+    private IEnumerator GuidePreCheck2()
+    {
+        yield return new WaitForSeconds(0f);
+        if (MyselfModel.Instance.isShowUpLevel)
+        {
+            Debug.Log("升级界面打开中,等待关闭之后再引导!!!");
+            CloseGuide();
+            needWaitCloseUI = true;
+            SaveGuide((uint)GuideModel.Instance.curConfigData.SkipStep);//优先保存引导步骤
+            yield break;
+        }
+        if (MyselfModel.Instance.isShowReward)
+        {
+            Debug.Log("当前显示奖励弹框，等待关闭之后再引导");
+            CloseGuide();
+            SaveGuide((uint)GuideModel.Instance.curConfigData.SkipStep);//优先保存引导步骤
+            yield break;
         }
         Coroutiner.StartCoroutine(DelayGuide());
     }
@@ -343,8 +397,7 @@ public class GuideController : BaseController<GuideController>
         if (MyselfModel.Instance.isShowUpLevel)
         {
             Debug.Log("升级界面打开中,等待关闭之后再引导!!!");
-            UIManager.Instance.ClosePanel(UIName.GuideView);
-            GuideModel.Instance.IsGuiding = false;
+            CloseGuide();
             needWaitCloseUI = true;
             SaveGuide((uint)GuideModel.Instance.curConfigData.SkipStep);//优先保存引导步骤
             yield break;
@@ -352,8 +405,7 @@ public class GuideController : BaseController<GuideController>
         if (MyselfModel.Instance.isShowReward)
         {
             Debug.Log("当前显示奖励弹框，等待关闭之后再引导");
-            UIManager.Instance.ClosePanel(UIName.GuideView);
-            GuideModel.Instance.IsGuiding = false;
+            CloseGuide();
             SaveGuide((uint)GuideModel.Instance.curConfigData.SkipStep);//优先保存引导步骤
             yield break;
         }
@@ -370,15 +422,24 @@ public class GuideController : BaseController<GuideController>
         var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 307 || GuideModel.Instance.curGuideStep == 355 || GuideModel.Instance.curGuideStep == 403;//不检测
         if (!unCheckGuide && !GuideModel.Instance.IsGuide)
         {
-            UIManager.Instance.ClosePanel(UIName.GuideView);
-            GuideModel.Instance.IsGuiding = false;
+            CloseGuide();
             yield break;
         }
         Coroutiner.StartCoroutine(DelayGuide());
     }
 
-    private IEnumerator DelayGuide()
+    /// <summary>
+    /// 继续引导当前步骤
+    /// </summary>
+    public void ContinueCurGuide()
     {
+        Coroutiner.StartCoroutine(DelayGuide(false));
+    }
+
+    private bool isWaitTween = false;
+    private IEnumerator DelayGuide(bool isCheckWaitTween = true)
+    {
+        isWaitTween = false;
         ShowGuide();//有可能之前引导已经关闭了 这时候再重启打开一次
         GuideModel.Instance.curStrongGuideSceneObject = null;
         var isGuidePlant = GuideModel.Instance.curGuideStep == 23 || GuideModel.Instance.curGuideStep == 26;//浇水和收获不需要等待检测ui
@@ -412,6 +473,7 @@ public class GuideController : BaseController<GuideController>
         }
         else if (GuideModel.Instance.curGuideStep == 19)//第19步引导种植选花界面
         {
+            isWaitTween = true;
             UIManager.Instance.ShowOrHideMainUI(false, true, true);
         }
         else if (GuideModel.Instance.curGuideStep == 23)//第23步引导浇水
@@ -421,6 +483,10 @@ public class GuideController : BaseController<GuideController>
                 GuideModel.Instance.guideWaterLand.PlantOneKeyWatering(GuideModel.Instance.guideWaterLand.plantVO);
                 GuideModel.Instance.guideWaterLand = null;
             }
+        }
+        if (isCheckWaitTween && isWaitTween)//等待缓动完毕的 就不再继续往下执行了,等待抛出ContinueCurGuide继续引导
+        {
+            yield break;
         }
         yield return new WaitForSeconds(GuideModel.Instance.curConfigData.Delay);
         if (GuideModel.Instance.curConfigData.GuideType == (int)GuideType.PANEL_UI)
@@ -452,10 +518,6 @@ public class GuideController : BaseController<GuideController>
 
     private void SetGuideTarget(GComponent view)
     {
-        //if (GuideModel.Instance.curGuideStep == 13) //步骤13是培育跳过按钮，代码写死禁止操作
-        //{
-        //    return;
-        //}
         string[] paths = GuideModel.Instance.curConfigData.TargetPath.Split("/");
         GComponent target = view;
         foreach (var path in paths)
@@ -496,7 +558,7 @@ public class GuideController : BaseController<GuideController>
             return;
         }
         EventManager.Instance.DispatchEvent(GuideEvent.HideGuideUI);
-        if (GuideModel.Instance.curGuideStep == 12 || GuideModel.Instance.curGuideStep == 13 || GuideModel.Instance.curGuideStep == 14 || GuideModel.Instance.curGuideStep == 104 || GuideModel.Instance.curGuideStep == 209 || GuideModel.Instance.curGuideStep == 215 || GuideModel.Instance.curGuideStep == 254 || GuideModel.Instance.curGuideStep == 257 || GuideModel.Instance.curGuideStep == 306)
+        if (GuideModel.Instance.curGuideStep == 12 || GuideModel.Instance.curGuideStep == 13 || GuideModel.Instance.curGuideStep == 14 || GuideModel.Instance.curGuideStep == 104 || GuideModel.Instance.curGuideStep == 209 || GuideModel.Instance.curGuideStep == 215 || GuideModel.Instance.curGuideStep == 254 || GuideModel.Instance.curGuideStep == 257 || GuideModel.Instance.curGuideStep == 306 || GuideModel.Instance.curGuideStep == 402)
         {
             return;
         }

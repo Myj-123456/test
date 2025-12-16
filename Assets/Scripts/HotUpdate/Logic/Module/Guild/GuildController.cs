@@ -160,8 +160,10 @@ public class GuildController : BaseController<GuildController>
         GuildModel.Instance.presidentInfo = data.presidentInfo;
         GuildModel.Instance.guildMember = data.me;
         GuildModel.Instance.guildDonate = data.guildDonate;
+        GuildModel.Instance.donateMemberCnt = data.donateMemberCnt;
+        GuildModel.Instance.meDonateSeq = data.meDonateSeq;
 
-        if(data.haveDrawDonateIds == null)
+        if (data.haveDrawDonateIds == null)
         {
             GuildModel.Instance.haveDrawDonateIds = new List<uint>();
         }
@@ -349,10 +351,16 @@ public class GuildController : BaseController<GuildController>
         }
 
         DropManager.ShowDrop(dropList);
-        DropManager.ShowDropItem2(ImageDataModel.Instance.GuildMoneyIconUrl(), dnoteData.Peraga);
+        if (data.getPerage)
+        {
+            DropManager.ShowDropItem2(ImageDataModel.Instance.GuildMoneyIconUrl(), dnoteData.Peraga);
+        }
+        
 
         GuildModel.Instance.guildMember.donateCnt = data.cnt;
         GuildModel.Instance.guildDonate = data.guildDonate;
+        GuildModel.Instance.donateMemberCnt = data.donateMemberCnt;
+        GuildModel.Instance.meDonateSeq = data.meDonateSeq;
         ReqGuildInfo();
         EventManager.Instance.DispatchEvent(GuildEvent.GuildDonate);
     }

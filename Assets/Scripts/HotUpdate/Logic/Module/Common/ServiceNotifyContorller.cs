@@ -129,6 +129,13 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
         {
             MyselfModel.Instance.tipId = (uint)data.ext1;
             RechargeController.Instance.ReqGiftPackInfo();
+        }else if(type == NotifyEvent.Flower_Home)
+        {
+            GuildPlantController.Instance.ReqGuildHouseInfo();
+        }
+        else if(type == NotifyEvent.Guild_Level)
+        {
+            GuildController.Instance.ReqGuildInfo();
         }
     }
 }
@@ -136,19 +143,20 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
 public enum NotifyEvent
 {
     EMPTY = 0,
-    TRADE_GRID_BUY = 1, //���ѽ��� - �к��ѹ������ҵĻ�
-    JOIN_GUILD = 2, //�Ҽ���������
-    LEAVE_GUILD = 3, //���뿪������
-    ROB_ARREST = 4, //��ũ - �ұ���ץ����
-    FRIEND_APPLY = 5, //�������� - �����������Ϊ����
-    AGREE_APPLY = 6, //�������� - ����ͬ�����ҵĺ�������
-    FRIEND_DEL = 7,//����ɾ������
-    FLOWER_ORDER = 8,//�����ʻ�������λ��
-    COMPETITION_TASK_CHANGE = 9,//����ĳ�������б仯
-    HUAYUN_AND_POWER = 10,//���ϻ��߻���
-    Main_Task = 11,//��������
-    Fighting = 12,//���ٶ�
-    Dress_Charm = 13,//ʱװ����
-    Gift = 17,//�������µ���ʱ���
-
+    TRADE_GRID_BUY = 1, //交易购买 - 行会里有人购买我的货
+    JOIN_GUILD = 2, //加入行会 - 我加入了一个行会
+    LEAVE_GUILD = 3, //退出行会 - 我退出了一个行会
+    ROB_ARREST = 4, //抢夺令 - 我被抢夺了
+    FRIEND_APPLY = 5, //好友申请 - 我收到了一个好友申请
+    AGREE_APPLY = 6, //好友同意 - 我同意了一个好友申请
+    FRIEND_DEL = 7,//好友删除 - 我删除了一个好友
+    FLOWER_ORDER = 8,//花束订单 - 我收到了一个花束订单
+    COMPETITION_TASK_CHANGE = 9,//公会比赛任务变化 - 我收到了一个公会比赛任务变化
+    HUAYUN_AND_POWER = 10,//花云和战力 - 我收到了一个花云和战力
+    Main_Task = 11,//主线任务 - 我收到了一个主线任务
+    Fighting = 12,//战力 - 我收到了一个战力
+    Dress_Charm = 13,// Dress_Charm - 我收到了一个 Dress_Charm
+    Gift = 17,//礼包更新时推送
+    Flower_Home = 18,//花房家园
+    Guild_Level = 19,//公会等级变化推送
 }

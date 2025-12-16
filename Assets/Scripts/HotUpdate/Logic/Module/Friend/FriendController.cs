@@ -72,9 +72,9 @@ public class FriendController : BaseController<FriendController>
         foreach (var friendData in data.friendList)
         {
             // 如果好友关系时间不存在，则使用当前服务器时间作为关系建立时间
-            if (!FriendModel.Instance.friendRelationTime.ContainsKey(friendData.userId))
+            if (!FriendModel.Instance.friendRelationTime.ContainsKey(friendData.userInfo.userId))
             {
-                FriendModel.Instance.friendRelationTime[friendData.userId] = MyselfModel.Instance.lastServerTime;
+                FriendModel.Instance.friendRelationTime[friendData.userInfo.userId] = MyselfModel.Instance.lastServerTime;
             }
         }
 

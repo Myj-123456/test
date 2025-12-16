@@ -9,10 +9,11 @@ namespace fun_Friends
     {
         public Controller stats;
         public Controller max;
+        public GImage n23;
         public GComponent head;
         public GComponent picFrame;
         public GImage n3;
-        public GImage n19;
+        public GTextField txt_lv;
         public GImage icon_heart_bg;
         public GImage icon_heart;
         public GGroup n13;
@@ -20,7 +21,6 @@ namespace fun_Friends
         public GImage petIcon;
         public GImage timeStarIcon;
         public GGroup n14;
-        public GTextField txt_lv;
         public GTextField txt_name;
         public GTextField titleTxt;
         public GTextField text_sign;
@@ -44,18 +44,18 @@ namespace fun_Friends
 
             stats = GetControllerAt(0);
             max = GetControllerAt(1);
-            head = (GComponent)GetChildAt(0);
-            picFrame = (GComponent)GetChildAt(1);
-            n3 = (GImage)GetChildAt(2);
-            n19 = (GImage)GetChildAt(3);
-            icon_heart_bg = (GImage)GetChildAt(4);
-            icon_heart = (GImage)GetChildAt(5);
-            n13 = (GGroup)GetChildAt(6);
-            pic_sign = (GImage)GetChildAt(7);
-            petIcon = (GImage)GetChildAt(8);
-            timeStarIcon = (GImage)GetChildAt(9);
-            n14 = (GGroup)GetChildAt(10);
-            txt_lv = (GTextField)GetChildAt(11);
+            n23 = (GImage)GetChildAt(0);
+            head = (GComponent)GetChildAt(1);
+            picFrame = (GComponent)GetChildAt(2);
+            n3 = (GImage)GetChildAt(3);
+            txt_lv = (GTextField)GetChildAt(4);
+            icon_heart_bg = (GImage)GetChildAt(5);
+            icon_heart = (GImage)GetChildAt(6);
+            n13 = (GGroup)GetChildAt(7);
+            pic_sign = (GImage)GetChildAt(8);
+            petIcon = (GImage)GetChildAt(9);
+            timeStarIcon = (GImage)GetChildAt(10);
+            n14 = (GGroup)GetChildAt(11);
             txt_name = (GTextField)GetChildAt(12);
             titleTxt = (GTextField)GetChildAt(13);
             text_sign = (GTextField)GetChildAt(14);

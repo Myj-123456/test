@@ -166,7 +166,6 @@ public class MailWindow : BaseWindow
         //viewSkin.list.numItems = 4;
         //Timer time = Timer.Regist(60f);
         MailController.Instance.ReqMailListInfo();
-
     }
 
     private void UpdateList()
