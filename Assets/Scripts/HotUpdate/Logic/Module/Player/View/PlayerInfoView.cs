@@ -181,6 +181,7 @@ public class PlayerInfoView : BaseWindow
         EventManager.Instance.AddEventListener(PlayerEvent.LoveFlowerArt,UpdateLike);
         EventManager.Instance.AddEventListener(PlayerEvent.SetHead, UpdateHead);
         EventManager.Instance.AddEventListener(PlayerEvent.SetAvatarFrame, UpdateFrame);
+        EventManager.Instance.AddEventListener(RedPointEvent.ClickItem, UpdateRedPoint);
     }
 
     public override void OnShown()
@@ -207,8 +208,6 @@ public class PlayerInfoView : BaseWindow
             view.flower.num.text = StorageModel.Instance.seedList.Count.ToString();
             view.dress.num.text = DressModel.Instance.GetSuitCount().ToString();
             view.flowerGod.num.text = IkeModel.Instance.vaseRewardInfo.Count.ToString();
-            
-            
         }
         else
         {
@@ -256,6 +255,7 @@ public class PlayerInfoView : BaseWindow
             UpdateOtherInfo();
             EventManager.Instance.AddEventListener(FriendEvent.FriendBlackList, UpdateOtherInfo);
         }
+        UpdateRedPoint();
     }
 
     private void UpdateOtherInfo()
@@ -440,6 +440,19 @@ public class PlayerInfoView : BaseWindow
             view.proLab.text = MyselfModel.Instance.exp + "/" + currentNeedExp;
             view.pro.max = 1;
             view.pro.value = 1;
+        }
+    }
+
+    private void UpdateRedPoint()
+    {
+
+        if(data == null && (PlayerModel.Instance.GetHeadRedPoint() || PlayerModel.Instance.GetFrameRedPoint() || PlayerModel.Instance.GetTitleRedPoint()))
+        {
+            UILogicUtils.ShowRedPoint(view.ope_btn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.ope_btn);
         }
     }
 }

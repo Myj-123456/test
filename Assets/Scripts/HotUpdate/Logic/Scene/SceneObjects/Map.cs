@@ -10,14 +10,14 @@ public class Map
 {
     private const int Row = 5;
     private const int Col = 5;
-    public const float MapWidth = 58.34f;
-    public const float MapHeight = 55.54f;
+    public const float MapWidth = 71.68f;
+    public const float MapHeight = 68.41f;
     public Vector2 mapSize = new Vector2(MapWidth, MapHeight);
 
     public void InitMap(Transform transform)
     {
-        var trunkWidth = 11.66f;//µØÍ¼¿é°ë¿í
-        var trunkHeight = 11.10f;//µØÍ¼¿é°ë¸ß
+        var trunkWidth = 14.33f;//µØÍ¼¿é°ë¿í
+        var trunkHeight = 13.68f;//µØÍ¼¿é°ë¸ß
         for (var i = 0; i < Row; i++)
         {
             for (var j = 0; j < Col; j++)

@@ -26,6 +26,7 @@ public class VisitRecordView : BaseWindow
         EventManager.Instance.AddEventListener(FriendEvent.FriendStealMesg, FriendStealCallBack);
         view.list.SetVirtual();
         view.list.itemRenderer = ItemRender;
+        view.best_Title.text = "采摘记录";
     }
     private void FriendStealCallBack()
     {

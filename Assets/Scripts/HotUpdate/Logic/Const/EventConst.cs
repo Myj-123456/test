@@ -516,3 +516,17 @@ public class ShareEvent
     public static string ShareFlowerReward = "ShareFlowerReward";//分享花朵奖励事件
 }
 
+public class RedPointEvent
+{
+    public static string UpdateItem = "UpdateItem";//物品更新
+    public static string FlowerCultivation = "FlowerCultivation";//培育更新
+    public static string UpdateTradeMain = "UpdateTradeMain";//好友交易被购买
+    public static string UpdateTradeTip = "UpdateTradeTip";//好友交易被购买
+    public static string RechargeBuy = "RechargeBuy";//充值购买
+    public static string RedDotChange = "RedDotChange";//红点更新
+    public static string GameMild = "GameMild";//不重要信息。客户端不依赖接口字段就可以进入游戏
+    public static string UpdateTodayFirstLogin = "UpdateTodayFirstLogin";//今天第一次登录
+    public static string OnRechargeDelevier = "OnRechargeDelevier";//发货
+    public static string ClickItem = "ClickItem";//点击道具
+}
+

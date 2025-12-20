@@ -154,6 +154,40 @@ public class GuildGiftModel : Singleton<GuildGiftModel>
         
     }
     
+    public bool GetGiftReward()
+    {
+        foreach(var value in nomalGiftList)
+        {
+            if(value.giftInfo.drawCnt < value.giftConfig.Limit && !value.gifoVo.draw)
+            {
+                return true;
+            }
+        }
+        foreach (var value in rareGiftList)
+        {
+            if (value.giftInfo.drawCnt < value.giftConfig.Limit && !value.gifoVo.draw)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetBigBox()
+    {
+        var id = (int)gradientCnt + 1;
+        if (id > giftBigMap.Count)
+        {
+            id = giftBigMap.Count;
+            return false;
+        }
+        else
+        {
+            var bigGiftInfo = GetGiftBigConfig(id);
+            return GuildModel.Instance.guild.giftScore >= bigGiftInfo.GiftPoint;
+        }
+        
+    }
 }
 
 public class GiftSmallData

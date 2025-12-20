@@ -269,13 +269,9 @@ namespace protobuf.guild
         public uint userId;
 
         [ProtoBuf.ProtoMember(3)]
-        [System.ComponentModel.DefaultValue("")]
-        public string userName = "";
-
-        [ProtoBuf.ProtoMember(4)]
         public uint score;
 
-        [ProtoBuf.ProtoMember(5)]
+        [ProtoBuf.ProtoMember(4)]
         public uint taskCnt;
 
     }

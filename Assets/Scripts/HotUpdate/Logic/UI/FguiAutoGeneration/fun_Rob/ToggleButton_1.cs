@@ -8,7 +8,6 @@ namespace fun_Rob
     public partial class ToggleButton_1 : GComponent
     {
         public Controller select;
-        public GImage n21;
         public GImage n22;
         public GImage n23;
         public GTextField n24;
@@ -24,10 +23,9 @@ namespace fun_Rob
             base.ConstructFromXML(xml);
 
             select = GetControllerAt(0);
-            n21 = (GImage)GetChildAt(0);
-            n22 = (GImage)GetChildAt(1);
-            n23 = (GImage)GetChildAt(2);
-            n24 = (GTextField)GetChildAt(3);
+            n22 = (GImage)GetChildAt(0);
+            n23 = (GImage)GetChildAt(1);
+            n24 = (GTextField)GetChildAt(2);
         }
     }
 }

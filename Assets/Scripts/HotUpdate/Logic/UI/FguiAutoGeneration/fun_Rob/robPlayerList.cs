@@ -8,7 +8,9 @@ namespace fun_Rob
     public partial class robPlayerList : GComponent
     {
         public Controller tap;
-        public GImage n29;
+        public GLoader n31;
+        public GTextField titleLab;
+        public GImage n33;
         public GButton close_btn;
         public rob_item1 c_item;
         public GButton btn_Menu_0;
@@ -17,7 +19,6 @@ namespace fun_Rob
         public GRichTextField lb_tip_bottom;
         public GList list;
         public GTextField txt_empty;
-        public GTextField titleLab;
         public GButton btn_rob_plus;
         public const string URL = "ui://z1on8kwdku0fpjb";
 
@@ -31,17 +32,18 @@ namespace fun_Rob
             base.ConstructFromXML(xml);
 
             tap = GetControllerAt(0);
-            n29 = (GImage)GetChildAt(0);
-            close_btn = (GButton)GetChildAt(1);
-            c_item = (rob_item1)GetChildAt(2);
-            btn_Menu_0 = (GButton)GetChildAt(3);
-            btn_Menu_2 = (GButton)GetChildAt(4);
-            btn_Menu_1 = (GButton)GetChildAt(5);
-            lb_tip_bottom = (GRichTextField)GetChildAt(6);
-            list = (GList)GetChildAt(7);
-            txt_empty = (GTextField)GetChildAt(8);
-            titleLab = (GTextField)GetChildAt(9);
-            btn_rob_plus = (GButton)GetChildAt(10);
+            n31 = (GLoader)GetChildAt(0);
+            titleLab = (GTextField)GetChildAt(1);
+            n33 = (GImage)GetChildAt(2);
+            close_btn = (GButton)GetChildAt(3);
+            c_item = (rob_item1)GetChildAt(4);
+            btn_Menu_0 = (GButton)GetChildAt(5);
+            btn_Menu_2 = (GButton)GetChildAt(6);
+            btn_Menu_1 = (GButton)GetChildAt(7);
+            lb_tip_bottom = (GRichTextField)GetChildAt(8);
+            list = (GList)GetChildAt(9);
+            txt_empty = (GTextField)GetChildAt(10);
+            btn_rob_plus = (GButton)GetChildAt(11);
         }
     }
 }

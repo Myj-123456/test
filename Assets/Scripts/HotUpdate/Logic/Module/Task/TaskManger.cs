@@ -138,7 +138,7 @@ public class TaskManger
     {
 
         var taskData = TaskModel.Instance.mainTask;
-        if (taskData.mainTaskId == 0)
+        if (taskData.mainTaskId == 999999)
         {
             return;
         }

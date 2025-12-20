@@ -342,54 +342,12 @@ public class NpcManager : Singleton<NpcManager>
         }
     }
 
-    //private IEnumerator CoroutineAddOrderNpc(NpcOrderVO npcOrderVO, string npcResId, LineVO[] lines, float waitCreateTime)
-    //{
-    //    void OrderNpcInit(GameObject npc)
-    //    {
-    //        npc.transform.SetParent(npcLayer, false);
-    //        var orderNpc = npc.GetComponent<OrderNpc>();
-    //        orderNpc.npcOrderVO = npcOrderVO;
-    //        orderNpc.Init(npcOrderVO.indexId, npcResId, npcLayer, lines);
-    //        orderNpc.walkComplete = OnOrderNpcWalkComplete;
-    //        orderNpcDic.Add(npcOrderVO.indexId, orderNpc);
-    //    }
-
-    //    yield return new WaitForSeconds(waitCreateTime);
-
-    //    GameObject npc = null;
-    //    if (orderNpcPools.Count > 0)
-    //    {
-    //        npc = GetFromOrderNpcPool();
-    //        npc.SetActive(true);
-    //        OrderNpcInit(npc);
-    //    }
-    //    if (npc == null)
-    //    {
-    //        var assetHandle = ResourceManager.Instance.LoadAssetAsync<GameObject>(ResPath.GetPrefabPath("Npc/Npc"));
-    //        assetHandle.Completed += (AssetHandle handle) =>
-    //        {
-    //            var npcObject = assetHandle.InstantiateSync();
-    //            OrderNpcInit(npcObject);
-    //        };
-    //    }
-    //}
-
-
     /// <summary>
     /// 添加一个订单npc
     /// </summary>
     private void AddOrderNpc(NpcOrderVO npcOrderVO, uint npc, LineVO[] lines, bool isWaitCreateTime = false)
     {
-        //if (isWaitCreateTime)
-        //{
-        //    waitCreateTime = waitCreateTimeGap * startLandId;
-        //    startLandId += 1;
-        //    ADK.Coroutiner.StartCoroutine(CoroutineAddOrderNpc(npcOrderVO, npcResId, lines, waitCreateTime));
-        //}
-        //else
-        //{
         UnCoroutineAddOrderNpc(npcOrderVO, npc, lines);
-        //}
     }
 
     private void OnOrderNpcWalkComplete(OrderNpc npc)

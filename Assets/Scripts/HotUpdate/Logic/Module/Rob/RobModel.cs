@@ -39,15 +39,33 @@ public class RobModel : Singleton<RobModel>
         }
     }
 
-    public List<I_ROB_ARREST_VO> arrestList;//×¥²¶Î»ÖÃĞÅÏ¢
-    public I_ROB_INFO_VO info;//×¥»¨Å©ĞÅÏ¢
-    public I_ROB_VO robInfo;//ÎÒ±»×¥µÄĞÅÏ¢
-    public I_USER_PROFILE targetUserInfo;//×¥²¶ÎÒµÄÈËµÄÓÃ»§ĞÅÏ¢
+    public Dictionary<int, Ft_rob_buyConfig> _staticRobBuyConfig;
+    public Dictionary<int,Ft_rob_buyConfig> staticRobBuyConfig
+    {
+        get
+        {
+            if (_staticRobBuyConfig == null)
+            {
+                Ft_rob_buyConfigData robBuyConfig = ConfigManager.Instance.GetConfig<Ft_rob_buyConfigData>("ft_rob_buysConfig");
+                _staticRobBuyConfig = robBuyConfig.DataMap;
+            }
+            return _staticRobBuyConfig;
+        }
+    }
 
-    public List<I_FRIEND_VO> enemyList;//Ô©¼ÒÁĞ±í
-    public List<I_FRIEND_VO> recommendList;//ÍÆ¼öÁĞ±í
-    public List<I_FRIEND_VO> friendList;////ºÃÓÑÁĞ±í
-    public List<I_ROB_MESSAGE_VO> messageList;//×¥²¶ÈÕÖ¾
+    public List<I_ROB_ARREST_VO> arrestList;//æŠ“æ•ä½ä¿¡æ¯
+    public I_ROB_INFO_VO info;//å†œåœºä¿¡æ¯
+    public I_ROB_VO robInfo;//è‡ªå·±æŠ¢çš„ä¿¡æ¯
+    public I_USER_PROFILE targetUserInfo;//ç›®æ ‡ç©å®¶çš„ç”¨æˆ·ä¿¡æ¯
+    
+
+    // å­˜å‚¨å·²è´­ä¹°æ•°é‡çš„å­—å…¸
+    public Dictionary<uint, int> haveBuyCount = new Dictionary<uint, int>();
+
+    public List<I_FRIEND_VO> enemyList;//ä»‡äººåˆ—è¡¨
+    public List<I_FRIEND_VO> recommendList;//æ¨èåˆ—è¡¨
+    public List<I_FRIEND_VO> friendList;//å¥½å‹åˆ—è¡¨
+    public List<I_ROB_MESSAGE_VO> messageList;//æŠ¢ç‚¹æ¶ˆæ¯åˆ—è¡¨
 
     public void UpdateRobUnlock(I_ROB_ARREST_VO data)
     {
@@ -87,5 +105,15 @@ public class RobModel : Singleton<RobModel>
         }
         return null;
     }
+
+    public Ft_rob_buyConfig GetRobBuyConfig(int indexId)
+    {
+        if (staticRobBuyConfig.ContainsKey(indexId))
+        {
+            return staticRobBuyConfig[indexId];
+        }
+        return null;
+    }
+
 }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using ADK;
 using Elida.Config;
-using static protobuf.monster.S_MSG_LOLITA_INFO;
+using protobuf.lolita;
 
 public class NpcCollectModel : Singleton<NpcCollectModel>
 {
@@ -174,6 +174,23 @@ public class NpcCollectModel : Singleton<NpcCollectModel>
             status = taskInfo.TaskNum > taskData.curCnt ? 0 : 1;
         }
         return status;
+    }
+
+    public bool GetRedPoint(int type)
+    {
+        if (!itemDataByType.ContainsKey(type))
+        {
+            return false;
+        }
+        List<GrandmaData> arr = itemDataByType[type];
+        foreach(var value in itemDataByType[type])
+        {
+            if(value.SortNum == 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

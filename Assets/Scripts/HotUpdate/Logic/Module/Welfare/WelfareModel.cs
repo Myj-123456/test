@@ -134,5 +134,79 @@ public class WelfareModel : Singleton<WelfareModel>
         var bol1 = proServer.rewardId != null && proData.Count == proServer.rewardId.Length;
         return bol && bol1;
     }
+
+    public bool GetGrowthRed()
+    {
+        if((!GlobalModel.Instance.GetUnlocked(SysId.Newspaper) || IsGrowthGetted()))
+        {
+            return false;
+        }
+        foreach (var value in growthList)
+        {
+            if (GetStatusRookie((uint)value.IndexId) == 0)
+            {
+                return true;
+            }
+        }
+        var proData = TaskModel.Instance.GetTaskProList(5);
+        var proServer = TaskModel.Instance.GetProReward(5);
+        foreach (var value in proData)
+        {
+            if ((proServer.rewardId == null || Array.IndexOf(proServer.rewardId, (uint)value.Id) == -1) && proServer.progress >= value.ProgressNum)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetSevenRed()
+    {
+        if((!GlobalModel.Instance.GetUnlocked(SysId.SeventhSign) || status == 2))
+        {
+            return false;
+        }
+    
+        if (todayHaveDraw)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool GetTurnRed()
+    {
+        if (!GlobalModel.Instance.GetUnlocked(SysId.TurnTable))
+        {
+            return false;
+        }
+        if(TurnBoxManager.Instance.boxNum > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool GetSignRed()
+    {
+        if (!GlobalModel.Instance.GetUnlocked(SysId.Newspaper))
+        {
+            return false;
+        }
+        if (!isSign)
+        {
+            return true;
+        }
+        var proServer = TaskModel.Instance.GetProReward(4);
+        var proData = TaskModel.Instance.GetTaskProList(4);
+        foreach(var value in proData)
+        {
+            if ((proServer.rewardId == null || Array.IndexOf(proServer.rewardId, (uint)value.Id) == -1) && proServer.progress >= value.ProgressNum)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

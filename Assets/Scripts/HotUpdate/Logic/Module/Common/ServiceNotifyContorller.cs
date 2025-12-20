@@ -21,6 +21,21 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
             {
                 TradeController.Instance.ReqTradeInfomation();
             }
+            else
+            {
+                EventManager.Instance.DispatchEvent(RedPointEvent.UpdateTradeMain);
+            }
+            var ui1 = UIManager.Instance.GetView(UIName.TradeMessageWindow);
+            if (ui1.Visible)
+            {
+                TradeController.Instance.ReqMessage();
+            }
+            else
+            {
+                TradeModel.Instance.tipRedPoint = true;
+                EventManager.Instance.DispatchEvent(RedPointEvent.UpdateTradeTip);
+            }
+            
         }
         else if(type == NotifyEvent.JOIN_GUILD)
         {
@@ -86,18 +101,18 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
             GuildMatchController.Instance.ReqGuildPosTask(pos);
         }else if(type == NotifyEvent.HUAYUN_AND_POWER)
         {
-            if(PlayerModel.Instance.pen == null)
-            {
-                return;
-            }
-            PlayerModel.Instance.pen.floralCharm = data.ext1;
-            if(PlayerModel.Instance.pen.drawingPower != data.ext2)
-            {
-                PlayerModel.Instance.pen.drawingPower = data.ext2;
-                PowerNotice.Instance.PlayShow();
-            }
+            //if(PlayerModel.Instance.pen == null)
+            //{
+            //    return;
+            //}
+            //PlayerModel.Instance.pen.floralCharm = data.ext1;
+            //if(PlayerModel.Instance.pen.drawingPower != data.ext2)
+            //{
+            //    PlayerModel.Instance.pen.drawingPower = data.ext2;
+            //    PowerNotice.Instance.PlayShow();
+            //}
             
-            EventManager.Instance.DispatchEvent(SystemEvent.UpdatePower);
+            //EventManager.Instance.DispatchEvent(SystemEvent.UpdatePower);
         }
         else if (type == NotifyEvent.Main_Task)
         {

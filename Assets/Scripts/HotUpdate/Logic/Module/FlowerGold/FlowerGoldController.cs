@@ -110,7 +110,7 @@ public class FlowerGoldController : BaseController<FlowerGoldController>
     //ª®œ……œ’Û
     public void BattleFairy(S_MSG_BATTLE_FAIRY data)
     {
-        PlayerModel.Instance.pen.battleFairys = data.battleFairys;
+        //PlayerModel.Instance.pen.battleFairys = data.battleFairys;
         DispatchEvent(FlowerGoldEvent.BattleFairy);
     }
 

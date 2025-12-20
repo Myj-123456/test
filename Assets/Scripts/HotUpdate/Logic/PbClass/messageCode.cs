@@ -162,6 +162,8 @@ namespace protobuf.messagecode
         S_MSG_OPEN_GIFT_PACK = 1510,
         C_MSG_GIFT_CODE = 1511,
         S_MSG_GIFT_CODE = 1512,
+        C_MSG_CLICK_ITEM = 1559,
+        S_MSG_CLICK_ITEM = 1560,
         C_MSG_RANK_LIST = 1513,
         S_MSG_RANK_LIST = 1514,
         C_MSG_MAIL_LIST = 1515,
@@ -611,6 +613,7 @@ namespace protobuf.messagecode
         S_MSG_UPDATE_ICON = 3048,
         S_MSG_CHANGE_DAILYLOGIN = 3101,
         S_MSG_CHANGE_WATERBUCKET = 3102,
+        S_MSG_REDDOT_CHANGE = 3103,
     }
 
 }

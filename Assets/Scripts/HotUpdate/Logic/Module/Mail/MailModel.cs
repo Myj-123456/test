@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ADK;
 using Newtonsoft.Json.Linq;
+using protobuf.mail;
 using protobuf.plant;
 using UnityEngine;
 
@@ -69,6 +70,18 @@ public class MailModel : Singleton<MailModel>
                 }
             }
         }
+    }
+
+    public bool IsGetMailRead()
+    {
+        foreach(var value in mailData)
+        {
+            if(value.status == 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

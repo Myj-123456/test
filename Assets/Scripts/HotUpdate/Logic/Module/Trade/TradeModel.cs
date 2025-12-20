@@ -16,6 +16,8 @@ public class TradeModel : Singleton<TradeModel>
 
     public Dictionary<uint, uint> help;
 
+    public bool tipRedPoint = false;
+
     private Dictionary<int, Ft_friends_deal_gridConfig> _dealGrids;
     public Dictionary<int, Ft_friends_deal_gridConfig> dealGrids
     {

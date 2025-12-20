@@ -143,7 +143,7 @@ public class Npc
     }
 
 
-    private List<Vector2> line4Points = new List<Vector2>() { new Vector2(-7.94f, 9.27f), new Vector2(4.82f, 16.9f), new Vector2(16.58f, 9.55f) };//4号线特殊点
+    private List<Vector2> line4Points = new List<Vector2>() { new Vector2(-9.59f, 11.26f), new Vector2(9.42f, 19.2f), new Vector2(22.46f, 10.55f) };//4号线特殊点
     /// <summary>
     /// 一些特殊固定点需要动态更改玩家的渲染层级
     /// </summary>

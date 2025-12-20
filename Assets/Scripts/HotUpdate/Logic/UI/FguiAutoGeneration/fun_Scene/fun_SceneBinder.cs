@@ -8,6 +8,8 @@ namespace fun_Scene
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(flower_tip.URL, typeof(flower_tip));
+            UIObjectFactory.SetPackageItemExtension(flower_top_com.URL, typeof(flower_top_com));
             UIObjectFactory.SetPackageItemExtension(harvest.URL, typeof(harvest));
             UIObjectFactory.SetPackageItemExtension(FlowerTableIGoldItem.URL, typeof(FlowerTableIGoldItem));
             UIObjectFactory.SetPackageItemExtension(ViballsBubbleItem.URL, typeof(ViballsBubbleItem));

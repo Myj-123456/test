@@ -8,6 +8,7 @@ using ADK;
 using UnityTimer;
 using System.Linq;
 using protobuf.plant;
+using protobuf.mail;
 
 public class MailWindow : BaseWindow
 {

@@ -13,7 +13,8 @@ public class RechargeMainView : BaseWindow
     private RechargeView rechargeView;
     private RechargeGiftView rechargeGiftView;
     private CumulativeView cumulativeView;
-    private TourGiftView tourGiftView;
+    //private TourGiftView tourGiftView;
+    private ContractView contractView;
     private int tabType = 0;
    public RechargeMainView()
     {
@@ -47,25 +48,39 @@ public class RechargeMainView : BaseWindow
         SetBg(view.gift_view.bg1, "Recharge/ELIDA_syh_czlb_renwu.png");
         SetBg(view.gift_view.bg2, "Recharge/ELIDA_syh_czlb_bg02.png");
         SetBg(view.cumulative_view.bg, "Recharge/ELIDA_lejichongzhi_beijing.png");
-        
 
-        SetBg(view.tour_gift_view.bg, "Recharge/ELIDA_syh_czlb_bg0.png");
+        SetBg(view.contract_view.bg, "Recharge/ELIDA_heyue_beijing.png");
+        SetBg(view.contract_view.huadianBg, "Recharge/ELIDA_heyue_di011.png");
+        //SetBg(view.tour_gift_view.bg, "Recharge/ELIDA_syh_czlb_bg0.png");
 
         cardView = new CardView(view.card_view);
         rechargeView = new RechargeView(view.recharge_view);
         rechargeGiftView = new RechargeGiftView(view.gift_view);
         cumulativeView = new CumulativeView(view.cumulative_view);
-        tourGiftView = new TourGiftView(view.tour_gift_view);
+        contractView = new ContractView(view.contract_view);
         view.list.itemRenderer = RenderList;
-        view.list.numItems = 5;
+        
 
         view.cumulative_view.goto_btn.onClick.Add(() =>
         {
             view.tab.selectedIndex = 3;
             ChangeTab(3);
         });
+        EventManager.Instance.AddEventListener(RechargeEvent.Normal,UpdateTabList);
+        EventManager.Instance.AddEventListener(RechargeEvent.VipPay, UpdateTabList);
+        EventManager.Instance.AddEventListener(RechargeEvent.MonthCard, UpdateTabList);
+        EventManager.Instance.AddEventListener(RechargeEvent.AccRecharge, UpdateTabList);
+        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateTabList);
+        EventManager.Instance.AddEventListener(RedPointEvent.UpdateTodayFirstLogin, UpdateTabList);
+        EventManager.Instance.AddEventListener<uint>(RedPointEvent.RedDotChange, UpdateContractRed);
     }
-
+    private void UpdateContractRed(uint type)
+    {
+        if(type == (uint)RedPointType.Task_Contract)
+        {
+            UpdateTabList();
+        }
+    }
     private void RenderList(int index,GObject item)
     {
         var cell = item as fun_Recharge.page_btn;
@@ -73,23 +88,63 @@ public class RechargeMainView : BaseWindow
         cell.status.selectedIndex = index;
         if (index == 0)
         {
+            if (RechargeModel.Instance.GetRechargeGiftRed())
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
             cell.titleLab.text = Lang.GetValue("Grade_pack_10001");
         }
         else if(index == 1)
         {
+            if (MyselfModel.Instance.GetVipRed())
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
             cell.titleLab.text = Lang.GetValue("recharge_main_1");
         }
         else if (index == 2)
         {
+            if (RechargeModel.Instance.GetCumulativeRed())
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
             cell.titleLab.text = Lang.GetValue("recharge_main_2");
         }
         else if (index == 3)
         {
+            if (RedPointModel.Instance.GetTodayFirstLogin(TodayFirstLogin.Recharge))
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
             cell.titleLab.text = Lang.GetValue("recharge_main_3");
         }
         else
         {
-            cell.titleLab.text = Lang.GetValue("Tour_gift_txt1");
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Task_Contract))
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
+            cell.titleLab.text = Lang.GetValue("recharge_main_32");
         }
         cell.onClick.Add(OnTabClick);
     }
@@ -109,6 +164,11 @@ public class RechargeMainView : BaseWindow
         var type = (int)data;
         view.tab.selectedIndex = type;
         ChangeTab(type);
+        UpdateTabList();
+    }
+    private void UpdateTabList()
+    {
+        view.list.numItems = 5;
     }
     private void ChangeTab(int type)
     {
@@ -127,20 +187,22 @@ public class RechargeMainView : BaseWindow
         }
         else if (tabType == 3)
         {
+            
             rechargeView.OnShown();
         }
         else
         {
-            tourGiftView.OnShown();
+            contractView.OnShown();
         }
     }
+
     public override void OnHide()
     {
         base.OnHide();
         // 其他关闭面板的逻辑
         cardView.OnHide();
         rechargeGiftView.OnHide();
-        tourGiftView.OnHide();
+        contractView.OnHide();
     }
 }
 

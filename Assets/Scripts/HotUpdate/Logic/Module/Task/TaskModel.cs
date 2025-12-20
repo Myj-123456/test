@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Elida.Config;
@@ -5,6 +6,7 @@ using protobuf.dailyTask;
 using protobuf.login;
 using UnityEngine;
 using static protobuf.login.S_MSG_GAME_MISC;
+using static protobuf.login.S_MSG_GAMEINIT;
 
 public class TaskModel : Singleton<TaskModel>
 {
@@ -248,6 +250,51 @@ public class TaskModel : Singleton<TaskModel>
         {
             return addStr + Lang.GetValue(TaskDesc, TaskNum.ToString());
         }
+    }
+
+    public bool GetProRedPoint(int type)
+    {
+        var listData = GetTaskProList(type);
+        var dayProData = GetProReward((uint)type);
+
+        foreach (var value in listData)
+        {
+            if ((dayProData.rewardId == null || Array.IndexOf(dayProData.rewardId, (uint)value.Id) == -1) && dayProData.progress >= value.ProgressNum)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetAchievRedPoint(int type)
+    {
+        //var achievData = new List<I_ACHIEV_TASK_VO>();
+        foreach (var value in achievTaskList)
+        {
+            var achievInfo = GetAchievInfo((int)value.taskId);
+            if (achievInfo.AchievType == type)
+            {
+                if (value.curCnt >= achievInfo.TaskNum && value.awardStatus == 0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public bool GetAchievAllRedPoint()
+    {
+        foreach (var value in achievTaskList)
+        {
+            var achievInfo = GetAchievInfo((int)value.taskId);
+            if (value.curCnt >= achievInfo.TaskNum && value.awardStatus == 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

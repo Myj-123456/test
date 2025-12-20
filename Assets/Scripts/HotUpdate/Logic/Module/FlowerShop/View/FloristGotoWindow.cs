@@ -58,8 +58,8 @@ public class FloristGotoWindow : BaseWindow
         type = info.type;
         if (info.type == 1)
         {
-            var str = TextUtil.ChangeCoinShow(info.num) + "/" + TextUtil.ChangeCoinShow(PlayerModel.Instance.pen.drawingPower);
-            view.proLab.text = Lang.GetValue("florist_17", TextUtil.ChangeCoinShow(PlayerModel.Instance.pen.drawingPower), str);
+            //var str = TextUtil.ChangeCoinShow(info.num) + "/" + TextUtil.ChangeCoinShow(PlayerModel.Instance.pen.drawingPower);
+            //view.proLab.text = Lang.GetValue("florist_17", TextUtil.ChangeCoinShow(PlayerModel.Instance.pen.drawingPower), str);
             view.nameLab.text = Lang.GetValue("power_name");
         }
         else if (info.type == 2)

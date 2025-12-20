@@ -87,6 +87,7 @@ public class Land : SceneObject, IPointerEnterHandler
             AnimationHelper.CreateSpine("field_unlock", transform, "", false, "", (SkeletonAnimation armatureComponent) =>
             {
                 armatureComponen = armatureComponent;
+                armatureComponent.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
                 armatureComponent.transform.localPosition = new Vector3(-0.05f, -0.11f, 0f);
                 if (plantVO != null)//有数据表示已解锁
                 {

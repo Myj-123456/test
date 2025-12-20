@@ -461,11 +461,11 @@ $
 #
 name_flower_A11162春晴楝花3
 '
-name_flower_A11163钻石抽副2紫1
+name_flower_A11163元宝抽副2紫1
 '
-name_flower_A11164钻石抽副2紫2
+name_flower_A11164元宝抽副2紫2
 '
-name_flower_A11165钻石抽副2紫3
+name_flower_A11165元宝抽副2紫3
 %
 name_flower_A11166橙色跳舞兰
 %
@@ -801,11 +801,11 @@ $
 '
 name_seed_A11162春晴楝花3种子
 +
-name_seed_A11163钻石抽副2紫1种子
+name_seed_A11163元宝抽副2紫1种子
 +
-name_seed_A11164钻石抽副2紫2种子
+name_seed_A11164元宝抽副2紫2种子
 *
-name_seed_A11165钻石抽副2紫种子
+name_seed_A11165元宝抽副2紫种子
 )
 name_seed_A11166橙色跳舞兰种子
 )
@@ -1677,7 +1677,7 @@ $
 
 title_recharge充值
 
-title_recharge1钻石购买
+title_recharge1元宝购买
 
 title_recharge2金币购买
 
@@ -1749,7 +1749,7 @@ text_card5获得的经验提升{0}%
 text_card6水上限变为{0}
 .
 
-text_card7 每日登录可获得15钻石。
+text_card7 每日登录可获得15元宝。
 #
 
 text_card8暂未获得特权。
@@ -1799,7 +1799,7 @@ _
 �
 text_christmas14�1-制作彩球需要{0}和鲜花。
 2-{0}可在圣诞树处获得。
-3-可通过钻石加速彩球制作等待时间。
+3-可通过元宝加速彩球制作等待时间。
 4-制作出的彩球可以兑换圣诞节装饰物。
 5-根据彩球制作总数进行鲜花兑换。
 6-活动结束后，彩球将清零，且无法进行装饰物兑换。
@@ -1910,7 +1910,7 @@ W
 
 text_breed36分享
 (
-text_breed37钻石不足，需要：
+text_breed37元宝不足，需要：
 
 text_breed38免费
 :
@@ -1924,15 +1924,15 @@ I
 !
 text_discolor3材料花不足
 
-text_diamond1少量钻石
+text_diamond1少量元宝
 
-text_diamond2小堆钻石
+text_diamond2小堆元宝
 
-text_diamond3小包钻石
+text_diamond3小包元宝
 
-text_diamond4大袋钻石
+text_diamond4大袋元宝
 
-text_diamond5一箱钻石
+text_diamond5一箱元宝
 
 text_gift_code1开
 
@@ -1973,7 +1973,7 @@ text_gold5一箱金币
  
 text_grandma3获得{0}金币
  
-text_grandma4获得{0}钻石
+text_grandma4获得{0}元宝
 )
 text_grandma5摘取{0}朵好友鲜花
 8
@@ -1989,7 +1989,7 @@ text_gold5一箱金币
 
 text_grandma11花 瓶
 !
-text_grandma12消耗{0}钻石
+text_grandma12消耗{0}元宝
 
 text_grandma13兑 换
 
@@ -2101,19 +2101,19 @@ B
 
 wheel_item_name5金币
 
-wheel_item_name6钻石
+wheel_item_name6元宝
 #
-small diamonds pack小包钻石
+small diamonds pack小包元宝
 $
-medium diamonds pack中包钻石
+medium diamonds pack中包元宝
 #
-large diamonds pack大包钻石
+large diamonds pack大包元宝
 "
-huge diamonds pack巨量钻石
+huge diamonds pack巨量元宝
 "
-pile diamonds pack海量钻石
+pile diamonds pack海量元宝
 "
-cart diamonds pack超量钻石
+cart diamonds pack超量元宝
  
 small coins pack小包金币
 !
@@ -2154,12 +2154,12 @@ A
 building_lesley_shop_d莱斯莉的小店
 ,
 trade_d!可以和其他玩家交易商品
-$
-name_item_18_d加速花的成长
+K
+name_item_18_d9带有神奇功能的符纸，可以加速花的成长。
 &
 wheel_item_d5数量不等的金币
 &
-wheel_item_d6数量不等的钻石
+wheel_item_d6数量不等的元宝
  
 collection_suit_name_1鲜花
  
@@ -2375,7 +2375,7 @@ train_load装箱
 "
 notResources_title资源不足
 E
-notResources_explain-在广场生产或立即使用钻石购买。
+notResources_explain-在广场生产或立即使用元宝购买。
 #
 notResources_button立即购买
 
@@ -2409,7 +2409,7 @@ J
 
 machine_goods_empty空闲
 )
-pay_hint_diamond使用{0}钻石购买
+pay_hint_diamond使用{0}元宝购买
 
 common_confirm_cost花费
 
@@ -2439,7 +2439,7 @@ $
  
 common_hint_txt2金币不足
  
-common_hint_txt3钻石不足
+common_hint_txt3元宝不足
 #
 common_hint_txt4收集币不足
 2
@@ -2459,7 +2459,7 @@ $
 &
 market_hint_txt2商铺{0}级解锁
 #
-market_hint_txt3{0}钻石解锁
+market_hint_txt3{0}元宝解锁
 
 market_button_1上架
 
@@ -2693,7 +2693,7 @@ $
 
 recharge_title_coins金币
 !
-recharge_title_diamonds钻石
+recharge_title_diamonds元宝
 !
 rankinglist_txt_rank	第{0}名
 (
@@ -2812,7 +2812,7 @@ $
 
 month_txt_ad2仅需要${0}
 :
-month_txt_ad3)每天获得{0}钻石，有效期30天。
+month_txt_ad3)每天获得{0}元宝，有效期30天。
 
 month_button_new新增
 !
@@ -2865,14 +2865,16 @@ c
 Beginner_guide_1101v太棒了！你已经完成了5个订单，可以领取订单宝箱了，宝箱里面藏着培育需要的材料哦！
 >
 Grade_is_not_reached01$店主，您的等级未达成哦！
-:
-cultivating_gift_package01随机获得1种培育道具
-:
-cultivating_gift_package02随机获得2种培育道具
-:
-cultivating_gift_package03随机获得3种培育道具
-*
-cultivating_gift_package04培育礼包
+0
+cultivating_gift_package01随机土壤礼包
+0
+cultivating_gift_package02随机培育礼包
+0
+cultivating_gift_package03随机肥料礼包
+0
+cultivating_gift_package04随机水剂礼包
+3
+cultivating_gift_package05随机琉璃瓶礼包
 l
 Beginner_guide_24W我能教你的都告诉你了哦！接下来就要靠你自己成为养花达人了！
 $
@@ -3053,8 +3055,9 @@ A
 video_revenue_05!今日订单金币收益翻倍。
 
 video_revenue_06视 频
- 
-Grade_pack_10001超值礼包
+!
+Grade_pack_10001超值
+礼包
 +
 Package_time_10001礼包在{0}后消失
 "
@@ -3202,7 +3205,7 @@ $
 ,
 ft_tree_task_100005累计消耗{0}金币
 ,
-ft_tree_task_100006累计消耗{0}钻石
+ft_tree_task_100006累计消耗{0}元宝
 5
 ft_tree_task_100007累计出售{0}次插花作品
 �
@@ -3255,7 +3258,7 @@ $
 :
 exp_tree_prompt_10$点击可选择消耗的培育道具
 0
-cultivate_shop_05对不起您的钻石不足
+cultivate_shop_05对不起您的元宝不足
 )
 Grade_pack_20005圣诞麋鹿花礼包
 +
@@ -3357,7 +3360,7 @@ D
 F
 recharge_rebate22再充值{0}元就能领取第 {1} 档奖励内容
 G
-recharge_rebate33使用{0}钻石购买道具后可跳过本次充值
+recharge_rebate33使用{0}元宝购买道具后可跳过本次充值
 �
 mail_title_12�{0}亲爱的玩家，由于邀请好友功能出现了一些问题，我们对好友新邀请功能的数据进行了重置，之前邀请的好友数据会继承保留，给大家带来的不便我们深感抱歉，感谢您对《奇幻海滩》的支持，我们一定会做的更好！
 (
@@ -3673,7 +3676,7 @@ $
 
 guild.pos_change修改
 
-text_diamond6大量钻石
+text_diamond6大量元宝
 
 
 text_gold6大量金币
@@ -4047,7 +4050,7 @@ $
 
 text_card10特权(7天)
 �
-mail_title_18�{0}亲爱的玩家，为了给您一个流畅的游戏环境，我们将在4月3日9:00点进行服务器停机维护，维护时间预计3小时。我们为您献上补偿：钻石*100，给您带来不便请您谅解。
+mail_title_18�{0}亲爱的玩家，为了给您一个流畅的游戏环境，我们将在4月3日9:00点进行服务器停机维护，维护时间预计3小时。我们为您献上补偿：元宝*100，给您带来不便请您谅解。
 
 
 Train_txt1萌新培训
@@ -4548,7 +4551,7 @@ $
 
 	slang_196观看{0}次
 �
-mail_title_20�{0}亲爱的玩家，5月15日下午18点左右服务器异常导致用户无法登录，目前我们已解决了该问题。给您带来不便请您谅解，我们为您献上补偿：50钻石，感谢您对《奇幻海滩》的支持，我们会努力做的更好！
+mail_title_20�{0}亲爱的玩家，5月15日下午18点左右服务器异常导致用户无法登录，目前我们已解决了该问题。给您带来不便请您谅解，我们为您献上补偿：50元宝，感谢您对《奇幻海滩》的支持，我们会努力做的更好！
 
 Act_order_txt20刷新任务
 
@@ -4846,8 +4849,9 @@ $
 Package_time_20025礼包在{0}后消失
 "
 Discount_information_200255折
-
-Tour_gift_txt1巡回礼包
+
+Tour_gift_txt1巡回
+礼包
 *
 Tour_gift_txt2礼包更新倒计时：
 
@@ -4900,7 +4904,7 @@ O
 FriendsDeal_8
 ( {0}/5）
 _
-FriendsDeal_9N确认花费<font color='#ff0000'>{0}</font>钻石购买1次上架次数吗？
+FriendsDeal_9N确认花费<font color='#ff0000'>{0}</font>元宝购买1次上架次数吗？
 �
 FriendsDeal_10�购买了<font color='#e87f4e'>{0}个</font><font color='#e87f4e'>{1}</font>
 您获得了<font color='#e87f4e'>{2}金币</font>。
@@ -5012,7 +5016,7 @@ guide_txt5E只要给研究员指定的培育道具就能获得随机鲜花哦�
 @
 text_istop_20将江湖令置顶后，才能领取奖励噢！
 �
-mail_title_25�{0}亲爱的玩家，巧月活动提前消失，给您带来不便请您谅解。在此为您献上补偿：50钻石、10万金币，感谢您对《奇幻海滩》的支持，我们会努力做的更好！
+mail_title_25�{0}亲爱的玩家，巧月活动提前消失，给您带来不便请您谅解。在此为您献上补偿：50元宝、10万金币，感谢您对《奇幻海滩》的支持，我们会努力做的更好！
 &
 Grade_pack_20029烈日卷丹礼包
 +
@@ -5062,7 +5066,7 @@ $
 O
 contract_unlock_txt27立即获得<font color='#B25847'>30天特权</font>！
 M
-contract_unlock_txt35立即获得<font color='#B25847'>300钻石</font>！
+contract_unlock_txt35立即获得<font color='#B25847'>300元宝</font>！
 D
 contract_unlock_txt4,可获得<font color='#B25847'>{0}</font>！
 D
@@ -5223,8 +5227,8 @@ G
 �
 guildMatch_6�1-每周三中午11点开始花盟竞赛，持续3天。
 2-每周六中午10点为花盟竞赛结算日。
-3-花盟人数大于7人即可参加花盟竞赛。
-（开赛后花盟人数才大于7人的，只能参加下一轮花盟赛）
+3-花盟人数大于2人即可参加花盟竞赛。
+（开赛后花盟人数才大于2人的，只能参加下一轮花盟赛）
 4-接取花盟竞赛任务即为参赛，参赛人数越多，小老虎跑的越快哦！
 5-完成任务可以给自己花盟的小老虎增加移动距离。
 6-每10个花盟分在一个竞赛小组内，比赛结束后，前3名晋级，后5名降级。
@@ -5469,7 +5473,7 @@ i
 6
 Treasure_tips3$获得{0}个胡萝卜后可领取。
 *
-Treasure_tips4您的钻石余额不足
+Treasure_tips4您的元宝余额不足
 6
 Treasure_tips5$集齐宝箱和钥匙后可领取。
 
@@ -5489,7 +5493,7 @@ i
 
 3.打开好友赠送给自己的礼物可获得10万金币和3万经验
 
-4.每天有10次免费领取礼物的机会，次数用完后可消耗钻石继续领取
+4.每天有10次免费领取礼物的机会，次数用完后可消耗元宝继续领取
 
 5.查看礼物面板只会显示48小时以内收到的礼物
 
@@ -5703,7 +5707,7 @@ Q
 Order_challenge2�1-订单挑战27级开放。
 2-开始后不能退出订单挑战。
 3-中途断线后，再次上线可直接领取已完成挑战的奖励。
-4-每日最多可进行{0}次订单挑战（包含钻石购买次数）
+4-每日最多可进行{0}次订单挑战（包含元宝购买次数）
 5-单次挑战最多可完成180个订单。
 6-完成的订单越多，倍数越高。
 �
@@ -6094,7 +6098,7 @@ $
 #
 SucculentPlant_pop1解锁花盆
 D
-SucculentPlant_pop2-是否确定消耗{0}钻石解锁该花盆？
+SucculentPlant_pop2-是否确定消耗{0}元宝解锁该花盆？
 #
 SucculentPlant_pop3解锁外观
 G
@@ -6253,6 +6257,8 @@ E
 customGift_4自选礼包
 
 text_card19特权(14天)
+
+text_card20特权(1天)
 
 text_draw_star	望远镜
 
@@ -6728,7 +6734,7 @@ B
 text_yonghuxieyi_4�　　2.2深圳虎玥互娱科技有限公司对用户在使用深圳虎玥互娱科技有限公司产品过程中或用户在接受深圳虎玥互娱科技有限公司的服务过程中所产生的任何数据信息（包括但不限于账号资料、游戏数据及系统衍生数据等）拥有所有权。用户通过其合法账号及密码正常登录深圳虎玥互娱科技有限公司特定产品后，该产品的游戏程序向用户显示的数据和信息为用户就该特定产品所有权获取的全部数据和信息。用户仅有权依据本协议及有关游戏规则在该款产品中使用该等数据和信息。深圳虎玥互娱科技有限公司无义务向用户提供、展示超出用户自行登录使用产品便可获取的数据和信息以外的数据和信息。
 �
 text_yonghuxieyi_5�      在深圳虎玥互娱科技有限公司提供的服务中游戏账号下权益全部归深圳虎玥互娱科技有限公司所有。在法律所允许的最大限度内，深圳虎玥互娱科技有限公司有权决定保留或不保留深圳虎玥互娱科技有限公司存储的全部或部分游戏账号下权益。
-　　深圳虎玥互娱科技有限公司产品和服务中的各种游戏账号下的权益，包括但不限于等级、元宝、钻石等游戏币/券、道具(含装备)等，是深圳虎玥互娱科技有限公司所提供的服务的一部分，其所有权归属深圳虎玥互娱科技有限公司。用户只能在合乎法律规定和游戏规则的情况下使用，且可通过游戏行为和充值行为获准使用游戏账号下的权益。本协议所称用户对“游戏道具的交换/转让”均指游戏道具使用权的交换/转让，用户无权交换/转让游戏道具的所有权。
+　　深圳虎玥互娱科技有限公司产品和服务中的各种游戏账号下的权益，包括但不限于等级、元宝、元宝等游戏币/券、道具(含装备)等，是深圳虎玥互娱科技有限公司所提供的服务的一部分，其所有权归属深圳虎玥互娱科技有限公司。用户只能在合乎法律规定和游戏规则的情况下使用，且可通过游戏行为和充值行为获准使用游戏账号下的权益。本协议所称用户对“游戏道具的交换/转让”均指游戏道具使用权的交换/转让，用户无权交换/转让游戏道具的所有权。
 �	
 text_yonghuxieyi_6�	      用户知悉并同意：用户向其拥有使用权的深圳虎玥互娱科技有限公司相关产品和服务的账号内充值兑换获取游戏道具时，深圳虎玥互娱科技有限公司可能会同时赠与一定比例的游戏道具，用户在使用及消耗游戏道具时，如充值兑换游戏道具与获赠的游戏道具不可区分，充值兑换的游戏道具将视为优先于深圳虎玥互娱科技有限公司赠予的游戏道具被使用与消耗；如充值兑换的游戏道具与获赠的游戏道具可以区分，则按照实际使用及消耗量计算。
 　　3.资费政策
@@ -6999,7 +7005,7 @@ h
 
 assignTask_5指定分数
 (
-assignTask_6设置的钻石不足。
+assignTask_6设置的元宝不足。
 1
 assignTask_7!未刷新到当前指定任务。
 .
@@ -7014,7 +7020,7 @@ h
 text_suijipeiyu随机培育道具
 �
 guildPocket_help�1.花盟成员可以购买不同类型的红包，可以选择奖励数量和领取人数；
-2.红包有4种类型：钻石红包、金币红包、水滴红包、随机培育材料红包；
+2.红包有4种类型：元宝红包、金币红包、水滴红包、随机培育材料红包；
 3.发红包时可以选择填写一句祝福语，最长不能超过10个字；
 4.每个花盟成员可以领取多个红包，但1个红包只能领取1次；
 5.红包发出后，被领完或者24小时后将会消失；
@@ -7071,7 +7077,7 @@ $
 
 error_90861红包已抢完
 
-hongbao1钻石红包
+hongbao1元宝红包
 
 hongbao2金币红包
 
@@ -7239,7 +7245,7 @@ $
 hand_book_tab_name2金币
 获取
 $
-hand_book_tab_name3钻石
+hand_book_tab_name3元宝
 获取
 $
 hand_book_tab_name4水滴
@@ -7297,7 +7303,7 @@ F
 B
 	vip_dec_25水滴上限升为<font color='#E68131'>{0}</font>。
 K
-	vip_dec_3>每天可获得<font color='#E68131'>{0}钻石</font>奖励。
+	vip_dec_3>每天可获得<font color='#E68131'>{0}元宝</font>奖励。
 B
 	vip_dec_45可使用<font color='#E68131'>玉石商店</font>。
 W
@@ -7893,7 +7899,7 @@ H
 
 guild_Match_11比赛数据
 
-guild_Match_12钻石联赛
+guild_Match_12元宝联赛
 E
 guild_Match_133提交以下鲜花任务，会额外获得20%积分
 
@@ -9340,8 +9346,8 @@ a
 main_task_type26累积收集水桶{0}个
 &
 main_task_type27去浇水{0}块地
-8
-main_task_type28$九尾花阁累积兑换{0}次鲜花
+2
+main_task_type28九尾花阁兑换{0}次鲜花
 ,
 main_task_type29完成主线任务{0}次
 )
@@ -9351,11 +9357,11 @@ a
 ,
 main_task_type32本周获得{0}活跃度
 )
-main_task_type33创建或加入公会
+main_task_type33创建或加入花盟
 ,
 main_task_type34完成{0}次绸缎订单
-,
-main_task_type35衣服商店购买{0}次
+)
+main_task_type35绫罗阁购买{0}次
 ,
 main_task_type36开启锦鲤宝藏{0}次
 ,
@@ -9394,26 +9400,28 @@ a
 task_6每周任务
 
 recharge_main_1	权益卡
-
-recharge_main_2累计充值
-
-recharge_main_3玉石充值
+ 
+recharge_main_2累计
+充值
+ 
+recharge_main_3玉石
+充值
 
 recharge_main_4月卡
 H
-recharge_main_55立即解锁<font color='#4a9968'>一键功能</font>
+recharge_main_55立即解锁<font color='#DF752A'>一键功能</font>
 ?
-recharge_main_6,解锁<font color='#4a9968'>VIP商店</font>
+recharge_main_6,解锁<font color='#DF752A'>VIP商店</font>
 F
-recharge_main_73获得经验提升<font color='#4a9968'>{0}%</font>
+recharge_main_73获得经验提升<font color='#DF752A'>{0}%</font>
 H
-recharge_main_85储水上限翻倍到<font color='#4a9968'>{0}</font>
+recharge_main_85储水上限翻倍到<font color='#DF752A'>{0}</font>
 K
-recharge_main_98采集珍珠位置增加<font color='#4a9968'>{0}</font>
+recharge_main_98采集珍珠位置增加<font color='#DF752A'>{0}</font>
  
 recharge_main_10专属特权
-4
-recharge_main_11 购买即可获得30天特权！
+Q
+recharge_main_11=购买即可获得<font color='#48FA1E'>30天</font>特权！
  
 recharge_main_12购买立得
  
@@ -9673,23 +9681,23 @@ pop_gift_4订单经验：
  
 task_title_10015五谷丰登
 S
-paomadeng_type_1?恭喜{0}开通钻石基金，享受丰厚钻石回报奖励！
+paomadeng_type_1?恭喜{0}开通元宝基金，享受丰厚元宝回报奖励！
 S
-paomadeng_type_2?恭喜{0}开通入门基金，享受丰厚钻石回报奖励！
+paomadeng_type_2?恭喜{0}开通入门基金，享受丰厚元宝回报奖励！
 S
-paomadeng_type_3?恭喜{0}开通进阶基金，享受丰厚钻石回报奖励！
+paomadeng_type_3?恭喜{0}开通进阶基金，享受丰厚元宝回报奖励！
 h
-paomadeng_type_4T恭喜{0}在抽卡中抽中大奖奖励“{1}“，享受丰厚钻石回报奖励！
+paomadeng_type_4T恭喜{0}在抽卡中抽中大奖奖励“{1}“，享受丰厚元宝回报奖励！
 h
-paomadeng_type_5T恭喜{0}在抽卡中抽中大奖奖励“{1}“，享受丰厚钻石回报奖励！
+paomadeng_type_5T恭喜{0}在抽卡中抽中大奖奖励“{1}“，享受丰厚元宝回报奖励！
 h
-paomadeng_type_6T恭喜{0}在抽卡中抽中大奖奖励“{1}“，享受丰厚钻石回报奖励！
+paomadeng_type_6T恭喜{0}在抽卡中抽中大奖奖励“{1}“，享受丰厚元宝回报奖励！
 n
 paomadeng_type_7Z恭喜{0}获得VIP特权卡，享受一键浇水、一键种植、一键偷花等特权！
 V
-paomadeng_type_8B恭喜{0}开通尊享版合约，享受丰厚钻石回报奖励！
+paomadeng_type_8B恭喜{0}开通尊享版合约，享受丰厚元宝回报奖励！
 k
-paomadeng_type_9W恭喜{0}在抽卡中抽中隐藏款奖励“{1}“，享受丰厚钻石回报奖励！
+paomadeng_type_9W恭喜{0}在抽卡中抽中隐藏款奖励“{1}“，享受丰厚元宝回报奖励！
 
 welfare_main_1七日登录
 
@@ -9996,7 +10004,128 @@ L
 diamond_draw_2	抽十次
 u
 Daily_task_proc<font color='{0}'>需要</font><font color='{1}'>{2}</font><font color='{0}'>活跃度解锁</font>
+B
+gem_d9象征财富的金灿灿的元宝，最珍贵的货币。
+^
+	haoping_dQ完成顾客订单可以获得，可以在九尾花阁里兑换鲜花和花瓶。
++
+gold_d!山海世界里的通用货币。
+<
+coupon_d0万物之源，可以在土地里浇灌鲜花。
+2
+hudun_d'可以免去一次被雇佣的道具。
+;
+
+qiangduo_d-可以雇佣一次玩家钓锦鲤的道具。
+
+name_41013053海市辰贝
+>
+desc_41013053-可以在剧情系统里观看主线剧情。
+k
+name_flower_descW土地里种植后获得的鲜花花朵，可以制作插花作品或者完成订单。
+c
+name_seed_descQ土地里收获成熟鲜花时可能会掉落的种子，用于鲜花的升级。
+Y
+name_growItem1_descB水剂类培育材料，可以提升鲜花的防护病虫能力。
+V
+name_growItem2_desc?肥料类培育材料，可以提升鲜花土壤的营养力。
+S
+name_growItem3_desc<土壤类培育材料，不同的土壤有不同的特性。
+V
+name_growItem4_desc?蕴含神奇光能的琉璃瓶子，可以改变培育环境。
+D
+name_ flower_vase_desc*制作插花作品必不可少的花瓶。
+i
+recharge_main_31U<font color='#717781'>以下的</font><font color='#DF752A'>金币收益翻倍</font>
+W
+cultivating_gift_package01_d7打开后可以随机获得1个土壤类培育材料。
+N
+cultivating_gift_package02_d.打开后可以随机获得1个培育材料。
+W
+cultivating_gift_package03_d7打开后可以随机获得1个肥料类培育材料。
+W
+cultivating_gift_package04_d7打开后可以随机获得1个水剂类培育材料。
+W
+cultivating_gift_package05_d7打开后可以随机获得1个琉璃瓶培育材料。
+7
+desc_53010001&使用后可以体验VIP特权30天。
+6
+desc_53010002%使用后可以体验VIP特权3天。
+7
+desc_53010003&使用后可以体验VIP特权60天。
+6
+desc_53010004%使用后可以体验VIP特权7天。
+7
+desc_53010005&使用后可以体验VIP特权14天。
+6
+desc_53010006%使用后可以体验VIP特权1天。
+
+text_41013001普通莲子
+
+text_41013002	金莲子
+
+text_41013003灵犀水晶
+\
+desc_41013001K通过花盟竞赛获得的货币，可以在竞赛商店里进行兑换。
+\
+desc_41013002K通过花盟竞赛获得的货币，可以在竞赛商店里进行兑换。
+>
+desc_41013003-可以在冰绡梦舸里进行抽取奖励。
+
+name_41013042合约积分
+
+name_41013043蜜友结书
+
+name_41013044	好友币
+
+name_41013045绸缎
+
+name_41013046	寻梦令
+
+name_41013047金剪
+
+name_41013048金蝶
+
+name_41013049银蝶
+
+name_41013050金丝
+
+name_41013051银丝
+
+name_41013052花艺经验
+#
+name_41013054成长之路积分
+>
+desc_41013042-合约积分可以用来提升合约等级。
+>
+desc_41013043-好友币可以兑换好友的摸花次数。
+?
+desc_41013044.可以向1个玩家发送从而结为蜜友。
+;
+desc_41013045*可以在绫罗阁里进行兑换衣服。
+;
+desc_41013046*可以在司花鉴里进行抽取奖励。
+8
+desc_41013047'可以在金霞拂衣里抽取奖励。
+G
+desc_410130486可以在司花鉴兑换商店里进行兑换物品。
+G
+desc_410130496可以在司花鉴兑换商店里进行兑换物品。
+J
+desc_410130509可以在金霞拂衣兑换商店里进行兑换物品。
+J
+desc_410130519可以在金霞拂衣兑换商店里进行兑换物品。
+>
+desc_41013052-花艺经验可以用来提升花艺成就。
+\
+desc_41013054K成长之路积分累积到一定数额后可以领取成长之路奖励。
 F
 rcumulative_15充值[color=#29e804]{0}元[/color]即可获得{1}！
 5
 trade_unlock_tip!确定花费{0}解锁该位置！
+
+Cultivation_5	可培育
+z
+guild_donate_tipf本日可获得花盟资金人数已达上限，本次捐献将不会获得花盟资金，是否继续
+
+online_text在线

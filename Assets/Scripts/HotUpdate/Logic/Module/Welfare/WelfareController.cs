@@ -85,7 +85,7 @@ public class WelfareController : BaseController<WelfareController>
         WelfareModel.Instance.rookieRewards = data.rookieRewards;
         var dropList = ItemModel.Instance.GetDropData(data.items);
         DropManager.ShowDrop(dropList);
-        
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Growth_Road);
         EventManager.Instance.DispatchEvent(WelfareEvent.RookieReward);
 
     }

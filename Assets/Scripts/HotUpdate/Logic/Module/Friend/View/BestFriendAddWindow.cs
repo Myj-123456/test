@@ -94,10 +94,25 @@ public class BestFriendAddWindow : BaseWindow
 
         StringUtil.SetBtnUrl(ui_.heead, "Avatar/ELIDA_common_touxiangdi01.png");
         ui_.txt_lv.text = vo_.userInfo.userLevel.ToString();
-        ui_.txt_name.text = vo_.userInfo.townName;
-        
+       
+        ui_.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(vo_.userInfo.headImgId));
+        var frameVo = ItemModel.Instance.GetItemById((int)(vo_.userInfo.headFrame));
+        UILogicUtils.ShowHeadFrames(ui_.picFrame as common_New.PictureFrame, frameVo);
+        (ui_.heead as common_New.MoonFestivalHead).pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
+
+        if (vo_.userInfo.title == 0)
+        {
+            ui_.titleTxt.text = Lang.GetValue("player_info_12");
+        }
+        else
+        {
+            var titleId = (int)vo_.userInfo.title;
+            var titleVo = ItemModel.Instance.GetItemById(titleId);
+            ui_.titleTxt.text = Lang.GetValue(titleVo.Name);
+        }
         // 显示在线状态或离线时间
-        ui_.Text_time.text = TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
+        ui_.Text_time.text = vo_.online?Lang.GetValue("online_text") : TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
         
         // 检查对方是否已经是密友
         if (FriendModel.Instance.GetCronyData(vo_.userInfo.userId) != null)
@@ -222,27 +237,16 @@ public class BestFriendAddWindow : BaseWindow
             return;
         }
         
-        try
-        {
-            // 发送申请前再次检查
-            FriendController.Instance.ReqCronyApply(_currentFriendId);
-            _cronyBookCount--;
-            // 更新显示
-            view.applybestTip.selectedIndex = 0;
-            UpdateCronyBookDisplay();
-            // 找到对应的列表项
-            UpdateFriendItemController(_currentFriendId);
-            
-            UILogicUtils.ShowNotice("密友申请已发送");
-        }
-        catch (System.Exception ex)
-        {
-            // 失败时不减少结书数量
-            UILogicUtils.ShowNotice("发送申请失败，请重试");
-            Debug.LogError("发送蜜友申请失败: " + ex.Message);
-            // 重新获取结书数量
-            UpdateCronyBookCount();
-        }
+        // 发送申请前再次检查
+        FriendController.Instance.ReqCronyApply(_currentFriendId);
+        _cronyBookCount--;
+        // 更新显示
+        view.applybestTip.selectedIndex = 0;
+        UpdateCronyBookDisplay();
+        // 找到对应的列表项
+        UpdateFriendItemController(_currentFriendId);
+        
+        UILogicUtils.ShowNotice("密友申请已发送");
     }
     
     // 更新好友列表项的控制器索引

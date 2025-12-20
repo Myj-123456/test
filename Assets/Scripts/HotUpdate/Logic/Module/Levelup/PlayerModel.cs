@@ -91,9 +91,9 @@ public class PlayerModel : Singleton<PlayerModel>
             return _playerNameList;
         } }
 
-    public I_PEN_VO pen;
-    //绘笔战斗属性
-    public I_FIGHT_ATTRIBUTES_VO fightAttr;
+    //public I_PEN_VO pen;
+    ////绘笔战斗属性
+    //public I_FIGHT_ATTRIBUTES_VO fightAttr;
 
     //获取头像信息
     public Ft_player_iconConfig GetHeadInfo(int id)
@@ -106,10 +106,10 @@ public class PlayerModel : Singleton<PlayerModel>
     }
     public int GetStyleValue(uint type)
     {
-        if (pen.styleValue.ContainsKey(type))
-        {
-            return (int)pen.styleValue[type];
-        }
+        //if (pen.styleValue.ContainsKey(type))
+        //{
+        //    return (int)pen.styleValue[type];
+        //}
         return 0;
     }
     //获取玩家等级信息
@@ -157,31 +157,78 @@ public class PlayerModel : Singleton<PlayerModel>
     /// </summary>
     /// <param name="petId"></param>
     /// <returns></returns>
-    public int GetBattlePetPos(uint petId)
-    {
-        var battlePets = pen.battlePets;
-        return System.Array.IndexOf(battlePets, petId);
-    }
+    
 
     /// <summary>
     /// 根据宠物id获取我方上阵花仙槽位
     /// </summary>
     /// <param name="petId"></param>
     /// <returns></returns>
-    public int GetBattleFairyPos(uint fairyId)
-    {
-        var battleFairys = pen.battleFairys;
-        return System.Array.IndexOf(battleFairys, fairyId);
-    }
+   
     //获取头像框列表
     public List<FrameTitleConfig> GetFrameTileList(int type)
     {
-        return frameTitleList.FindAll(value => value.Type == type);
+        var listData = frameTitleList.FindAll(value => value.Type == type);
+        listData.Sort((a, b) => GetSortNum(b) - GetSortNum(a));
+        return listData;
     }
 
+    public int GetSortNum(FrameTitleConfig data)
+    {
+        if(StorageModel.Instance.GetItemCount(data.Id) > 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
     public FrameTitleConfig GetFrameTitleInfo(int id)
     {
         return frameTitleList.Find(value => value.Id == id);
+    }
+
+    public bool GetHeadRedPoint()
+    {
+        foreach(var value in headList)
+        {
+            if(value.IsOwn == 1)
+            {
+                continue;
+            }
+            if(StorageModel.Instance.GetItemCount(value.IconId) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)value.IconId) == -1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetFrameRedPoint()
+    {
+        var listData = GetFrameTileList(4201);
+        foreach(var value in listData)
+        {
+            if(StorageModel.Instance.GetItemCount(value.Id) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)value.Id) == -1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetTitleRedPoint()
+    {
+        var listData = PlayerModel.Instance.GetFrameTileList(4202);
+        foreach (var value in listData)
+        {
+            if (StorageModel.Instance.GetItemCount(value.Id) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)value.Id) == -1)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

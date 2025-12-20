@@ -4,7 +4,7 @@
 
 #pragma warning disable CS1591, CS0612, CS3021
 
-namespace protobuf.plant
+namespace protobuf.mail
 {
     [ProtoBuf.ProtoContract]
     public class I_MAIL_VO

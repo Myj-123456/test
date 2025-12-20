@@ -143,6 +143,7 @@ public class RechargeController : BaseController<RechargeController>
     /// <param name="platformType">支付渠道 1:web 2:微信 3：抖音 4:app</param>
     public void ReqPlaceOrder(uint payConfType, uint payDefId)
     {
+        Debug.Log("ReqPlaceOrder,payConfType: " + payConfType + " payDefId: " + payDefId);
         C_MSG_PLACE_ORDER c_MSG_PLACE_ORDER = new C_MSG_PLACE_ORDER();
         c_MSG_PLACE_ORDER.payConfType = payConfType;
         c_MSG_PLACE_ORDER.payDefId = payDefId;
@@ -158,17 +159,17 @@ public class RechargeController : BaseController<RechargeController>
         {
             c_MSG_PLACE_ORDER.osType = 1;
         }
-        if (LoginHelper.GetPlatform() == "app")
+        if (LoginHelper.GetPlatform() == "app")//app端web支付(web支付作为内部支付)
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 4;
         }
-        else if (LoginHelper.GetPlatform() == "wm")
+        else if (LoginHelper.GetPlatform() == "wm")//微信小游戏端web支付(web支付作为内部支付),后续接入了微信支付之后payType需要改为微信支付方式
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 2;
         }
-        else if (LoginHelper.GetPlatform() == "dev")
+        else if (LoginHelper.GetPlatform() == "dev")//开发版本web支付(web支付作为内部支付)
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 1;
@@ -271,7 +272,7 @@ public class RechargeController : BaseController<RechargeController>
                 ADK.UILogicUtils.ShowNotice("错误码：" + responseResult.code);
             }
         }
-
+        EventManager.Instance.DispatchEvent(RedPointEvent.OnRechargeDelevier);
     }
 
     //商城免费领取

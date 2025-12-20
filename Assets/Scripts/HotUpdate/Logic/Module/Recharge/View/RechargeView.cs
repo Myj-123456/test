@@ -39,6 +39,7 @@ public class RechargeView
 
     public void OnShown()
     {
+        RedPointModel.Instance.UpdateTodayFirstLogin(TodayFirstLogin.Recharge);
         UpdateList();
     }
     private void UpdateList()
@@ -67,7 +68,7 @@ public class RechargeView
         }
         else
         {
-            if(RechargeModel.Instance.gamePay.buyIds != null && Array.IndexOf(RechargeModel.Instance.gamePay.buyIds,uint.Parse(data.ProductId)) != -1)
+            if(RechargeModel.Instance.gamePay.buyIds != null && Array.IndexOf(RechargeModel.Instance.gamePay.buyIds, (uint)data.IndexId) != -1)
             {
                 cell.preferentialTab.selectedIndex = 0;
             }
@@ -94,7 +95,7 @@ public class RechargeView
     private void BuyCash(EventContext context)
     {
         var buyData = (context.sender as GComponent).data as Ft_game_payConfig;
-        RechargeController.Instance.ReqPlaceOrder(3, uint.Parse(buyData.ProductId));
+        RechargeController.Instance.ReqPlaceOrder(3, (uint)buyData.IndexId);
     }
 }
 

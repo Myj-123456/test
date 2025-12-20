@@ -24,6 +24,7 @@ public class HeadView
             MyselfController.Instance.ReqSetHead((uint)curData.IconId);
         });
         EventManager.Instance.AddEventListener(PlayerEvent.SetHead, UpdateData);
+        EventManager.Instance.AddEventListener(RedPointEvent.ClickItem, UpdateList);
     }
 
 
@@ -72,13 +73,26 @@ public class HeadView
         cell.unlock.selectedIndex = (StorageModel.Instance.GetItemCount(info.IconId) > 0 || info.IsOwn == 1) ? 0 : 1;
         var head = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_AVATAR);
         cell.type.selectedIndex = int.Parse(head.info) != info.IconId ? 0 : 1;
+        if (info.IsOwn != 1 && StorageModel.Instance.GetItemCount(info.IconId) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)info.IconId) == -1)
+        {
+            UILogicUtils.ShowRedPoint(cell, false, cell.width - 20f, 0f);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(cell);
+        }
         cell.data = index;
         cell.onClick.Add(SelectHead);
     }
     private void SelectHead(EventContext context)
     {
         int index = (int)(context.sender as GComponent).data;
-        if(curIndex != index)
+        var info = PlayerModel.Instance.headList[index];
+        if(info.IsOwn != 1 && StorageModel.Instance.GetItemCount(info.IconId) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)info.IconId) == -1)
+        {
+            MyselfController.Instance.ReqClickItem((uint)info.IconId);
+        }
+        if (curIndex != index)
         {
             curIndex = index;
             curData = PlayerModel.Instance.headList[index];

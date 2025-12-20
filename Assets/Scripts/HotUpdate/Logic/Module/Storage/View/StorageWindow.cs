@@ -84,6 +84,7 @@ public class StorageWindow : BaseView
         //    UIManager.Instance.ClosePanel(UIName.StorageWindow);
         //});
         EventManager.Instance.AddEventListener(PlayerEvent.OpenGiftPack, UpdateData);
+        EventManager.Instance.AddEventListener(RedPointEvent.UpdateItem, UpdateRedPoint);
     }
 
     public override void OnShown()
@@ -103,6 +104,7 @@ public class StorageWindow : BaseView
         curTab = -1;
         ChangeTab(0);
         OpenTween();
+        UpdateRedPoint();
     }
 
     private void ChangeTab(int index)
@@ -194,7 +196,7 @@ public class StorageWindow : BaseView
     private void OpenGift(EventContext context)
     {
         Module_item_defConfig itemVo = (context.sender as GComponent).data as Module_item_defConfig;
-        if(itemVo.Type == 5201)
+        if(itemVo.Category == 52)
         {
             UIManager.Instance.OpenWindow<ItemGiftWindow>(UIName.ItemGiftWindow,itemVo.ItemDefId);
         }
@@ -223,7 +225,17 @@ public class StorageWindow : BaseView
             sequence.Append(DOTween.To(() => item.img_loaderOld.y, x => item.img_loaderOld.y = x, endY, 0.5f).SetEase(Ease.OutSine));
         }
     }
-
+    private void UpdateRedPoint()
+    {
+        if (StorageModel.Instance.GetRodomGift())
+        {
+            UILogicUtils.ShowRedPoint(view.btn_flowerArt);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.btn_flowerArt);
+        }
+    }
     public override void OnHide()
     {
         base.OnHide();

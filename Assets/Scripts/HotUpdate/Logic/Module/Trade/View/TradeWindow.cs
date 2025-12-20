@@ -121,6 +121,7 @@ public class TradeWindow : BaseView
         AddEventListener(TradeEvent.TradeUpperShelf, UpdateData);
         AddEventListener(TradeEvent.Trade, UpdateData);
         AddEventListener(TradeEvent.TradeHelp, UpdateData);
+        EventManager.Instance.AddEventListener(RedPointEvent.UpdateTradeTip, UpdateRedPoint);
     }
 
     public override void OnShown()
@@ -133,7 +134,7 @@ public class TradeWindow : BaseView
         TradeController.Instance.ReqTradeInfomation();
         //_view.ls_ItemList.scrollPane.currentPageX = 0;
         //UpdateStorageList();
-
+        UpdateRedPoint();
     }
 
     private void UnlockData(int pos)
@@ -389,6 +390,18 @@ public class TradeWindow : BaseView
             UILogicUtils.ShowNotice(Lang.GetValue("FriendsDeal_21"));
         }
 
+    }
+
+    private void UpdateRedPoint()
+    {
+        if (TradeModel.Instance.tipRedPoint)
+        {
+            UILogicUtils.ShowRedPoint(_view.btn_message);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(_view.btn_message);
+        }
     }
     public override void OnHide()
     {

@@ -323,7 +323,7 @@ public class GuildController : BaseController<GuildController>
             }
             GuildModel.Instance.UpdateApplyList(data.targetUserId);
         }
-        
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Apply);
         EventManager.Instance.DispatchEvent(GuildEvent.GuildApplyList);
     }
 
@@ -361,6 +361,7 @@ public class GuildController : BaseController<GuildController>
         GuildModel.Instance.guildDonate = data.guildDonate;
         GuildModel.Instance.donateMemberCnt = data.donateMemberCnt;
         GuildModel.Instance.meDonateSeq = data.meDonateSeq;
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Donate);
         ReqGuildInfo();
         EventManager.Instance.DispatchEvent(GuildEvent.GuildDonate);
     }
@@ -401,6 +402,7 @@ public class GuildController : BaseController<GuildController>
             dropList.Add(drop);
         }
         DropManager.ShowDrop(dropList);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Donate_Pro);
         EventManager.Instance.DispatchEvent(GuildEvent.GuildDonateProgress);
     }
 

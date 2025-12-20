@@ -9,7 +9,7 @@ namespace fun_Rob
     {
         public Controller genderTab;
         public Controller ableSteal;
-        public GImage n36;
+        public GImage n41;
         public GTextField txt_userName;
         public GTextField txt_info_0;
         public GTextField txt_info_1;
@@ -30,7 +30,7 @@ namespace fun_Rob
 
             genderTab = GetControllerAt(0);
             ableSteal = GetControllerAt(1);
-            n36 = (GImage)GetChildAt(0);
+            n41 = (GImage)GetChildAt(0);
             txt_userName = (GTextField)GetChildAt(1);
             txt_info_0 = (GTextField)GetChildAt(2);
             txt_info_1 = (GTextField)GetChildAt(3);

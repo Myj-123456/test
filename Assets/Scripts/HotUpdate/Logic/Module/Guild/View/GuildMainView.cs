@@ -90,7 +90,7 @@ public class GuildMainView : BaseView
         });
         view.ui_chat.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<ChatWindow>(UIName.ChatWindow);
+            UIManager.Instance.OpenWindow<ChatMainWindow>(UIName.ChatMainWindow,1);
         });
 
         view.btn_donate.onClick.Add(() =>
@@ -169,6 +169,9 @@ public class GuildMainView : BaseView
         EventManager.Instance.AddEventListener(GuildEvent.GuildUpgrade, UpdateGuildInfoContent);
         EventManager.Instance.AddEventListener(ChatEvent.GuildChat, UpdateChatContext);
         EventManager.Instance.AddEventListener(GuildEvent.GuildQuit, CloseView);
+
+        EventManager.Instance.AddEventListener<uint>(RedPointEvent.RedDotChange, UpdateRedPoint);
+
     }
 
     private void OnMouseWheel(EventContext context)
@@ -286,6 +289,7 @@ public class GuildMainView : BaseView
         // 其他打开面板的逻辑
         UpdateChatContext();
         heroAvatar.UpdateDress();
+        InitRedPoint();
     }
 
     private void UpdateGuildInfo()
@@ -378,7 +382,90 @@ public class GuildMainView : BaseView
         isOpen = !isOpen;
     }
 
+    private void UpdateRedPoint(uint type)
+    {
+        if (type == (uint)RedPointType.Guild_Donate || type == (uint)RedPointType.Guild_Donate_Pro)
+        {
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Donate) || RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Donate_Pro))
+            {
+                UILogicUtils.ShowRedPoint(view.btn_donate);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(view.btn_donate);
+            }
+        }
+        else if(type == (uint)RedPointType.Guild_Apply)
+        {
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Apply))
+            {
+                UILogicUtils.ShowRedPoint(view.btn_manger);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(view.btn_manger);
+            }
+        }
+        else if(type == (uint)RedPointType.Guild_Plant)
+        {
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Plant))
+            {
+                UILogicUtils.ShowRedPoint(_view.btn_plant);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(_view.btn_plant);
+            }
+        }
+        else if(type == (uint)RedPointType.Guild_Gift || type == (uint)RedPointType.Guild_Big_Box)
+        {
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Gift) || RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Big_Box))
+            {
+                UILogicUtils.ShowRedPoint(_view.btn_gift);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(_view.btn_gift);
+            }
+        }
+         
+    }
 
+    private void InitRedPoint()
+    {
+        if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Donate) || RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Donate_Pro))
+        {
+            UILogicUtils.ShowRedPoint(view.btn_donate);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.btn_donate);
+        }
+        if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Apply))
+        {
+            UILogicUtils.ShowRedPoint(view.btn_manger);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.btn_manger);
+        }
+        if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Plant))
+        {
+            UILogicUtils.ShowRedPoint(_view.btn_plant);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(_view.btn_plant);
+        }
+        if (RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Gift) || RedPointModel.Instance.IsRedPointShow(RedPointType.Guild_Big_Box))
+        {
+            UILogicUtils.ShowRedPoint(_view.btn_gift);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(_view.btn_gift);
+        }
+    }
 
     public override void OnHide()
     {

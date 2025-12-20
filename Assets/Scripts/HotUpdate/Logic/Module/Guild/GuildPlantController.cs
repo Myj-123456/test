@@ -25,6 +25,7 @@ public class GuildPlantController : BaseController<GuildPlantController>
     public void GuildHouseInfo(S_MSG_GUILD_HOUSE_INFO data)
     {
         GuildPlantModel.Instance.houseList = data.houseList;
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Plant);
         EventManager.Instance.DispatchEvent(GuildPlantEvent.GuildHouseInfo);
     }
 

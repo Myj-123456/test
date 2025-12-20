@@ -57,5 +57,9 @@ namespace Elida.Config {
     // 是否首次购买半价
     [ProtoMember(10)]
     public int IsFirstHalf;
+    
+    // 限购
+    [ProtoMember(11)]
+    public int ClubGiftId;
   }
 }

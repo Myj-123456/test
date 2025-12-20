@@ -69,6 +69,10 @@ public class VaseTipView : BaseView
             {
                 UILogicUtils.ShowItemGainTips(item.ItemDefId);
             }
+            else
+            {
+                UILogicUtils.ShowNotice("text_book39");
+            }
         });
         view.btn_left.onClick.Add(() =>
         {

@@ -195,7 +195,12 @@ public class FriendWindow : BaseWindow
         });
         view.btn_best.onClick.Add(() =>
         {
-            ChangeTab(3);
+            if (!GlobalModel.Instance.GetUnlocked(SysId.Friend_Crony, true))
+            {
+                view.tab.selectedIndex = curTab;
+                return;
+            }
+            ChangeTab(3);    
         });
         // 根据密友列表是否为空或是否有好友关系超过12小时的普通好友设置控制器索引和背景图片
         bool hasCronyData = FriendModel.Instance != null && FriendModel.Instance.cronyList != null && FriendModel.Instance.cronyList.Count > 0;
@@ -372,6 +377,7 @@ public class FriendWindow : BaseWindow
         });
         view.btn_best_contact.onClick.Add(() =>
         {
+            
             if (curSelectedItem != null)
             {
                 // 获取当前选中的密友数据，打开聊天窗口
@@ -398,6 +404,8 @@ public class FriendWindow : BaseWindow
 
         view.txt_friendCode.onFocusIn.Add(OnTxtFocusIn);
         view.txt_friendCode.onFocusOut.Add(OnTxtFocusOut);
+
+        EventManager.Instance.AddEventListener<uint>(RedPointEvent.RedDotChange, UpdateRedPoint);
     }
 
     public static void SetBtnTab1(FairyGUI.GComponent btn,string txt)
@@ -436,6 +444,7 @@ public class FriendWindow : BaseWindow
 
         // 更新bestNullTips控制器状态
         UpdateBestNullTipsStatus();
+        InitRedPoint();
     }
     private void ChangeTab(int tab)
     {
@@ -537,8 +546,25 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
         ui_.data = vo_;
         //ui_.friend_vip_icon.visible = false;
-        ui_.txt_name.text = vo_.userInfo.townName;
+        
         ui_.txt_lv.text = vo_.userInfo.userLevel + "";
+
+        ui_.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(vo_.userInfo.headImgId));
+        var frameVo = ItemModel.Instance.GetItemById((int)(vo_.userInfo.headFrame));
+        UILogicUtils.ShowHeadFrames(ui_.picFrame as common_New.PictureFrame, frameVo);
+        (ui_.head as common_New.MoonFestivalHead).pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
+
+        if (vo_.userInfo.title == 0)
+        {
+            ui_.titleTxt.text = Lang.GetValue("player_info_12");
+        }
+        else
+        {
+            var titleId = (int)vo_.userInfo.title;
+            var titleVo = ItemModel.Instance.GetItemById(titleId);
+            ui_.titleTxt.text = Lang.GetValue(titleVo.Name);
+        }
         StringUtil.SetBtnTab(ui_.btn_add, Lang.GetValue("Friend_17"));//申请
 
         ui_.btn_add.onClick.Add(OnRecommondAdd);
@@ -554,8 +580,26 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
         ui_.data = vo_;
         //ui_.friend_vip_icon.visible = false;
-        ui_.txt_name.text = vo_.userInfo.townName;
+        
         ui_.txt_lv.text = vo_.userInfo.userLevel + "";
+
+        ui_.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(vo_.userInfo.headImgId));
+        var frameVo = ItemModel.Instance.GetItemById((int)(vo_.userInfo.headFrame));
+        UILogicUtils.ShowHeadFrames(ui_.picFrame as common_New.PictureFrame, frameVo);
+        (ui_.head as common_New.MoonFestivalHead).pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
+
+        if (vo_.userInfo.title == 0)
+        {
+            ui_.titleTxt.text = Lang.GetValue("player_info_12");
+        }
+        else
+        {
+            var titleId = (int)vo_.userInfo.title;
+            var titleVo = ItemModel.Instance.GetItemById(titleId);
+            ui_.titleTxt.text = Lang.GetValue(titleVo.Name);
+        }
+
         StringUtil.SetBtnTab(ui_.btn_yes, Lang.GetValue("Friend_15"));//添加
         StringUtil.SetBtnTab(ui_.btn_no, Lang.GetValue("Friend_16"));//拒绝
 
@@ -610,11 +654,28 @@ public class FriendWindow : BaseWindow
         ui_.stats.selectedIndex = 0;
         ui_.data = vo_;
         ui_.text_sign.text = Lang.GetValue("slang_94");//状态：
-        ui_.offlineTxt.text = Lang.GetValue("slang_192") + TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
+        ui_.offlineTxt.text = vo_.online?Lang.GetValue("online_text") : Lang.GetValue("slang_192") + TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
         //ui_.head.p.url = "Avatar/ELIDA_common_touxiangdi01.png";
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
-        ui_.txt_name.text = vo_.userInfo.townName;
+        
         ui_.txt_lv.text = vo_.userInfo.userLevel + "";
+        ui_.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(vo_.userInfo.headImgId));
+        var frameVo = ItemModel.Instance.GetItemById((int)(vo_.userInfo.headFrame));
+        UILogicUtils.ShowHeadFrames(ui_.picFrame as common_New.PictureFrame, frameVo);
+        (ui_.head as common_New.MoonFestivalHead).pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
+
+        if (vo_.userInfo.title == 0)
+        {
+            ui_.titleTxt.text = Lang.GetValue("player_info_12");
+        }
+        else
+        {
+            var titleId = (int)vo_.userInfo.title;
+            var titleVo = ItemModel.Instance.GetItemById(titleId);
+            ui_.titleTxt.text = Lang.GetValue(titleVo.Name);
+        }
+
         StringUtil.SetBtnTab(ui_.btn_visit, Lang.GetValue("Friend_12"));//拜 访
         StringUtil.SetBtnTab(ui_.btn_setting, Lang.GetValue("setting_txt1"));
         StringUtil.SetBtnTab(ui_.giftBtn, Lang.GetValue("text_treasure_item9"));
@@ -1584,5 +1645,52 @@ public class FriendWindow : BaseWindow
         view.n109.value = cronyData.exp;
         view.txt_probar.text = cronyData.exp.ToString() + "/" + data.Exp.ToString();
 
+    }
+
+    private void UpdateRedPoint(uint type)
+    {
+        if(type == (uint)RedPointType.Friend_Apply)
+        {
+            if(RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Apply))
+            {
+                UILogicUtils.ShowRedPoint(view.btn_app);
+            }
+            else
+                {
+                    UILogicUtils.HideRedPoint(view.btn_app);
+                }
+            }
+        else if(type == (uint)RedPointType.Friend_Crony)
+        {
+            if (GlobalModel.Instance.GetUnlocked(SysId.Friend_Crony) && RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Crony))
+            {
+                UILogicUtils.ShowRedPoint(view.btn_best);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(view.btn_best);
+            }
+        }
+        
+    }
+
+    private void InitRedPoint()
+    {
+        if (RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Apply))
+        {
+            UILogicUtils.ShowRedPoint(view.btn_app);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.btn_app);
+        }
+        if (GlobalModel.Instance.GetUnlocked(SysId.Friend_Crony) && RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Crony))
+        {
+            UILogicUtils.ShowRedPoint(view.btn_best);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.btn_best);
+        }
     }
 }

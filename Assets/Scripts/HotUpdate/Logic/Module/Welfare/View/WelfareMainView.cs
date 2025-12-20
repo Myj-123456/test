@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ADK;
 
 public class WelfareMainView : BaseWindow
 {
@@ -44,8 +45,22 @@ public class WelfareMainView : BaseWindow
         sevenView = new SevenView(view.seven_view);
         videoDoubleView = new VideoDoubleView(view.video_view);
         view.list.itemRenderer = RenderList;
-    }
 
+        EventManager.Instance.AddEventListener(WelfareEvent.DailyLoginAward, UpdateTabList);
+        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateTabList);
+        EventManager.Instance.AddEventListener<uint>(RedPointEvent.RedDotChange, UpdateRedPoint);
+        EventManager.Instance.AddEventListener(WelfareEvent.TurnTable, UpdateTabList);
+        EventManager.Instance.AddEventListener(WelfareEvent.DailySign, UpdateTabList);
+        EventManager.Instance.AddEventListener(TaskEvent.TaskProAreward, UpdateTabList);
+        EventManager.Instance.AddEventListener(WelfareEvent.DailyRetroactive, UpdateTabList);
+    }
+    private void UpdateRedPoint(uint type)
+    {
+        if(type == (uint)RedPointType.Growth_Road)
+        {
+            UpdateTabList();
+        }
+    }
     public override void OnShown()
     {
         base.OnShown();
@@ -88,7 +103,7 @@ public class WelfareMainView : BaseWindow
             {
                 continue;
             }
-            if(i == 1 && !GlobalModel.Instance.GetUnlocked(SysId.ChamberOfCommerce))
+            if(i == 1 && (!GlobalModel.Instance.GetUnlocked(SysId.ChamberOfCommerce) || WelfareModel.Instance.IsGrowthGetted()))
             {
                 continue;
             }
@@ -100,7 +115,7 @@ public class WelfareMainView : BaseWindow
             {
                 continue;
             }
-            if (i == 4 && (!GlobalModel.Instance.GetUnlocked(SysId.Newspaper) || WelfareModel.Instance.IsGrowthGetted()))
+            if (i == 4 && (!GlobalModel.Instance.GetUnlocked(SysId.Newspaper)))
             {
                 continue;
             }
@@ -117,12 +132,63 @@ public class WelfareMainView : BaseWindow
         view.tab.selectedIndex = pageData[index];
         ChangeTab(pageData[index]);
     }
+    public void UpdateTabList()
+    {
+        view.list.numItems = pageData.Count;
+    }
     private void RenderList(int index,GObject item)
     {
         var cell = item as fun_Welfare.page_btn;
         var info = pageData[index];
         cell.titleLab.text = Lang.GetValue("welfare_main_" + (info + 1));
         cell.status.selectedIndex = info;
+        if(info == 0)
+        {
+            if (WelfareModel.Instance.GetSevenRed())
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
+        }else if(info == 1)
+        {
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Growth_Road))
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
+        }
+        else if (info == 2)
+        {
+            if (WelfareModel.Instance.GetTurnRed())
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
+        }
+        else if (info == 3)
+        {
+
+        }
+        else if (info == 4)
+        {
+            if (WelfareModel.Instance.GetSignRed())
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
+        }
         cell.data = info;
         cell.onClick.Add(TabClick);
     }

@@ -6,10 +6,13 @@ using System.Collections;
 using System.Collections.Generic;
 using ADK;
 using Elida.Config;
+using System;
+using protobuf.rob;
 
 public class RobMessageWindow : BaseWindow
 {
     private fun_Rob.RobMessage _view;
+    private int curSelectIndex;
     private Dictionary<int, CountDownTimer> timerMap;
     public RobMessageWindow()
     {
@@ -23,22 +26,33 @@ public class RobMessageWindow : BaseWindow
     {
         base.OnInit();
         _view = ui as fun_Rob.RobMessage;
-        StringUtil.SetBtnTab(_view.btn_robList, Lang.GetValue("slang_107"));
+
+        SetBg(_view.n80, "Common/common_big_tip_bg.png");
+
+        StringUtil.SetBtnTab(_view.btn_robList, "雇主记录");
+        StringUtil.SetBtnTab(_view.btn_robList1, "雇佣采集");
         _view.msgTitle.text = Lang.GetValue("setting_txt9");//信息
-        _view.retainTxt.text = Lang.GetValue("text_message1");
+        //_view.retainTxt.text = Lang.GetValue("text_message1");
         _view.txt_empty.text = Lang.GetValue("text_warning5");
         timerMap = new Dictionary<int, CountDownTimer>();
         _view.list.itemRenderer = ItemRenderer;
         _view.list.SetVirtual();
+        _view.list1.itemRenderer = ItemRenderer1;
+        _view.list1.SetVirtual();
+
         _view.btn_rob_plus.onClick.Add(() =>
         {
+            CloseView();
             UIManager.Instance.OpenWindow<RobShieldWindow>(UIName.RobShieldWindow, 1);
         });
 
         _view.btn_robList.onClick.Add(() =>
         {
-            CloseView();
-            UIManager.Instance.OpenWindow<RobPlayerListWindow>(UIName.RobPlayerListWindow);
+            ChangeTab(1);
+        });
+        _view.btn_robList1.onClick.Add(() => 
+        {
+            ChangeTab(0);
         });
         _view.close_btn.onClick.Add(CloseView);
         EventManager.Instance.AddEventListener(RobEvent.RobMessage, UpdateList);
@@ -49,14 +63,38 @@ public class RobMessageWindow : BaseWindow
     {
         base.OnShown();
         // 其他打开面板的逻辑
-        RobController.Instance.ReqRobMessage();
         UpdateSnatch();
+        curSelectIndex = -1;
+        ChangeTab(0);
+    }
+
+    private void ChangeTab(int index)
+    {
+        if (curSelectIndex == index)
+        {
+            return;
+        }
+        curSelectIndex = index;
+        _view.tab.selectedIndex = curSelectIndex;
+        UILogicUtils.ClearTweenOfViewList(_view.list);
+        UILogicUtils.ClearTweenOfViewList(_view.list1);
+        if (curSelectIndex == 0)
+        {
+            // Filter out empty cages
+            var validHiredList = GetValidHiredList();
+            _view.list1.numItems = validHiredList.Count;
+            _view.txt_empty.visible = validHiredList.Count < 1 ? true : false;
+        }
+        else
+        {
+            RobController.Instance.ReqRobMessage();
+        }
     }
 
     private void UpdateList()
     {
         _view.list.numItems = RobModel.Instance.messageList.Count;
-        _view.txt_empty.visible = (RobModel.Instance.messageList.Count < 1 ? true : false);
+        _view.txt_empty.visible = RobModel.Instance.messageList.Count < 1 ? true : false;
     }
 
     private void UpdateSnatch()
@@ -76,9 +114,10 @@ public class RobMessageWindow : BaseWindow
         cell.btn_rob.data = userInfo.userId;
         var master_head = cell.master_head as common.robbedHead_big;
         cell.data = userInfo;
-        cell.txt_userName.text = userInfo.townName;
+        cell.txt_userName.text = TextUtil.GetServerName(userInfo.serverId, userInfo.townName);
         master_head.txt_lv.text = userInfo.userLevel.ToString();
         master_head.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
+
 
         cell.ableSteal.selectedIndex = 0;
         if (player.arrestResult)
@@ -154,8 +193,64 @@ public class RobMessageWindow : BaseWindow
                 StringUtil.SetBtnUrl(cell.btn_rob, ImageDataModel.Instance.GetIconUrlByEntityId(robItem.EntityID));
             }
         }
-
         cell.btn_rob.onClick.Add(RobHander);
+    }
+    private List<I_ROB_ARREST_VO> GetValidHiredList()
+    {
+        return RobModel.Instance.arrestList.FindAll(item => 
+            item.userInfo != null && item.userInfo.userId != 0);
+    }
+
+    private void ItemRenderer1(int index, GObject item)
+    {
+        fun_Rob.RobMessageCell cell = item as fun_Rob.RobMessageCell;
+        var validHiredList = GetValidHiredList();
+        var cageData = validHiredList[index];
+        var userInfo = cageData.userInfo;
+        
+        // Show current time as the hire time
+        cell.txt_date.text = TimeUtil.GenerateTimeDesc((int)ServerTime.Time);
+
+        var master_head = cell.master_head as common.robbedHead_big;
+        cell.data = userInfo;
+        cell.txt_userName.text = TextUtil.GetServerName(userInfo.serverId, userInfo.townName);
+        master_head.txt_lv.text = userInfo.userLevel.ToString();
+        master_head.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
+
+        cell.ableSteal.selectedIndex = 0;
+        var petalGain = RobModel.Instance.robOtherConfig.PetalGains[0];
+        cell.txt_info_0.text = "不懈努力的为您采集了" + petalGain.Value + "条锦鲤";
+
+        if (cageData.acquittalTime > ServerTime.Time)
+        {
+            cell.txt_info_1.text = Lang.GetValue("rob_29");
+            CountDownTimer timeDown;
+            if (timerMap.ContainsKey(cell.GetHashCode()))
+            {
+                timeDown = timerMap[cell.GetHashCode()];
+                timeDown.Clear();
+                timeDown = null;
+                timerMap.Remove(cell.GetHashCode());
+            }
+
+            int time = (int)cageData.acquittalTime - (int)ServerTime.Time;
+            timeDown = new CountDownTimer(cell.txt_date, time);
+            timerMap.Add(cell.GetHashCode(), timeDown);
+            timeDown.CompleteCallBacker = () =>
+            {
+                _view.list1.RefreshVirtualList();
+            };
+        }
+        else
+        {
+            cell.ableSteal.selectedIndex = 1;
+            cell.txt_info_1.text = Lang.GetValue("rob_31");
+            cell.txt_info_2.text = "";
+        }
+        
+        // Hide the rob button for hired records
+        cell.btn_rob.visible = false;
+        cell.btn_rob.onClick.Clear();
     }
 
     private void RobHander(EventContext context)

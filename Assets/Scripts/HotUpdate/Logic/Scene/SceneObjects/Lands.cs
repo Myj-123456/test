@@ -47,38 +47,34 @@ public class Lands
     private void AddAreaLand(Transform transform)
     {
         var gadRatio = 1f;//间隔比率
-        var lineGadRatio = 0.3f;//行间隔比率(控制行间隔)
-        var halfLandWidth = 0.7f;
+        var lineGadRatio = 0.4f;//行间隔比率(控制行间隔)
+        var halfLandWidth = 0.7f * 1.2f;
         halfLandWidth += halfLandWidth * gadRatio;
-        var halfLandHeight = 0.395f;
+        var halfLandHeight = 0.395f * 1.2f;
         halfLandHeight += halfLandHeight * gadRatio;
-        float waitCreateTime = 0f;
         var row = 5;
         var col = 3;
         var offX = 0f;
         var offY = 0f;
-        const float waitCreateTimeGap = 0.033f;//大概一帧一个
 
         for (var i = 0; i < row; i++)//先排列再排行
         {
             for (var j = 0; j < col; j++)
             {
-                waitCreateTime = waitCreateTimeGap * startLandId;
                 startLandId += 1;
 
                 //下面是为了适配新地图做的偏移
                 if (i * col + j < 6)//前6个
                 {
-                    offX = 0.78f;
-                    offY = 0.61f;
+                    offX = 0.78f + 0.6f;
+                    offY = 0.61f + 0.6f;
                 }
                 else//后9个
                 {
-                    offX = -0.48f;
-                    offY = -0.282f;
+                    offX = -0.48f + 0.6f;
+                    offY = -0.282f + 0.6f;
                 }
                 Vector3 pos = new Vector3(j * halfLandWidth - i * halfLandWidth - (i * lineGadRatio * halfLandWidth) + offX, -i * halfLandHeight - j * halfLandHeight - (i * lineGadRatio * halfLandHeight) + offY);
-                //Coroutiner.StartCoroutine(AddLand(startLandId, pos, transform, waitCreateTime));
                 AddLand(startLandId, pos, transform);
             }
         }

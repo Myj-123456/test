@@ -59,8 +59,8 @@ public class NpcOrderWindow : BaseWindow
     {
         npcOrderList = NpcOrderModel.Instance.GetStandNpcOrderList();
         viewSkin.list_npcOrder.numItems = npcOrderList.Count;
-        var selectIndex = npcOrderList.IndexOf(npcOrderVO);
-        npcOrderVO = npcOrderList[selectIndex];
+        var selectIndex = GetIndex(npcOrderList, npcOrderVO); 
+         npcOrderVO = npcOrderList[selectIndex];
         SelectNpcOderItem(viewSkin.list_npcOrder.GetChildAt(selectIndex) as fun_NpcOrder.NpcOderSelectItem);
     }
 
@@ -285,6 +285,17 @@ public class NpcOrderWindow : BaseWindow
         UIManager.Instance.OpenPanel<IkeView>(UIName.IkeView, UILayer.UI, openIkeParam);
     }
 
+    private int GetIndex(List<NpcOrderVO> orderList, NpcOrderVO orderVO)
+    {
+        for(int i = 0;i < orderList.Count; i++)
+        {
+            if(orderList[i].orderId == orderVO.orderId)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
     private void CloseView()
     {
         Close();

@@ -60,6 +60,8 @@ public class VaseHandbookView
         EventManager.Instance.AddEventListener(FlowerHandBookEvent.VaseOnekeyReward, UpdateData);
         EventManager.Instance.AddEventListener(FlowerHandBookEvent.VaseFlowerReward, UpdateData);
         EventManager.Instance.AddEventListener(FlowerHandBookEvent.VaseGatherReward, UpdateData);
+
+        EventManager.Instance.AddEventListener(IkebanaEvent.IkebanaReward, UpdateIkeList);
     }
 
     //private void ChangePage(EventContext context)
@@ -99,7 +101,10 @@ public class VaseHandbookView
         _view.vase_page_list.numItems = _maxPage;
         RenderSpotList();
     }
-
+    private void UpdateIkeList()
+    {
+        _view.vaseList.RefreshVirtualList();
+    }
     private void ItemRenderer(int index, GObject item)
     {
         fun_CultivationManual_new.handbook_VaseItem cell = item as fun_CultivationManual_new.handbook_VaseItem;

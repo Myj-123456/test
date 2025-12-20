@@ -13,7 +13,7 @@ namespace fun_SellingFlowers
         public GGraph hitArea;
         public GButton left_btn;
         public GButton right_btn;
-        public GImage n289;
+        public GLoader n289;
         public GImage n290;
         public GImage n291;
         public GImage n296;
@@ -58,7 +58,7 @@ namespace fun_SellingFlowers
             hitArea = (GGraph)GetChildAt(0);
             left_btn = (GButton)GetChildAt(1);
             right_btn = (GButton)GetChildAt(2);
-            n289 = (GImage)GetChildAt(3);
+            n289 = (GLoader)GetChildAt(3);
             n290 = (GImage)GetChildAt(4);
             n291 = (GImage)GetChildAt(5);
             n296 = (GImage)GetChildAt(6);

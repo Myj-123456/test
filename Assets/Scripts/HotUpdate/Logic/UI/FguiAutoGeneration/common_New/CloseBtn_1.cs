@@ -8,7 +8,7 @@ namespace common_New
     public partial class CloseBtn_1 : GButton
     {
         public Controller button;
-        public GImage n6;
+        public GImage n4;
         public const string URL = "ui://mjiw43v9lmjv1yjp7s8";
 
         public static CloseBtn_1 CreateInstance()
@@ -21,7 +21,7 @@ namespace common_New
             base.ConstructFromXML(xml);
 
             button = GetControllerAt(0);
-            n6 = (GImage)GetChildAt(0);
+            n4 = (GImage)GetChildAt(0);
         }
     }
 }

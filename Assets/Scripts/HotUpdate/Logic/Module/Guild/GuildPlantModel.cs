@@ -159,4 +159,16 @@ public class GuildPlantModel : Singleton<GuildPlantModel>
         }
         return null;
     }
+
+    public bool GetPlantReward()
+    {
+        foreach (var value in houseList)
+        {
+            if (value.haveReward)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

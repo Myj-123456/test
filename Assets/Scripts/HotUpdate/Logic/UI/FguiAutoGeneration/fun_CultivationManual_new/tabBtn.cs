@@ -20,6 +20,7 @@ namespace fun_CultivationManual_new
         public GImage n16;
         public GImage n18;
         public GGroup n21;
+        public GImage red_point;
         public const string URL = "ui://ekoic0wriust1yjp7sq";
 
         public static tabBtn CreateInstance()
@@ -44,6 +45,7 @@ namespace fun_CultivationManual_new
             n16 = (GImage)GetChildAt(8);
             n18 = (GImage)GetChildAt(9);
             n21 = (GGroup)GetChildAt(10);
+            red_point = (GImage)GetChildAt(11);
         }
     }
 }

@@ -61,35 +61,7 @@ public class PlayerNatureWindow : BaseWindow
     {
         base.OnShown();
         // 其他打开面板的逻辑
-        var attrs = PlayerModel.Instance.fightAttr;
-        view.num_attack.text = attrs.attack.ToString();
-        view.num_hp.text = attrs.health.ToString();
-        view.num_def.text = attrs.defense.ToString();
-        view.num_speed.text = attrs.speed.ToString();
-
-
-
-        view.num_crit.text = attrs.critRate + "%";
-        view.num_dodge.text = attrs.dodgeRate + "%";
-        view.num_stun.text = attrs.stunRate + "%";
-        view.num_lifeSteal.text = attrs.lifestealPer + "%";
-        view.num_counter.text = attrs.reflectPer + "%";
-        view.num_combo.text = attrs.chaseRate + "%";
-
-        view.num_antiCrit.text = attrs.critResistanceRate + "%";
-        view.num_antiDodge.text = attrs.dodgeResistanceRate + "%";
-        view.num_antiStun.text = attrs.stuneResistanceRate + "%";
-        view.num_antiLifeSteal.text = attrs.lifestealResistancePer + "%";
-        view.num_antiCounter.text = attrs.reflectResistancePer + "%";
-
-        view.num_petUp.text = attrs.finalPetIncreasePer + "%";
-        view.num_petDown.text = attrs.finalPetDecreasePer + "%";
-        view.num_cureUp.text = attrs.finalHealPer + "%";
-        view.num_cureDown.text = attrs.finalHealResistancePer + "%";
-        view.num_finalUp.text = attrs.finalIncreaseDamagePer + "%";
-        view.num_finalDown.text = attrs.finalDefensePer + "%";
-        view.num_ignoreAttributes.text = attrs.innoreRate + "%";
-        view.num_ignoreResistance.text = attrs.innoreResistanceRate + "%";
+        
     }
 
     public override void OnHide()

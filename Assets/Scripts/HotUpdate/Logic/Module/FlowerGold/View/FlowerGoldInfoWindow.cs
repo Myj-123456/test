@@ -9,11 +9,11 @@ using Elida.Config;
 
 public class FlowerGoldInfoWindow : BaseView
 {
-   private fun_FlowerGold.flower_gold_info_view view;
+    private fun_FlowerGold.flower_gold_info_view view;
     private int curIndex;
     private FairyDataConfig curInfo;
     private List<Ft_fairy_levelConfig> lvListData;
-   public FlowerGoldInfoWindow()
+    public FlowerGoldInfoWindow()
     {
         packageName = "fun_FlowerGold";
         // 设置委托
@@ -23,7 +23,7 @@ public class FlowerGoldInfoWindow : BaseView
 
     public override void OnInit()
     {
-         base.OnInit();
+        base.OnInit();
         view = ui as fun_FlowerGold.flower_gold_info_view;
         SetBg(view.bg, "FlowerGold/ELIDA_huaxian_tcxiangqing_hxbg01.jpg");
         SetBg(view.bg1, "FlowerGold/ELIDA_huaxian_tcxiangqing_hxbg02.png");
@@ -51,7 +51,7 @@ public class FlowerGoldInfoWindow : BaseView
         });
         view.detail_btn.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<FairySkillWindow>(UIName.FairySkillWindow,curInfo.Id);
+            UIManager.Instance.OpenWindow<FairySkillWindow>(UIName.FairySkillWindow, curInfo.Id);
         });
         view.left_btn.onClick.Add(() =>
         {
@@ -87,7 +87,7 @@ public class FlowerGoldInfoWindow : BaseView
         view.right_btn.enabled = curIndex < FlowerGoldModel.Instance.fairyHome.Count - 1;
     }
 
-    private void RenderLevelList(int index,GObject item)
+    private void RenderLevelList(int index, GObject item)
     {
         var cell = item as fun_FlowerGold.level_list_item;
         var lv = (index + 1);
@@ -98,7 +98,9 @@ public class FlowerGoldInfoWindow : BaseView
         {
             cell.nature.natureLab.color = StringUtil.HexToColor("#D96619");
             cell.status.selectedIndex = 1;
-        }else if(lvInfo.Level <= curInfo.Level){
+        }
+        else if (lvInfo.Level <= curInfo.Level)
+        {
             cell.status.selectedIndex = 0;
             cell.nature.natureLab.color = StringUtil.HexToColor("#6F8F64");
         }
@@ -120,9 +122,9 @@ public class FlowerGoldInfoWindow : BaseView
             var attrType = int.Parse(attrVo[0]);
             var sttrValue = float.Parse(attrVo[1]);
             var attrInfo = PlayerModel.Instance.GetPlayerArr(attrType);
-            if(attrType < 5)
+            if (attrType < 5)
             {
-                str += Lang.GetValue(attrInfo.AttributeName) + "+" + sttrValue + (index == attr.Length - 1?"":",");
+                str += Lang.GetValue(attrInfo.AttributeName) + "+" + sttrValue + (index == attr.Length - 1 ? "" : ",");
             }
             else
             {
@@ -152,18 +154,18 @@ public class FlowerGoldInfoWindow : BaseView
         if (curInfo.Unlock)
         {
             //view.status.selectedIndex = 1;
-            if (PlayerModel.Instance.pen.battleFairys != null && Array.IndexOf(PlayerModel.Instance.pen.battleFairys, (uint)curInfo.Id) != -1)
-            {
-                view.into.selectedIndex = 1;
-                view.intoLab.text = Lang.GetValue("pet_20");
-            }
-            else
-            {
-                view.into.selectedIndex = 0;
-                view.intoLab.text = Lang.GetValue("pet_19");
-            }
+            //if (PlayerModel.Instance.pen.battleFairys != null && Array.IndexOf(PlayerModel.Instance.pen.battleFairys, (uint)curInfo.Id) != -1)
+            //{
+            //    view.into.selectedIndex = 1;
+            //    view.intoLab.text = Lang.GetValue("pet_20");
+            //}
+            //else
+            //{
+            //    view.into.selectedIndex = 0;
+            //    view.intoLab.text = Lang.GetValue("pet_19");
+            //}
 
-            
+
             UpdateData();
         }
         else
@@ -184,7 +186,7 @@ public class FlowerGoldInfoWindow : BaseView
 
     private void UpdateData()
     {
-        var levelData = FlowerGoldModel.Instance.GetFairyLvInfo(curInfo.Id,curInfo.Level);
+        var levelData = FlowerGoldModel.Instance.GetFairyLvInfo(curInfo.Id, curInfo.Level);
         var skillInfo = BattleModel.Instance.GetSkillConfig(levelData.SkillId);
         view.lvLab.text = Lang.GetValue("levelup_explain", curInfo.Level.ToString());
         view.skillLab.text = Lang.GetValue(skillInfo.Desc);
@@ -204,7 +206,7 @@ public class FlowerGoldInfoWindow : BaseView
             }
         };
         view.list.numItems = attrList.Count;
-        view.styleLab.text = Lang.GetValue("fairy_11") + "+"+ levelData.FavorStyleUp + "%";
+        view.styleLab.text = Lang.GetValue("fairy_11") + "+" + levelData.FavorStyleUp + "%";
         view.orderLab.text = Lang.GetValue("gold") + "+" + levelData.FavorGoldUp + "%";
 
         lvListData = FlowerGoldModel.Instance.GetFairyLvList(curInfo.Id);
@@ -228,7 +230,7 @@ public class FlowerGoldInfoWindow : BaseView
 
             view.pro.max = nextLvData.CostNum;
             view.pro.value = count;
-            view.proLab.text = count +"/" + nextLvData.CostNum;
+            view.proLab.text = count + "/" + nextLvData.CostNum;
         }
     }
 

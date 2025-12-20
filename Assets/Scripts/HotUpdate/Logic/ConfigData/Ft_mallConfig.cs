@@ -46,5 +46,9 @@ namespace Elida.Config {
     // 购买金额
     [ProtoMember(8)]
     public int Price;
+    
+    // 购买金额
+    [ProtoMember(9)]
+    public int ClubGiftId;
   }
 }

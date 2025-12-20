@@ -11,7 +11,7 @@ public class VideoController : BaseController<VideoController>
     public I_ORDER_VO orderData;
     protected override void InitListeners()
     {
-        //��Ƶ��Ϣ
+        // 视频信息
         AddNetListener<S_MSG_VIDEO_WATCH>((int)MessageCode.S_MSG_VIDEO_WATCH, VideoWatch);
     }
 
@@ -42,6 +42,20 @@ public class VideoController : BaseController<VideoController>
         }else if (videoData.Sp_id == (int)VideoSeeType.Diamond_Order_Video)
         {
             
+        }else if (videoData.Sp_id == (int)VideoSeeType.rob_video_id)
+        {
+            // 处理钓锦鲤视频奖励
+            var dropData = new List<StorageItemVO>();
+            foreach(var reward in videoData.Sp_rewards)
+            {
+                var drop = new StorageItemVO();
+                drop.itemDefId = IDUtil.GetEntityValue(reward.EntityID);
+                drop.count = reward.Value;
+                dropData.Add(drop);
+            }
+            DropManager.ShowDrop(dropData);
+            EventManager.Instance.DispatchEvent(RobEvent.RobInfo);
+            UIManager.Instance.CloseWindow(UIName.VideoPopupWindow);
         }
 
     }

@@ -22,7 +22,7 @@ public class TitleView
         view.list.SetVirtual();
 
 
-        listData = PlayerModel.Instance.GetFrameTileList(4202);
+        
         view.goto_btn.onClick.Add(OnGo);
         view.wear_btn.onClick.Add(() =>
         {
@@ -33,10 +33,12 @@ public class TitleView
             MyselfController.Instance.ReqSetTitle(0);
         });
         EventManager.Instance.AddEventListener(PlayerEvent.SetTitle, UpdateData);
+        EventManager.Instance.AddEventListener(RedPointEvent.ClickItem, UpdateList);
     }
 
     public void OnShown()
     {
+        listData = PlayerModel.Instance.GetFrameTileList(4202);
         var title = MyselfModel.Instance.GetUserInfo(UserInfoType.TITLE);
         if(title == null)
         {
@@ -49,6 +51,11 @@ public class TitleView
         UpdateInfo();
         UpdateList();
         view.list.selectedIndex = curIndex;
+        var info = listData[curIndex];
+        if (StorageModel.Instance.GetItemCount(info.Id) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)info.Id) == -1)
+        {
+            MyselfController.Instance.ReqClickItem((uint)info.Id);
+        }
     }
     private void UpdateData()
     {
@@ -93,13 +100,26 @@ public class TitleView
         cell.timeLab.text = "";
         cell.type.selectedIndex = title != null && int.Parse(title.info) == info.Id?1:0;
        
-        cell.unlock.selectedIndex = StorageModel.Instance.GetItemCount(curData.Id) > 0 ? 0 : 1;
+        cell.unlock.selectedIndex = StorageModel.Instance.GetItemCount(info.Id) > 0 ? 0 : 1;
+        if (StorageModel.Instance.GetItemCount(info.Id) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)info.Id) == -1)
+        {
+            UILogicUtils.ShowRedPoint(cell, false, cell.width - 20, 0);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(cell);
+        }
         cell.data = index;
         cell.onClick.Add(SelectHead);
     }
     private void SelectHead(EventContext context)
     {
         int index = (int)(context.sender as GComponent).data;
+        var info = listData[curIndex];
+        if (StorageModel.Instance.GetItemCount(info.Id) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)info.Id) == -1)
+        {
+            MyselfController.Instance.ReqClickItem((uint)info.Id);
+        }
         if (curIndex != index)
         {
             curIndex = index;

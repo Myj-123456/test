@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using UnityEngine;
@@ -57,6 +58,31 @@ public class Http
         var reqParamStr = StringUtil.SerializeObject(reqParams);
         var encodeUrl = Config.ApiHost + "?*=" + WebUtility.UrlEncode(reqParamStr);
         Get(encodeUrl, callback, needToken);
+    }
+
+    /// <summary>
+    /// 带额外参数请求
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="apiName"></param>
+    /// <param name="callback"></param>
+    /// <param name="needToken"></param>
+    /// <param name="extraQueryParams"></param>
+    /// <param name="param"></param>
+    public static void Get<T>(string apiName, Action<ResponseResult<T>> callback, bool needToken = false, Dictionary<string, string> extraQueryParams = null, params object[] param)
+    {
+        ArrayList reqParams = new ArrayList();
+        reqParams.Add(apiName); // 接口名称
+        reqParams.Add(param);   // 请求参数
+        var reqParamStr = StringUtil.SerializeObject(reqParams);
+        var url = Config.ApiHost + "?*=" + WebUtility.UrlEncode(reqParamStr);
+        // 添加额外的查询参数
+        if (extraQueryParams != null && extraQueryParams.Count > 0)
+        {
+            var queryString = string.Join("&", extraQueryParams.Select(kvp => $"{kvp.Key}={WebUtility.UrlEncode(kvp.Value)}"));
+            url += "&" + queryString;
+        }
+        Get(url, callback, needToken);
     }
 
     /// <summary>

@@ -376,6 +376,35 @@ namespace ADK
         {
             item.onClick.Remove(UserInfoShow);
         }
+
+        public static void ShowRedPoint(GComponent item,bool isDefault = true, float x = 0, float y = 0)
+        {
+            var redPoint = item.GetChild("red_point");
+            if(redPoint == null)
+            {
+                redPoint = common_New.red_point.CreateInstance();
+                redPoint.name = "red_point";
+                item.AddChild(redPoint);
+                if (isDefault)
+                {
+                    redPoint.SetPosition(item.width - 15, 5, 0);
+                }
+                else
+                {
+                    redPoint.SetPosition(x, y, 0);
+                }
+            }
+            redPoint.visible = true;
+        }
+
+        public static void HideRedPoint(GComponent item)
+        {
+            var redPoint = item.GetChild("red_point");
+            if (redPoint != null)
+            {
+                redPoint.visible = false;
+            }
+        }
     }
 
 

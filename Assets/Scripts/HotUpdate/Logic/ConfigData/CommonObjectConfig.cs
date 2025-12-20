@@ -469,15 +469,6 @@ public class DapatkanObject
 }
 
 [ProtoContract()]
-public class GiftRewardObject
-{
-    [ProtoMember(1)]
-    public string EntityID;
-    [ProtoMember(2)]
-    public int Value;
-}
-
-[ProtoContract()]
 public class NormalOpenCostObject
 {
     [ProtoMember(1)]
@@ -506,6 +497,15 @@ public class PersekutuanBuatObject
 
 [ProtoContract()]
 public class ShopItemObject
+{
+    [ProtoMember(1)]
+    public string EntityID;
+    [ProtoMember(2)]
+    public int Value;
+}
+
+[ProtoContract()]
+public class GiftRewardObject
 {
     [ProtoMember(1)]
     public string EntityID;

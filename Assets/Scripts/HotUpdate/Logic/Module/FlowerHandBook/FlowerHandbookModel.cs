@@ -333,10 +333,6 @@ public class FlowerHandbookModel : Singleton<FlowerHandbookModel>
         {
             return false;
         }
-        if (flowerId == 40011009)
-        {
-            var c = 4;
-        }
         int count = StorageModel.Instance.GetItemCount(seedCondition.SeedId);
         if (count == 0) return false;
         SeedCropVO exp = GetCropVoByBook(flowerId);

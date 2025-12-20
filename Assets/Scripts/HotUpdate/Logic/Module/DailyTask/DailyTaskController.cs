@@ -52,6 +52,7 @@ public class DailyTaskController : BaseController<DailyTaskController>
             DailyTaskModel.Instance.UpdateWeekTaskData((uint)taskInfo.Progress);
 
         }
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Task_Daily);
         DailyTaskModel.Instance.UpdateTaskList(data.dailyTask,data.type);
         EventManager.Instance.DispatchEvent(DailyTaskEvent.DailyTask);
     }

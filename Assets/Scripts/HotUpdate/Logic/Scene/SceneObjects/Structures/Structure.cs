@@ -59,11 +59,17 @@ public class Structure : SceneObject
             {
                 image.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 1);
                 image.GetComponent<BoxCollider2D>().size = new Vector2(5, 5);
+                FlowerTipCom.Instance.Init(transform);
             }
             else if (structureData.buildingDefId == 29000007)
             {
                 image.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
                 image.GetComponent<BoxCollider2D>().size = new Vector2(5, 5);
+            }
+            else if (structureData.buildingDefId == 29000008)
+            {
+                image.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0f);
+                image.GetComponent<BoxCollider2D>().size = new Vector2(3.41f, 3.57f);
             }
             else
             {
@@ -74,11 +80,22 @@ public class Structure : SceneObject
                 uiPanel.gameObject.SetActive(true);
                 UpdateSceneOrderUI();
             }
+            if (structureData.buildingDefId == 29000010 || structureData.buildingDefId == 29000014)
+            {
+                image.GetComponent<SortingGroup>().sortingOrder = -1;
+            }
         };
-
+        if (structureData.buildingDefId == 29000005)
+        {
+            TradeCom.Instance.Init(transform);
+        }
+        if(structureData.buildingDefId== 29000017)
+        {
+            RobBedCom.Instance.Init(transform);
+        }
         if (structureData.buildingDefId == 29000013)
         {
-            AddSpineAnimation("xiaoxiongmao", "idle", new Vector3(2.95f, -2.09f, 0), new Vector3(0.5f, 0.5f, 1));
+            AddSpineAnimation("xiaoxiongmao", "idle", new Vector3(3.21f, -3.51f, 0), new Vector3(0.5f, 0.5f, 1));
         }
         if (structureData.buildingDefId == 29000016)
         {
@@ -100,18 +117,13 @@ public class Structure : SceneObject
         if (structureData.buildingDefId == 29000012)//树特殊点 需要按照轴心点去排序
         {
             image.spriteSortPoint = SpriteSortPoint.Pivot;
-            AddSpineAnimation("huli", "animation", new Vector3(0.47f, 2.8f, 0));
+            AddSpineAnimation("huli", "animation", new Vector3(1.65f, 4.54f, 0));
         }
         else
         {
             image.spriteSortPoint = SpriteSortPoint.Center;
         }
     }
-    private void UpdateMonthDraw()
-    {
-
-    }
-
 
     /// <summary>
     /// 添加spine动画

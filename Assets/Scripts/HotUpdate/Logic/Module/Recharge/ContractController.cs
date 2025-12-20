@@ -43,6 +43,7 @@ public class ContractController : BaseController<ContractController>
     public void ContractTaskReward(S_MSG_CONTRACT_TASK_REWARD data)
     {
         ContractModel.Instance.UpdateContractTask(data);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Task_Contract);
         EventManager.Instance.DispatchEvent(ContractEvent.ContractTaskReward);
     }
     public void ReqContractTaskReward(uint activityId,uint pos)
@@ -58,6 +59,7 @@ public class ContractController : BaseController<ContractController>
         ContractModel.Instance.UpdateContract(data);
         var dropList = ItemModel.Instance.GetDropData(data.items);
         DropManager.ShowDrop(dropList);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Task_Contract);
         EventManager.Instance.DispatchEvent(ContractEvent.ContractLevelReward);
     }
 

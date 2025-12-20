@@ -41,7 +41,7 @@ public class MyselfModel : Singleton<MyselfModel>
     public protobuf.user.I_BEHAVIORDAILY_VO behaviorDaily;//玩家每日行为信息
 
 
-    public List<I_USER_SHOP> userShop;//玩家商店信息
+    //public List<I_USER_SHOP> userShop;//玩家商店信息
 
     public uint lastServerTime = 0;
     public uint maxLevel = 0;//玩家最大等级
@@ -289,6 +289,7 @@ public class MyselfModel : Singleton<MyselfModel>
                 break;
         }
         EventManager.Instance.DispatchEvent(SystemEvent.UpdateProfile, itemId);
+        EventManager.Instance.DispatchEvent(RedPointEvent.UpdateItem);
     }
 
     /// <summary>
@@ -428,6 +429,15 @@ public class MyselfModel : Singleton<MyselfModel>
         {
             userInfo.info = info;
         }
+    }
+
+    public bool GetVipRed()
+    {
+        if (IsVip() && behaviorDaily.monthCardAward == 0)
+        {
+            return true;
+        }
+        return false;
     }
 }
 

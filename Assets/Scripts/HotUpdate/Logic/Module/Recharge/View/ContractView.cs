@@ -6,59 +6,79 @@ using System.Collections.Generic;
 using protobuf.card;
 using Elida.Config;
 using System;
+using ADK;
 
 public class ContractView : BaseView
 {
-   private fun_Contract.contract_view view;
+   private fun_Recharge.contract_view view;
     private int activityId;
-    private List<I_CONTRACT_TASK_VO> taskList;
+    private List<I_CONTRACT_TASK_VO> taskListDay;
+    private List<I_CONTRACT_TASK_VO> taskListChallege;
     private List<Ft_contract_rewardConfig> listData;
     private S_MSG_CONTRACT_INFO contractData;
     private int type;
-   public ContractView()
+    private CountDownTimer timer;
+
+    public ContractView(fun_Recharge.contract_view ui)
     {
-        packageName = "fun_Contract";
-        // 设置委托
-        BindAllDelegate = fun_Contract.fun_ContractBinder.BindAll;
-        CreateInstanceDelegate = fun_Contract.contract_view.CreateInstance;
+        //packageName = "fun_Recharge";
+        //// 设置委托
+        //BindAllDelegate = fun_Contract.fun_ContractBinder.BindAll;
+        //CreateInstanceDelegate = fun_Contract.contract_view.CreateInstance;
+        view = ui;
+        view.list.itemRenderer = RenderList;
+        view.list.SetVirtual();
+
+        view.taskList.itemRenderer = RenderTaskList;
+        view.huadianBtn.onClick.Add(() =>
+        {
+            type = 1;
+            view.show.selectedIndex = 0;
+            UpdateData();
+        });
+        view.taskBtn.onClick.Add(() =>
+        {
+            type = 0;
+            view.show.selectedIndex = 1;
+            UpdateTaskList();
+        });
+        view.previewBtn.onClick.Add(() => {
+            UIManager.Instance.OpenWindow<ContractRewardPreview>(UIName.ContractRewardPreview, activityId);
+        });
+        StringUtil.SetBtnTab(view.huadianBtn, Lang.GetValue("Contract_title1"));
+        StringUtil.SetBtnTab(view.taskBtn, Lang.GetValue("Contract_title2"));
+        StringUtil.SetBtnTab(view.exBtn, Lang.GetValue("Contract_exBtn"));
+        view.tipLab1.text = Lang.GetValue("slang_56");
+        view.tipLab2.text = Lang.GetValue("Contract_normalReward");
+        view.tipLab3.text = Lang.GetValue("Contract_specialReward");
+
+
+        EventManager.Instance.AddEventListener(ContractEvent.Contract, UpdateData);
+        EventManager.Instance.AddEventListener(ContractEvent.ContractTaskReward, UpdateData);
     }
 
     public override void OnInit()
     {
-         base.OnInit();
-        view = ui as fun_Contract.contract_view;
-        view.list.itemRenderer = RenderList;
-        view.list.SetVirtual();
+        // base.OnInit();
+        //view = ui as fun_Recharge.contract_view;
+       
 
-        view.task_list.itemRenderer = RenderTaskList;
-
-        view.buy1_btn.onClick.Add(() =>
-        {
-            var info = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.CONTRACT);
-            RechargeController.Instance.ReqPlaceOrder(2, (uint)info.IndexId);
-        });
-        view.buy2_btn.onClick.Add(() =>
-        {
-            var info = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.CONTRACT_SUPER);
-            RechargeController.Instance.ReqPlaceOrder(2, (uint)info.IndexId);
-        });
-        view.buy_lv_btn.onClick.Add(() =>
-        {
-            var info = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.BUY_CONTRACT_LEVEL);
-            RechargeController.Instance.ReqPlaceOrder(2, (uint)info.IndexId);
-        });
-        view.day_btn.onClick.Add(() =>
-        {
-            type = 1;
-            UpdateTaskList();
-        });
-        view.challenge_btn.onClick.Add(() =>
-        {
-            type = 0;
-            UpdateTaskList();
-        });
-        EventManager.Instance.AddEventListener(ContractEvent.Contract, UpdateData);
-        EventManager.Instance.AddEventListener(ContractEvent.ContractTaskReward, UpdateData);
+        //view.buy1_btn.onClick.Add(() =>
+        //{
+        //    var info = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.CONTRACT);
+        //    RechargeController.Instance.ReqPlaceOrder(2, (uint)info.IndexId);
+        //});
+        //view.buy2_btn.onClick.Add(() =>
+        //{
+        //    var info = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.CONTRACT_SUPER);
+        //    RechargeController.Instance.ReqPlaceOrder(2, (uint)info.IndexId);
+        //});
+        //view.buy_lv_btn.onClick.Add(() =>
+        //{
+        //    var info = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.BUY_CONTRACT_LEVEL);
+        //    RechargeController.Instance.ReqPlaceOrder(2, (uint)info.IndexId);
+        //});
+        
     }
 
     public override void OnShown()
@@ -68,6 +88,7 @@ public class ContractView : BaseView
         type = 1;
         activityId = DrawModel.Instance.GetActivityId(ActivityType.Contract);
         ContractController.Instance.ReqContractInfo((uint)activityId);
+        UpdateTime();
     }
     private void UpdateData()
     {
@@ -82,35 +103,60 @@ public class ContractView : BaseView
         view.list.numItems = lv > listData.Count ? lv : listData.Count;
         UpdateTaskList();
     }
+    private void UpdateTime()
+    {
+        if (timer != null)
+        {
+            timer.Clear();
+            timer = null;
+        }
+        var activityId = DrawModel.Instance.GetActivityId(ActivityType.Month_Draw);
+        var activityInfo = DrawModel.Instance.GetGameEventInfo(activityId);
+        var endTime = TimeUtil.GetNumericTime(activityInfo.WeixinEndTime) - ServerTime.Time;
+        timer = new CountDownTimer(view.tipLab, (int)endTime, false);
+        timer.prefixString = Lang.GetValue("text_card4");
+        timer.Run();
+        timer.CompleteCallBacker = () =>
+        {
+            UIManager.Instance.ClosePanel(UIName.DrawMainView);
+        };
+    }
+
     private void RenderList(int index,GObject item)
     {
-        var cell = item as fun_Contract.contract_item;
+        var cell = item as fun_Recharge.contract_item;
         var info = listData[index];
         if(info == null)
         {
             info = listData[listData.Count - 1];
         }
+        if (index == 0)
+            cell.state.selectedIndex = 0;
+        else if (index == listData.Count - 1)
+            cell.state.selectedIndex = 2;
+        else
+            cell.state.selectedIndex = 1; 
         cell.lvLab.text = (index + 1).ToString();
         cell.reward1.itemRenderer = (int idx, GObject rewardItem) =>
         {
-            var rewardCell = rewardItem as fun_Contract.reward_item1;
+            var rewardCell = rewardItem as fun_Recharge.item_com;
             var rewardInfo = info.CommonRewards[idx];
             var itemVo = ItemModel.Instance.GetItemByEntityID(rewardInfo.EntityID);
             rewardCell.bg.url = ImageDataModel.Instance.GetItemQuality(itemVo.Quality);
             rewardCell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-            rewardCell.countLab.text = rewardInfo.Value.ToString();
+            rewardCell.numLab.text = rewardInfo.Value.ToString();
         };
         cell.reward1.numItems = info.CommonRewards.Length;
         cell.reward2.itemRenderer = (int idx, GObject rewardItem) =>
         {
-            var rewardCell = rewardItem as fun_Contract.reward_item1;
+            var rewardCell = rewardItem as fun_Recharge.item_com;
             if(contractData.contract.seniorType == 2)
             {
                 var rewardInfo = info.SupremeRewards[idx];
                 var itemVo = ItemModel.Instance.GetItemByEntityID(rewardInfo.EntityID);
                 rewardCell.bg.url = ImageDataModel.Instance.GetItemQuality(itemVo.Quality);
                 rewardCell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-                rewardCell.countLab.text = rewardInfo.Value.ToString();
+                rewardCell.numLab.text = rewardInfo.Value.ToString();
             }
             else
             {
@@ -118,7 +164,7 @@ public class ContractView : BaseView
                 var itemVo = ItemModel.Instance.GetItemByEntityID(rewardInfo.EntityID);
                 rewardCell.bg.url = ImageDataModel.Instance.GetItemQuality(itemVo.Quality);
                 rewardCell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-                rewardCell.countLab.text = rewardInfo.Value.ToString();
+                rewardCell.numLab.text = rewardInfo.Value.ToString();
             }
             
         };
@@ -172,31 +218,57 @@ public class ContractView : BaseView
     }
     private void UpdateTaskList()
     {
-        taskList = ContractModel.Instance.GetContractTaskData(contractData.activityId, type);
-        view.task_list.numItems = taskList.Count;
+        taskListDay = ContractModel.Instance.GetContractTaskData(contractData.activityId,1);
+        taskListChallege = ContractModel.Instance.GetContractTaskData(contractData.activityId, 0);
+        //view.taskList.numItems = taskList.Count;
+        view.taskList.numItems = 2;
+    }
+    private I_CONTRACT_TASK_VO GetTaskItemData(int index,int idx)
+    {
+        if (index == 0)
+            return taskListDay[idx];
+        else 
+            return taskListChallege[idx];
     }
     public void RenderTaskList(int index,GObject item)
     {
-        var cell = item as fun_Contract.task_item;
-        var info = taskList[index];
-        var taskInfo = ContractModel.Instance.GetContractTaskInfo((int)info.taskId);
-        cell.list.itemRenderer = (int idx, GObject rewardItem) =>
+        var cell = item as fun_Recharge.taskListItem;
+        if(index==0)
         {
-            var rewardCell = rewardItem as fun_Contract.reward_item1;
-            rewardCell.countLab.text = taskInfo.ContractExp.ToString();
+            cell.list.numItems = taskListDay.Count;
+            cell.titleLab.text = Lang.GetValue("Daily_task_17");
+        }
+        else
+        {
+            cell.titleLab.text = Lang.GetValue("Contract_challenge");
+            cell.list.numItems = taskListChallege.Count;
+        }
+        cell.list.itemRenderer = (int idx, GObject taskItem) =>
+        {
+            var info = GetTaskItemData(index, idx);
+            var taskInfo = ContractModel.Instance.GetContractTaskInfo((int)info.taskId);
+            var taskCell = taskItem as fun_Recharge.task_item;
+            taskCell.pro.max = info.needCnt;
+            taskCell.pro.value = info.curCnt;
+            taskCell.proLab.text =  info.curCnt + "/"+ info.needCnt;
+            taskCell.status.selectedIndex = ContractModel.Instance.GetContrackTask(info);
+            taskCell.tipLab.text= TaskModel.Instance.GetTaskDec(taskInfo.Description, taskInfo.TaskType, (int)info.needCnt, taskInfo.TypeParam, taskInfo.Ishistory);
+            StringUtil.SetBtnTab(taskCell.getBtn, Lang.GetValue("slang_99"));
+            StringUtil.SetBtnTab(taskCell.goBtn, Lang.GetValue("guide_button1"));
+            var itemVo = ItemModel.Instance.GetItemById((int)BaseType.CONTRACT_EXP);
+            taskCell.cell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
+            taskCell.cell.numLab.text = taskInfo.ContractExp.ToString();
+            UILogicUtils.SetItemShow(taskCell.cell, itemVo.ItemDefId);
+            taskCell.getBtn.data = info;
+            taskCell.getBtn.onClick.Add(GetTaskReward);
+            //taskCell.get_btn.data = info;
+            //cell.onClick.Add(GetTaskReward);
         };
-        cell.pro.max = info.needCnt;
-        cell.pro.value = info.curCnt;
-        cell.proLab.text = info.needCnt + "/" + info.curCnt;
-        cell.list.numItems = 1;
-        cell.status.selectedIndex = ContractModel.Instance.GetContrackTask(info);
-        cell.get_btn.data = info;
-        cell.onClick.Add(GetTaskReward);
     }
     private void GetTaskReward(EventContext context)
     {
         var info = (context.sender as GObject).data as I_CONTRACT_TASK_VO;
-        ContractController.Instance.ReqContractTaskReward(info.taskId, info.pos);
+        ContractController.Instance.ReqContractTaskReward(contractData.activityId, info.pos);
     }
     public int GetCurLevel()
     {
@@ -205,10 +277,13 @@ public class ContractView : BaseView
     }
     public override void OnHide()
     {
-        base.OnHide();
+        //base.OnHide();
         // 其他关闭面板的逻辑
-        
-
+        if (timer != null)
+        {
+            timer.Clear();
+            timer = null;
+        }
     }
 
 }

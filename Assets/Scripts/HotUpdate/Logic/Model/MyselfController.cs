@@ -50,6 +50,8 @@ public class MyselfController : BaseController<MyselfController>
         AddNetListener<S_MSG_WELFARE_INFO>((int)MessageCode.S_MSG_CHANGE_WATERBUCKET, ChangeWaterBucket);
         //打开礼包
         AddNetListener<S_MSG_OPEN_GIFT_PACK>((int)MessageCode.S_MSG_OPEN_GIFT_PACK, OpenGiftPack);
+        //点击道具
+        AddNetListener<S_MSG_CLICK_ITEM>((int)MessageCode.S_MSG_CLICK_ITEM, ClickItem);
     }
 
     /// <summary>
@@ -99,7 +101,7 @@ public class MyselfController : BaseController<MyselfController>
     //画笔升级
     public void PenUpgrade(S_MSG_PEN_UPGRADE data)
     {
-        PlayerModel.Instance.pen.penGrade = data.penGrade;
+        //PlayerModel.Instance.pen.penGrade = data.penGrade;
         EventManager.Instance.DispatchEvent(PlayerEvent.PenUpgrade);
     }
 
@@ -111,7 +113,7 @@ public class MyselfController : BaseController<MyselfController>
     //画笔战斗属性
     public void PenFightattr(S_MSG_PEN_FIGHTATTR data)
     {
-        PlayerModel.Instance.fightAttr = data.fightAttr;
+        //PlayerModel.Instance.fightAttr = data.fightAttr;
         EventManager.Instance.DispatchEvent(PlayerEvent.PenFightattr);
 
     }
@@ -250,8 +252,8 @@ public class MyselfController : BaseController<MyselfController>
         MyselfModel.Instance.behaviorDaily = data.behaviorDaily;
         TaskModel.Instance.progress = data.progress;
 
-        DailyTaskModel.Instance.dailyTask = data.dailyTask;
-        DailyTaskModel.Instance.weeklyTask = data.weeklyTask;
+        DailyTaskModel.Instance.dailyTask = data.dailyTaskInfo.dailyTask;
+        DailyTaskModel.Instance.weeklyTask = data.dailyTaskInfo.weeklyTask;
 
         VideoModel.Instance.videoWatch = data.videoWatch;
 
@@ -329,6 +331,18 @@ public class MyselfController : BaseController<MyselfController>
         c_MSG_OPEN_GIFT_PACK.itemId = itemId;
         c_MSG_OPEN_GIFT_PACK.cnt = cnt;
         SendCmd((int)MessageCode.C_MSG_OPEN_GIFT_PACK, c_MSG_OPEN_GIFT_PACK);
+    }
+    //点击道具
+    public void ClickItem(S_MSG_CLICK_ITEM data)
+    {
+        StorageModel.Instance.clickItems.Add(data.itemId);
+        EventManager.Instance.DispatchEvent(RedPointEvent.ClickItem);
+    }
+    public void ReqClickItem(uint itemId)
+    {
+        C_MSG_CLICK_ITEM c_MSG_CLICK_ITEM = new C_MSG_CLICK_ITEM();
+        c_MSG_CLICK_ITEM.itemId = itemId;
+        SendCmd((int)MessageCode.C_MSG_CLICK_ITEM, c_MSG_CLICK_ITEM);
     }
 }
 

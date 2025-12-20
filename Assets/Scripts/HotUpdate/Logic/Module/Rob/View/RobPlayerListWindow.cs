@@ -36,6 +36,7 @@ public class RobPlayerListWindow : BaseWindow
         StringUtil.SetBtnTab(_view.btn_Menu_1, Lang.GetValue("slang_41"));
         StringUtil.SetBtnTab(_view.btn_Menu_2, Lang.GetValue("slang_42"));
 
+        SetBg(_view.n31, "Common/common_big_tip_bg.png");
         _view.lb_tip_bottom.text = Lang.GetValue("rob_38");
 
         _view.list.itemRenderer = ItemRenderer;
@@ -53,7 +54,11 @@ public class RobPlayerListWindow : BaseWindow
         {
             ChangeTab(2);
         });
-
+        _view.btn_rob_plus.onClick.Add(() =>
+        {
+            CloseView();
+            UIManager.Instance.OpenWindow<RobShieldWindow>(UIName.RobShieldWindow, 1);
+        });
 
 
         _view.close_btn.onClick.Add(CloseView);
@@ -137,12 +142,27 @@ public class RobPlayerListWindow : BaseWindow
         fun_Rob.playerItemRenderer cell = item as fun_Rob.playerItemRenderer;
         var player = listData[index].userInfo;
         var robinfo = listData[index].robInfo;
-        cell.txt_userName.text = player.townName;
 
+        cell.txt_userName.text = TextUtil.GetServerName(player.serverId, player.townName);
         var master_head = cell.master_head as common.robbedHead_big;
+        var picFrame = master_head.picFrame as common_New.PictureFrame;
         master_head.txt_lv.text = player.userLevel.ToString();
 
-        master_head.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(player.headImgId));
+        var frameVo = ItemModel.Instance.GetItemById((int)player.headFrame);
+        UILogicUtils.ShowHeadFrames(picFrame, frameVo);
+        master_head.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
+        if (player.title == 0)
+        {
+            cell.txt_title.text = Lang.GetValue("player_info_12");
+        }
+        else
+        {
+            var titleId = (int)player.title;
+            var titleVo = ItemModel.Instance.GetItemById(titleId);
+            cell.txt_title.text = Lang.GetValue(titleVo.Name);
+        }
+
 
         cell.data = player;
         cell.btn_rob.data = player.userId;

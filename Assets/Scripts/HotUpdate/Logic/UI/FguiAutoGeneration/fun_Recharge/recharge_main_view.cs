@@ -12,6 +12,7 @@ namespace fun_Recharge
         public newRecharge recharge_view;
         public gift_view gift_view;
         public cumulative_view cumulative_view;
+        public contract_view contract_view;
         public tour_gift_view tour_gift_view;
         public GImage n21;
         public GButton close_btn;
@@ -33,11 +34,12 @@ namespace fun_Recharge
             recharge_view = (newRecharge)GetChildAt(1);
             gift_view = (gift_view)GetChildAt(2);
             cumulative_view = (cumulative_view)GetChildAt(3);
-            tour_gift_view = (tour_gift_view)GetChildAt(4);
-            n21 = (GImage)GetChildAt(5);
-            close_btn = (GButton)GetChildAt(6);
-            list = (GList)GetChildAt(7);
-            n18 = (GGroup)GetChildAt(8);
+            contract_view = (contract_view)GetChildAt(4);
+            tour_gift_view = (tour_gift_view)GetChildAt(5);
+            n21 = (GImage)GetChildAt(6);
+            close_btn = (GButton)GetChildAt(7);
+            list = (GList)GetChildAt(8);
+            n18 = (GGroup)GetChildAt(9);
         }
     }
 }

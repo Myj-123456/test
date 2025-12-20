@@ -81,6 +81,14 @@ public class GuildPlantView : BaseView
         }
         else
         {
+            if (plantData.haveReward)
+            {
+                UILogicUtils.ShowRedPoint(ui.btn);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(ui.btn);
+            }
             if (plantData.isPrevPeroid && plantData.haveReward)
             {
                 ui.status.selectedIndex = 3;

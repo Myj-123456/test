@@ -154,6 +154,9 @@ public class FlowerHandbookView : BaseView
         EventManager.Instance.AddEventListener(FlowerHandBookEvent.SeedUpGradeBreakLv, UpdateSelectInfo);
         EventManager.Instance.AddEventListener(FlowerHandBookEvent.SeedUpGradeGrade, UpdateSelectInfo);
         EventManager.Instance.AddEventListener(FlowerHandBookEvent.ExchangeFlowerCard, UpdateSelectInfo);
+
+        EventManager.Instance.AddEventListener(IkebanaEvent.IkebanaMake,UpdateRedPoint);
+        EventManager.Instance.AddEventListener(IkebanaEvent.IkebanaReward, UpdateRedPoint);
     }
 
     public override void OnShown()
@@ -480,6 +483,7 @@ public class FlowerHandbookView : BaseView
         
         RenderSpotList();
         UpdateFlowerSum();
+        UpdateRedPoint();
     }
 
     private void HideFilterPanel()
@@ -557,6 +561,12 @@ public class FlowerHandbookView : BaseView
         int index = (int)((context.data as fun_CultivationManual_new.handbook_brandNew_item).data as object[])[5];
         object[] obj = new object[] { index, typeValue };
         UIManager.Instance.OpenPanel<FlowerHandbookTipView>(UIName.FlowerHandbookTipView,UILayer.SecondUI, obj);
+    }
+
+    private void UpdateRedPoint()
+    {
+        viewSkin.flowerTab.red_point.visible = StorageModel.Instance.GetCanFlowerLevel();
+        viewSkin.vaseTab.red_point.visible = IkeModel.Instance.CanGetVaseExp();
     }
 }
 

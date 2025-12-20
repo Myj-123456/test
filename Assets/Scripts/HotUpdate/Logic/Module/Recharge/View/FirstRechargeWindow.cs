@@ -53,16 +53,14 @@ public class FirstRechargeWindow : BaseWindow
         view.buy_btn3.status.selectedIndex = 1;
         view.buy_btn4.status.selectedIndex = 1;
 
-        var flowerVo = GetFlower();
-        if(flowerVo != null)
-        {
-            view.spine.loop = true;
-            view.spine.forcePlay = true;
-            view.spine.url = "flowers/" + flowerVo.itemDefId;
-            view.spine.animationName = "step_" + 3 + "_idle";
-            view.name_com.nameLab.text = Lang.GetValue(flowerVo.item.Name);
-            UILogicUtils.SetItemShow(view.name_com.show_btn, flowerVo.itemDefId);
-        }
+        var flowerVo = ItemModel.Instance.GetItemById(GlobalModel.Instance.module_profileConfig.FirstRechargeShow);
+        view.spine.loop = true;
+        view.spine.forcePlay = true;
+        view.spine.url = "flowers/" + flowerVo.ItemDefId;
+        view.spine.animationName = "step_" + 3 + "_idle";
+        view.name_com.nameLab.text = Lang.GetValue(flowerVo.Name);
+        UILogicUtils.SetItemShow(view.name_com.show_btn, flowerVo.ItemDefId);
+        
 
         view.spine.url = "flowers/40011018";
         view.spine.forcePlay = true;

@@ -47,6 +47,13 @@ public class TaskController : BaseController<TaskController>
         var dropList = ItemModel.Instance.GetDropData(data.items);
         DropManager.ShowDrop(dropList);
         TaskModel.Instance.UpdateProReward(data.type, data.rewardIds);
+        if(data.type == 1)
+        {
+            RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Task_Daily);
+        }else if(data.type == 5)
+        {
+            RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Growth_Road);
+        }
         DispatchEvent(TaskEvent.TaskProAreward);
     }
 
@@ -74,6 +81,7 @@ public class TaskController : BaseController<TaskController>
         var dropList = ItemModel.Instance.GetDropData(data.items);
         DropManager.ShowDrop(dropList);
         TaskModel.Instance.UpdateAchievData(data.achievTask);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Task_Achiev);
         DispatchEvent(TaskEvent.AchievTaskReward);
     }
 

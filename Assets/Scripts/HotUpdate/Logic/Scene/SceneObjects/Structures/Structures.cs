@@ -20,18 +20,18 @@ public class Structures
         startLandId = 0;
         waitCreateTime = 0;
         AddEvent();
-        AddStructure(new StructureData() { buildingDefId = 29000005, pos = new Vector3() { x = -20.8f, y = -10.72f } });//好友
-        AddStructure(new StructureData() { buildingDefId = 29000007, pos = new Vector3() { x = 19.56f, y = -9.3f } });//仓库
-        AddStructure(new StructureData() { buildingDefId = 29000002, pos = new Vector3() { x = 20.68f, y = 1.83f } });//培育花房
-        AddStructure(new StructureData() { buildingDefId = 29000008, pos = new Vector3() { x = 2.81f, y = -1.58f } });//订单小黑板
-        AddStructure(new StructureData() { buildingDefId = 29000010, pos = new Vector3() { x = 15.37f, y = 15.11f } });//热气球(寻花建筑)
-        AddStructure(new StructureData() { buildingDefId = 29000011, pos = new Vector3() { x = -11.14f, y = 4.58f } });//邮件/消息
-        AddStructure(new StructureData() { buildingDefId = 29000012, pos = new Vector3() { x = 10.16f, y = -8.46f } });//小萝莉换花+经验树
-        AddStructure(new StructureData() { buildingDefId = 29000013, pos = new Vector3() { x = -22.97f, y = -19.92f } });//船
-        AddStructure(new StructureData() { buildingDefId = 29000014, pos = new Vector3() { x = -13.07f, y = 12.35f } });//宠物
-        AddStructure(new StructureData() { buildingDefId = 29000015, pos = new Vector3() { x = -19.54f, y = 8.26f } });//公会
-        AddStructure(new StructureData() { buildingDefId = 29000016, pos = new Vector3() { x = -12.17f, y = -15.79f } });//水井
-        AddStructure(new StructureData() { buildingDefId = 29000017, pos = new Vector3() { x = -24.47f, y = -0.04f } });//钓鱼台
+        AddStructure(new StructureData() { buildingDefId = 29000005, pos = new Vector3() { x = -25.64f, y = -14.11f } });//好友
+        AddStructure(new StructureData() { buildingDefId = 29000007, pos = new Vector3() { x = 24.51f, y = -11.33f } });//仓库
+        AddStructure(new StructureData() { buildingDefId = 29000002, pos = new Vector3() { x = 24.62f, y = 1.83f } });//培育花房
+        AddStructure(new StructureData() { buildingDefId = 29000008, pos = new Vector3() { x = 4.56f, y = -2.8f } });//订单小黑板
+        AddStructure(new StructureData() { buildingDefId = 29000010, pos = new Vector3() { x = 18.54f, y = 19.49f } });//热气球(寻花建筑)
+        AddStructure(new StructureData() { buildingDefId = 29000011, pos = new Vector3() { x = -13.62f, y = 5.62f } });//邮件/消息
+        AddStructure(new StructureData() { buildingDefId = 29000012, pos = new Vector3() { x = 13.27f, y = -8.9f } });//小萝莉换花+经验树
+        AddStructure(new StructureData() { buildingDefId = 29000013, pos = new Vector3() { x = -27.26f, y = -23.44f } });//船
+        AddStructure(new StructureData() { buildingDefId = 29000014, pos = new Vector3() { x = -14.33f, y = 14.57f } });//宠物
+        AddStructure(new StructureData() { buildingDefId = 29000015, pos = new Vector3() { x = -24.71f, y = 10.15f } });//公会
+        AddStructure(new StructureData() { buildingDefId = 29000016, pos = new Vector3() { x = -14.2f, y = -19.5f } });//水井
+        AddStructure(new StructureData() { buildingDefId = 29000017, pos = new Vector3() { x = -30.3f, y = 1.17f } });//钓鱼台
     }
     private void AddEvent()
     {
@@ -83,9 +83,9 @@ public class Structures
     /// <summary>
     /// 每月抽卡
     /// </summary>
-    public void UpdateMonthDraw(bool isActive)
+    public void UpdateMonthDraw()
     {
-        AddStructure(new StructureData() { buildingDefId = 29000009, pos = new Vector3() { x = 8.61f, y = -18.12f } });//抽卡
+        AddStructure(new StructureData() { buildingDefId = 29000009, pos = new Vector3() { x = 9.29f, y = -20.66f } });//抽卡
     }
 
     /// <summary>

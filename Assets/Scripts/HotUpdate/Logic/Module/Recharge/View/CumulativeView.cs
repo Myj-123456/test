@@ -51,28 +51,6 @@ public class CumulativeView
         });
         EventManager.Instance.AddEventListener(RechargeEvent.AccRecharge, UpdateData);
     }
-
-    //private void UpdateTestData()
-    //{
-    //    var star = testData[0];
-    //    var add = new List<int>();
-    //    if(star != 0)
-    //    {
-    //        for (int i = star - 100;i< star - 1; i++)
-    //        {
-    //            add.Add(i);
-    //        }
-    //        add.AddRange(testData);
-    //        testData = add;
-    //        UpdateTestList();
-    //    }
-        
-    //}
-
-    //private void UpdateTestList()
-    //{
-    //    view.page_list.numItems = testData.Count;
-    //}
     public void OnShown()
     {
         curIndex = GetCurIndex();
@@ -169,7 +147,7 @@ public class CumulativeView
         var cell = item as fun_Recharge.page_btn1;
         var info = listData[index];
         cell.titleLab.text = Lang.GetValue("recharge_main_18", info.AccumulatedRecharge.ToString());
-        if (RechargeModel.Instance.rechargeRewards != null && Array.IndexOf(RechargeModel.Instance.rechargeRewards, (uint)info.Id) != -1 || RechargeModel.Instance.rechargeAmount < info.AccumulatedRecharge)
+        if ((RechargeModel.Instance.rechargeRewards != null && Array.IndexOf(RechargeModel.Instance.rechargeRewards, (uint)info.Id) != -1) || RechargeModel.Instance.rechargeAmount < info.AccumulatedRecharge)
         {
             cell.red_point.visible = false;
         }

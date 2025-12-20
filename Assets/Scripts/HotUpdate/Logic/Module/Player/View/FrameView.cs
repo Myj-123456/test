@@ -20,18 +20,20 @@ public class FrameView
         view.list.itemRenderer = RenderList;
         view.list.SetVirtual();
 
-        listData = PlayerModel.Instance.GetFrameTileList(4201);
+        
         view.goto_btn.onClick.Add(OnGo);
         view.wear_btn.onClick.Add(() =>
         {
             MyselfController.Instance.ReqSetAvatarFrame((uint)curData.Id);
         });
         EventManager.Instance.AddEventListener(PlayerEvent.SetAvatarFrame, UpdateData);
+        EventManager.Instance.AddEventListener(RedPointEvent.ClickItem, UpdateList);
     }
 
 
     public void OnShown()
     {
+        listData = PlayerModel.Instance.GetFrameTileList(4201);
         var frame = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
         var head = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_AVATAR);
         var itemVo = ItemModel.Instance.GetItemById(int.Parse(head.info));
@@ -76,13 +78,25 @@ public class FrameView
         var frame = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
         cell.type.selectedIndex = int.Parse(frame.info) != info.Id?0:1;
         cell.unlock.selectedIndex = StorageModel.Instance.GetItemCount(info.Id) > 0 ? 0 : 1;
-
+        if (StorageModel.Instance.GetItemCount(info.Id) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)info.Id) == -1)
+        {
+            UILogicUtils.ShowRedPoint(cell,false,cell.width -20, 0);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(cell);
+        }
         cell.data = index;
         cell.onClick.Add(SelectHead);
     }
     private void SelectHead(EventContext context)
     {
         int index = (int)(context.sender as GComponent).data;
+        var info = listData[index];
+        if (StorageModel.Instance.GetItemCount(info.Id) > 0 && StorageModel.Instance.clickItems.IndexOf((uint)info.Id) == -1)
+        {
+            MyselfController.Instance.ReqClickItem((uint)info.Id);
+        }
         if (curIndex != index)
         {
             curIndex = index;

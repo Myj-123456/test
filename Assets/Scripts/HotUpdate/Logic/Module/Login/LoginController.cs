@@ -48,23 +48,30 @@ public class LoginController : BaseController<LoginController>
         MyselfModel.Instance.InitData(data);
         PlantModel.Instance.InitPlantList(data.plantList);
         StorageModel.Instance.InitSeedList(data.seedList);
-        CultivationModel.Instance.ParseLandInfo(data.cultivate);
+
         StorageModel.Instance.ParseItemList(data.itemList);
         NpcOrderModel.Instance.InitOrderNpc(data);
         FlowerSellModel.Instance.InitTables(data.tableList);
         FlowerOrderModel.Instance.InitOrderList(data.orderList);
-        GuildModel.Instance.guildName = data.guildName;
-        MyselfModel.Instance.userShop = data.userShop;
-        RechargeModel.Instance.UpdateRechargeInfo(data.rechargeInfo);
+
+        //MyselfModel.Instance.userShop = data.userShop;
+
         FlowerShopModel.Instance.InitData(data.floristShopInfo.floristShop);
-        PlayerModel.Instance.pen = data.pen;
+        //PlayerModel.Instance.pen = data.pen;
         DressModel.Instance.UpdateDressData(data.dress.ware);
         DressModel.Instance.InitData(data.dress);
+        RedPointModel.Instance.reddot = data.reddot;
+        TaskModel.Instance.mainTask = data.mainTask;
+        TaskModel.Instance.progress = data.progress;
+        MyselfModel.Instance.welfareInfo = data.welfareInfo;
+        MyselfModel.Instance.waterBucketSeries = TextUtil.ToStringList(data.welfareInfo.waterBucketSeries);
+        WelfareModel.Instance.rookieRewards = data.mainTask.rookieRewards;
+        //FlowerGoldModel.Instance.fairys = data.fairys;
+        SeventhSignModel.Instance.ParseData(data.dailyLoginInfo);
+        WelfareModel.Instance.InitDailyLogin(data.dailyLoginInfo);
+        RedPointModel.Instance.InitTodayFirstLogin(data.isTodayFirstLogin);
+        GuideController.Instance.InitGuide();
         
-        FlowerGoldModel.Instance.fairys = data.fairys;
-        PopGiftModel.Instance.giftPackList = data.giftPackList;
-        PopGiftModel.Instance.tourList = data.tourList;
-        GuideController.Instance.InitGuide();        
         GameInitSuccess();
     }
 
@@ -72,28 +79,37 @@ public class LoginController : BaseController<LoginController>
     //放到进入游戏再请求
     public void ResGameMisc(S_MSG_GAME_MISC data)
     {
-        SeventhSignModel.Instance.ParseData(data.dailyLoginInfo);
-        WelfareModel.Instance.InitDailyLogin(data.dailyLoginInfo);
-        GameNoticeModel.Instance.noticeData = data.notice;
-        VideoModel.Instance.videoWatch = data.videoWatch;
-        GuildModel.Instance.guildMembers = data.guildMembers;
+        CultivationModel.Instance.ParseLandInfo(data.cultivate);
+        RechargeModel.Instance.UpdateRechargeInfo(data.rechargeInfo);
+        PopGiftModel.Instance.giftPackList = data.giftPackList;
+        PopGiftModel.Instance.tourList = data.tourList;
 
-        LoginModel.Instance.isResGameMisc = true;
+
+        RedPointModel.Instance.reddot.AddRange(data.reddot);
+        VideoModel.Instance.videoWatch = data.videoWatch;
+
         
-        TaskModel.Instance.mainTask = data.mainTask;
-        TaskModel.Instance.progress = data.progress;
+       LoginModel.Instance.isResGameMisc = true;
+
+        GuildModel.Instance.guildMembers = data.guildMembers;
         FundModel.Instance.fundInfo = data.fundInfo;
-        MyselfModel.Instance.welfareInfo = data.welfareInfo;
-        MyselfModel.Instance.waterBucketSeries = TextUtil.ToStringList(data.welfareInfo.waterBucketSeries);
-        WelfareModel.Instance.rookieRewards = data.mainTask.rookieRewards;
-        CustomerModel.Instance.InitCustomerData(data.npcInfo);
+        GuildModel.Instance.guildName = data.guildName;
+
+
+        //CustomerModel.Instance.InitCustomerData(data.npcInfo);
         Coroutiner.StartCoroutine(EnterGameScene());
-        MyselfModel.Instance.UpdateDailyInfo(data.dailyStatVo);
+        //MyselfModel.Instance.UpdateDailyInfo(data.dailyStatVo);
+
+
     }
 
     public void GameMild(S_MSG_GAME_MILD data)
     {
         IkeModel.Instance.vaseRewardInfo = data.vaseRewardInfo;
+
+        GameNoticeModel.Instance.noticeData = data.notice;
+        MailModel.Instance.mailData = data.mailList;
+
         if (data.blackUserIds == null)
         {
             FriendModel.Instance.blackUserIds = new List<uint>();
@@ -103,6 +119,11 @@ public class LoginController : BaseController<LoginController>
             FriendModel.Instance.blackUserIds = data.blackUserIds.ToList();
         }
         DrawModel.Instance.furnitureExchangeStat = data.furnitureExchangeStat;
+        if(data.clickItems != null)
+        {
+            StorageModel.Instance.clickItems = data.clickItems.ToList();
+        }
+        EventManager.Instance.DispatchEvent(RedPointEvent.GameMild);
     }
 
     public void ReqGameMild()
@@ -179,7 +200,10 @@ public class LoginController : BaseController<LoginController>
         var loginPlatform = LoginHelper.GetLoginPlatform();
         var token = LoginHelper.GetToken();
         var salt = LoginHelper.GetSalt();
-        Http.Get<HttpLoginData>(ApiName.GAME_LOGIN, OnLoginCallBack, false, pid, platform, loginPlatform, token, salt);
+        var osType = LoginHelper.GetOsType();
+        var appName = LoginHelper.GetAppName();
+        var extraQueryParams = new Dictionary<string, string>() { { "osType", osType }, { "appName", appName } };
+        Http.Get<HttpLoginData>(ApiName.GAME_LOGIN, OnLoginCallBack, false, extraQueryParams, pid, platform, loginPlatform, token, salt);
     }
 
     /// <summary>
@@ -365,6 +389,7 @@ public class LoginController : BaseController<LoginController>
         _ = MyselfController.Instance;
         _ = ServiceNotifyContorller.Instance;
         _ = MarqueeContorller.Instance;
+        _ = RedpointContorller.Instance;
     }
 
     private IEnumerator EnterGameScene()

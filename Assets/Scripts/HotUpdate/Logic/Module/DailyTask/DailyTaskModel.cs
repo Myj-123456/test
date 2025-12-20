@@ -146,5 +146,29 @@ public class DailyTaskModel : Singleton<DailyTaskModel>
         return taskLvVo.Percentage;
     }
 
+
+    public bool GetDailyRedPoint()
+    {
+        foreach(var value in dailyTask)
+        {
+            if(value.awardStatus == 1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetWeekRedPoint()
+    {
+        foreach (var value in weeklyTask)
+        {
+            if (value.awardStatus == 1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

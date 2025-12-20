@@ -158,7 +158,7 @@ public class RobController : BaseController<RobController>
     public void RobExchange(S_MSG_ROB_EXCHANGE data)
     {
         var petalItem = RobModel.Instance.robOtherConfig.PetalConsumes[0];
-        StorageModel.Instance.AddToStorageByItemId(petalItem.EntityID, -petalItem.Value);
+        StorageModel.Instance.AddToStorageByItemId(petalItem.EntityID, -petalItem.Value * (int)data.num);
         var rewards = RobModel.Instance.GeRobRewardConfig((int)data.indexId);
         //StorageModel.Instance.AddToStorageItems(data.items);
         if (rewards != null)
@@ -188,9 +188,10 @@ public class RobController : BaseController<RobController>
         EventManager.Instance.DispatchEvent(RobEvent.RobReward);
     }
 
-    public void ReqRobExchange()
+    public void ReqRobExchange(uint num = 1)
     {
         C_MSG_ROB_EXCHANGE c_MSG_ROB_EXCHANGE = new C_MSG_ROB_EXCHANGE();
+        c_MSG_ROB_EXCHANGE.num = num;
         SendCmd((int)MessageCode.C_MSG_ROB_EXCHANGE, c_MSG_ROB_EXCHANGE);
     }
 

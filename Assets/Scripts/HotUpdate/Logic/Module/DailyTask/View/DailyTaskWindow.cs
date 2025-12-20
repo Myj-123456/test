@@ -213,7 +213,7 @@ public class DailyTaskWindow : BaseView
         {
             view.list.numItems = DailyTaskModel.Instance.weeklyTask.Count;    
         }
-
+        UpdateRedPoint();
     }
 
     private void StartMove()
@@ -246,6 +246,26 @@ public class DailyTaskWindow : BaseView
         UIManager.Instance.CloseWindow(UIName.DailyTaskWindow);
     }
 
+    private void UpdateRedPoint()
+    {
+        if (TaskModel.Instance.GetProRedPoint(1) || DailyTaskModel.Instance.GetDailyRedPoint())
+        {
+            UILogicUtils.ShowRedPoint(view.day_btn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.day_btn);
+        }
+
+        if (DailyTaskModel.Instance.GetWeekRedPoint())
+        {
+            UILogicUtils.ShowRedPoint(view.week_btn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.week_btn);
+        }
+    }
     public override void OnHide()
     {
         base.OnHide();

@@ -54,7 +54,9 @@ public class LoginHelper
         platform = "wm";
 #elif UNITY_EDITOR || UNITY_WEBGL//编辑器或者网页端
         platform = "dev";
-#elif !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)//移动app端
+#elif !UNITY_EDITOR && UNITY_IOS//移动端ios
+        platform = "ios";
+#elif !UNITY_EDITOR && UNITY_ANDROID//移动安卓(目前默认叫app平台)
         platform = "app";
 #endif
         return platform;
@@ -71,7 +73,9 @@ public class LoginHelper
         platform = "wm";
 #elif UNITY_EDITOR || UNITY_WEBGL//编辑器或者网页端
         platform = "dev";
-#elif !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)//移动app端
+#elif !UNITY_EDITOR && UNITY_IOS//移动端ios
+        platform = "ios";
+#elif !UNITY_EDITOR && UNITY_ANDROID//移动安卓(目前默认叫app平台)
         platform = "app";
 #endif
         return platform;
@@ -101,5 +105,43 @@ public class LoginHelper
         salt = LoginModel.Instance.salt;
 #endif
         return salt;
+    }
+
+    /// <summary>
+    /// 用户系统类型
+    /// </summary>
+    /// <returns></returns>
+    public static string GetOsType()
+    {
+        var osType = "";
+#if !UNITY_EDITOR && UNITY_WEBGL && WEIXINMINIGAME//微信小游戏
+        osType = "wm";
+#elif UNITY_EDITOR || UNITY_WEBGL//编辑器或者网页端
+        osType = "dev";
+#elif !UNITY_EDITOR && UNITY_IOS//移动端ios
+        osType = "ios";
+#elif !UNITY_EDITOR && UNITY_ANDROID//移动安卓
+        osType = "android";
+#endif
+        return osType;
+    }
+
+    /// <summary>
+    /// 用户系统类型
+    /// </summary>
+    /// <returns></returns>
+    public static string GetAppName()
+    {
+        var appName = "";
+#if !UNITY_EDITOR && UNITY_WEBGL && WEIXINMINIGAME//微信小游戏
+        appName = "wm";
+#elif UNITY_EDITOR || UNITY_WEBGL//编辑器或者网页端
+        appName = "dev";
+#elif !UNITY_EDITOR && UNITY_IOS//移动端ios
+        appName = "ios";
+#elif !UNITY_EDITOR && UNITY_ANDROID//移动安卓
+        appName = "android";
+#endif
+        return appName;
     }
 }

@@ -8,8 +8,7 @@ namespace common_New
     public partial class pageBtn2 : GButton
     {
         public Controller button;
-        public GImage n11;
-        public GImage n12;
+        public GImage n8;
         public GTextField titleLab;
         public const string URL = "ui://mjiw43v9i64u1yjp7t0";
 
@@ -23,9 +22,8 @@ namespace common_New
             base.ConstructFromXML(xml);
 
             button = GetControllerAt(0);
-            n11 = (GImage)GetChildAt(0);
-            n12 = (GImage)GetChildAt(1);
-            titleLab = (GTextField)GetChildAt(2);
+            n8 = (GImage)GetChildAt(0);
+            titleLab = (GTextField)GetChildAt(1);
         }
     }
 }

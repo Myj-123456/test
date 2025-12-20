@@ -196,7 +196,7 @@ public class MatchRankWindow : BaseWindow
         myView.head.pic.url = "Avatar/ELIDA_common_touxiangdi01.png";
         //UILogicUtils.ChangeOthersFrameDisplay(userInfo.flowerLevel, userInfo.flowerLevelExpireTime, (_view.myInfo.head.picFrame as common_New.PictureFrame), userInfo.headFrame);
         myView.levelLab.text = MyselfModel.Instance.level.ToString();
-        myView.powerLab.text = Lang.GetValue("power_name") + "：" + TextUtil.ChangeCoinShow1(PlayerModel.Instance.pen.drawingPower);
+        //myView.powerLab.text = Lang.GetValue("power_name") + "：" + TextUtil.ChangeCoinShow1(PlayerModel.Instance.pen.drawingPower);
     }
 
     public override void OnHide()

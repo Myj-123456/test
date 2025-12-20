@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using YooAsset;
 /// <summary>
-/// ×ÊÔ´Ô¤¼ÓÔØ¹ÜÀíÆ÷
+/// èµ„æºé¢„åŠ è½½ç®¡ç†å™¨
 /// </summary>
 public class PreLoadManager : Singleton<PreLoadManager>
 {
-    public bool IsLoadResFinish = false;//ÊÇ·ñÔ¤¼ÓÔØ×ÊÔ´Íê±Ï
-    public bool startLoad = false;//ÊÇ·ñ¿ªÊ¼Ô¤¼ÓÔØ×ÊÔ´
+    public bool IsLoadResFinish = false;//æ˜¯å¦åŠ è½½å®Œæˆèµ„æº
+    public bool startLoad = false;//æ˜¯å¦å¼€å§‹åŠ è½½èµ„æº
     public IEnumerator StartPreLoad()
     {
         startLoad = true;
@@ -19,31 +19,31 @@ public class PreLoadManager : Singleton<PreLoadManager>
         yield return LoadPackages();
         yield return InitConfig();
         yield return InitSceneMap();
-        Debug.Log("Ô¤¼ÓÔØÍê±Ï");
+        Debug.Log("èµ„æºé¢„åŠ è½½å®Œæˆ");
         IsLoadResFinish = true;
     }
 
     /// <summary>
-    /// ³õÊ¼»¯³¡¾°µØÍ¼
+    /// åˆå§‹åŒ–åœºæ™¯åœ°å›¾
     /// </summary>
     /// <returns></returns>
     public IEnumerator InitSceneMap()
     {
-        ShowLoadingDes("¼ÓÔØµØÍ¼");
-        var location = ResPath.GetMapTrunkPath("map_0");  // ×¢Òâ£ºlocationÖ»ĞèÒªÌîĞ´×ÊÔ´°üÀïµÄÈÎÒâ×ÊÔ´µØÖ·¡£
+        ShowLoadingDes("åŠ è½½åœºæ™¯åœ°å›¾");
+        var location = ResPath.GetMapTrunkPath("map_0");  // æ³¨æ„ï¼šlocationåªéœ€è¦æä¾›èµ„æºè·¯å¾„ï¼Œä¸éœ€è¦åŒ…å«èµ„æºç±»å‹
         var handle = ResourceManager.Instance.LoadAllAssetsAsync<Sprite>(location);
         yield return handle;
         handle.Release();
     }
 
     /// <summary>
-    /// ³õÊ¼»¯ÅäÖÃ
+    /// åˆå§‹åŒ–é…ç½®æ–‡ä»¶
     /// </summary>
     /// <returns></returns>
     public IEnumerator InitConfig()
     {
-        ShowLoadingDes("¼ÓÔØÅäÖÃ");
-        var location = ResPath.GetConfigByName("module_item_defsConfig");  // ×¢Òâ£ºlocationÖ»ĞèÒªÌîĞ´×ÊÔ´°üÀïµÄÈÎÒâ×ÊÔ´µØÖ·¡£
+        ShowLoadingDes("åŠ è½½é…ç½®æ–‡ä»¶");
+        var location = ResPath.GetConfigByName("module_item_defsConfig");  // æ³¨æ„ï¼šlocationåªéœ€è¦æä¾›èµ„æºè·¯å¾„ï¼Œä¸éœ€è¦åŒ…å«èµ„æºç±»å‹ 
         var handle = ResourceManager.Instance.LoadAllAssetsAsync<UnityEngine.TextAsset>(location);
         yield return handle;
         handle.Release();
@@ -51,8 +51,8 @@ public class PreLoadManager : Singleton<PreLoadManager>
 
     private IEnumerator LoadPackages()
     {
-        ShowLoadingDes("¼ÓÔØui");
-        var loadPackageNames = new List<string>() { "common", "common_New", "fun_MainUI", "fun_Scene", "fun_Battle", "NoCompress" };
+        ShowLoadingDes("åŠ è½½UIèµ„æº");
+        var loadPackageNames = new List<string>() { "common", "common_New", "fun_MainUI", "fun_Scene", "fun_Battle", "fun_Rob", "NoCompress" };
         int packagesLoaded = 0;
         int totalPackages = loadPackageNames.Count;
 
@@ -61,19 +61,20 @@ public class PreLoadManager : Singleton<PreLoadManager>
             LoadPackage(packageName, () =>
             {
                 packagesLoaded++;
-                Debug.Log($"°ü {packageName} ¼ÓÔØÍê³É ({packagesLoaded}/{totalPackages})");
+                Debug.Log($"åŠ è½½å®Œæˆ {packageName} ({packagesLoaded}/{totalPackages})");
             });
         }
 
-        // µÈ´ıËùÓĞ°ü¼ÓÔØÍê³É
+        // ç­‰å¾…æ‰€æœ‰èµ„æºåŒ…åŠ è½½å®Œæˆ
         yield return new WaitUntil(() => packagesLoaded >= totalPackages);
 
-        // °ó¶¨ËùÓĞ°ü
+        // ç»‘å®šæ‰€æœ‰èµ„æº
         common.commonBinder.BindAll();
         common_New.common_NewBinder.BindAll();
         fun_MainUI.fun_MainUIBinder.BindAll();
         fun_Scene.fun_SceneBinder.BindAll();
         fun_Battle.fun_BattleBinder.BindAll();
+        fun_Rob.fun_RobBinder.BindAll();
 
         UIConfig.globalModalWaiting = common.window_modal.URL;
         UIObjectFactory.SetLoaderExtension(typeof(MyGLoader));
@@ -96,39 +97,39 @@ public class PreLoadManager : Singleton<PreLoadManager>
 
             if (textAsset != null)
             {
-                // Ìí¼Óµ½ UIPackage
+                // æ·»åŠ åˆ° UIPackage
                 UIPackage.AddPackage(textAsset.bytes, packageName, (string name, string extension, System.Type type, out DestroyMethod method) =>
                 {
-                    method = DestroyMethod.None; // ×¢Òâ£ºÕâÀïÒ»¶¨ÒªÉèÖÃÎª None
+                    method = DestroyMethod.None; // æ³¨æ„ï¼šå¿…é¡»è®¾ç½®ä¸º Noneï¼Œå¦åˆ™ä¼šå¯¼è‡´å†…å­˜æ³„æ¼
                     return pngAsset;
                 });
             }
 
             handle.Release();
-            onComplete?.Invoke(); // Í¨ÖªÍê³É
+            onComplete?.Invoke(); // é€šçŸ¥åŠ è½½å®Œæˆ
         };
     }
 
     /// <summary>
-    /// ³õÊ¼»¯ FairyGUI(ÔİÊ±¸øÌáÉó°æ±¾Ê¹ÓÃ)
+    /// åˆå§‹åŒ– FairyGUI(æ—§ç‰ˆæœ¬éœ€è¦ä½¿ç”¨)
     /// </summary>
     /// <returns></returns>
     public IEnumerator InitAuditVersionFairyGui()
     {
-        // ³õÊ¼»¯ĞèÒª¼ÓÔØµÄ°ü
+        // åŠ è½½å¹¶ç»‘å®š common_New èµ„æºåŒ…
         yield return LoadAndBindPackage("common_New", common_New.common_NewBinder.BindAll);
         UIObjectFactory.SetLoaderExtension(typeof(MyGLoader));
     }
 
     /// <summary>
-    /// ¼ÓÔØ²¢°ó¶¨ FairyGUI °ü
+    /// åŠ è½½å¹¶ç»‘å®š FairyGUI èµ„æºåŒ…      
     /// </summary>
-    /// <param name="packageName">°üÃû³Æ</param>
-    /// <param name="bindMethod">°ó¶¨·½·¨</param>
+    /// <param name="packageName">èµ„æºåŒ…åç§°</param>
+    /// <param name="bindMethod">ç»‘å®šæ–¹æ³•</param>
     /// <returns></returns>
     private IEnumerator LoadAndBindPackage(string packageName, System.Action bindMethod)
     {
-        // ¼ÓÔØ bytes ÎÄ¼ş
+        // åŠ è½½èµ„æºåŒ…
         AllAssetsHandle assetHandle = ResourceManager.Instance.LoadAllAssetsAsync(ResPath.GetFuiBytes(packageName));
         yield return assetHandle;
 
@@ -148,13 +149,13 @@ public class PreLoadManager : Singleton<PreLoadManager>
 
         if (textAsset != null)
         {
-            // Ìí¼Óµ½ UIPackage
+            // æ·»åŠ åˆ° UIPackage
             UIPackage.AddPackage(textAsset.bytes, packageName, (string name, string extension, System.Type type, out DestroyMethod method) =>
             {
-                method = DestroyMethod.None; // ×¢Òâ£ºÕâÀïÒ»¶¨ÒªÉèÖÃÎª None
+                method = DestroyMethod.None; // æ³¨æ„ï¼šå¿…é¡»è®¾ç½®ä¸º Noneï¼Œå¦åˆ™ä¼šå¯¼è‡´å†…å­˜æ³„æ¼
                 return pngAsset;
             });
-            // °ó¶¨
+            // ç»‘å®šèµ„æº
             bindMethod?.Invoke();
         }
         assetHandle.Release();

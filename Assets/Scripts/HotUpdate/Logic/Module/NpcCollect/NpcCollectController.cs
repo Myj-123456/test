@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using protobuf.lolita;
 using protobuf.messagecode;
 using protobuf.monster;
 using UnityEngine;

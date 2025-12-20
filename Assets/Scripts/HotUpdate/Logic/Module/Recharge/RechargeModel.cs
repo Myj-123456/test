@@ -16,8 +16,8 @@ public struct RechargeDelevierData
 }
 public class RechargeModel : Singleton<RechargeModel>
 {
-    private Dictionary<string, Ft_game_payConfig> _gamePayHome;
-    public Dictionary<string, Ft_game_payConfig> gamePayHome
+    private Dictionary<int, Ft_game_payConfig> _gamePayHome;
+    public Dictionary<int, Ft_game_payConfig> gamePayHome
     {
         get
         {
@@ -117,26 +117,26 @@ public class RechargeModel : Singleton<RechargeModel>
     public List<Ft_diamond_valueConfig> vipValueList;
     public List<Ft_diamond_valueConfig> giftValueList;
 
-    public List<I_GIFTPACK_VO> giftPackList;//ÕıÔÚÉúĞ§µÄÀñ°ü
-    public List<uint> giftHaveBuy;//ÒÑ¹ºÂòµÄÀñ°ü
+    public List<I_GIFTPACK_VO> giftPackList;//ç¤¼åŒ…åˆ—è¡¨
+    public List<uint> giftHaveBuy;//å·²è´­ä¹°çš„ç¤¼åŒ…id
 
-    public Dictionary<uint, uint> haveDiamondValue; //ÅäÖÃÖĞÒÑ¹ºÂòµÄÌØ»İÀñ°ü
+    public Dictionary<uint, uint> haveDiamondValue; //å·²è´­ä¹°çš„é’»çŸ³å€¼
 
     public Dictionary<int, Dictionary<string, int>> firstRechargeReward = new Dictionary<int, Dictionary<string, int>>();
 
-    public uint[] rechargeRewards;//ÒÑÁìÈ¡µÄÀÛ³ä½±ÀøÅäÖÃid
+    public uint[] rechargeRewards;//è·å–çš„é’»çŸ³å€¼
 
-    public uint[] firstRechargeRewards;//ÒÑÁìÈ¡µÄÊ×³ä½±ÀøÅäÖÃid
+    public uint[] firstRechargeRewards;//é¦–æ¬¡å……å€¼è·å–çš„é’»çŸ³å€¼
 
-    public uint rechargeAmount;//ÒÑ³äÖµ½ğ¶î
+    public uint rechargeAmount;//å·²å……å€¼çš„é’»çŸ³å€¼
 
-    public GAME_PAY_VO gamePay;//game_pay ÅäÖÃÖĞÒÑ¹ºÂòµÄÏîÄ¿
+    public GAME_PAY_VO gamePay;//game_pay æ¸¸æˆæ”¯ä»˜é…ç½®
 
-    public uint[] haveGiftPack;//ft_gift_packÒÑ¹ºÂòµÄÀñ°üid
+    public uint[] haveGiftPack;//ft_gift_packå·²è´­ä¹°çš„ç¤¼åŒ…id
 
-    public Dictionary<uint, uint> haveMall;//ft_mallÒÑ¹ºÂòµÄÉÌÆ·id ÅäÖÃÖĞÒÑ¹ºÂòµÄÏîÄ¿ ÏÂ±êÊÇÅäÖÃid ÖµÊÇÖÜÆÚÄÚÒÑ¹ºÂò´ÎÊı
+    public Dictionary<uint, uint> haveMall;//ft_mallå·²è´­ä¹°çš„å•†å“id å•†å“id è´­ä¹°æ¬¡æ•°
 
-    public uint firstRechargeTime;//Ê×´Î³äÖµÊ±¼ä
+    public uint firstRechargeTime;//é¦–æ¬¡å……å€¼çš„æ—¶é—´
 
     public void UpdateRechargeInfo(S_MSG_RECHARGE_INFO data)
     {
@@ -215,20 +215,91 @@ public class RechargeModel : Singleton<RechargeModel>
         }
         return true;
     }
+
+    public bool GetCanFirstRecharge()
+    {
+        if (IsFirstRecharge())
+        {
+            var unlockDay = GetCurDayTime();
+            for (int i = 0; i < 3; i++)
+            {
+                if(i < unlockDay)
+                {
+                    if (firstRechargeRewards == null || Array.IndexOf(firstRechargeRewards, (uint)(i + 1)) == -1)
+                    {
+                        return true;
+                    }
+                }
+                
+            }
+            return false;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private int GetCurDayTime()
+    {
+        var now = TimeUtil.GetDateTime(firstRechargeTime);
+        var next = now.Date.AddDays(1);
+        var three = now.Date.AddDays(2);
+        var nextTamp = TimeUtil.GetTimestamp(next);
+        var threeTamp = TimeUtil.GetTimestamp(three);
+        if (ServerTime.Time >= threeTamp)
+        {
+            return 3;
+        }
+        else if (ServerTime.Time >= nextTamp)
+        {
+            return 2;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    public bool GetRechargeGiftRed()
+    {
+        foreach (var value in diamondValueHome)
+        {
+            if (value.Value.Type == (int)E_DIAMOND_VALUE_TYPE.DAILY)
+            {
+                if (!haveDiamondValue.ContainsKey((uint)value.Value.IndexId))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public bool GetCumulativeRed()
+    {
+        foreach(var value in rechargeGiftList)
+        {
+            if ((rechargeRewards == null || Array.IndexOf(rechargeRewards, (uint)value.Id) == -1) && rechargeAmount >= value.AccumulatedRecharge)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 public enum E_DIAMOND_VALUE_TYPE
 {
-    NONE,//²»ÏÔÊ¾
-    DAILY,//Ã¿ÈÕÃâ·ÑÀñ°ü
-    NORMAL,//³£¹æÀñ°ü
-    VIP,//vipÀñ°ü
-    VIDEO_PRIVILEGE,//ÊÓÆµÌØÈ¨
-    CASH = 51,//×êÊ¯»ù½ğ
-    INTROD = 52,//ÈëÃÅÅàÓı
-    STEP = 53,//½ø½×ÅàÓı
-    CONTRACT = 61,//¸ß¼¶ºÏÔ¼
-    CONTRACT_SUPER = 62,//ÖÁ×ğºÏÔ¼
-    BUY_CONTRACT_LEVEL = 63,//¹ºÂòºÏÔ¼µÈ¼¶
+    NONE,//æ— 
+    DAILY,//æ¯æ—¥
+    NORMAL,//æ™®é€š
+    VIP,//vip
+    VIDEO_PRIVILEGE,//è§†é¢‘ç‰¹æƒ
+    CASH = 51,//ç°é‡‘
+    INTROD = 52,//ä»‹ç»
+    STEP = 53,//ç­‰çº§
+    CONTRACT = 61,//åˆåŒ
+    CONTRACT_SUPER = 62,//è¶…çº§åˆåŒ
+    BUY_CONTRACT_LEVEL = 63,//è´­ä¹°åˆåŒç­‰çº§
 }
 

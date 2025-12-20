@@ -175,14 +175,14 @@ public class FlowerShop
     //地板
     private void InitFloor(int furnitureId)
     {
-        InitDecoration(DecorationsType.Floor, furnitureId.ToString(), new Vector2(3.04f, 6.94f));
+        InitDecoration(DecorationsType.Floor, furnitureId.ToString(), new Vector2(6.23f, 7.41f));
         InitStair("stair1");
     }
 
     //墙壁
     private void InitWall(int furnitureId)
     {
-        InitDecoration(DecorationsType.Wall, furnitureId.ToString(), new Vector2(2.58f, 11.31f));
+        InitDecoration(DecorationsType.Wall, furnitureId.ToString(), new Vector2(6.17f, 12.6f));
         //InitRoof(Roof1);//花店一楼屋顶
         InitLoft();
         InitHuaJia();
@@ -191,7 +191,7 @@ public class FlowerShop
     //初始化阁楼
     private void InitLoft()
     {
-        InitDecoration(DecorationsType.Loft, "loft", new Vector2(3.02f, 14.61f));
+        InitDecoration(DecorationsType.Loft, "loft", new Vector2(5.31f, 16.05f));
     }
 
     /// <summary>
@@ -199,7 +199,7 @@ public class FlowerShop
     /// </summary>
     private void InitHuaJia()
     {
-        InitDecoration(DecorationsType.HuaJia, "huajia", new Vector2(-8.78f, 6.2f));
+        InitDecoration(DecorationsType.HuaJia, "huajia", new Vector2(-8.96f, 6.76f));
     }
 
     private void InitRoof(string roof)
@@ -236,10 +236,10 @@ public class FlowerShop
     //台阶 需要跟随地板换 一个地板对应一个台阶 到时候需要做一个映射关系 单独是前端的配置 key(地板id=>楼梯id) 让策划去配置下
     private void InitStair(string stair)
     {
-        ////左台阶
-        //InitDecoration(DecorationsType.Stair, stair, new Vector2(-3.66f, 4.03f), false);
+        //左台阶
+        InitDecoration(DecorationsType.Stair, stair, new Vector2(-2.607f, 1.83f), false);
         //右台阶
-        InitDecoration(DecorationsType.Stair, stair, new Vector2(9.63f, 4.3f), true);
+        InitDecoration(DecorationsType.Stair, stair, new Vector2(13.504f, 3.091f), true);
     }
 
 
@@ -247,20 +247,23 @@ public class FlowerShop
     private void InitHandrail(int furnitureId)
     {
         //左上
-        InitDecoration(DecorationsType.Handrail, furnitureId.ToString(), new Vector2(-1.424f, 2.543f));
+        InitDecoration(DecorationsType.Handrail, furnitureId.ToString(), new Vector2(-5.78f, 5.6f), true);
         //右下
-        InitDecoration(DecorationsType.Handrail, furnitureId.ToString(), new Vector2(4.89f, 2.54f), true);
+        InitDecoration(DecorationsType.Handrail, furnitureId.ToString(), new Vector2(1.847f, 1.47f), true, 1);
         //右下2
-        InitDecoration(DecorationsType.Handrail, furnitureId.ToString(), new Vector2(13.451f, 7.181f), true, 1);
+        InitDecoration(DecorationsType.Handrail, furnitureId.ToString(), new Vector2(8.482f, 2.54f), false);
+        InitDecoration(DecorationsType.Handrail, furnitureId.ToString() + "_right", new Vector2(17.15f, 7.07f), false, 1);
     }
 
     private void InitCounter(int furnitureId)
     {
-        InitDecoration(DecorationsType.Counter, furnitureId.ToString(), new Vector2(-5.32f, 7.11f));
+        InitDecoration(DecorationsType.QianTaiDitan, "qiantaiditan", new Vector2(-3.4f, 6.81f));
+        InitDecoration(DecorationsType.Counter, furnitureId.ToString(), new Vector2(-3.5f, 7.67f));
     }
 
     private void InitFlowerStands(int furnitureId)
     {
+        InitDecoration(DecorationsType.HuaTaiDitan, "huataiditan", new Vector2(5.44f, 3.68f));
         InitInsideFlowerStands(furnitureId);
         InitOutsideFlowerStands(furnitureId);
     }
@@ -268,28 +271,28 @@ public class FlowerShop
     //初始化左边三个花台
     private void InitInsideFlowerStands(int furnitureId)
     {
-        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(2.56f, 7.24f), 1);
-        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(1.04f, 6.44f), 2);
-        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(-0.41f, 5.690001f), 3);
+        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(6.26f, 6.06f), 1);
+        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(4.17f, 4.93f), 2);
+        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(2.07f, 3.78f), 3);
     }
 
     //初始化右边三个花台
     private void InitOutsideFlowerStands(int furnitureId)
     {
-        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(4.14f, 6.28f), 4);
-        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(2.7f, 5.47f), 5);
-        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(1.25f, 4.83f), 6);
+        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(8.54f, 4.78f), 4);
+        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(6.44f, 3.65f), 5);
+        InitFlowerStand(DecorationsType.FlowerStand, furnitureId.ToString(), new Vector2(4.35f, 2.5f), 6);
     }
 
     //百宝格
     private void InitBox(int furnitureId)
     {
-        InitDecoration(DecorationsType.Box, furnitureId.ToString(), new Vector2(4.91f, 12.766f));
+        InitDecoration(DecorationsType.Box, furnitureId.ToString(), new Vector2(7.16f, 14.33f));
     }
     //沙发
     private void InitSofa(int furnitureId)
     {
-        InitDecoration(DecorationsType.Sofa, furnitureId.ToString(), new Vector2(7.97f, 9.635f));
+        InitDecoration(DecorationsType.Sofa, furnitureId.ToString(), new Vector2(10.6f, 11.53f));
     }
 
 
@@ -298,7 +301,7 @@ public class FlowerShop
     /// </summary>
     private void InitFloorLamp(int furnitureId)
     {
-        InitDecoration(DecorationsType.FloorLamp, furnitureId.ToString(), new Vector2(12.276f, 7.897f));
+        InitDecoration(DecorationsType.FloorLamp, furnitureId.ToString(), new Vector2(14.84f, 7.51f));
     }
 
     /// <summary>

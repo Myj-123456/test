@@ -8,6 +8,7 @@ namespace common_New
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(red_point.URL, typeof(red_point));
             UIObjectFactory.SetPackageItemExtension(task_num_change.URL, typeof(task_num_change));
             UIObjectFactory.SetPackageItemExtension(TipText.URL, typeof(TipText));
             UIObjectFactory.SetPackageItemExtension(TipTextContent.URL, typeof(TipTextContent));

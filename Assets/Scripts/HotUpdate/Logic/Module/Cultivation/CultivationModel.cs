@@ -32,6 +32,8 @@ public class CultivationModel : Singleton<CultivationModel>
     {
         harvestTime = (int)data.harvestTime;
         flowerId = (int)data.flowerId;
+        videoTime = (int)data.videoTimes;
+        helpCnt = (int)data.helpCnt;
     }
 
     public Module_fertilizerConfig GetFertilizerConfigById(string id)

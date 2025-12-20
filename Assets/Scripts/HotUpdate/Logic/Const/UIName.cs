@@ -286,5 +286,7 @@ public class UIName
     public const string AchievTaskView = "AchievTaskView";
 
     public const string VisitRecordView = "VisitRecordView";
+
+    public const string ContractRewardPreview = "ContractRewardPreview";
 }
 

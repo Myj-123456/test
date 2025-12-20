@@ -4,8 +4,19 @@
 
 #pragma warning disable CS1591, CS0612, CS3021
 
-namespace protobuf.monster
+namespace protobuf.lolita
 {
+    [ProtoBuf.ProtoContract]
+    public class I_LOLI_TASK
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint id;
+
+        [ProtoBuf.ProtoMember(2)]
+        public uint curCnt;
+
+    }
+
     [ProtoBuf.ProtoContract]
     public class C_MSG_LOLITA_INFO
     {
@@ -19,17 +30,6 @@ namespace protobuf.monster
 
         [ProtoBuf.ProtoMember(2, IsPacked = true)]
         public uint[] rewardIds;
-
-        [ProtoBuf.ProtoContract]
-        public class I_LOLI_TASK
-        {
-            [ProtoBuf.ProtoMember(1)]
-            public uint id;
-
-            [ProtoBuf.ProtoMember(2)]
-            public uint curCnt;
-
-        }
 
     }
 

@@ -7,35 +7,6 @@
 namespace protobuf.login
 {
     [ProtoBuf.ProtoContract]
-    public class I_USER_SHOP
-    {
-        [ProtoBuf.ProtoMember(1)]
-        public uint date;
-
-        [ProtoBuf.ProtoMember(2)]
-        public int diamond;
-
-        [ProtoBuf.ProtoMember(3)]
-        public int gold;
-
-        [ProtoBuf.ProtoMember(4)]
-        public uint exp;
-
-        [ProtoBuf.ProtoMember(5)]
-        public int speedPlant;
-
-        [ProtoBuf.ProtoMember(6)]
-        public uint harvest;
-
-        [ProtoBuf.ProtoMember(7)]
-        public uint sellIkebana;
-
-        [ProtoBuf.ProtoMember(8)]
-        public uint flowerOrder;
-
-    }
-
-    [ProtoBuf.ProtoContract]
     public class I_PROGRESS_VO
     {
         [ProtoBuf.ProtoMember(1)]
@@ -122,105 +93,34 @@ namespace protobuf.login
         public System.Collections.Generic.List<protobuf.plant.I_PLANT_SEED_VO> seedList = new System.Collections.Generic.List<protobuf.plant.I_PLANT_SEED_VO>();
 
         [ProtoBuf.ProtoMember(13)]
-        public System.Collections.Generic.List<I_USER_SHOP> userShop = new System.Collections.Generic.List<I_USER_SHOP>();
-
-        [ProtoBuf.ProtoMember(14)]
-        public protobuf.plant.I_CULTIVATE_VO cultivate;
-
-        [ProtoBuf.ProtoMember(15)]
         public uint serverTime;
 
-        [ProtoBuf.ProtoMember(16)]
+        [ProtoBuf.ProtoMember(14)]
         public uint userId;
 
-        [ProtoBuf.ProtoMember(19)]
-        [System.ComponentModel.DefaultValue("")]
-        public string guildName = "";
-
-        [ProtoBuf.ProtoMember(20)]
-        public protobuf.recharge.S_MSG_RECHARGE_INFO rechargeInfo;
-
-        [ProtoBuf.ProtoMember(27)]
-        public System.Collections.Generic.List<protobuf.recharge.I_GIFTPACK_VO> giftPackList = new System.Collections.Generic.List<protobuf.recharge.I_GIFTPACK_VO>();
-
-        [ProtoBuf.ProtoMember(28)]
-        public System.Collections.Generic.List<protobuf.recharge.I_TOUR_VO> tourList = new System.Collections.Generic.List<protobuf.recharge.I_TOUR_VO>();
-
-        [ProtoBuf.ProtoMember(21)]
+        [ProtoBuf.ProtoMember(15)]
         public protobuf.dress.S_MSG_DRESS_INFO dress;
 
-        [ProtoBuf.ProtoMember(22, IsPacked = true)]
-        public uint[] haveDiamondValue;
-
-        [ProtoBuf.ProtoMember(23)]
-        public protobuf.user.I_PEN_VO pen;
-
-        [ProtoBuf.ProtoMember(24)]
-        public System.Collections.Generic.List<protobuf.pets.I_PETS_VO> pets = new System.Collections.Generic.List<protobuf.pets.I_PETS_VO>();
-
-        [ProtoBuf.ProtoMember(25)]
-        public System.Collections.Generic.List<protobuf.fairy.I_FAIRY_VO> fairys = new System.Collections.Generic.List<protobuf.fairy.I_FAIRY_VO>();
-
-        [ProtoBuf.ProtoMember(26)]
+        [ProtoBuf.ProtoMember(16)]
         public protobuf.floristshop.S_MSG_FLORIST_INFO floristShopInfo;
 
-    }
-
-    [ProtoBuf.ProtoContract]
-    public class C_MSG_GAME_MISC
-    {
-    }
-
-    [ProtoBuf.ProtoContract]
-    public class S_MSG_GAME_MISC
-    {
-        [ProtoBuf.ProtoMember(1)]
-        public protobuf.misc.I_DAILY_LOGIN dailyLoginInfo;
-
-        [ProtoBuf.ProtoMember(2)]
-        public System.Collections.Generic.List<protobuf.common.I_NOTICE_VO> notice = new System.Collections.Generic.List<protobuf.common.I_NOTICE_VO>();
-
-        [ProtoBuf.ProtoMember(3)]
-        public System.Collections.Generic.List<protobuf.video.I_VIDEO_VO> videoWatch = new System.Collections.Generic.List<protobuf.video.I_VIDEO_VO>();
-
-        [ProtoBuf.ProtoMember(4)]
-        public System.Collections.Generic.List<protobuf.guild.I_BRIEF_MEMBER_VO> guildMembers = new System.Collections.Generic.List<protobuf.guild.I_BRIEF_MEMBER_VO>();
-
-        [ProtoBuf.ProtoMember(5)]
-        public System.Collections.Generic.List<protobuf.guild.I_POSITION_VO> positionName = new System.Collections.Generic.List<protobuf.guild.I_POSITION_VO>();
-
-        [ProtoBuf.ProtoMember(7)]
-        public System.Collections.Generic.List<protobuf.adventure.I_ADVENTURE_ISLAND_VO> adventureIsland = new System.Collections.Generic.List<protobuf.adventure.I_ADVENTURE_ISLAND_VO>();
-
-        [ProtoBuf.ProtoMember(9)]
-        public protobuf.adventure.I_ADVENTURE_TOUR_VO adventureTour;
-
-        [ProtoBuf.ProtoMember(10)]
-        public protobuf.illustrated.I_ILLUSTRATED_INFO_VO illustratedInfo;
-
-        [ProtoBuf.ProtoMember(11)]
-        public System.Collections.Generic.List<protobuf.illustrated.I_ILLUSTRATED_VO> illustratedItems = new System.Collections.Generic.List<protobuf.illustrated.I_ILLUSTRATED_VO>();
-
-        [ProtoBuf.ProtoMember(12)]
-        public protobuf.npc.I_NPC_INFO npcInfo;
-
-        [ProtoBuf.ProtoMember(13)]
-        public protobuf.user.I_DAILY_STAT_VO dailyStatVo;
-
-        [ProtoBuf.ProtoMember(14)]
+        [ProtoBuf.ProtoMember(17)]
         public MAINTASK_VO mainTask;
 
-        [ProtoBuf.ProtoMember(15)]
+        [ProtoBuf.ProtoMember(18)]
         public System.Collections.Generic.List<I_PROGRESS_VO> progress = new System.Collections.Generic.List<I_PROGRESS_VO>();
 
-        [ProtoBuf.ProtoMember(16)]
-        public System.Collections.Generic.List<protobuf.fund.I_FUND_VO> fundInfo = new System.Collections.Generic.List<protobuf.fund.I_FUND_VO>();
-
-        [ProtoBuf.ProtoMember(17)]
+        [ProtoBuf.ProtoMember(19)]
         public protobuf.welfare.S_MSG_WELFARE_INFO welfareInfo;
 
-        [ProtoBuf.ProtoMember(18)]
-        public System.Collections.Generic.List<protobuf.mapevent.I_MAPEVENT_VO> mapEventList = new System.Collections.Generic.List<protobuf.mapevent.I_MAPEVENT_VO>();
+        [ProtoBuf.ProtoMember(20)]
+        public protobuf.misc.I_DAILY_LOGIN dailyLoginInfo;
+
+        [ProtoBuf.ProtoMember(21)]
+        public bool isTodayFirstLogin;
+
+        [ProtoBuf.ProtoMember(22)]
+        public System.Collections.Generic.List<protobuf.reddot.I_REDDOT_VO> reddot = new System.Collections.Generic.List<protobuf.reddot.I_REDDOT_VO>();
 
         [ProtoBuf.ProtoContract]
         public class MAINTASK_VO
@@ -238,6 +138,47 @@ namespace protobuf.login
             public uint[] rookieRewards;
 
         }
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class C_MSG_GAME_MISC
+    {
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_GAME_MISC
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public protobuf.recharge.S_MSG_RECHARGE_INFO rechargeInfo;
+
+        [ProtoBuf.ProtoMember(2)]
+        public System.Collections.Generic.List<protobuf.recharge.I_GIFTPACK_VO> giftPackList = new System.Collections.Generic.List<protobuf.recharge.I_GIFTPACK_VO>();
+
+        [ProtoBuf.ProtoMember(3)]
+        public System.Collections.Generic.List<protobuf.recharge.I_TOUR_VO> tourList = new System.Collections.Generic.List<protobuf.recharge.I_TOUR_VO>();
+
+        [ProtoBuf.ProtoMember(4)]
+        public System.Collections.Generic.List<protobuf.video.I_VIDEO_VO> videoWatch = new System.Collections.Generic.List<protobuf.video.I_VIDEO_VO>();
+
+        [ProtoBuf.ProtoMember(5)]
+        public System.Collections.Generic.List<protobuf.mapevent.I_MAPEVENT_VO> mapEventList = new System.Collections.Generic.List<protobuf.mapevent.I_MAPEVENT_VO>();
+
+        [ProtoBuf.ProtoMember(6)]
+        public System.Collections.Generic.List<protobuf.fund.I_FUND_VO> fundInfo = new System.Collections.Generic.List<protobuf.fund.I_FUND_VO>();
+
+        [ProtoBuf.ProtoMember(7)]
+        public protobuf.plant.I_CULTIVATE_VO cultivate;
+
+        [ProtoBuf.ProtoMember(8)]
+        [System.ComponentModel.DefaultValue("")]
+        public string guildName = "";
+
+        [ProtoBuf.ProtoMember(9)]
+        public System.Collections.Generic.List<protobuf.guild.I_BRIEF_MEMBER_VO> guildMembers = new System.Collections.Generic.List<protobuf.guild.I_BRIEF_MEMBER_VO>();
+
+        [ProtoBuf.ProtoMember(10)]
+        public System.Collections.Generic.List<protobuf.reddot.I_REDDOT_VO> reddot = new System.Collections.Generic.List<protobuf.reddot.I_REDDOT_VO>();
 
     }
 
@@ -265,13 +206,16 @@ namespace protobuf.login
         public System.Collections.Generic.List<protobuf.video.I_VIDEO_VO> videoWatch = new System.Collections.Generic.List<protobuf.video.I_VIDEO_VO>();
 
         [ProtoBuf.ProtoMember(6)]
-        public System.Collections.Generic.List<protobuf.dailyTask.I_TASK_VO> dailyTask = new System.Collections.Generic.List<protobuf.dailyTask.I_TASK_VO>();
+        public System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT> furnitureExchangeStat = new System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT>();
 
         [ProtoBuf.ProtoMember(7)]
-        public System.Collections.Generic.List<protobuf.dailyTask.I_TASK_VO> weeklyTask = new System.Collections.Generic.List<protobuf.dailyTask.I_TASK_VO>();
+        public bool isTodayFirstLogin;
 
         [ProtoBuf.ProtoMember(8)]
-        public System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT> furnitureExchangeStat = new System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT>();
+        public protobuf.dailyTask.S_MSG_DAILY_TASK dailyTaskInfo;
+
+        [ProtoBuf.ProtoMember(9)]
+        public System.Collections.Generic.List<protobuf.dailyTask.I_ACHIEV_TASK_VO> achievTaskList = new System.Collections.Generic.List<protobuf.dailyTask.I_ACHIEV_TASK_VO>();
 
     }
 
@@ -291,6 +235,15 @@ namespace protobuf.login
 
         [ProtoBuf.ProtoMember(3)]
         public System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT> furnitureExchangeStat = new System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT>();
+
+        [ProtoBuf.ProtoMember(4)]
+        public System.Collections.Generic.List<protobuf.common.I_NOTICE_VO> notice = new System.Collections.Generic.List<protobuf.common.I_NOTICE_VO>();
+
+        [ProtoBuf.ProtoMember(5)]
+        public System.Collections.Generic.List<protobuf.mail.I_MAIL_VO> mailList = new System.Collections.Generic.List<protobuf.mail.I_MAIL_VO>();
+
+        [ProtoBuf.ProtoMember(6, IsPacked = true)]
+        public uint[] clickItems;
 
     }
 

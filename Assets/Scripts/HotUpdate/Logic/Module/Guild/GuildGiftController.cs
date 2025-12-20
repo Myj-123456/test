@@ -56,6 +56,7 @@ public class GuildGiftController : BaseController<GuildGiftController>
         {
             DropManager.ShowDrop(dropList);
         });
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Gift);
         EventManager.Instance.DispatchEvent(GuildGiftEvent.GuildGiftDraw);
     }
 
@@ -69,6 +70,7 @@ public class GuildGiftController : BaseController<GuildGiftController>
     public void GuildGiftGradient(S_MSG_GUILD_GIFT_GRADIENT data)
     {
         GuildGiftModel.Instance.gradientCnt = data.gradientCnt;
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Big_Box);
         EventManager.Instance.DispatchEvent(GuildGiftEvent.GuildGiftGradient);
     }
 

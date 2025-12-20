@@ -121,6 +121,7 @@ public class FriendController : BaseController<FriendController>
     public void FriendReject(S_MSG_FRIEND_REJECT data)
     {
         FriendModel.Instance.RemoveApplyList(data.friendIds);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Apply);
         EventManager.Instance.DispatchEvent(FriendEvent.FriendApplyList);
     }
 
@@ -134,6 +135,7 @@ public class FriendController : BaseController<FriendController>
     public void FriendAgree(S_MSG_FRIEND_AGREE data)
     {
         FriendModel.Instance.AddApplyListToFriendList(data.effectFriendIds);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Apply);
         EventManager.Instance.DispatchEvent(FriendEvent.FriendApplyList);
         EventManager.Instance.DispatchEvent(TaskEvent.MainTaskCount, 17);
 
@@ -424,6 +426,7 @@ public class FriendController : BaseController<FriendController>
                 }
             }
             FriendModel.Instance.applyUserIds.Remove(data.friendId);
+            RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Crony);
             EventManager.Instance.DispatchEvent(FriendEvent.CronyAgree);
         }
         else
@@ -468,6 +471,7 @@ public class FriendController : BaseController<FriendController>
         FriendModel.Instance.applyUserIds.Remove(data.friendId);
         // 发送邮件退还结书
         FriendModel.Instance.SendReturnCronyBookMail(data.friendId, false);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Crony);
         EventManager.Instance.DispatchEvent(FriendEvent.CronyReject);
     }
     public void ReqCronyReject(uint friendId)

@@ -100,7 +100,7 @@ public class TourGiftView
     private void BuyGift(EventContext context)
     {
         var id = (int)(context.sender as GComponent).data;
-        RechargeController.Instance.ReqPlaceOrder(2, (uint)id);
+        RechargeController.Instance.ReqPlaceOrder(1, (uint)id);
     }
     private List<RewardPropsObject> GetReward(RewardPropsObject[] items,int flowerId)
     {

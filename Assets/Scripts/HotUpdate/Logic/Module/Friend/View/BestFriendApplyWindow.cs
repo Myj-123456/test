@@ -145,9 +145,25 @@ public class BestFriendApplyWindow : BaseWindow
                 if (ui_ != null)
                 {
                     StringUtil.SetBtnUrl(ui_.heead, "Avatar/ELIDA_common_touxiangdi01.png");
-                    ui_.txt_name.text = userInfo.townName;
-                    ui_.txt_lv.text = userInfo.userLevel.ToString();
                     
+                    ui_.txt_lv.text = userInfo.userLevel.ToString();
+
+                    ui_.txt_name.text = TextUtil.GetServerName(userInfo.serverId, userInfo.townName);
+                    var headVo = ItemModel.Instance.GetItemById(int.Parse(userInfo.headImgId));
+                    var frameVo = ItemModel.Instance.GetItemById((int)(userInfo.headFrame));
+                    UILogicUtils.ShowHeadFrames(ui_.picFrame as common_New.PictureFrame, frameVo);
+                    (ui_.heead as common_New.MoonFestivalHead).pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
+
+                    if (userInfo.title == 0)
+                    {
+                        ui_.titleTxt.text = Lang.GetValue("player_info_12");
+                    }
+                    else
+                    {
+                        var titleId = (int)userInfo.title;
+                        var titleVo = ItemModel.Instance.GetItemById(titleId);
+                        ui_.titleTxt.text = Lang.GetValue(titleVo.Name);
+                    }
                     // 设置按钮文本和点击事件
                     StringUtil.SetBtnTab(ui_.btn_Agree, "同意");
                     ui_.btn_Agree.onClick.Clear();

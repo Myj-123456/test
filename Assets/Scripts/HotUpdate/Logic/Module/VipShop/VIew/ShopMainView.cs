@@ -57,6 +57,7 @@ public class ShopMainView : BaseWindow
                 ChangeTab(2);
             }
         });
+        EventManager.Instance.AddEventListener(RedPointEvent.UpdateTodayFirstLogin, UpdateRedPoint);
     }
 
     public override void OnShown()
@@ -67,6 +68,7 @@ public class ShopMainView : BaseWindow
         view.tab.selectedIndex = index;
         ChangeTab(index);
         UnlockBtn();
+        UpdateRedPoint();
     }
     private void ChangeTab(int type)
     {
@@ -89,6 +91,18 @@ public class ShopMainView : BaseWindow
         view.seed_btn.visible = GlobalModel.Instance.GetUnlocked(SysId.RandomShop);
         view.other_btn.visible = false;
         view.vip_btn.visible = GlobalModel.Instance.GetUnlocked(SysId.VipPopup);
+    }
+    private void UpdateRedPoint()
+    {
+        if (RedPointModel.Instance.GetTodayFirstLogin(TodayFirstLogin.Vip_Shop))
+        {
+            UILogicUtils.ShowRedPoint(view.vip_btn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.vip_btn);
+        }
+        
     }
     public override void OnHide()
     {

@@ -97,7 +97,7 @@ public class GuildModel : Singleton<GuildModel>
             }
             return _shopConfig;
         } }
-    public List<int> posList = new List<int> { 1, 2, 5, 3, 4 };
+    public List<int> posList = new List<int> { 1, 2, 3, 4, 5 };
     public Dictionary<uint, uint> buyCntStat;//限购的配置，已经购买了多少次
 
     public List<I_GUILD_LIST_VO> guildList;
@@ -661,8 +661,24 @@ public class GuildModel : Singleton<GuildModel>
     
     public List<Ft_club_shopConfig> GetShopList(int type)
     {
-        return shopConfig.FindAll(value => value.Type == type);
+        //return shopConfig.FindAll(value => value.Type == type);
+        return shopConfig;
     }
+
+
+    public bool GetDonatePro()
+    {
+        foreach(var value in jrewardData.DataList)
+        {
+            if (guildDonate >= value.Progress && haveDrawDonateIds.IndexOf((uint)value.Id) == -1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
 }
 
 public class M_GuildFunc

@@ -113,7 +113,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     {
         if (structures != null)
         {
-            structures.UpdateMonthDraw(isActive);
+            structures.UpdateMonthDraw();
         }
     }
 
@@ -614,12 +614,12 @@ public class SceneManager : MonoSingleton<SceneManager>
             heroAvatar = new SceneHeroAvatar();
             if (!isNeedPrequelPlotGuide)//不需要前序剧情引导
             {
-                heroAvatar.Init(npcLayer, new Vector3(0f, 8f, 0));
+                heroAvatar.Init(npcLayer, new Vector3(1f, 9f, 0));
             }
             else//需要前序剧情引导，需要等待引导完成后再初始化英雄
             {
                 GuideModel.Instance.IsPrequelPlotGuiding = true;
-                heroAvatar.Init(npcLayer, new Vector3(18.72f, -2.71f, 0));
+                heroAvatar.Init(npcLayer, new Vector3(20.25f, -1.39f, 0));
                 //等待引导完成后，英雄移动到指定位置
                 StartCoroutine(WaitForDone());
             }
@@ -638,7 +638,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     {
         yield return new WaitForSeconds(0.5f);
         var camerePos = new Vector3(9f, 3.084523f, -10f);
-        MoveToPoint(camerePos, 0.5f, true, () =>
+        MoveToPoint(camerePos, 0.3f, true, () =>
         {
             HeroWalkToFlowerShop();
         });
@@ -649,7 +649,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     /// </summary>
     private void HeroWalkToFlowerShop()
     {
-        heroAvatar.WalkToPoint(new Vector2(12.78f, 1.54f), StartGuide);
+        heroAvatar.WalkToPoint(new Vector2(14.98f, 1.58f), StartGuide);
     }
 
     private void StartGuide()
@@ -680,24 +680,7 @@ public class SceneManager : MonoSingleton<SceneManager>
     private void InitNpc()
     {
         //NpcManager.Instance.ShowDebugNpcLine(circlePre, npcLayer);
-        //StartCoroutine(AddNpc());
-        //return;
         NpcManager.Instance.StartCreatNpc(npcLayer);
-    }
-
-    private IEnumerator AddNpc()
-    {
-        NpcManager.Instance.CreatNpc(npcLayer, 1, 0);
-        //NpcManager.Instance.CreatNpc(npcLayer, 1, 1);
-        //NpcManager.Instance.CreatNpc(npcLayer, 2, 2);
-        //NpcManager.Instance.CreatNpc(npcLayer, 3, 3);
-
-        yield return new WaitForSeconds(5f);
-
-        //NpcManager.Instance.CreatNpc(npcLayer, 4, 0);
-        //NpcManager.Instance.CreatNpc(npcLayer, 5, 1);
-        //NpcManager.Instance.CreatNpc(npcLayer, 6, 2);
-        //NpcManager.Instance.CreatNpc(npcLayer, 3, 3);
     }
 
     /// <summary>

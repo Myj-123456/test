@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using ADK;
 using protobuf.plant;
 using System.Linq;
+using protobuf.mail;
 
 public class MailInfoWindow : BaseWindow
 {

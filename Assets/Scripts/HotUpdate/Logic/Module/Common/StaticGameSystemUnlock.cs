@@ -24,8 +24,10 @@ public enum SysId
 	ChamberOfCommerce = 17000021,
 	VideoDouble = 17000024,//视频双倍
 	FirstRecharge = 17000025,//首充
+	Achiev_Task = 17000028,//成就任务
 	Collect = 17000029,
-	Friend = 17000033,
+	Friend_Crony = 17000032,//密友
+	Friend = 17000033,//好友
 	Mail = 17000034,
 	Furniture_Shop = 17000035,//家具商店
 	SignAndBulletin = 17000036,

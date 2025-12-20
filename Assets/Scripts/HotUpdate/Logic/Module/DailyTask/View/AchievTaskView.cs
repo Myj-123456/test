@@ -31,8 +31,8 @@ public class AchievTaskView : BaseView
         achievTypeData = TaskModel.Instance.GetAchievTypeList();
         view.titleLab.text = Lang.GetValue("building_achievement");
         view.tab_list.itemRenderer = RenderType;
-        view.tab_list.numItems = achievTypeData.Count;
-        view.tab_list.selectedIndex = achievType;
+        
+        
 
         view.achiev_list.itemRenderer = RenderAchiev;
         view.achiev_list.SetVirtual();
@@ -42,8 +42,8 @@ public class AchievTaskView : BaseView
         view.anim.animationName = "animation";
 
         view.achiev_list.height = view.close_btn.y - view.tab_list.y - 160;
-        AddEventListener(TaskEvent.AchievTaskReward, UpdateAchiev);
-        AddEventListener(TaskEvent.AchievTaskInfo, UpdateAchiev);
+        AddEventListener(TaskEvent.AchievTaskReward, UpdateData);
+        AddEventListener(TaskEvent.AchievTaskInfo, UpdateData);
     }
 
     public override void OnShown()
@@ -56,6 +56,14 @@ public class AchievTaskView : BaseView
     {
         var cell = item as fun_DailyTask.page_btn;
         cell.titleLab.text = cell.titleLab1.text = Lang.GetValue("task_title_" + (index + 1));
+        if (TaskModel.Instance.GetAchievRedPoint(index + 1))
+        {
+            UILogicUtils.ShowRedPoint(cell,false,cell.width - 20,0);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(cell);
+        }
         cell.data = index;
         cell.onClick.Add(AchievTab);
     }
@@ -68,6 +76,12 @@ public class AchievTaskView : BaseView
             achievType = type;
             UpdateAchiev();
         }
+    }
+    private void UpdateData()
+    {
+        view.tab_list.numItems = achievTypeData.Count;
+        view.tab_list.selectedIndex = achievType;
+        UpdateAchiev();
     }
     private void UpdateAchiev()
     {

@@ -104,41 +104,17 @@ public class IkeModel : Singleton<IkeModel>
 
     public bool IsCanGetVaseReward(int vaseId)
     {
-        //bool count = IsUnlockVase(vaseId);
-        //if (!FlowerHandbookModel.Instance.vaseRewardInfo.ContainsKey((uint)vaseId))
-        //{
-        //    return count;
-        //}
-        //var svr = FlowerHandbookModel.Instance.vaseRewardInfo[(uint)vaseId];
-
-        //var gettedReward = FlowerHandbookModel.Instance.rewardFlowersStatus;
-        //if (count && svr.lockStatus == 0)
-        //{
-        //    return true;
-        //}
-        //bool isHave = false;
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    var flowerData = GetFlowerBySlot((i + 1), vaseId);
-
-        //    foreach (var item in flowerData)
-        //    {
-        //        StaticSeedCondition condition = FlowerHandbookModel.Instance.staticSeedCondition[item.FlowersDI];
-        //        if (!FlowerHandbookModel.Instance.IsGetted((uint)vaseId, (uint)item.FlowersDI) && condition.UnlockAccessible)
-        //        {
-        //            return true;
-        //        }
-        //        if (!FlowerHandbookModel.Instance.IsGetted((uint)vaseId, (uint)item.FlowersDI))
-        //        {
-        //            isHave = true;
-        //        }
-
-        //    }
-        //}
-        //if (svr.lockStatus == 1 && !isHave && svr.gathStatus == 0)
-        //{
-        //    return true;
-        //}
+        bool count = IsUnlockVase(vaseId);
+        if (count)
+        {
+            var vaseData = GetFormulaByVaseID(vaseId);
+            foreach(var value in vaseData)
+            {
+                var status = GetIkeStatus((uint)value.CombinationId);
+                return status == 1;
+            }
+            
+        }
         return false;
     }
     //更新已制作的花艺品
@@ -403,6 +379,22 @@ public class IkeModel : Singleton<IkeModel>
     }
     public int BookSort(StaticFlowerPoint a, StaticFlowerPoint b)
     {
+        if (IsCanGetVaseReward(a.VaseId) && !IsCanGetVaseReward(b.VaseId))
+        {
+            return -1;
+        }
+        if (!IsCanGetVaseReward(a.VaseId) && IsCanGetVaseReward(b.VaseId))
+        {
+            return 1;
+        }
+        if (IsUnlockVase(a.VaseId) && !IsUnlockVase(b.VaseId))
+        {
+            return -1;
+        }
+        if (!IsUnlockVase(a.VaseId) && IsUnlockVase(b.VaseId))
+        {
+            return 1;
+        }
         return b.VaseQuality - a.VaseQuality;
     }
     //根据插槽类型获取花朵数据
@@ -665,6 +657,18 @@ public class IkeModel : Singleton<IkeModel>
         }
         return true;
     }
+
+    public bool CanGetVaseExp()
+    {
+        foreach (var value in vaseRewardInfo)
+        {
+            if(value.Value.status == 1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 public class StaticFlowerPoint
@@ -815,6 +819,8 @@ public class StaticFormula
         return IkebanaId == artId;
     }
 
+
+    
     
 }
 

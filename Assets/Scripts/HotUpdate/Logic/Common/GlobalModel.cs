@@ -150,6 +150,8 @@ public class GlobalModel : Singleton<GlobalModel>
 
         module_profileConfig.keHuifuCd = int.Parse(module_profileConfigData.Get("keHuiFuCd").Value);
         module_profileConfig.keMaxNum = int.Parse(module_profileConfigData.Get("keMaxNum").Value);
+
+        module_profileConfig.FirstRechargeShow = int.Parse(module_profileConfigData.Get("FirstRechargeShow").Value);
     }
 
     public uint startTickServerTime = 0;//记录开始Tick的服务器时间
@@ -361,6 +363,8 @@ public class ModuleProfileConfigVo
 
     public int keHuifuCd;//贝壳恢复时间
     public int keMaxNum;//贝壳拥有最大上限
+
+    public int FirstRechargeShow;//首充花朵动画展示
 }
 
 

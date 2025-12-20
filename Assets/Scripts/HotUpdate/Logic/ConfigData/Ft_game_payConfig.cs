@@ -15,44 +15,52 @@ namespace Elida.Config {
   [ProtoContract()]
   public class Ft_game_payConfig {
     
-    // 产品id
+    // 索引id
     [ProtoMember(1)]
+    public int IndexId;
+    
+    // 产品id
+    [ProtoMember(2)]
     public string ProductId;
     
     // 1.钻石 2.金币
-    [ProtoMember(2)]
+    [ProtoMember(3)]
     public int Type;
     
     // 语言文字
-    [ProtoMember(3)]
+    [ProtoMember(4)]
     public string Name;
     
     // 数量
-    [ProtoMember(4)]
+    [ProtoMember(5)]
     public int Count;
     
     // 价格$
-    [ProtoMember(5)]
+    [ProtoMember(6)]
     public float Price;
     
     // 是否推荐
-    [ProtoMember(6)]
+    [ProtoMember(7)]
     public bool IsRecommended;
     
     // 显示顺序
-    [ProtoMember(7)]
+    [ProtoMember(8)]
     public int Order;
     
     // 美术资源
-    [ProtoMember(8)]
+    [ProtoMember(9)]
     public string Resource;
     
     // 3倍四选一
-    [ProtoMember(9)]
+    [ProtoMember(10)]
     public int IsThree;
     
     // 首充额外赠送数量
-    [ProtoMember(10)]
+    [ProtoMember(11)]
     public int FirstExtraGive;
+    
+    // 首充额外赠送数量
+    [ProtoMember(12)]
+    public int ClubGiftId;
   }
 }

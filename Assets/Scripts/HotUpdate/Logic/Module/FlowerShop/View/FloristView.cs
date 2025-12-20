@@ -127,15 +127,15 @@ public class FloristView : BaseView
             foreach (var value in limitData)
             {
                 var info = value;
-                if ((info.type == 1 && info.num > (int)PlayerModel.Instance.pen.drawingPower) ||
-                    (info.type == 2 && info.num > MyselfModel.Instance.level) ||
-                    (info.type == 3 && info.num > StorageModel.Instance.seedCount) ||
-                    (info.type == 4 && info.num > IkeModel.Instance.GetVaseCount()) ||
-                    (info.type == 5 && info.num > DressModel.Instance.GetDressCount()))
-                {
-                    UILogicUtils.ShowNotice(Lang.GetValue("florist_22"));
-                    return;
-                }
+                //if ((info.type == 1 && info.num > (int)PlayerModel.Instance.pen.drawingPower) ||
+                //    (info.type == 2 && info.num > MyselfModel.Instance.level) ||
+                //    (info.type == 3 && info.num > StorageModel.Instance.seedCount) ||
+                //    (info.type == 4 && info.num > IkeModel.Instance.GetVaseCount()) ||
+                //    (info.type == 5 && info.num > DressModel.Instance.GetDressCount()))
+                //{
+                //    UILogicUtils.ShowNotice(Lang.GetValue("florist_22"));
+                //    return;
+                //}
             }
             foreach (var value in limitData)
             {
@@ -294,9 +294,9 @@ public class FloristView : BaseView
             var isCanget = false;
             if (info.type == 1)
             {
-                cell.limitLab.text = TextUtil.ChangeCoinShow1(PlayerModel.Instance.pen.drawingPower) + "/" + TextUtil.ChangeCoinShow1(info.num);
+                //cell.limitLab.text = TextUtil.ChangeCoinShow1(PlayerModel.Instance.pen.drawingPower) + "/" + TextUtil.ChangeCoinShow1(info.num);
                 cell.nameLab.text = Lang.GetValue("power_name");
-                isCanget = (int)PlayerModel.Instance.pen.drawingPower >= info.num;
+                //isCanget = (int)PlayerModel.Instance.pen.drawingPower >= info.num;
             }
             else if (info.type == 2)
             {
@@ -338,15 +338,15 @@ public class FloristView : BaseView
     private void LimitClick(EventContext context)
     {
         var info = (context.sender as GComponent).data as LimitData;
-        if ((info.type == 1 && info.num > (int)PlayerModel.Instance.pen.drawingPower) ||
-            (info.type == 2 && info.num > MyselfModel.Instance.level) ||
-            (info.type == 3 && info.num > StorageModel.Instance.seedCount) ||
-            (info.type == 4 && info.num > IkeModel.Instance.GetVaseCount()) ||
-            (info.type == 5 && info.num > DressModel.Instance.GetDressCount()))
-        {
-            UIManager.Instance.OpenWindow<FloristGotoWindow>(UIName.FloristGotoWindow, info);
-            return;
-        }
+        //if ((info.type == 1 && info.num > (int)PlayerModel.Instance.pen.drawingPower) ||
+        //    (info.type == 2 && info.num > MyselfModel.Instance.level) ||
+        //    (info.type == 3 && info.num > StorageModel.Instance.seedCount) ||
+        //    (info.type == 4 && info.num > IkeModel.Instance.GetVaseCount()) ||
+        //    (info.type == 5 && info.num > DressModel.Instance.GetDressCount()))
+        //{
+        //    UIManager.Instance.OpenWindow<FloristGotoWindow>(UIName.FloristGotoWindow, info);
+        //    return;
+        //}
         if (FlowerShopModel.Instance.rewardIds.IndexOf((uint)info.type) != -1)
         {
             return;

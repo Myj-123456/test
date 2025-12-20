@@ -166,8 +166,7 @@ public class NpcCollectWindow : BaseWindow
             cell.status.selectedIndex = status;
             if (status == (int)NpcCollectTaskStatus.Unfinished)
             {
-                //cell.task_condition_1.text = TaskModel.Instance.GetTaskDec(data.)
-                
+                //cell.task_condition_1.text = TaskModel.Instance.GetTaskDec(data,)
                 cell.isNew.selectedIndex = data.New;
             }
             else if (status == (int)NpcCollectTaskStatus.Available)
@@ -314,6 +313,7 @@ public class NpcCollectWindow : BaseWindow
     {
         UpdateInfo(viewSkin.search_input_text.text);
         UpdateCostItemCount();
+        UpdateRedPoint();
     }
 
     private void UpdateCostItemCount()
@@ -330,6 +330,28 @@ public class NpcCollectWindow : BaseWindow
     private void CloseView()
     {
         UIManager.Instance.CloseWindow(UIName.NpcCollectWindow);
+    }
+
+    private void UpdateRedPoint()
+    {
+        if (NpcCollectModel.Instance.GetRedPoint(1))
+        {
+            UILogicUtils.ShowRedPoint(viewSkin.tabBtn_1);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(viewSkin.tabBtn_1);
+        }
+
+        if (NpcCollectModel.Instance.GetRedPoint(2))
+        {
+            UILogicUtils.ShowRedPoint(viewSkin.tabBtn_2);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(viewSkin.tabBtn_2);
+        }
+
     }
 }
 

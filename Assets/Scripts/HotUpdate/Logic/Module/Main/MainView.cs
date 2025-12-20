@@ -56,6 +56,7 @@ public class MainView : BaseView
         TaskNotice.Instance.Init();
         MarqueeNotice.Instance.Init();
         MainShowManger.Instance.Init(viewSkin.leftBtns, viewSkin.rightBtns);
+        RedPointManger.Instance.Init(viewSkin);
         InitSpine();
         taskMain = new TaskManger(viewSkin.task_btn);
         matchBtn = new MatchBtn(viewSkin.leftBtns.btn.scroll.btn_match);
@@ -520,7 +521,7 @@ public class MainView : BaseView
     }
     private void OnAchieveTask()
     {
-        if (!GlobalModel.Instance.GetUnlocked(SysId.DailyTask, true))
+        if (!GlobalModel.Instance.GetUnlocked(SysId.Achiev_Task, true))
         {
             return;
         }

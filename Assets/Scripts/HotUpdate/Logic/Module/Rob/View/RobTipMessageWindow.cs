@@ -44,6 +44,13 @@ public class RobTipMessageWindow : BaseWindow
         // 其他打开面板的逻辑
         object[] param = data as object[];
         openType = (int)param[0];
+        
+        // 强制设置为奖励领取
+        if (param.Length >= 4 && param[3] is Dictionary<ulong, ulong>)
+        {
+            openType = 1;
+        }
+        
         _view.status.selectedIndex = openType;
         if (openType == 0)
         {

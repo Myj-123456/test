@@ -399,6 +399,22 @@ namespace protobuf.misc
 
     }
 
+    [ProtoBuf.ProtoContract]
+    public class C_MSG_CLICK_ITEM
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint itemId;
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_CLICK_ITEM
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint itemId;
+
+    }
+
 }
 
 #pragma warning restore CS1591, CS0612, CS3021

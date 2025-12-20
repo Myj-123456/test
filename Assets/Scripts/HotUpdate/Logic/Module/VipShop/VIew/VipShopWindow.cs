@@ -64,7 +64,7 @@ public class VipShopWindow
     public void OnShown()
     {
         // 其他打开面板的逻辑
-        
+        RedPointModel.Instance.UpdateTodayFirstLogin(TodayFirstLogin.Vip_Shop);
         VipShopController.Instance.ReqVipShopInfo();
         _view.txt_gold.text = TextUtil.ChangeCoinShow(MyselfModel.Instance.diamond);
 

@@ -42,6 +42,9 @@ public class StorageModel : Singleton<StorageModel>
     private List<SeedCropVO> _seedList;
     public Dictionary<int, StorageItemVO> itemList;
 
+    //已点击的道具id
+    public List<uint> clickItems = new List<uint>();
+
     //服务器通知物品id，新增需要自己加上去
     private int[] serverNotificeIds = new int[] { (int)BaseType.EXP, (int)BaseType.GOLD, (int)BaseType.CASH, (int)BaseType.FST_WATER, (int)BaseType.SPD_DRUG, (int)BaseType.TURNTABLE_COIN, (int)BaseType.GRANDMA_TICKET, (int)BaseType.GUILD_MEDAL, (int)BaseType.Friend_Coin };
 
@@ -324,6 +327,7 @@ public class StorageModel : Singleton<StorageModel>
             itemList.Add(itemId, itemData);
         }
         EventManager.Instance.DispatchEvent(SystemEvent.UpdateItemNum);
+        EventManager.Instance.DispatchEvent(RedPointEvent.UpdateItem);
     }
 
     public void AddToStorageByItemId(string id, int count)
@@ -353,6 +357,7 @@ public class StorageModel : Singleton<StorageModel>
             itemList.Add(itemId, itemData);
         }
         EventManager.Instance.DispatchEvent(SystemEvent.UpdateItemNum);
+        EventManager.Instance.DispatchEvent(RedPointEvent.UpdateItem);
     }
 
     /// <summary>
@@ -501,7 +506,7 @@ public class StorageModel : Singleton<StorageModel>
                 continue;
             }
             
-            else if (item.Value.item.Type == 5201 && item.Value.count > 0)
+            else if (item.Value.item.Category == 52 && item.Value.count > 0)
             {
                 listData.Add(item.Value);
             }
@@ -594,6 +599,77 @@ public class StorageModel : Singleton<StorageModel>
     {
         _seedList.Sort((a, b) => b.quality - a.quality);
         return _seedList;
+    }
+    //鲜花是否能培育
+    public StaticSeedCondition GetCanCultivationFlower()
+    {
+        var flowerList = CultivationModel.Instance.GetNoCultivationList();
+        StaticSeedCondition curflower = null;
+        foreach(var value in flowerList)
+        {
+            Module_item_defConfig itemData = ItemModel.Instance.GetItemById(value.FlowerId);
+            var bol = true;
+            for (int i = 0; i < value.ItemIds.Count; i++)
+            {
+                var count = GetItemCount(value.ItemIds[i].EntityID);
+                if(count < value.ItemIds[i].Value)
+                {
+                    bol = false;
+                    break;
+                }
+            }
+            if (bol)
+            {
+                if(curflower != null)
+                {
+                    var curOrderVo = OrderModel.Instance.GetOrderInfo(curflower.FlowerId);
+                    var orderVo = OrderModel.Instance.GetOrderInfo(value.FlowerId);
+                    if(curOrderVo.Gold < orderVo.Gold)
+                    {
+                        curflower = value;
+                    }
+                }
+                else
+                {
+                    curflower = value;
+                }
+            }
+        }
+        return curflower;
+    }
+
+    public bool GetCanFlowerLevel()
+    {
+        foreach(var value in seedList)
+        {
+            
+            var bol = FlowerHandbookModel.Instance.CheckFlowerIsCanUp(value.flowerId);
+            if (bol)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GetRodomGift()
+    {
+        foreach(var value in itemList)
+        {
+            if(value.Value.item.Category == 52 && value.Value.count > 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void AddClickItem(uint id)
+    {
+        if(clickItems.IndexOf(id) == -1)
+        {
+            clickItems.Add(id);
+        }
     }
 }
 

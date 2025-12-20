@@ -492,6 +492,7 @@ public class CultivationView : BaseView
                         {
                             GuideController.Instance.NextGuide();
                         }
+                        EventManager.Instance.DispatchEvent(RedPointEvent.FlowerCultivation);
                     };
                 }
                 UpdateHelpCount();

@@ -52,6 +52,7 @@ public class InfoChangeWindow : BaseWindow
                 ChangeTab(2);
             }
         });
+        EventManager.Instance.AddEventListener(RedPointEvent.ClickItem, UpdataRedPoint);
     }
 
     public override void OnShown()
@@ -61,6 +62,7 @@ public class InfoChangeWindow : BaseWindow
         int type = (int)data;
         view.tab.selectedIndex = type;
         ChangeTab(type);
+        UpdataRedPoint();
     }
     private void ChangeTab(int type)
     {
@@ -76,6 +78,34 @@ public class InfoChangeWindow : BaseWindow
         else
         {
             titleView.OnShown();
+        }
+    }
+
+    public void UpdataRedPoint()
+    {
+        if (PlayerModel.Instance.GetHeadRedPoint())
+        {
+            UILogicUtils.ShowRedPoint(view.head_btn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.head_btn);
+        }
+        if (PlayerModel.Instance.GetFrameRedPoint())
+        {
+            UILogicUtils.ShowRedPoint(view.head_frame_btn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.head_frame_btn);
+        }
+        if (PlayerModel.Instance.GetTitleRedPoint())
+        {
+            UILogicUtils.ShowRedPoint(view.title_btn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.title_btn);
         }
     }
     public override void OnHide()

@@ -7,7 +7,11 @@ namespace fun_Rob
 {
     public partial class btn_logs : GButton
     {
-        public GImage n3;
+        public GImage n4;
+        public GImage n5;
+        public GImage n6;
+        public GTextField n7;
+        public GLoader pic;
         public const string URL = "ui://z1on8kwdd5kwpj8";
 
         public static btn_logs CreateInstance()
@@ -19,7 +23,11 @@ namespace fun_Rob
         {
             base.ConstructFromXML(xml);
 
-            n3 = (GImage)GetChildAt(0);
+            n4 = (GImage)GetChildAt(0);
+            n5 = (GImage)GetChildAt(1);
+            n6 = (GImage)GetChildAt(2);
+            n7 = (GTextField)GetChildAt(3);
+            pic = (GLoader)GetChildAt(4);
         }
     }
 }

@@ -31,7 +31,9 @@ public enum DecorationsType
     LoftRoof = 100,//阁楼屋顶(前端自己使用)
     LoftHandrail = 101,//阁楼栏杆(前端自己使用)
     Loft = 102,//阁楼(前端自己使用)
-    HuaJia = 103//花架(前端自己使用)
+    HuaJia = 103,//花架(前端自己使用)
+    HuaTaiDitan = 1034,//花台地毯(前端自己使用)
+    QianTaiDitan = 1035//前台地毯(前端自己使用)
 }
 
 public class DecorationData
@@ -67,7 +69,7 @@ public class Decoration : SceneObject
         this.decorationsType = decorationData.decorationsType;
         UpdateSortingOrder();
 
-        if (decorationsType == DecorationsType.Wall || decorationsType == DecorationsType.LoftWall)//墙壁采用多边形碰撞器
+        if (decorationsType == DecorationsType.Wall || decorationsType == DecorationsType.Handrail || decorationsType == DecorationsType.LoftWall)//墙壁采用多边形碰撞器
         {
             GetComponent<BoxCollider2D>().enabled = false;
         }
@@ -114,12 +116,12 @@ public class Decoration : SceneObject
             skin.sprite = handle.AssetObject as Sprite;
             if (decorationsType == DecorationsType.Counter)
             {
-                skin.GetComponent<BoxCollider2D>().offset = new Vector2(-0.1092081f, 0.1581929f);
-                skin.GetComponent<BoxCollider2D>().size = new Vector2(3.361584f, 1.627143f);
+                skin.GetComponent<BoxCollider2D>().offset = new Vector2(0.6969869f, 0.5290437f);
+                skin.GetComponent<BoxCollider2D>().size = new Vector2(4.973974f, 2.755816f);
             }
             else
             {
-                if (decorationsType == DecorationsType.Wall || decorationsType == DecorationsType.LoftWall)//墙壁采取多边形碰撞器
+                if (decorationsType == DecorationsType.Wall || decorationsType == DecorationsType.LoftWall || decorationsType == DecorationsType.Handrail)//墙壁采取多边形碰撞器
                 {
                     skin.gameObject.AddComponent<PolygonCollider2D>();
                 }
@@ -131,6 +133,11 @@ public class Decoration : SceneObject
                         size.x -= 5;
                         size.y -= 2;
                         skin.GetComponent<BoxCollider2D>().size = size;
+                    }
+                    else if (decorationsType == DecorationsType.FloorLamp)
+                    {
+                        skin.GetComponent<BoxCollider2D>().offset = new Vector2(0f, 0.8191068f);
+                        skin.GetComponent<BoxCollider2D>().size = new Vector2(2.67f, 2.461786f);
                     }
                     else
                     {
@@ -176,6 +183,16 @@ public class Decoration : SceneObject
                 break;
             case DecorationsType.FlowerStand:
                 sortingLayerName = "Default";
+                break;
+            case DecorationsType.Stair:
+                sortingLayerName = "Default";
+                order = 0;
+                break;
+            case DecorationsType.HuaTaiDitan:
+                order = -1;
+                break;
+            case DecorationsType.QianTaiDitan:
+                order = -1;
                 break;
         }
         skin.sortingLayerName = sortingLayerName;

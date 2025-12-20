@@ -8,7 +8,6 @@ namespace fun_Rob
     public partial class blueCostBtn : GButton
     {
         public GImage n6;
-        public GLoader pic;
         public GTextField titleLab;
         public const string URL = "ui://z1on8kwdc60e1ayr883";
 
@@ -22,8 +21,7 @@ namespace fun_Rob
             base.ConstructFromXML(xml);
 
             n6 = (GImage)GetChildAt(0);
-            pic = (GLoader)GetChildAt(1);
-            titleLab = (GTextField)GetChildAt(2);
+            titleLab = (GTextField)GetChildAt(1);
         }
     }
 }

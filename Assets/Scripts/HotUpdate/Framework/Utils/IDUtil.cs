@@ -123,6 +123,7 @@ namespace ADK
         ColorPower = 41013001,//颜色之力
         GUILDGOLD = 19000012,//社团资金
         Friend_Coin = 41013044,//好友币
+        CONTRACT_EXP= 41013059//花之密令经验
     }
 
     public class BaseTypeEntity

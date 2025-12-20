@@ -27,14 +27,17 @@ public class TradeController : BaseController<TradeController>
         //TradeModel.Instance.help = data.help == null ? new Dictionary<uint, uint>() : data.help;
         if (data.items != null)
         {
-            StorageModel.Instance.AddToStorageItems(data.items);
+            var dropList = ItemModel.Instance.GetDropData(data.items);
+            DropManager.ShowDrop(dropList);
+            EventManager.Instance.DispatchEvent(RedPointEvent.UpdateTradeMain);
+            //StorageModel.Instance.AddToStorageItems(data.items);
         }
         if (data.backItems != null)
         {
             StorageModel.Instance.AddToStorageItems(data.backItems);
         }
 
-
+        RedPointModel.Instance.UpdateRedPoint(RedPointType.Trade,false);
         EventManager.Instance.DispatchEvent(TradeEvent.TradeInfomation);
     }
 
@@ -96,6 +99,8 @@ public class TradeController : BaseController<TradeController>
     public void Message(S_MSG_MESSAGE data)
     {
         TradeModel.Instance.messageList = data.messageList;
+        TradeModel.Instance.tipRedPoint = false ;
+        EventManager.Instance.DispatchEvent(RedPointEvent.UpdateTradeTip);
         EventManager.Instance.DispatchEvent(TradeEvent.Message);
     }
 

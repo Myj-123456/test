@@ -31,7 +31,17 @@ namespace fun_Recharge
             UIObjectFactory.SetPackageItemExtension(buy_btn1.URL, typeof(buy_btn1));
             UIObjectFactory.SetPackageItemExtension(reward_item1.URL, typeof(reward_item1));
             UIObjectFactory.SetPackageItemExtension(page_btn1.URL, typeof(page_btn1));
+            UIObjectFactory.SetPackageItemExtension(contract_view.URL, typeof(contract_view));
+            UIObjectFactory.SetPackageItemExtension(contract_item.URL, typeof(contract_item));
+            UIObjectFactory.SetPackageItemExtension(task_item.URL, typeof(task_item));
+            UIObjectFactory.SetPackageItemExtension(pro2.URL, typeof(pro2));
+            UIObjectFactory.SetPackageItemExtension(page_btn3.URL, typeof(page_btn3));
+            UIObjectFactory.SetPackageItemExtension(taskListItem.URL, typeof(taskListItem));
+            UIObjectFactory.SetPackageItemExtension(contractRewardPreview.URL, typeof(contractRewardPreview));
+            UIObjectFactory.SetPackageItemExtension(contractPreview_btn.URL, typeof(contractPreview_btn));
+            UIObjectFactory.SetPackageItemExtension(contractPreviewRootBtn.URL, typeof(contractPreviewRootBtn));
             UIObjectFactory.SetPackageItemExtension(item_com.URL, typeof(item_com));
+            UIObjectFactory.SetPackageItemExtension(contractPayWindow.URL, typeof(contractPayWindow));
             UIObjectFactory.SetPackageItemExtension(vip_buy_view.URL, typeof(vip_buy_view));
             UIObjectFactory.SetPackageItemExtension(vip_everyDay_reward.URL, typeof(vip_everyDay_reward));
             UIObjectFactory.SetPackageItemExtension(newRecharge.URL, typeof(newRecharge));

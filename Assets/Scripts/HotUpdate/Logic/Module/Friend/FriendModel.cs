@@ -2,6 +2,7 @@ using ADK;
 using Elida.Config;
 using protobuf.common;
 using protobuf.friend;
+using protobuf.mail;
 using protobuf.messagecode;
 using protobuf.plant;
 using System.Collections;
@@ -157,6 +158,7 @@ public class FriendModel : Singleton<FriendModel>
         foreach (uint id in friendIds)
         {
             I_FRIEND_PROFILE_VO friendData = new I_FRIEND_PROFILE_VO();
+            friendData.userInfo = new I_USER_PROFILE();
             int index = GetApplyListIndex(id);
             if (index == -1)
             {
@@ -332,6 +334,7 @@ public class FriendModel : Singleton<FriendModel>
             }
             I_FRIEND_PROFILE_VO friendData = friendList[index];
             I_BLACK_VO blackData = new I_BLACK_VO();
+            blackData.userInfo = new I_USER_PROFILE();
             blackData.userInfo.userId = friendData.userInfo.userId;
             blackData.userInfo.userLevel = friendData.userInfo.userLevel;
             blackData.userInfo.townName = friendData.userInfo.townName;
