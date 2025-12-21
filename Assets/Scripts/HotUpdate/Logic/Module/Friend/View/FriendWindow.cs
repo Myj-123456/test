@@ -141,7 +141,8 @@ public class FriendWindow : BaseWindow
 
         view.btn_best_relieve2.visible = false;
         // 添加密友申请同意事件监听
-        EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, OnCronyAgree);
+        //EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, OnCronyAgree);
+        EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, UpdateCronyList);
         // 添加密友服装数据更新事件监听
         EventManager.Instance.AddEventListener(FlowerRankEvent.dressUserInfo, OnCronyDressUpdate);
         // 添加密友位解锁成功事件监听
@@ -397,7 +398,6 @@ public class FriendWindow : BaseWindow
         EventManager.Instance.AddEventListener(FriendEvent.FriendApplyList, UpdateApplyList);
         EventManager.Instance.AddEventListener(FriendEvent.FriendRecommendList, UpdateRecommendList);
         EventManager.Instance.AddEventListener(FriendEvent.CronyList, UpdateCronyList);
-        EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, OnCronyAgree);
 
         EventManager.Instance.AddEventListener(FriendEvent.CronyCancel, OnCronyCancelCallback);
         EventManager.Instance.AddEventListener(FriendEvent.CronySpeedCancel, OnCronySpeedCancelCallback);
@@ -925,8 +925,8 @@ public class FriendWindow : BaseWindow
         // 清空选中状态
         curSelectedItem = null;
         //移除事件监听器
-        EventManager.Instance.RemoveEventListener(FriendEvent.CronyAgree, OnCronyAgree);
-        EventManager.Instance.RemoveEventListener(FriendEvent.CronyList, UpdateCronyList);
+        EventManager.Instance.RemoveEventListener(FriendEvent.CronyAgree, UpdateApplyList);
+        //EventManager.Instance.RemoveEventListener(FriendEvent.CronyList, UpdateCronyList);
         EventManager.Instance.RemoveEventListener(FlowerRankEvent.dressUserInfo, OnCronyDressUpdate);
     }
 
@@ -1053,6 +1053,7 @@ public class FriendWindow : BaseWindow
     //处理密友申请同意事件
     private void OnCronyAgree()
     {
+
         //找到第一个空的、已解锁的密友位置
         int emptyIndex = FindFirstEmptyCronyPosition();
         if (emptyIndex >= 0)
@@ -1083,11 +1084,7 @@ public class FriendWindow : BaseWindow
                         //设置n3组件下的好友信息
                         if (cronyData != null && ui_.n3 != null)
                         {
-                            //设置头像
-                            if (ui_.n3.GetChild("head") is GButton headBtn)
-                            {
-                                StringUtil.SetBtnUrl(headBtn, "Avatar/ELIDA_common_touxiangdi01.png");
-                            }
+                            StringUtil.SetBtnUrl(ui_.n3.head, "Avatar/ELIDA_common_touxiangdi01.png");
                             //设置等级
                             if (ui_.n3.GetChild("txt_lv") is GTextField lvTxt)
                             {
@@ -1109,11 +1106,11 @@ public class FriendWindow : BaseWindow
                                 }
                             }
                             //设置图标
-                            if (ui_.n3.GetChild("icon") is GLoader iconLoader)
-                            {
-                                //设置对应的图标，这里使用示例图标路径
-                                iconLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
-                            }
+                            //if (ui_.n3.GetChild("icon") is GLoader iconLoader)
+                            //{
+                            //    //设置对应的图标，这里使用示例图标路径
+                            //    iconLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
+                            //}
                         }
                     }
                 }

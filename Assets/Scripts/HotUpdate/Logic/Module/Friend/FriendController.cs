@@ -312,16 +312,16 @@ public class FriendController : BaseController<FriendController>
             {
                 currentServerTime = MyselfModel.Instance.lastServerTime;
             }
-
+            filteredCronyList = data.cronyList;//服务器返回的不需要再过滤
             // 使用LINQ过滤掉已过期的密友关系
-            filteredCronyList = data.cronyList
-                .Where(cronyData =>
-                    // 没有设置解除时间的密友关系正常保留
-                    cronyData.cancelTime == 0 ||
-                    // 有解除时间但当前服务器时间未到解除时间的保留
-                    (currentServerTime > 0 && cronyData.cancelTime > currentServerTime)
-                )
-                .ToList();
+            //filteredCronyList = data.cronyList
+            //    .Where(cronyData =>
+            //        // 没有设置解除时间的密友关系正常保留
+            //        cronyData.cancelTime == 0 ||
+            //        // 有解除时间但当前服务器时间未到解除时间的保留
+            //        (currentServerTime > 0 && cronyData.cancelTime > currentServerTime)
+            //    )
+            //    .ToList();
         }
         // 更新已解锁的密友位数量
         if (data != null)
@@ -593,7 +593,7 @@ public class FriendController : BaseController<FriendController>
     {
         if (data == null) return;
         Debug.Log("FriendCoinExchangeMesg:" + data.friendCoinExchangeCnt);
-
+        if (data.friendCoinExchangeCnt >= 8) { Debug.LogError("每天购买次数超过8次！");return; }
         //GlobalModel.Instance.module_profileConfig.umberOfMutualaid + (int)data.friendCoinExchangeCnt;
 
         FriendModel.Instance.FriendCoinExchangeCnt = data.friendCoinExchangeCnt;
