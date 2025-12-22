@@ -23,7 +23,7 @@ public class VisitFriendView : BaseView
     private int _friendCoinCount = 0;
     private I_FRIEND_PROFILE_VO _curfriendData;//当前访问朋友信息
     private int curConverFriendConitCount = 1;//当前准备兑换好友币数
-    private const int FriendCoinExchangeLimit = 8;//每个好友每日好友币兑换摸花上限
+    private  int FriendCoinExchangeLimit;//每个好友每日好友币兑换摸花上限
     public VisitFriendView()
     {
         packageName = "fun_Friends";
@@ -61,6 +61,7 @@ public class VisitFriendView : BaseView
         });
         UpdateFriendCoinCount();
         UpdateConverUI();
+        FriendCoinExchangeLimit = GlobalModel.Instance.module_profileConfig.FriendCoinExchange;
 
         view.btn_addNum.onClick.Add(() => { ChangeCurrentConverFriendConitCount(1); });
         view.btn_lessen.onClick.Add(() => { ChangeCurrentConverFriendConitCount(-1); });
@@ -85,8 +86,7 @@ public class VisitFriendView : BaseView
     {
         try
         {
-            const int FriendCoinItemId = 41013044;
-            _friendCoinCount = StorageModel.Instance.GetItemCount(FriendCoinItemId);
+            _friendCoinCount = StorageModel.Instance.GetItemCount(GlobalModel.Instance.module_profileConfig.FriendCoinItem);
             view.FriendCoinNum.text = _friendCoinCount.ToString();
 
         }

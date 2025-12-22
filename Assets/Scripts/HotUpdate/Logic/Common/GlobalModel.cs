@@ -152,6 +152,10 @@ public class GlobalModel : Singleton<GlobalModel>
         module_profileConfig.keMaxNum = int.Parse(module_profileConfigData.Get("keMaxNum").Value);
 
         module_profileConfig.FirstRechargeShow = int.Parse(module_profileConfigData.Get("FirstRechargeShow").Value);
+
+        module_profileConfig.FriendCoinItem= int.Parse(module_profileConfigData.Get("FriendCoinItem").Value);
+        module_profileConfig.FriendCoinDayLimit = int.Parse(module_profileConfigData.Get("FriendCoinDayLimit").Value);
+        module_profileConfig.FriendCoinExchange = int.Parse(module_profileConfigData.Get("FriendCoinExchange").Value);
     }
 
     public uint startTickServerTime = 0;//记录开始Tick的服务器时间
@@ -365,6 +369,9 @@ public class ModuleProfileConfigVo
     public int keMaxNum;//贝壳拥有最大上限
 
     public int FirstRechargeShow;//首充花朵动画展示
+    public int FriendCoinDayLimit;//好友币每日获得上限
+    public int FriendCoinItem;//好友币道具ID
+    public int FriendCoinExchange;//好友币每日兑换摸花次数上限
 }
 
 

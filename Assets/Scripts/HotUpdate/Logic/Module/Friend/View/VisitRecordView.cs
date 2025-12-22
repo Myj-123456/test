@@ -11,6 +11,7 @@ public class VisitRecordView : BaseWindow
 {
     private fun_Friends.VisitRecordView view;
     private List<I_STEAL_MESSAGE_VO> stealMesData = new List<I_STEAL_MESSAGE_VO>();
+
     public VisitRecordView()
     {
         packageName = "fun_Friends";
@@ -30,9 +31,8 @@ public class VisitRecordView : BaseWindow
     }
     private void FriendStealCallBack()
     {
-        view.n22.text = FriendModel.Instance.friendStealMsg.fcoinDailyCnt.ToString()+"/"+350;
-        const int FriendCoinItemId = 41013044;
-        view.n25.text= StorageModel.Instance.GetItemCount(FriendCoinItemId).ToString();
+        view.n22.text = FriendModel.Instance.friendStealMsg.fcoinDailyCnt.ToString()+"/"+ GlobalModel.Instance.module_profileConfig.FriendCoinDayLimit.ToString();
+        view.n25.text= StorageModel.Instance.GetItemCount(GlobalModel.Instance.module_profileConfig.FriendCoinItem).ToString();
         view.list.numItems = FriendModel.Instance.friendStealMsg.messageList?.Count??0;
         stealMesData = FriendModel.Instance.friendStealMsg.messageList??new List<I_STEAL_MESSAGE_VO>();
 
@@ -61,13 +61,9 @@ public class VisitRecordView : BaseWindow
                 {
                     foreach (var itemVo in stealMesItem.items)
                     {
-                        // 直接使用IDUtil.GetEntityValue的ulong重载方法
                         int entityId = IDUtil.GetEntityValue(itemVo.itemId);
-                        
-                        // 使用确认的花ID范围进行统计（41013034-41013045）
-                        if (entityId >= 41013034 && entityId <= 41013045)
+                        if (entityId == GlobalModel.Instance.module_profileConfig.FriendCoinItem)
                         {
-                            // 累加cnt和cronyCnt
                             totalFriendCoinCount += (int)itemVo.cnt + (int)itemVo.cronyCnt;
                         }
                     }
