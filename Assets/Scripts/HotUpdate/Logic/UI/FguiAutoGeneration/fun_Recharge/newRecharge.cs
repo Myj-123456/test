@@ -10,10 +10,11 @@ namespace fun_Recharge
         public GLoader bg;
         public recharge_list revharge;
         public GGraph rect;
+        public GImage n36;
         public GImage n34;
         public GImage n35;
         public GTextField tipLab;
-        public GImage n36;
+        public GGroup n37;
         public const string URL = "ui://w3ox9yltqheb0";
 
         public static newRecharge CreateInstance()
@@ -28,10 +29,11 @@ namespace fun_Recharge
             bg = (GLoader)GetChildAt(0);
             revharge = (recharge_list)GetChildAt(1);
             rect = (GGraph)GetChildAt(2);
-            n34 = (GImage)GetChildAt(3);
-            n35 = (GImage)GetChildAt(4);
-            tipLab = (GTextField)GetChildAt(5);
-            n36 = (GImage)GetChildAt(6);
+            n36 = (GImage)GetChildAt(3);
+            n34 = (GImage)GetChildAt(4);
+            n35 = (GImage)GetChildAt(5);
+            tipLab = (GTextField)GetChildAt(6);
+            n37 = (GGroup)GetChildAt(7);
         }
     }
 }

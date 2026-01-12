@@ -37,6 +37,13 @@ public class DrawController : BaseController<DrawController>
             DrawModel.Instance.dressDrawData = data;
             DispatchEvent(ActivityEvent.DressDraw);
         }
+        if(data.exchangeStat != null && data.exchangeStat.Count > 0)
+        {
+            foreach(var stat in data.exchangeStat)
+            {
+                DrawModel.Instance.UpdateExchangeData(stat);
+            }
+        }
     }
 
     public void ReqDrawInfo(uint activityId)
@@ -89,6 +96,7 @@ public class DrawController : BaseController<DrawController>
             costItems.Add(ulong.Parse(value.EntityID), (ulong)value.Value);
         }
         StorageModel.Instance.OddToStorageItems(costItems);
+        DrawModel.Instance.UpdateExchangeData(data.exchange);
         if (data.module == (int)ExchangeType.Month_Draw)
         {
             DispatchEvent(ExhcangeEvent.MonthDraw);
@@ -102,7 +110,6 @@ public class DrawController : BaseController<DrawController>
             DispatchEvent(ExhcangeEvent.DressDraw);
         }else if (data.module == (int)ExchangeType.Furniture_Shop)
         {
-            DrawModel.Instance.UpdateExchangeData(data.exchange);
             DispatchEvent(ExhcangeEvent.FurnitureShop);
         }
         var dropList = ItemModel.Instance.GetDropData(data.items);

@@ -21,7 +21,8 @@ public class MatchFlowerWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_Match.match_flower_view;
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
+        SetBg(view.bg, "Common/common_big_tip_bg.png");
+        view.txt_Title.text = Lang.GetValue("guild_Match_8"); //本期鲜花
         view.tipLab.text = Lang.GetValue("guild_Match_13");
         view.list.itemRenderer = RenderList;
         view.list.SetVirtual();

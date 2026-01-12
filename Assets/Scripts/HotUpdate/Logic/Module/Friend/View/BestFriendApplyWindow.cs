@@ -27,10 +27,8 @@ public class BestFriendApplyWindow : BaseWindow
         base.OnInit();
         view = ui as fun_Friends.newBestFriendView;
         
-        // 设置标题
-        view.best_Title.text = "申请列表"; 
-        
-        // 设置背景
+        view.best_Title.text = Lang.GetValue("guild.tab_title_applicant"); //申请列表
+
         SetBg(view.bg, "Common/common_big_tip_bg.png");
         
         // 初始化列表渲染器
@@ -39,7 +37,7 @@ public class BestFriendApplyWindow : BaseWindow
         
         view.close_btn.onClick.Add(CloseView);
         // 设置空数据提示并默认隐藏
-        StringUtil.SetBtnTab(view.nullTip, "暂无新的密友申请");
+        StringUtil.SetBtnTab(view.nullTip, Lang.GetValue("notfriendinv_txt"));
         view.nullTip.visible = false;
         view.nullTip.touchable = false;
     }
@@ -52,7 +50,7 @@ public class BestFriendApplyWindow : BaseWindow
         FriendController.Instance.ReqCronyBeApply();
         // 监听蜜友申请列表数据更新事件
         EventManager.Instance.AddEventListener(FriendEvent.CronyBeApply, UpdateApplyList);
-        // 监听蜜友同意和拒绝事件，以便更新列表
+        // 监听蜜友同意和拒绝事件
         EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, UpdateApplyList);
         EventManager.Instance.AddEventListener(FriendEvent.CronyReject, UpdateApplyList);
     }
@@ -71,7 +69,7 @@ public class BestFriendApplyWindow : BaseWindow
         if (view == null || FriendModel.Instance == null) return;
         // 清空现有数据
         applyUserInfos.Clear();
-        // 从模型中获取密友申请用户ID列表
+        // 获取密友申请用户ID列表
         if (FriendModel.Instance.applyUserIds != null && FriendModel.Instance.applyUserIds.Count > 0)
         {
             foreach (uint userId in FriendModel.Instance.applyUserIds)
@@ -90,25 +88,13 @@ public class BestFriendApplyWindow : BaseWindow
                         userInfo.headImgId = friendData.userInfo.headImgId;
                         userInfo.headFrame = friendData.userInfo.headFrame;
                         userInfo.lastLoginTime = friendData.userInfo.lastLoginTime;
+                        
+                        // 只添加有效的用户信息到字典
+                        applyUserInfos[userId] = userInfo;
                     }
                 }
-                
-                // 如果找不到完整信息，创建一个基本信息对象
-                if (userInfo == null)
-                {
-                    userInfo = new I_USER_PROFILE();
-                    userInfo.userId = userId;
-                    userInfo.townName = "用户" + userId;
-                    // 其他字段可以设置默认值
-                }
-                applyUserInfos[userId] = userInfo;
             }
         }
-        else
-        {
-            // 记录空列表日志
-            Debug.Log("没有密友申请数据");
-        } 
         // 更新列表数据源
         view.list.numItems = applyUserInfos.Count;
         // 处理空列表情况
@@ -140,7 +126,7 @@ public class BestFriendApplyWindow : BaseWindow
         {
             uint userId = userIds[index];
             // 从applyUserInfos字典中获取用户信息
-            if (applyUserInfos.TryGetValue(userId, out I_USER_PROFILE userInfo))
+            if (applyUserInfos.TryGetValue(userId, out I_USER_PROFILE userInfo) && userInfo != null)
             {
                 if (ui_ != null)
                 {
@@ -165,11 +151,11 @@ public class BestFriendApplyWindow : BaseWindow
                         ui_.titleTxt.text = Lang.GetValue(titleVo.Name);
                     }
                     // 设置按钮文本和点击事件
-                    StringUtil.SetBtnTab(ui_.btn_Agree, "同意");
+                    StringUtil.SetBtnTab(ui_.btn_Agree, Lang.GetValue("best_27")); //同意
                     ui_.btn_Agree.onClick.Clear();
                     ui_.btn_Agree.onClick.Add(() => OnAddFriend(userId, ui_));
                     
-                    StringUtil.SetBtnTab(ui_.btn_refuse, "拒绝");
+                    StringUtil.SetBtnTab(ui_.btn_refuse, Lang.GetValue("Friend_16")); //拒绝
                     ui_.btn_refuse.onClick.Clear();
                     ui_.btn_refuse.onClick.Add(() => OnDenyFriend(userId, ui_));
                 }

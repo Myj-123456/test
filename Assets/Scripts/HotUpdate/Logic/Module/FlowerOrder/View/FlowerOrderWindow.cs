@@ -26,16 +26,20 @@ public class FlowerOrderWindow : BaseWindow
         // 设置委托
         BindAllDelegate = fun_FlowerOrder.fun_FlowerOrderBinder.BindAll;
         CreateInstanceDelegate = fun_FlowerOrder.order.CreateInstance;
+        //ClickBlankClose = true;
     }
     public override void OnInit()
     {
         base.OnInit();
         viewSkin = ui as fun_FlowerOrder.order;
         AddEvent();
-        SetBg(viewSkin.ornBg, "FlowerOrder/FlowerOrderBg.png");
+        SetBg(viewSkin.ornBg, "FlowerOrder/ELIDA_xianhuadingdan_diban2.png");
         viewSkin.timeTipLab.text = Lang.GetValue("flower_order_02");
-
+        StringUtil.SetBtnTab(viewSkin.add_btn, Lang.GetValue("player_info_7"));
         viewSkin.doubledOrderRewardTxt.text = Lang.GetValue("video_revenue_13");
+        viewSkin.order_title_txt.text = Lang.GetValue("flower_order_06");
+        viewSkin.n352.text = Lang.GetValue("Headframe_txt");
+        viewSkin.n355.text = Lang.GetValue("trophy_reward");
         orderNpcDic.Add(1, viewSkin.npc4);
         orderNpcDic.Add(2, viewSkin.npc3);
         orderNpcDic.Add(3, viewSkin.npc1);
@@ -78,6 +82,7 @@ public class FlowerOrderWindow : BaseWindow
         EventManager.Instance.AddEventListener(RechargeEvent.VideoPay, UpdateVideoDouble);
         EventManager.Instance.AddEventListener(RechargeEvent.RechargeInfo, UpdateVideoDouble);
         EventManager.Instance.AddEventListener(VideoEvent.videoDoubleTime, UpdateVideoDouble);
+        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, OnShown);
     }
 
     public override void OnShown()
@@ -379,22 +384,22 @@ public class FlowerOrderWindow : BaseWindow
             //}
             if(orderVo.status == 0)
             {
-                StringUtil.SetBtnTab2(viewSkin.submit_btn, Lang.GetValue("flower_order_05"));// 观看
+                StringUtil.SetBtnTab(viewSkin.submit_btn, Lang.GetValue("flower_order_05"));// 观看
             }
             else
             {
-                StringUtil.SetBtnTab2(viewSkin.submit_btn, Lang.GetValue("flower_order_03"));// 提交
+                StringUtil.SetBtnTab(viewSkin.submit_btn, Lang.GetValue("flower_order_03"));// 提交
             }
         }
         else if (orderVo.orderType == 3)
         {
             viewSkin.type.selectedIndex = 2;
-            StringUtil.SetBtnTab2(viewSkin.submit_btn, Lang.GetValue("flower_order_03"));// 提交
+            StringUtil.SetBtnTab(viewSkin.submit_btn, Lang.GetValue("flower_order_03"));// 提交
         }
         else
         {
             viewSkin.type.selectedIndex = 0;
-            StringUtil.SetBtnTab2(viewSkin.submit_btn, Lang.GetValue("flower_order_03"));// 提交
+            StringUtil.SetBtnTab(viewSkin.submit_btn, Lang.GetValue("flower_order_03"));// 提交
         }
 
 
@@ -421,17 +426,17 @@ public class FlowerOrderWindow : BaseWindow
 
         viewSkin.progress_completed.max = vo3_.Goals;
         viewSkin.progress_completed.value = curNum > vo3_.Goals ? vo3_.Goals : curNum;
-        viewSkin.progress_completed.proImg.x = 415f * (float)viewSkin.progress_completed.value / (float)viewSkin.progress_completed.max;
+        //viewSkin.progress_completed.proImg.x = 415f * (float)viewSkin.progress_completed.value / (float)viewSkin.progress_completed.max;
 
         uint have = isCom1 ? (uint)vo1_.Goals : curNum;
         have = isCom1 ? (uint)vo1_.Goals : curNum;
         viewSkin.txt_smallGift.numLab.text = have + "/" + vo1_.Goals;
 
-        viewSkin.txt_middleGift.visible = isCom2 ? true : false;
+        //viewSkin.txt_middleGift.visible = isCom2 ? true : false;
         have = isCom2 ? (uint)vo2_.Goals : curNum;
         viewSkin.txt_middleGift.numLab.text = have + "/" + vo2_.Goals;
 
-        viewSkin.txt_bigGift.visible = isCom3 ? true : false;
+        //viewSkin.txt_bigGift.visible = isCom3 ? true : false;
         have = isCom3 ? (uint)vo3_.Goals : curNum;
         viewSkin.txt_bigGift.numLab.text = have + "/" + vo3_.Goals;
     }

@@ -115,7 +115,7 @@ public class CameraController : MonoBehaviour
         {
             if (UIManager.Instance.IsTouchUI) return;
 
-#if UNITY_EDITOR || UNITY_EDITOR_WIN || (UNITY_WEBGL&&!WEIXINMINIGAME)//微信ide也需要开启滚动
+#if UNITY_EDITOR || UNITY_EDITOR_WIN || (UNITY_WEBGL&&!WEIXINMINIGAME)
             MoveZoomEditor();
 #else
             MoveZoomMobileDevices();

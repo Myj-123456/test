@@ -11,32 +11,37 @@ public class RechargeController : BaseController<RechargeController>
 {
     protected override void InitListeners()
     {
-        //vipÃ¿ÈÕ½±Àø
+        //vipæ¯æ—¥å¥–åŠ±
         AddNetListener<S_MSG_MONTH_CARD>((int)MessageCode.S_MSG_MONTH_CARD, MonthCard);
 
-        // Àñ°üĞÅÏ¢
+        // å……å€¼ä¿¡æ¯
         AddNetListener<S_MSG_GIFT_PACK_INFO>((int)MessageCode.S_MSG_GIFT_PACK_INFO, GiftPackInfo);
 
-        //ÏÂµ¥
+        //ä¸‹å•
         AddNetListener<S_MSG_PLACE_ORDER>((int)MessageCode.S_MSG_PLACE_ORDER, PlaceOrder);
 
-        //·¢»õ
+        //å‘è´§
         //AddNetListener<S_MSG_DELIVER>((int)MessageCode.S_MSG_DELIVER, Deliver);
-        //ÀÛ³ä½±Àø
+        //ç´¯è®¡å……å€¼
         AddNetListener<S_MSG_ACC_RECHARGE>((int)MessageCode.S_MSG_ACC_RECHARGE, AccRecharge);
-        //Ê×³ä½±Àø
+        //é¦–æ¬¡å……å€¼
         AddNetListener<S_MSG_FIRST_RECHARGE>((int)MessageCode.S_MSG_FIRST_RECHARGE, FristRecharge);
-        //Ö§¸¶Ïà¹ØĞÅÏ¢
+        // æ”¯ä»˜ç›¸å…³ä¿¡æ¯
         AddNetListener<S_MSG_RECHARGE_INFO>((int)MessageCode.S_MSG_RECHARGE_INFO, RechargeInfo);
-        //ÉÌ³ÇÃâ·ÑÁìÈ¡
+        // å…è´¹å……å€¼
         AddNetListener<S_MSG_RECHARGE_FREE>((int)MessageCode.S_MSG_RECHARGE_FREE, RechargeFree);
-        //ÁìÈ¡Ñ²»ØÀñ°ü½±Àø
+        // Tourå¥–åŠ±
         AddNetListener<S_MSG_TOUR_REWARD>((int)MessageCode.S_MSG_TOUR_REWARD, TourReward);
     }
-    //ÀÛ³ä½±Àø
+    // ç´¯è®¡å……å€¼
     public void AccRecharge(S_MSG_ACC_RECHARGE data)
     {
         RechargeModel.Instance.rechargeRewards = data.rechargeRewards;
+        var dropList = ItemModel.Instance.GetDropData(data.items);
+        UILogicUtils.ShowGetReward(dropList, () =>
+        {
+            DropManager.ShowDrop(dropList);
+        });
         DispatchEvent(RechargeEvent.AccRecharge);
     }
 
@@ -46,7 +51,7 @@ public class RechargeController : BaseController<RechargeController>
         c_MSG_ACC_RECHARGE.indexId = indexId;
         SendCmd((int)MessageCode.C_MSG_ACC_RECHARGE, c_MSG_ACC_RECHARGE);
     }
-    //Ê×³ä½±Àø
+    //é¦–æ¬¡å……å€¼
     public void FristRecharge(S_MSG_FIRST_RECHARGE data)
     {
         RechargeModel.Instance.firstRechargeRewards = data.firstRechargeRewards;
@@ -61,7 +66,7 @@ public class RechargeController : BaseController<RechargeController>
         c_MSG_FIRST_RECHARGE.dayNum = dayNum;
         SendCmd((int)MessageCode.C_MSG_FIRST_RECHARGE, c_MSG_FIRST_RECHARGE);
     }
-    //Ö§¸¶Ïà¹ØĞÅÏ¢
+    // æ”¯ä»˜ç›¸å…³ä¿¡æ¯
     public void RechargeInfo(S_MSG_RECHARGE_INFO data)
     {
         RechargeModel.Instance.UpdateRechargeInfo(data);
@@ -115,32 +120,32 @@ public class RechargeController : BaseController<RechargeController>
     }
 
     /// <summary>
-    /// ÏÂµ¥·µ»Ø½Ó¿Ú
+    /// æ–°çš„å……å€¼æ¥å£
     /// </summary>
     public void PlaceOrder(S_MSG_PLACE_ORDER data)
     {
         if (data.payType == 40)//payTypeÎª40ÎªIOS
         {
-            if (!string.IsNullOrEmpty(data.appAccountToken))//iosÄÚ¹ºÖ§¸¶ĞèÒªµÄappAccountToken payTypeÎª40Ê±²Å·µ»Ø£¬²»È»·µ»Ø¿Õ×Ö·û´®
+            if (!string.IsNullOrEmpty(data.appAccountToken))//iOSåœ¨å®˜æ–¹æ”¯ä»˜éœ€è¦ä¼ appAccountTokenï¼ŒpayTypeä¸º40æ—¶æ‰ä¼šè¿”å›ï¼Œå¦åˆ™è¿”å›ç©ºå­—ç¬¦ä¸²
             {
                 Debug.Log("appAccountToken:" + data.appAccountToken);
             }
         }
         else
         {
-            ReqDeliver(data.orderNo);//Ö±½ÓÏÂµ¥
+            ReqDeliver(data.orderNo);//ç›´æ¥å‘è´§
         }
     }
 
 
     /// <summary>
-    /// ÏÂµ¥
+    /// å‘è´§æ¥å£
     /// </summary>
-    /// <param name="payConfType">ÅäÖÃÀàĞÍid  1¡¢ft_diamond_gift_pack 2¡¢ft_diamond_value 3¡¢ft_game_pay </param>
-    /// <param name="payDefId">/ÅäÖÃid</param>
-    /// <param name="osType">²Ù×÷ÏµÍ³ÀàĞÍ 1:web 2£º°²×¿ 3£ºios</param>
-    /// <param name="payType">Ö§¸¶ÀàĞÍ 1:Î¢ĞÅÃ×´óÊ¦Ö§¸¶ 2:Î¢ĞÅjsapiÖ§¸¶ 3£ºÎ¢ĞÅNATIVEÖ§¸¶ 11:¶¶Òô×êÊ¯Ö§¸¶ 12£º¶¶ÒôĞéÄâ±ÒÖ§¸¶ 30£ºwebÖ§¸¶</param>
-    /// <param name="platformType">Ö§¸¶ÇşµÀ 1:web 2:Î¢ĞÅ 3£º¶¶Òô 4:app</param>
+    /// <param name="payConfType">æ”¯ä»˜é…ç½®ç±»å‹id  1:ft_diamond_gift_pack 2:ft_diamond_value 3:ft_game_pay </param>
+    /// <param name="payDefId">æ”¯ä»˜å®šä¹‰id</param>
+    /// <param name="osType">æ“ä½œç³»ç»Ÿç±»å‹ 1:web 2:å®‰å“ 3:ios</param>
+    /// <param name="payType">æ”¯ä»˜ç±»å‹ 1:ç§»åŠ¨ç«¯æ”¯ä»˜ 2:ç§»åŠ¨ç«¯jsapiæ”¯ä»˜ 3:ç§»åŠ¨ç«¯NATIVEæ”¯ä»˜ 11:PCç«¯æ”¯ä»˜ 12:PCç«¯H5æ”¯ä»˜ 30:webæ”¯ä»˜</param>
+    /// <param name="platformType">æ”¯ä»˜å¹³å°ç±»å‹ 1:web 2:ç§»åŠ¨ç«¯ 3:PCç«¯ 4:app</param>
     public void ReqPlaceOrder(uint payConfType, uint payDefId)
     {
         Debug.Log("ReqPlaceOrder,payConfType: " + payConfType + " payDefId: " + payDefId);
@@ -159,17 +164,17 @@ public class RechargeController : BaseController<RechargeController>
         {
             c_MSG_PLACE_ORDER.osType = 1;
         }
-        if (LoginHelper.GetPlatform() == "app")//app¶ËwebÖ§¸¶(webÖ§¸¶×÷ÎªÄÚ²¿Ö§¸¶)
+        if (LoginHelper.GetPlatform() == "app")//appæ”¯ä»˜(webæ”¯ä»˜ä¸ºç§»åŠ¨ç«¯æ”¯ä»˜)
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 4;
         }
-        else if (LoginHelper.GetPlatform() == "wm")//Î¢ĞÅĞ¡ÓÎÏ·¶ËwebÖ§¸¶(webÖ§¸¶×÷ÎªÄÚ²¿Ö§¸¶),ºóĞø½ÓÈëÁËÎ¢ĞÅÖ§¸¶Ö®ºópayTypeĞèÒª¸ÄÎªÎ¢ĞÅÖ§¸¶·½Ê½
+        else if (LoginHelper.GetPlatform() == "wm")//ç§»åŠ¨ç«¯æ”¯ä»˜(webæ”¯ä»˜ä¸ºç§»åŠ¨ç«¯æ”¯ä»˜)
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 2;
         }
-        else if (LoginHelper.GetPlatform() == "dev")//¿ª·¢°æ±¾webÖ§¸¶(webÖ§¸¶×÷ÎªÄÚ²¿Ö§¸¶)
+        else if (LoginHelper.GetPlatform() == "dev")//å¼€å‘ç‰ˆæœ¬webæ”¯ä»˜(webæ”¯ä»˜ä¸ºç§»åŠ¨ç«¯æ”¯ä»˜)
         {
             c_MSG_PLACE_ORDER.payType = 30;
             c_MSG_PLACE_ORDER.platformType = 1;
@@ -224,25 +229,25 @@ public class RechargeController : BaseController<RechargeController>
                     var value = RechargeModel.Instance.diamondValueHome[(int)data.payDefId];
                     switch ((E_DIAMOND_VALUE_TYPE)value.Type)
                     {
-                        case E_DIAMOND_VALUE_TYPE.DAILY://Ã¿ÈÕÑ­»·ÌØ»İÀñ°ü
+                        case E_DIAMOND_VALUE_TYPE.DAILY://æ¯æ—¥å¾ªç¯ç¤¼åŒ…
 
                             break;
-                        case E_DIAMOND_VALUE_TYPE.NORMAL://Ã¿ÈÕÑ­»·ÌØ»İÀñ°ü
+                        case E_DIAMOND_VALUE_TYPE.NORMAL://æ™®é€šç¤¼åŒ…
                             EventManager.Instance.DispatchEvent(RechargeEvent.Normal);
                             break;
-                        case E_DIAMOND_VALUE_TYPE.VIP://VipÌØÈ¨
+                        case E_DIAMOND_VALUE_TYPE.VIP://Vipå¥–åŠ±
 
                             EventManager.Instance.DispatchEvent(RechargeEvent.VipPay);
                             break;
-                        case E_DIAMOND_VALUE_TYPE.VIDEO_PRIVILEGE://ÊÓÆµÌØÈ¨
+                        case E_DIAMOND_VALUE_TYPE.VIDEO_PRIVILEGE://è§†é¢‘å¥–åŠ±
 
 
                             EventManager.Instance.DispatchEvent(RechargeEvent.VideoPay);
                             break;
 
-                        case E_DIAMOND_VALUE_TYPE.CONTRACT://¸ß¼¶ºÏÔ¼
-                        case E_DIAMOND_VALUE_TYPE.CONTRACT_SUPER://ÖÁ×ğºÏÔ¼
-                        case E_DIAMOND_VALUE_TYPE.BUY_CONTRACT_LEVEL://¹ºÂòºÏÔ¼µÈ¼¶
+                        case E_DIAMOND_VALUE_TYPE.CONTRACT://åˆåŒå¥–åŠ±
+                        case E_DIAMOND_VALUE_TYPE.CONTRACT_SUPER://è¶…çº§åˆåŒå¥–åŠ±
+                        case E_DIAMOND_VALUE_TYPE.BUY_CONTRACT_LEVEL://è´­ä¹°åˆåŒç­‰çº§
                             var activityId = DrawModel.Instance.GetActivityId(ActivityType.Contract);
                             ContractController.Instance.ReqContractInfo((uint)activityId);
                             break;
@@ -269,18 +274,18 @@ public class RechargeController : BaseController<RechargeController>
             }
             else
             {
-                ADK.UILogicUtils.ShowNotice("´íÎóÂë£º" + responseResult.code);
+                ADK.UILogicUtils.ShowNotice(Lang.GetValue("claim_fail_txt") + responseResult.code);
             }
         }
         EventManager.Instance.DispatchEvent(RedPointEvent.OnRechargeDelevier);
     }
 
-    //ÉÌ³ÇÃâ·ÑÁìÈ¡
+    //å…è´¹é¢†å–å¥–åŠ±
     public void RechargeFree(S_MSG_RECHARGE_FREE data)
     {
         var dropList = ItemModel.Instance.GetDropData(data.items);
         DropManager.ShowDrop(dropList);
-        //ÅäÖÃÀàĞÍid  1¡¢ft_diamond_gift_pack 2¡¢ft_diamond_value 3¡¢ft_game_pay
+        //æ”¯ä»˜é…ç½®ç±»å‹id  1:ft_diamond_gift_pack 2:ft_diamond_value 3:ft_game_pay
         if (data.payConfType == 1)
         {
 
@@ -311,7 +316,7 @@ public class RechargeController : BaseController<RechargeController>
         c_MSG_RECHARGE_FREE.payDefId = payDefId;
         SendCmd((int)MessageCode.C_MSG_RECHARGE_FREE, c_MSG_RECHARGE_FREE);
     }
-    //ÁìÈ¡Ñ²»ØÀñ°ü½±Àø
+    //é¢†å–æ—…æ¸¸å¥–åŠ±
     public void TourReward(S_MSG_TOUR_REWARD data)
     {
         var dropList = ItemModel.Instance.GetDropData(data.items);

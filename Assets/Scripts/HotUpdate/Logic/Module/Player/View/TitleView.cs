@@ -18,6 +18,7 @@ public class TitleView
         view = ui;
         StringUtil.SetBtnTab(view.wear_btn, Lang.GetValue("Headframe_button"));
         StringUtil.SetBtnTab(view.goto_btn, Lang.GetValue("guide_button1"));
+        StringUtil.SetBtnTab(view.remove_btn, Lang.GetValue("unload_txt"));
         view.list.itemRenderer = RenderList;
         view.list.SetVirtual();
 
@@ -76,10 +77,11 @@ public class TitleView
         {
             view.tipLab.text = Lang.GetValue(ft_jumpConfig.JumpName);
         }
+        
         view.goto_btn.data = ft_jumpConfig;
         view.icon.url = ImageDataModel.Instance.GetIconUrl(itemVo);
         view.nameLab.text = Lang.GetValue(itemVo.Name);
-        var title = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
+        var title = MyselfModel.Instance.GetUserInfo(UserInfoType.TITLE);
         if(title != null && int.Parse(title.info) == curData.Id)
         {
             view.status.selectedIndex = 1;

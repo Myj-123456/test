@@ -252,10 +252,34 @@ public class FlowerHandbookModel : Singleton<FlowerHandbookModel>
         {
             return !value.AlreadyCulitivated && value.UnlockAccessible;
         });
+        arr.Sort(Sort);
         return arr;
     }
-
-
+    public int Sort(StaticSeedCondition a, StaticSeedCondition b)
+    {
+        if (IsCanCultivation(a.FlowerId) && !IsCanCultivation(b.FlowerId)) return -1;
+        if (!IsCanCultivation(a.FlowerId) && IsCanCultivation(b.FlowerId)) return 1;
+        if(IsCanCultivation(a.FlowerId) && IsCanCultivation(b.FlowerId))
+        {
+            var curOrderVo = OrderModel.Instance.GetOrderInfo(a.FlowerId);
+            var orderVo = OrderModel.Instance.GetOrderInfo(b.FlowerId);
+            return orderVo.Gold - curOrderVo.Gold;
+        }
+        return a.FlowerId - b.FlowerId;
+    }
+    public bool IsCanCultivation(int flowerId)
+    {
+        var value = GetStaticSeedCondition(flowerId);
+        for (int i = 0; i < value.ItemIds.Count; i++)
+        {
+            var count = StorageModel.Instance.GetItemCount(value.ItemIds[i].EntityID);
+            if (count < value.ItemIds[i].Value)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public void ParseDataAgain()
     {
         foreach (StaticHandbook value in staticHandbookList)
@@ -338,7 +362,7 @@ public class FlowerHandbookModel : Singleton<FlowerHandbookModel>
         SeedCropVO exp = GetCropVoByBook(flowerId);
         if (exp != null)
         {
-            var plantCrop = PlantModel.Instance.GetPlantCropConfigData(seedCondition.LevelMould + "#" + (exp.level + 1));
+            var plantCrop = PlantModel.Instance.GetPlantCropConfigData(seedCondition.LevelMould + "#" + exp.level);
             if (plantCrop == null) return false;
             return count >= plantCrop.SeedCost && MyselfModel.Instance.gold >= plantCrop.GoldCost;
         }

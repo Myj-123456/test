@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using protobuf.guild;
 using protobuf.messagecode;
 using UnityEngine;
+using ADK;
 
 public class GuildPlantController : BaseController<GuildPlantController>
 {
@@ -87,9 +88,15 @@ public class GuildPlantController : BaseController<GuildPlantController>
     public void GuildHouseHarvest(S_MSG_GUILD_HOUSE_HARVEST data)
     {
         var dropList = ItemModel.Instance.GetDropData(data.items);
-        DropManager.ShowDrop(dropList);
-        GuildPlantModel.Instance.PalntHarvest(data.plantList);
-        ReqGuildHouseInfo();
+        UILogicUtils.ShowGetReward(dropList, () =>
+        {
+            DropManager.ShowDrop(dropList);
+        });
+        
+        GuildPlantModel.Instance.PalntHarvest(data.houseInfo);
+        GuildPlantModel.Instance.UpdateHouseList(data.houseInfo);
+        //ReqGuildHouseInfo();
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Plant);
         EventManager.Instance.DispatchEvent(GuildPlantEvent.GuildHouseHarvest);
     }
 
@@ -103,7 +110,7 @@ public class GuildPlantController : BaseController<GuildPlantController>
     //花房其他社团成员信息
     public void GuildHouseMembers(S_MSG_GUILD_HOUSE_MEMBERS data)
     {
-        GuildPlantModel.Instance.ParseMembersList(data.memberPlantList);
+        GuildPlantModel.Instance.memberPlantList = data.memberPlantList;
         GuildPlantModel.Instance.houseId = data.houseId;
         EventManager.Instance.DispatchEvent(GuildPlantEvent.GuildHouseMembers);
     }
@@ -112,7 +119,6 @@ public class GuildPlantController : BaseController<GuildPlantController>
     {
         C_MSG_GUILD_HOUSE_MEMBERS c_MSG_GUILD_HOUSE_MEMBERS = new C_MSG_GUILD_HOUSE_MEMBERS();
         c_MSG_GUILD_HOUSE_MEMBERS.houseId = houseId;
-        c_MSG_GUILD_HOUSE_MEMBERS.page = page;
         SendCmd((int)MessageCode.C_MSG_GUILD_HOUSE_MEMBERS, c_MSG_GUILD_HOUSE_MEMBERS,0);
     }
 }

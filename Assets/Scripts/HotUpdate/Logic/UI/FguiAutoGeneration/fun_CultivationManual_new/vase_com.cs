@@ -7,9 +7,7 @@ namespace fun_CultivationManual_new
 {
     public partial class vase_com : GComponent
     {
-        public GImage n1;
-        public change_btn leftBtn;
-        public change_btn rightBtn;
+        public GImage n7;
         public GList list;
         public const string URL = "ui://ekoic0wrjfk51yjp7xz";
 
@@ -22,10 +20,8 @@ namespace fun_CultivationManual_new
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
-            leftBtn = (change_btn)GetChildAt(1);
-            rightBtn = (change_btn)GetChildAt(2);
-            list = (GList)GetChildAt(3);
+            n7 = (GImage)GetChildAt(0);
+            list = (GList)GetChildAt(1);
         }
     }
 }

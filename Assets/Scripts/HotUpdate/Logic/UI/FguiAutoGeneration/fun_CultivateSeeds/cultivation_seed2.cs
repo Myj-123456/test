@@ -9,7 +9,6 @@ namespace fun_CultivateSeeds
     {
         public Controller status;
         public Controller type;
-        public GImage n24;
         public GImage n29;
         public GImage n25;
         public GLoader Img;
@@ -29,13 +28,12 @@ namespace fun_CultivateSeeds
 
             status = GetControllerAt(0);
             type = GetControllerAt(1);
-            n24 = (GImage)GetChildAt(0);
-            n29 = (GImage)GetChildAt(1);
-            n25 = (GImage)GetChildAt(2);
-            Img = (GLoader)GetChildAt(3);
-            costBtn = (GGraph)GetChildAt(4);
-            title_txt = (GTextField)GetChildAt(5);
-            count_txt = (GRichTextField)GetChildAt(6);
+            n29 = (GImage)GetChildAt(0);
+            n25 = (GImage)GetChildAt(1);
+            Img = (GLoader)GetChildAt(2);
+            costBtn = (GGraph)GetChildAt(3);
+            title_txt = (GTextField)GetChildAt(4);
+            count_txt = (GRichTextField)GetChildAt(5);
         }
     }
 }

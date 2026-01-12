@@ -22,8 +22,9 @@ public class MatchMyTaskWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_Match.my_task_view;
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
-        
+        SetBg(view.bg, "Common/common_big_tip_bg.png");
+
+        view.txt_Title.text = Lang.GetValue("guild_Match_6"); //竞赛任务
         view.list.itemRenderer = RenderList;
         view.list.SetVirtual();
 

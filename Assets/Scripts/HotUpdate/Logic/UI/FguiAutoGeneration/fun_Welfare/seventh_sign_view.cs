@@ -9,8 +9,6 @@ namespace fun_Welfare
     {
         public Controller tab;
         public GLoader bg;
-        public GList list;
-        public GButton getBtn;
         public seventh_sign_item item1;
         public seventh_sign_item item2;
         public seventh_sign_item item3;
@@ -18,7 +16,23 @@ namespace fun_Welfare
         public seventh_sign_item item5;
         public seventh_sign_item item6;
         public seventh_sign_item item7;
-        public GGroup n10;
+        public GLoader3D spine;
+        public GImage n12;
+        public GImage n13;
+        public GImage n14;
+        public GLoader name_bg;
+        public GLoader rare_img;
+        public GTextField nameLab;
+        public GTextField tiplab1;
+        public GTextField tiplab2;
+        public GGroup n31;
+        public GImage n23;
+        public GImage n24;
+        public GImage n25;
+        public GList list;
+        public GTextField sub_title;
+        public GGroup n30;
+        public GButton getBtn;
         public const string URL = "ui://awswhm01s7sl1yjp848";
 
         public static seventh_sign_view CreateInstance()
@@ -32,16 +46,30 @@ namespace fun_Welfare
 
             tab = GetControllerAt(0);
             bg = (GLoader)GetChildAt(0);
-            list = (GList)GetChildAt(1);
-            getBtn = (GButton)GetChildAt(2);
-            item1 = (seventh_sign_item)GetChildAt(3);
-            item2 = (seventh_sign_item)GetChildAt(4);
-            item3 = (seventh_sign_item)GetChildAt(5);
-            item4 = (seventh_sign_item)GetChildAt(6);
-            item5 = (seventh_sign_item)GetChildAt(7);
-            item6 = (seventh_sign_item)GetChildAt(8);
-            item7 = (seventh_sign_item)GetChildAt(9);
-            n10 = (GGroup)GetChildAt(10);
+            item1 = (seventh_sign_item)GetChildAt(1);
+            item2 = (seventh_sign_item)GetChildAt(2);
+            item3 = (seventh_sign_item)GetChildAt(3);
+            item4 = (seventh_sign_item)GetChildAt(4);
+            item5 = (seventh_sign_item)GetChildAt(5);
+            item6 = (seventh_sign_item)GetChildAt(6);
+            item7 = (seventh_sign_item)GetChildAt(7);
+            spine = (GLoader3D)GetChildAt(8);
+            n12 = (GImage)GetChildAt(9);
+            n13 = (GImage)GetChildAt(10);
+            n14 = (GImage)GetChildAt(11);
+            name_bg = (GLoader)GetChildAt(12);
+            rare_img = (GLoader)GetChildAt(13);
+            nameLab = (GTextField)GetChildAt(14);
+            tiplab1 = (GTextField)GetChildAt(15);
+            tiplab2 = (GTextField)GetChildAt(16);
+            n31 = (GGroup)GetChildAt(17);
+            n23 = (GImage)GetChildAt(18);
+            n24 = (GImage)GetChildAt(19);
+            n25 = (GImage)GetChildAt(20);
+            list = (GList)GetChildAt(21);
+            sub_title = (GTextField)GetChildAt(22);
+            n30 = (GGroup)GetChildAt(23);
+            getBtn = (GButton)GetChildAt(24);
         }
     }
 }

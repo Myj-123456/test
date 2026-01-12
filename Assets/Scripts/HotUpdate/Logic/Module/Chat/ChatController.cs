@@ -26,6 +26,8 @@ public class ChatController : BaseController<ChatController>
         AddNetListener<S_MSG_FRIEND_CHAT>((int)MessageCode.S_MSG_FRIEND_CHAT, FriendChat);
         //删除与好友的聊天会话
         AddNetListener<S_MSG_DEL_FRIEND_CONTACT>((int)MessageCode.S_MSG_DEL_FRIEND_CONTACT, DelFriendContact);
+        //好友频道已读消息
+        AddNetListener<S_MSG_FRIEND_CHAT_READ>((int)MessageCode.S_MSG_FRIEND_CHAT_READ, FriendChatRed);
     }
 
     public void GuildChatHistory(S_MSG_GUILD_CHAT_HISTORY data)
@@ -65,7 +67,7 @@ public class ChatController : BaseController<ChatController>
 
     {
         FriendChatModel.Instance.CreateFriendContract(data.contractUserInfo);
-        UIManager.Instance.OpenWindow<ChatMainWindow>(UIName.ChatMainWindow, (int)data.contractUserInfo.userId);
+        UIManager.Instance.OpenWindow<ChatMainWindow>(UIName.ChatMainWindow, (int)data.contractUserInfo.userInfo.userId);
         EventManager.Instance.DispatchEvent(ChatEvent.CreateFriendContact);
     }
 
@@ -91,6 +93,8 @@ public class ChatController : BaseController<ChatController>
     public void FriendChatHisTory(S_MSG_FRIEND_CHAT_HISTORY data)
     {
         FriendChatModel.Instance.FriendChatHistory(data);
+        FriendChatModel.Instance.UpdateFriendChatRed(data.friendId);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Chat);
         EventManager.Instance.DispatchEvent(ChatEvent.FriendChatHisTory);
     }
 
@@ -122,6 +126,7 @@ public class ChatController : BaseController<ChatController>
     public void FriendReceiveChat(S_MSG_FRIEND_RECEIVE_CHAT data)
     {
         FriendChatModel.Instance.ReceiveChat(data);
+        RedPointModel.Instance.UpdateRedPoint(RedPointType.Friend_Chat,true);
         EventManager.Instance.DispatchEvent(ChatEvent.FriendReceiveChat,data.friendId);
     }
     //删除与好友的聊天会话
@@ -138,5 +143,20 @@ public class ChatController : BaseController<ChatController>
         C_MSG_DEL_FRIEND_CONTACT c_MSG_DEL_FRIEND_CONTACT = new C_MSG_DEL_FRIEND_CONTACT();
         c_MSG_DEL_FRIEND_CONTACT.friendId = friendId;
         ChatNetWorkManager.Instance.Send((int)MessageCode.C_MSG_DEL_FRIEND_CONTACT, c_MSG_DEL_FRIEND_CONTACT);
+    }
+    //好友频道已读消息
+    public void FriendChatRed(S_MSG_FRIEND_CHAT_READ data)
+    {
+        FriendModel.Instance.UpdateriendChatRed(data.friendId);
+        FriendChatModel.Instance.UpdateFriendChatRed(data.friendId);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Chat);
+        EventManager.Instance.DispatchEvent(ChatEvent.FriendChatRed);
+    }
+
+    public void ReqFriendChatRed(uint friendId)
+    {
+        C_MSG_FRIEND_CHAT_READ cMSG_FRIEND_CHAT_READ = new C_MSG_FRIEND_CHAT_READ();
+        cMSG_FRIEND_CHAT_READ.friendId = friendId;
+        ChatNetWorkManager.Instance.Send((int)MessageCode.C_MSG_FRIEND_CHAT_READ, cMSG_FRIEND_CHAT_READ);
     }
 }

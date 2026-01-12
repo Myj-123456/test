@@ -7,10 +7,11 @@ namespace fun_Guild_Match
 {
     public partial class match_flower_view : GComponent
     {
-        public GImage n2;
         public GLoader bg;
+        public GImage n8;
+        public GTextField txt_Title;
+        public GImage n10;
         public GImage n4;
-        public GImage n3;
         public GTextField tipLab;
         public GButton close_btn;
         public GList list;
@@ -25,13 +26,14 @@ namespace fun_Guild_Match
         {
             base.ConstructFromXML(xml);
 
-            n2 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n4 = (GImage)GetChildAt(2);
-            n3 = (GImage)GetChildAt(3);
-            tipLab = (GTextField)GetChildAt(4);
-            close_btn = (GButton)GetChildAt(5);
-            list = (GList)GetChildAt(6);
+            bg = (GLoader)GetChildAt(0);
+            n8 = (GImage)GetChildAt(1);
+            txt_Title = (GTextField)GetChildAt(2);
+            n10 = (GImage)GetChildAt(3);
+            n4 = (GImage)GetChildAt(4);
+            tipLab = (GTextField)GetChildAt(5);
+            close_btn = (GButton)GetChildAt(6);
+            list = (GList)GetChildAt(7);
         }
     }
 }

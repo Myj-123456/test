@@ -98,7 +98,7 @@ public class SceneManager : MonoSingleton<SceneManager>
         EventManager.Instance.AddEventListener(FlowerOrderEvent.UpdateFlowerOrderInfo, UpdateSceneOrderUI);
         EventManager.Instance.AddEventListener(DressEvent.ChangeSceneHeroModel, OnChangeSceneHeroModel);
         EventManager.Instance.AddEventListener<bool>(ActivityEvent.MonthDrawWhetherDisplay, OnMonthDrawWhetherDisplay);
-
+        EventManager.Instance.AddEventListener(SystemEvent.UpdateLevel, UpLevelUpdateLands);
     }
     private void RemoveEvent()
     {
@@ -107,7 +107,7 @@ public class SceneManager : MonoSingleton<SceneManager>
         EventManager.Instance.RemoveEventListener(FlowerOrderEvent.UpdateFlowerOrderInfo, UpdateSceneOrderUI);
         EventManager.Instance.RemoveEventListener(DressEvent.ChangeSceneHeroModel, OnChangeSceneHeroModel);
         EventManager.Instance.RemoveEventListener<bool>(ActivityEvent.MonthDrawWhetherDisplay, OnMonthDrawWhetherDisplay);
-
+        EventManager.Instance.RemoveEventListener(SystemEvent.UpdateLevel, UpLevelUpdateLands);
     }
     private void OnMonthDrawWhetherDisplay(bool isActive)
     {
@@ -427,11 +427,11 @@ public class SceneManager : MonoSingleton<SceneManager>
     /// 获取一个已解锁空土地
     /// </summary>
     /// <returns></returns>
-    public Land GetUnLockEmptyLand()
+    public Land GetUnLockEmptyLand(bool isDefault = true)
     {
         if (lands != null)
         {
-            return lands.GetUnLockEmptyLand();
+            return lands.GetUnLockEmptyLand(isDefault);
         }
         return null;
     }
@@ -453,11 +453,11 @@ public class SceneManager : MonoSingleton<SceneManager>
     /// 获取一个可以浇水的土地
     /// </summary>
     /// <returns></returns>
-    public Land GetWaterLand()
+    public Land GetWaterLand(bool isDefault = true)
     {
         if (lands != null)
         {
-            return lands.GetWaterLand();
+            return lands.GetWaterLand(isDefault);
         }
         return null;
     }
@@ -812,5 +812,12 @@ public class SceneManager : MonoSingleton<SceneManager>
     {
         shabbyFlowerShop.SetActive(isShow);
         homeTransform.gameObject.SetActive(!isShow);
+    }
+    private void UpLevelUpdateLands()
+    {
+        if (lands != null)
+        {
+            lands.UpLevelUpdateLands();
+        }
     }
 }

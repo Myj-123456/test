@@ -294,6 +294,9 @@ namespace protobuf.misc
     [ProtoBuf.ProtoContract]
     public class C_MSG_TURNTABLE
     {
+        [ProtoBuf.ProtoMember(1)]
+        public uint type;
+
     }
 
     [ProtoBuf.ProtoContract]
@@ -301,6 +304,9 @@ namespace protobuf.misc
     {
         [ProtoBuf.ProtoMember(1)]
         public System.Collections.Generic.Dictionary<ulong, ulong> items = new System.Collections.Generic.Dictionary<ulong, ulong>();
+
+        [ProtoBuf.ProtoMember(2)]
+        public uint type;
 
     }
 

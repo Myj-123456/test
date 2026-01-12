@@ -10,9 +10,11 @@ namespace fun_PopGift
         public Controller button;
         public GImage n1;
         public GImage n2;
+        public GImage n6;
         public GLoader icon;
         public GImage n3;
         public GTextField timeLab;
+        public GTextField timeLab1;
         public const string URL = "ui://ah12m40ag0s05";
 
         public static btn CreateInstance()
@@ -27,9 +29,11 @@ namespace fun_PopGift
             button = GetControllerAt(0);
             n1 = (GImage)GetChildAt(0);
             n2 = (GImage)GetChildAt(1);
-            icon = (GLoader)GetChildAt(2);
-            n3 = (GImage)GetChildAt(3);
-            timeLab = (GTextField)GetChildAt(4);
+            n6 = (GImage)GetChildAt(2);
+            icon = (GLoader)GetChildAt(3);
+            n3 = (GImage)GetChildAt(4);
+            timeLab = (GTextField)GetChildAt(5);
+            timeLab1 = (GTextField)GetChildAt(6);
         }
     }
 }

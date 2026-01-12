@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ADK;
 using protobuf.guild;
 using static protobuf.guild.I_SEND_CHAT_VO;
+using static protobuf.guild.S_MSG_WORLD_CHAT_HISTORY;
 
 public class ChatWorldView
 {
@@ -153,26 +154,36 @@ public class ChatWorldView
         cell.lb_info2.emojies = Emojies.Instance.emojies;
         var msg = WorldChatModel.Instance.chatHistory[index];
         //var pos = GuildModel.Instance.GetUserData(msg.userInfo.userId);
-        if (MyselfModel.Instance.userId == msg.userInfo.userId)
+        var userInfo = WorldChatModel.Instance.GetUserInfo(msg.userId);
+        if (MyselfModel.Instance.userId == msg.userId)
         {
             cell.chatType.selectedIndex = 1;
             AutuAize(cell.lb_info2, msg, 1, cell);
-            cell.head2.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
-            cell.lb_userName2.text = TextUtil.GetServerName(msg.userInfo.serverId,msg.userInfo.townName);
-            cell.txt_lv2.text = msg.userInfo.userLevel.ToString(); 
-           
+            
+            var head = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_AVATAR);
+            var headVo = ItemModel.Instance.GetItemById(int.Parse(head.info));
+            cell.head2.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
+            var headFrame = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
+            var frameVo = ItemModel.Instance.GetItemById(int.Parse(headFrame.info));
+            UILogicUtils.ShowHeadFrames(cell.head2.picFrame as common_New.PictureFrame, frameVo);
+            cell.txt_lv2.text = MyselfModel.Instance.level.ToString();
+            cell.lb_userName2.text = TextUtil.GetServerName(MyselfModel.Instance.serverId, MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_NICKNAME).info);
         }
         else
         {
             cell.chatType.selectedIndex = 0;
             AutuAize(cell.lb_info, msg, 0, cell);
-            var headVo = ItemModel.Instance.GetItemById(int.Parse(msg.userInfo.headImgId));
-            cell.head.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
-            var frameVo = ItemModel.Instance.GetItemById((int)msg.userInfo.headFrame);
-            UILogicUtils.ShowHeadFrames(cell.head.picFrame as common_New.PictureFrame, frameVo);
-            cell.lb_userName.text = TextUtil.GetServerName(msg.userInfo.serverId,msg.userInfo.townName);
-            cell.txt_lv.text = msg.userInfo.userLevel.ToString();
-            UILogicUtils.SetUserShow(cell.head, msg.userInfo.userId);
+            if(userInfo != null)
+            {
+                var headVo = ItemModel.Instance.GetItemById(int.Parse(userInfo.headImgId));
+                cell.head.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
+                var frameVo = ItemModel.Instance.GetItemById((int)userInfo.headFrame);
+                UILogicUtils.ShowHeadFrames(cell.head.picFrame as common_New.PictureFrame, frameVo);
+                cell.lb_userName.text = TextUtil.GetServerName(userInfo.serverId, userInfo.townName);
+                cell.txt_lv.text = userInfo.userLevel.ToString();
+                UILogicUtils.SetUserShow(cell.head, userInfo.userId);
+            }
+           
         }
         cell.lb_info.data = msg;
         cell.pic.data = msg;
@@ -232,7 +243,7 @@ public class ChatWorldView
         else
         {
             var msg = WorldChatModel.Instance.chatHistory[queue.Count - 1];
-            if (MyselfModel.Instance.userId == msg.userInfo.userId)
+            if (MyselfModel.Instance.userId == msg.userId)
             {
                 if (contentHeight > viewHeight)
                 {
@@ -269,7 +280,7 @@ public class ChatWorldView
         //}
     }
 
-    private void AutuAize(GRichTextField lable, S_MSG_GUILD_RECEIVE_CHAT msg, int type, fun_Chat.chatItemRenderer1 cell)
+    private void AutuAize(GRichTextField lable, I_WORLD_CHAT_HISTORY_VO msg, int type, fun_Chat.chatItemRenderer1 cell)
     {
         if(msg.chatContent.contentType == 1)
         {
@@ -296,7 +307,7 @@ public class ChatWorldView
             if (msg.chatContent.referer != null)
             {
                 cell.referer.selectedIndex = 1;
-                var ref_lab = MyselfModel.Instance.userId == msg.userInfo.userId ? cell.ref_lab2 : cell.ref_lab;
+                var ref_lab = MyselfModel.Instance.userId == msg.userId ? cell.ref_lab2 : cell.ref_lab;
 
                 ref_lab.autoSize = AutoSizeType.Both;
                 ref_lab.text = msg.chatContent.referer.nickName + "£º" + msg.chatContent.referer.content;
@@ -320,7 +331,7 @@ public class ChatWorldView
             cell.referer.selectedIndex = 0;
             cell.height = defaultHeight + 110;
             cell.emojie.selectedIndex = 1;
-            var img = MyselfModel.Instance.userId == msg.userInfo.userId ? cell.pic2 : cell.pic;
+            var img = MyselfModel.Instance.userId == msg.userId ? cell.pic2 : cell.pic;
             var id = int.Parse(msg.chatContent.content);
             var info = FriendChatModel.Instance.GetEmojieInfo(id);
             img.url = "Chat/" + info.Icon + ".png";

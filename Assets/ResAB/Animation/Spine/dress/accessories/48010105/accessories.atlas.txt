@@ -1,0 +1,13 @@
+accessories.png
+size:732,195
+filter:Linear,Linear
+pma:true
+001/liusu
+bounds:704,112,26,81
+offsets:0,1,28,82
+001/maozi1
+bounds:2,2,349,191
+offsets:5,1,355,194
+001/maozi2
+bounds:353,2,349,191
+offsets:1,1,351,193

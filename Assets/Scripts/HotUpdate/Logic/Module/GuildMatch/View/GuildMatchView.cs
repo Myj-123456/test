@@ -188,29 +188,42 @@ public class GuildMatchView : BaseView
                 cell.status.selectedIndex = 2;
                 cell.running_txt.text = Lang.GetValue("guild_Match_2") + "......";
             }
+            var frameVo = ItemModel.Instance.GetItemById((int)taskData.userInfo.headFrame);
+            UILogicUtils.ShowHeadFrames(cell.head.frame as common_New.PictureFrame, frameVo);
+            var headVo = ItemModel.Instance.GetItemById(int.Parse(taskData.userInfo.headImgId));
+            cell.head.pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
         }
         else
         {
             cell.status.selectedIndex = 0;
-            
-            cell.scoreLab1.text = GuildMatchModel.Instance.score + "<font color = '#85b57d'> +" + (float.Parse(taskInfo.Score) * taskData.needCnt) + "</font>";
+            var score = Mathf.Ceil(float.Parse(taskInfo.Score) * taskData.needCnt);
+            if (GuildMatchModel.Instance.specialFlowers.IndexOf(taskData.needItem) == -1)
+            {
+                cell.scoreLab1.text = score.ToString();
+            }
+            else
+            {
+                cell.scoreLab1.text = score + "<font color = '#85b57d'> +" + Mathf.Floor(score * (GuildModel.Instance.othersConfig.SpecialFlowerAdd / 100)) + "</font>";
+            }
+           
         }
-        if (taskInfo.TaskType == 1)
-        {
-            var ItemVo = ItemModel.Instance.GetItemById((int)taskData.needItem);
-            var itemName = ItemVo == null ? "" : Lang.GetValue(ItemVo.Name);
-            cell.titleLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString(), itemName);
-        }
-        else if (taskInfo.TaskType == 2)
-        {
-            var ItemVo = ItemModel.Instance.GetItemById((int)taskData.needItem);
-            var itemName = ItemVo == null ? "" : Lang.GetValue(ItemVo.Name);
-            cell.titleLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString(), itemName);
-        }
-        else
-        {
-            cell.titleLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString());
-        }
+        cell.titleLab.text = TaskModel.Instance.GetTaskDec(taskInfo.Description, taskInfo.TaskType, (int)taskData.needCnt, (int)taskData.needItem);
+       //if (taskInfo.TaskType == 1)
+       //{
+       //    var ItemVo = ItemModel.Instance.GetItemById((int)taskData.needItem);
+       //    var itemName = ItemVo == null ? "" : Lang.GetValue(ItemVo.Name);
+       //    cell.titleLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString(), itemName);
+       //}
+       //else if (taskInfo.TaskType == 2)
+       //{
+       //    var ItemVo = ItemModel.Instance.GetItemById((int)taskData.needItem);
+       //    var itemName = ItemVo == null ? "" : Lang.GetValue(ItemVo.Name);
+       //    cell.titleLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString(), itemName);
+       //}
+       //else
+       //{
+       //    cell.titleLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString());
+       //}
 
         cell.data = taskData.pos;
         cell.onClick.Add(ClickTask);
@@ -218,7 +231,13 @@ public class GuildMatchView : BaseView
 
     private void ClickTask(EventContext context)
     {
+        
         var pos = (uint)(context.sender as GComponent).data;
+        var taskData = GuildMatchModel.Instance.GetTaskData(pos);
+        if (GuildMatchModel.Instance.IsGetTask() && (taskData.userInfo == null || taskData.userInfo.userId == 0))
+        {
+            return;
+        }
         UIManager.Instance.OpenWindow<MatchTaskInfoWindow>(UIName.MatchTaskInfoWindow, pos);
     }
 
@@ -300,7 +319,7 @@ public class GuildMatchView : BaseView
                 view.showLab.text = Lang.GetValue("guildMatch_119", GuildModel.Instance.othersConfig.BuddyNum.ToString());
                 view.unlockLab.text = Lang.GetValue("guild_Match_14");
                 view.rankLab.text = Lang.GetValue("last_rank");
-                view.rankNum.text = GuildMatchModel.Instance.rankNum == 0 ? Lang.GetValue("no_rank") : GuildMatchModel.Instance.rankNum.ToString();
+                view.rankNum.text = GuildMatchModel.Instance.rankNum == 0 ? Lang.GetValue("flower_rank9") : GuildMatchModel.Instance.rankNum.ToString();
                 SetUpateTime();
             }
             else if (!GuildMatchModel.Instance.memberJoinStatus)
@@ -309,7 +328,7 @@ public class GuildMatchView : BaseView
                 view.showLab.text = Lang.GetValue("guild_Match_15");
                 view.unlockLab.text = Lang.GetValue("guild_Match_14");
                 view.rankLab.text = Lang.GetValue("last_rank");
-                view.rankNum.text = GuildMatchModel.Instance.rankNum == 0?Lang.GetValue("no_rank") : GuildMatchModel.Instance.rankNum.ToString();
+                view.rankNum.text = GuildMatchModel.Instance.rankNum == 0?Lang.GetValue("flower_rank9") : GuildMatchModel.Instance.rankNum.ToString();
                 SetUpateTime();
             }
             else
@@ -320,7 +339,7 @@ public class GuildMatchView : BaseView
                 timer = new CountDownTimer(view.unlockLab, end);
                 timer.suffixString = Lang.GetValue("guild_Match_5");
                 view.rankLab.text = Lang.GetValue("flower_rank6");
-                view.rankNum.text = GuildMatchModel.Instance.rankNum.ToString();
+                view.rankNum.text = GuildMatchModel.Instance.rankNum == 0 ? Lang.GetValue("flower_rank9") : GuildMatchModel.Instance.rankNum.ToString();
                 timer.CompleteCallBacker = () =>
                 {
                     GuildMatchController.Instance.ReqGuildCompetition();
@@ -334,7 +353,7 @@ public class GuildMatchView : BaseView
             view.showLab.text = Lang.GetValue("guild_Match_4");
             view.status.selectedIndex = 1;
             view.rankLab.text = Lang.GetValue("last_rank");
-            view.rankNum.text = GuildMatchModel.Instance.rankNum == 0 ? Lang.GetValue("no_rank") : GuildMatchModel.Instance.rankNum.ToString();
+            view.rankNum.text = GuildMatchModel.Instance.rankNum == 0 ? Lang.GetValue("flower_rank9") : GuildMatchModel.Instance.rankNum.ToString();
             int end =  (int)GuildMatchModel.Instance.startTime - (int)ServerTime.Time;
             timer = new CountDownTimer(view.timeLab, end);
             timer.CompleteCallBacker = () =>

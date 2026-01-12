@@ -205,9 +205,9 @@ public class LikeSelectWindow : BaseWindow
         var cell = item as fun_MyInfo.like_item;
         cell.type.selectedIndex = 1;
         var info = vaseData[index];
-        UIExt_ikeImg.LoadIkeByItemId((cell.ike as common_New.ikeImg), info.FormulaId, true);
-        cell.select.selectedIndex = likeData.IndexOf(info.FormulaId.ToString()) != -1 ? 1 : 0;
-        cell.data = info.FormulaId;
+        UIExt_ikeImg.LoadIkeByItemId((cell.ike as common_New.ikeImg), info.item.ItemDefId, true);
+        cell.select.selectedIndex = likeData.IndexOf(info.item.ItemDefId.ToString()) != -1 ? 1 : 0;
+        cell.data = info.item.ItemDefId;
         cell.onClick.Add(SelectClick);
     }
     private void SelectClick(EventContext context)

@@ -114,7 +114,7 @@ public class VipShopWindow
     {
         if (!MyselfModel.Instance.IsVip())
         {
-            UILogicUtils.ShowNotice("请开启Vip");
+            UILogicUtils.ShowNotice(Lang.GetValue("openvip_txt"));
             return;
         }
         var data = (context.sender as GObject).data as Ft_item_vip_shopConfig;

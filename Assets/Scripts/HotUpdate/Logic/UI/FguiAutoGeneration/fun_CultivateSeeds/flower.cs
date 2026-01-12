@@ -7,7 +7,7 @@ namespace fun_CultivateSeeds
 {
     public partial class flower : GComponent
     {
-        public GImage n1;
+        public GImage n5;
         public GList itemList;
         public GGraph n4;
         public Transition open;
@@ -23,7 +23,7 @@ namespace fun_CultivateSeeds
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
+            n5 = (GImage)GetChildAt(0);
             itemList = (GList)GetChildAt(1);
             n4 = (GGraph)GetChildAt(2);
             open = GetTransitionAt(0);

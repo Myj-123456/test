@@ -88,7 +88,7 @@ public class NewlyGotFlowerShowWindow : BaseWindow
         if (itemData.Type == 4402 || itemData.Type == 4401)
         {
             view.c1.selectedIndex = 1; 
-            view.pic.url = ImageDataModel.Instance.GetVaseItemUrl(itemData.ItemDefId);
+            view.pic.url = ImageDataModel.Instance.GetVaseItemUrl(int.Parse(itemData.ResourceId));
         }
         else
         {

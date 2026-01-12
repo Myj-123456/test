@@ -143,7 +143,8 @@ public class RechargeModel : Singleton<RechargeModel>
         rechargeAmount = data.rechargeAmount;
         Instance.firstRechargeRewards = data.firstRechargeRewards;
         rechargeRewards = data.rechargeRwards;
-        firstRechargeTime = data.firstRechargeTime;
+        
+        firstRechargeTime = data.firstRechargeTime > ServerTime.Time? ServerTime.Time : data.firstRechargeTime;
         gamePay = data.gamePay;
         haveDiamondValue = data.haveDiamondValue;
         haveGiftPack = data.haveGiftPack;

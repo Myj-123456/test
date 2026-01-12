@@ -62,12 +62,17 @@ public class GuildMembersWindow
         var cell = item as fun_Guild_New.guild_member_list_cell;
         var userInfo = listData[index];
         cell.data = userInfo;
-        cell.head.imgLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
+        var frameVo = ItemModel.Instance.GetItemById((int)userInfo.userInfo.headFrame);
+        UILogicUtils.ShowHeadFrames(cell.head.picFrame as common_New.PictureFrame, frameVo);
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(userInfo.userInfo.headImgId));
+
+        cell.head.imgLoader.url = ImageDataModel.Instance.GetIconUrl(headVo);
         cell.head.txt_lv.text = userInfo.userInfo.userLevel.ToString();
-        cell.txt_name.text = userInfo.userInfo.townName;
+        cell.txt_name.text = TextUtil.GetServerName(userInfo.userInfo.serverId, userInfo.userInfo.townName);
         cell.txt_position.txt_position.text = GuildModel.Instance.GetPositionName(userInfo.powerId);
         cell.txt_position.type.selectedIndex = userInfo.powerId < 3 ? (int)userInfo.powerId - 1 : 2;
 
+        cell.power_title.text = Lang.GetValue("fighting_title") + "：";
         cell.power_num.text = TextUtil.ChangeCoinShow1(userInfo.userInfo.fighting);
         GuildModel.Instance.GetMemberListNext(index);
         cell.txt_money.text = Lang.GetValue("guild.tt_donate", userInfo.money.ToString());//贡献：{0}

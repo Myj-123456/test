@@ -8,10 +8,8 @@ namespace fun_Guild_New
     public partial class guild_member_pop : GComponent
     {
         public Controller type;
-        public GImage n34;
         public GLoader bg;
-        public GImage n43;
-        public GImage n35;
+        public GImage n44;
         public GImage n38;
         public GImage n41;
         public GTextField txt_position;
@@ -25,6 +23,8 @@ namespace fun_Guild_New
         public GButton btn_promotion;
         public GButton btn_demotion;
         public GButton btn_ban;
+        public GImage n45;
+        public GTextField txt_Title;
         public const string URL = "ui://qz6135j3r9vt1ayr89i";
 
         public static guild_member_pop CreateInstance()
@@ -37,23 +37,23 @@ namespace fun_Guild_New
             base.ConstructFromXML(xml);
 
             type = GetControllerAt(0);
-            n34 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n43 = (GImage)GetChildAt(2);
-            n35 = (GImage)GetChildAt(3);
-            n38 = (GImage)GetChildAt(4);
-            n41 = (GImage)GetChildAt(5);
-            txt_position = (GTextField)GetChildAt(6);
-            txt_name = (GTextField)GetChildAt(7);
-            txt_money = (GTextField)GetChildAt(8);
-            head = (guild_player_head)GetChildAt(9);
-            txt_loginTime = (GTextField)GetChildAt(10);
-            btn_addFriend = (GButton)GetChildAt(11);
-            close_btn = (GButton)GetChildAt(12);
-            btn_transferLeader = (GButton)GetChildAt(13);
-            btn_promotion = (GButton)GetChildAt(14);
-            btn_demotion = (GButton)GetChildAt(15);
-            btn_ban = (GButton)GetChildAt(16);
+            bg = (GLoader)GetChildAt(0);
+            n44 = (GImage)GetChildAt(1);
+            n38 = (GImage)GetChildAt(2);
+            n41 = (GImage)GetChildAt(3);
+            txt_position = (GTextField)GetChildAt(4);
+            txt_name = (GTextField)GetChildAt(5);
+            txt_money = (GTextField)GetChildAt(6);
+            head = (guild_player_head)GetChildAt(7);
+            txt_loginTime = (GTextField)GetChildAt(8);
+            btn_addFriend = (GButton)GetChildAt(9);
+            close_btn = (GButton)GetChildAt(10);
+            btn_transferLeader = (GButton)GetChildAt(11);
+            btn_promotion = (GButton)GetChildAt(12);
+            btn_demotion = (GButton)GetChildAt(13);
+            btn_ban = (GButton)GetChildAt(14);
+            n45 = (GImage)GetChildAt(15);
+            txt_Title = (GTextField)GetChildAt(16);
         }
     }
 }

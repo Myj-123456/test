@@ -8,17 +8,17 @@ namespace fun_Guild_Match
     public partial class rank_view : GComponent
     {
         public Controller status;
-        public GImage n2;
         public GLoader bg;
         public GImage n7;
-        public GImage n3;
-        public GImage n8;
-        public GImage n9;
+        public GTextField txt_Title;
+        public GImage n23;
+        public GLoader pic;
+        public GTextField txt_title2;
         public GButton close_btn;
         public GList match_list;
-        public tabBtn match_btn;
-        public tabBtn history_btn;
-        public tabBtn people_btn;
+        public GButton match_btn;
+        public GButton history_btn;
+        public GButton people_btn;
         public match_history_item item1;
         public match_history_item item2;
         public match_history_item item3;
@@ -36,17 +36,17 @@ namespace fun_Guild_Match
             base.ConstructFromXML(xml);
 
             status = GetControllerAt(0);
-            n2 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n7 = (GImage)GetChildAt(2);
-            n3 = (GImage)GetChildAt(3);
-            n8 = (GImage)GetChildAt(4);
-            n9 = (GImage)GetChildAt(5);
+            bg = (GLoader)GetChildAt(0);
+            n7 = (GImage)GetChildAt(1);
+            txt_Title = (GTextField)GetChildAt(2);
+            n23 = (GImage)GetChildAt(3);
+            pic = (GLoader)GetChildAt(4);
+            txt_title2 = (GTextField)GetChildAt(5);
             close_btn = (GButton)GetChildAt(6);
             match_list = (GList)GetChildAt(7);
-            match_btn = (tabBtn)GetChildAt(8);
-            history_btn = (tabBtn)GetChildAt(9);
-            people_btn = (tabBtn)GetChildAt(10);
+            match_btn = (GButton)GetChildAt(8);
+            history_btn = (GButton)GetChildAt(9);
+            people_btn = (GButton)GetChildAt(10);
             item1 = (match_history_item)GetChildAt(11);
             item2 = (match_history_item)GetChildAt(12);
             item3 = (match_history_item)GetChildAt(13);

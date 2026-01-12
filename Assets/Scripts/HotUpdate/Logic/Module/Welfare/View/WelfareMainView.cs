@@ -36,7 +36,7 @@ public class WelfareMainView : BaseWindow
         SetBg(view.growth_view.bg, "Welfare/ELIDA_xsczzl_bg01.png");
         SetBg(view.growth_view.bg1, "Welfare/ELIDA_xsczzl_bg_hua.png");
         SetBg(view.growth_view.bg2, "Welfare/ELIDA_xsczzl_bg03.png");
-        SetBg(view.seven_view.bg, "Welfare/ELIDA_meiriqiandao_bg.png");
+        SetBg(view.seven_view.bg, "Welfare/ELIDA_qrdl_qpbg.png");
         SetBg(view.video_view.bg, "Welfare/ELIDA_meiriqiandao_bg.png");
         pageData = new List<int>();
         signView = new SignView(view.sign_view);
@@ -66,6 +66,7 @@ public class WelfareMainView : BaseWindow
         base.OnShown();
         var type = (int)data;
         InitPageData(type);
+        UpdateTabList();
         // 其他打开面板的逻辑
     }
 
@@ -115,6 +116,7 @@ public class WelfareMainView : BaseWindow
             {
                 continue;
             }
+
             if (i == 4 && (!GlobalModel.Instance.GetUnlocked(SysId.Newspaper)))
             {
                 continue;
@@ -138,10 +140,20 @@ public class WelfareMainView : BaseWindow
     }
     private void RenderList(int index,GObject item)
     {
-        var cell = item as fun_Welfare.page_btn;
+        var cell = item as common_New.common_page2;
+
         var info = pageData[index];
-        cell.titleLab.text = Lang.GetValue("welfare_main_" + (info + 1));
-        cell.status.selectedIndex = info;
+        var str = Lang.GetValue("welfare_main_" + (info + 1));
+        if(str.Length < 3)
+        {
+            StringUtil.SetBtnTab5(cell, str);
+            cell.type.selectedIndex = 1;
+        }
+        else
+        {
+            StringUtil.SetBtnTab4(cell, str);
+            cell.type.selectedIndex = 0;
+        }
         if(info == 0)
         {
             if (WelfareModel.Instance.GetSevenRed())

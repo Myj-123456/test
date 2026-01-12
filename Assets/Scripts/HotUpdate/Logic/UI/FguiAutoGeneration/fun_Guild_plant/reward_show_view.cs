@@ -8,9 +8,9 @@ namespace fun_Guild_plant
     public partial class reward_show_view : GComponent
     {
         public Controller empty;
-        public GImage n2;
         public GLoader bg;
-        public GImage n3;
+        public GImage n17;
+        public GImage n18;
         public GImage n6;
         public GImage n4;
         public GTextField tipLab;
@@ -23,6 +23,8 @@ namespace fun_Guild_plant
         public GList pre_list;
         public GList extra_list;
         public GGroup n16;
+        public GTextField txt_Title;
+        public GImage n20;
         public const string URL = "ui://qfpad3q0tewh16";
 
         public static reward_show_view CreateInstance()
@@ -35,9 +37,9 @@ namespace fun_Guild_plant
             base.ConstructFromXML(xml);
 
             empty = GetControllerAt(0);
-            n2 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n3 = (GImage)GetChildAt(2);
+            bg = (GLoader)GetChildAt(0);
+            n17 = (GImage)GetChildAt(1);
+            n18 = (GImage)GetChildAt(2);
             n6 = (GImage)GetChildAt(3);
             n4 = (GImage)GetChildAt(4);
             tipLab = (GTextField)GetChildAt(5);
@@ -50,6 +52,8 @@ namespace fun_Guild_plant
             pre_list = (GList)GetChildAt(12);
             extra_list = (GList)GetChildAt(13);
             n16 = (GGroup)GetChildAt(14);
+            txt_Title = (GTextField)GetChildAt(15);
+            n20 = (GImage)GetChildAt(16);
         }
     }
 }

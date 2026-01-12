@@ -26,6 +26,9 @@ namespace protobuf.fund
         [ProtoBuf.ProtoMember(1)]
         public uint fundType;
 
+        [ProtoBuf.ProtoMember(2)]
+        public uint fundId;
+
     }
 
     [ProtoBuf.ProtoContract]

@@ -11,7 +11,7 @@ public enum SysId
 	Fund = 17000008,        //培育基金
 	DressShop = 17000009,        //衣服商店
 	RandomShop = 17000011,
-	Fuben = 17000012,
+	Fuben = 17000012,//累计充值
 	Order = 17000013,
 	PlayerInfo = 17000014,//绘笔
 	Customer = 17000015,//居民

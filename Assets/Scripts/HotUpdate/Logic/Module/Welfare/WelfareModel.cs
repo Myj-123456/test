@@ -143,6 +143,10 @@ public class WelfareModel : Singleton<WelfareModel>
         }
         foreach (var value in growthList)
         {
+            if (days < value.DayNum)
+            {
+                continue;
+            }
             if (GetStatusRookie((uint)value.IndexId) == 0)
             {
                 return true;
@@ -167,7 +171,7 @@ public class WelfareModel : Singleton<WelfareModel>
             return false;
         }
     
-        if (todayHaveDraw)
+        if (!todayHaveDraw)
         {
             return true;
         }

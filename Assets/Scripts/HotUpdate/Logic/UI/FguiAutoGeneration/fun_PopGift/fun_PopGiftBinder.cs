@@ -13,7 +13,6 @@ namespace fun_PopGift
             UIObjectFactory.SetPackageItemExtension(buy_btn.URL, typeof(buy_btn));
             UIObjectFactory.SetPackageItemExtension(btn.URL, typeof(btn));
             UIObjectFactory.SetPackageItemExtension(btn1.URL, typeof(btn1));
-            UIObjectFactory.SetPackageItemExtension(btn2.URL, typeof(btn2));
         }
     }
 }

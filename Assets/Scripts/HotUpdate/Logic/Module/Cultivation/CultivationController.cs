@@ -77,7 +77,7 @@ public class CultivationController : BaseController<CultivationController>
         CultivationModel.Instance.harvestTime = (int)data.cultivate.harvestTime;
         CultivationModel.Instance.videoTime = (int)data.cultivate.videoTimes;
         CultivationModel.Instance.helpCnt = (int)data.cultivate.helpCnt;
-        //UIManager.Instance.OpenWindow<CultivationNewSeedWindow>(UIName.CultivationNewSeedWindow, (int)data.seed.flowerId);
+        UIManager.Instance.OpenWindow<CulitivationSuccessWindow>(UIName.CulitivationSuccessWindow, (int)data.seed.flowerId);
         EventManager.Instance.DispatchEvent(CultivationEvent.CultivationHarvest);
         EventManager.Instance.DispatchEvent(TaskEvent.MainTaskCount,4);
     }

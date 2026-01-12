@@ -1,0 +1,16 @@
+face.png
+size:100,30
+filter:Linear,Linear
+pma:true
+019/eye_binyan1
+bounds:2,2,40,18
+offsets:1,8,43,28
+019/eye_binyan2
+bounds:44,2,34,18
+offsets:2,4,37,24
+019/eyebrow
+bounds:2,22,96,6
+offsets:2,1,100,8
+mouth
+bounds:80,14,15,6
+offsets:1,1,17,8

@@ -8,7 +8,7 @@ namespace fun_Welfare
     {
         public static void BindAll()
         {
-            UIObjectFactory.SetPackageItemExtension(page_btn.URL, typeof(page_btn));
+            UIObjectFactory.SetPackageItemExtension(btn_close.URL, typeof(btn_close));
             UIObjectFactory.SetPackageItemExtension(welfare_main_view.URL, typeof(welfare_main_view));
             UIObjectFactory.SetPackageItemExtension(growth_view.URL, typeof(growth_view));
             UIObjectFactory.SetPackageItemExtension(pro1.URL, typeof(pro1));
@@ -24,6 +24,8 @@ namespace fun_Welfare
             UIObjectFactory.SetPackageItemExtension(sign_item.URL, typeof(sign_item));
             UIObjectFactory.SetPackageItemExtension(sign_view.URL, typeof(sign_view));
             UIObjectFactory.SetPackageItemExtension(sign_item1.URL, typeof(sign_item1));
+            UIObjectFactory.SetPackageItemExtension(reward_item1.URL, typeof(reward_item1));
+            UIObjectFactory.SetPackageItemExtension(SeventhSign.URL, typeof(SeventhSign));
             UIObjectFactory.SetPackageItemExtension(get_btn.URL, typeof(get_btn));
             UIObjectFactory.SetPackageItemExtension(video_double_view.URL, typeof(video_double_view));
             UIObjectFactory.SetPackageItemExtension(turntable_item.URL, typeof(turntable_item));

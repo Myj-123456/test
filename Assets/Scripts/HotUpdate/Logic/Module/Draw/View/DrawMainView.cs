@@ -26,11 +26,36 @@ public class DrawMainView : BaseView
         view = ui as fun_Draw.draw_main_view;
         SetBg(view.flower_draw.bg, "Draw/ELIDA_chouka_yuechouka_bg01.png");
         SetBg(view.diamond_draw_view.bg, "Recharge/ELIDA_chouka_zsck_bg.png");
+
         monthDraw = new MonthDrawView(view.flower_draw);
         diamondDraw = new DiamondDrawView(view.diamond_draw_view);
         inits = new List<int>() { 0,0,0};
 
         view.list.onClickItem.Add(PageBtn);
+        StringUtil.SetBtnTab(view.flower_draw.change_btn, Lang.GetValue("Target_txt6"));
+        view.flower_draw.change_btn.onClick.Add(() =>
+        {
+            var activityId = DrawModel.Instance.GetActivityId(ActivityType.Month_Draw);
+            UIManager.Instance.OpenPanel<ExchangeView>(UIName.ExchangeView, UILayer.UI, activityId);
+        });
+        StringUtil.SetBtnTab(view.diamond_draw_view.exchange_btn, Lang.GetValue("Target_txt6"));
+        view.diamond_draw_view.exchange_btn.onClick.Add(() =>
+        {
+            var activityId = DrawModel.Instance.GetActivityId(ActivityType.Diamond_Draw);
+            UIManager.Instance.OpenPanel<ExchangeView>(UIName.ExchangeView, UILayer.UI, activityId);
+        });
+        StringUtil.SetBtnTab(view.flower_draw.detail_btn, Lang.GetValue("details_title"));
+        view.flower_draw.detail_btn.onClick.Add(() => 
+        {
+            var activityId = DrawModel.Instance.GetActivityId(ActivityType.Month_Draw);
+            UIManager.Instance.OpenWindow<DetailedView>(UIName.DetailedView, activityId);
+        });
+        StringUtil.SetBtnTab(view.diamond_draw_view.detail_btn, Lang.GetValue("details_title"));
+        view.diamond_draw_view.detail_btn.onClick.Add(() =>
+        {
+            var activityId = DrawModel.Instance.GetActivityId(ActivityType.Diamond_Draw);
+            UIManager.Instance.OpenWindow<DetailedView>(UIName.DetailedView, activityId);
+        });
     }
 
     public override void OnShown()

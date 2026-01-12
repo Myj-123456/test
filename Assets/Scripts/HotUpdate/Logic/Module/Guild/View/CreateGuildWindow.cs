@@ -25,7 +25,7 @@ public class CreateGuildWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_New.guild_input;
-        SetBg(view.bg, "Guild/ELIDA_huameng_cjhm.png");
+        SetBg(view.bg, "Guild/ELIDA_huameng_bg.png");
         StringUtil.SetBtnTab(view.btn_sure, Lang.GetValue("levelup_button"));
         view.txt_input.maxLength = 7;
         view.title.text = Lang.GetValue("create_guild_2");//请输入社团名称，最多{0}个字符
@@ -85,7 +85,7 @@ public class CreateGuildWindow : BaseWindow
         view.txt_input.text = "";
         view.type.selectedIndex = 0;
         var num = GuildModel.Instance.othersConfig.PersekutuanBuats[0].Value;
-        view.cost_num.text = num + "/" + TextUtil.ChangeCoinShow(MyselfModel.Instance.gold);
+        view.cost_num.text = num + "/" + TextUtil.ChangeCoinShow(MyselfModel.Instance.diamond);
     }
 
     private void ShowIcon(IconData iconData)

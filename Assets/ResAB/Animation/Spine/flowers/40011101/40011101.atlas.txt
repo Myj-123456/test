@@ -1,6 +1,7 @@
 40011101.png
 size:1762,523
 filter:Linear,Linear
+pma:true
 a_huab_a
 bounds:438,2,70,64
 offsets:4,6,84,74

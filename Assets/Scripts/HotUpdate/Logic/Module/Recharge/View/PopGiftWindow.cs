@@ -28,7 +28,9 @@ public class PopGiftWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_PopGift.pop_gift_view;
-        SetBg(view.bg, "Recharge/ELIDA_syh_tcslb_bg.png");
+        SetBg(view.bg, "Recharge/ELIDA_xianhualibao_jiazi.png");
+        SetBg(view.bg2, "Recharge/ELIDA_xianhualibao_hezi.png");
+        //view.titleLab.text = Lang.GetValue("");
         view.tipLab.text = Lang.GetValue("pop_gift_1");
         timerMap = new Dictionary<int, CountDownTimer>();
         view.list.itemRenderer = RenderList;
@@ -107,7 +109,7 @@ public class PopGiftWindow : BaseWindow
             view.flower_img.visible = true;
             view.spine.visible = true;
             view.icon.visible = false;
-            view.title_img.url = "GiftPack/ELIDA_syh_tcslb_zi.png";
+            view.title_img.url = "GiftPack/ELIDA_xianhualibao_baioti.png";
             view.flower_img.url = ImageDataModel.Instance.GetIdentifiedFlowerUrl(flowerVo);
             view.titleLab.text = Lang.GetValue(flowerVo.Name);
             view.flower_grp.visible = true;
@@ -125,7 +127,7 @@ public class PopGiftWindow : BaseWindow
             view.flower_grp.visible = false;
             view.titleLab.text = Lang.GetValue(giftInfo.Name);
 
-            view.title_img.url = "GiftPack/ELIDA_syh_tcslb_djlbzi.png";
+            view.title_img.url = "GiftPack/ELIDA_daojulibao_baioti.png";
             view.icon.url = "GiftPack/gift_icon/ELIDA_syh_tcslb_daojuhe01.png";
         }
         if(timer != null)

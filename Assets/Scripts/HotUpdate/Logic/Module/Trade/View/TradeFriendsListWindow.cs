@@ -32,7 +32,7 @@ public class TradeFriendsListWindow : BaseWindow
         //_view.title.text = Lang.GetValue("trade_friends");
         _view.list.itemRenderer = FriendItemRenderer;
         _view.list.SetVirtual();
-        StringUtil.SetBtnTab(_view.tip, "暂无好友交易");
+        StringUtil.SetBtnTab(_view.tip, Lang.GetValue("nofirenddeal_txt"));
         _view.findBtn.onClick.Add(() =>
         {
             filterName = _view.inputLab.text.Trim();
@@ -48,6 +48,7 @@ public class TradeFriendsListWindow : BaseWindow
         base.OnShown();
         // 其他打开面板的逻辑
         filterName = "";
+        _view.inputLab.text = "";
         TradeController.Instance.ReqTradeFriendShop();
     }
     private void UpdateList()

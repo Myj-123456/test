@@ -9,13 +9,12 @@ namespace fun_CultivationManual_new
     {
         public Controller status;
         public Controller button;
-        public GImage n104;
+        public GImage n114;
         public GLoader img1;
         public GTextField name_txt;
-        public GImage n108;
-        public GImage n14;
+        public GImage n116;
+        public GImage n115;
         public GImage n107;
-        public GImage n109;
         public GTextField limitLab;
         public GGraph rect;
         public const string URL = "ui://ekoic0wrjfk51yjp7y3";
@@ -31,15 +30,14 @@ namespace fun_CultivationManual_new
 
             status = GetControllerAt(0);
             button = GetControllerAt(1);
-            n104 = (GImage)GetChildAt(0);
+            n114 = (GImage)GetChildAt(0);
             img1 = (GLoader)GetChildAt(1);
             name_txt = (GTextField)GetChildAt(2);
-            n108 = (GImage)GetChildAt(3);
-            n14 = (GImage)GetChildAt(4);
+            n116 = (GImage)GetChildAt(3);
+            n115 = (GImage)GetChildAt(4);
             n107 = (GImage)GetChildAt(5);
-            n109 = (GImage)GetChildAt(6);
-            limitLab = (GTextField)GetChildAt(7);
-            rect = (GGraph)GetChildAt(8);
+            limitLab = (GTextField)GetChildAt(6);
+            rect = (GGraph)GetChildAt(7);
         }
     }
 }

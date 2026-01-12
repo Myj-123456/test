@@ -143,17 +143,20 @@ public class ChooseFlowerUI : BaseUI
 
     private void ItemRender(int index, GObject item)
     {
-        fun_Scene.plant_grid cell = item as fun_Scene.plant_grid;
+        fun_Scene.plant_grid1 cell = item as fun_Scene.plant_grid1;
         var seedCropVO = seedCropVOList[index];
         cell.data = seedCropVO;
         cell.image_loader.url = ImageDataModel.Instance.GetIconUrl(seedCropVO.item);
         cell.name_txt.text = Lang.GetValue(seedCropVO.item.Name);
+        
         cell.level_txt.text = seedCropVO.level.ToString();
         var color = FlowerHandbookModel.Instance.GetStaticSeedCondition(seedCropVO.flowerId).FlowerQuality;
+        cell.name_txt.color = StringUtil.HexToColor(TextUtil.Colors2[color - 1]);
+        cell.name_txt.strokeColor = StringUtil.HexToColor(TextUtil.Colors1[color - 1]);
         cell.quality.selectedIndex = color;
         var count = StorageModel.Instance.GetItemCount(seedCropVO.item.ItemDefId);
-        cell.count_txt.visible = count > 0;
-        cell.count_txt.text = "x" + count;
+        //cell.count_txt.visible = count > 0;
+        cell.count_txt.text = TextUtil.ChangeCoinShow(count);
 
         //子项拖拽
         cell.image_loader.draggable = true;
@@ -189,7 +192,7 @@ public class ChooseFlowerUI : BaseUI
         if (SceneManager.Instance.IsDragging) return;
         UIManager.Instance.ShowOrHideMainUI(true, true, true);
         SceneManager.Instance.IsDragging = false;
-        var cell = context.data as fun_Scene.plant_grid;
+        var cell = context.data as fun_Scene.plant_grid1;
         if (!isOneKeyPlantChecked)
         {
             var plantVO = PlantModel.Instance.plantVO;
@@ -267,7 +270,7 @@ public class ChooseFlowerUI : BaseUI
     {
         if (!MyselfModel.Instance.IsVip())
         {
-            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 1);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 2);
             return;
         }
         isOneKeyPlantChecked = !isOneKeyPlantChecked;

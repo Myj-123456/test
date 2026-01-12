@@ -153,9 +153,12 @@ public class GlobalModel : Singleton<GlobalModel>
 
         module_profileConfig.FirstRechargeShow = int.Parse(module_profileConfigData.Get("FirstRechargeShow").Value);
 
-        module_profileConfig.FriendCoinItem= int.Parse(module_profileConfigData.Get("FriendCoinItem").Value);
+        module_profileConfig.FriendCoinItem = int.Parse(module_profileConfigData.Get("FriendCoinItem").Value);
         module_profileConfig.FriendCoinDayLimit = int.Parse(module_profileConfigData.Get("FriendCoinDayLimit").Value);
         module_profileConfig.FriendCoinExchange = int.Parse(module_profileConfigData.Get("FriendCoinExchange").Value);
+
+        module_profileConfig.drawExchangeItem = StringUtil.DeserializeObject<List<int>>(module_profileConfigData.Get("drawExchangeItem").Value);
+        module_profileConfig.clotheDrawExchangeItem = StringUtil.DeserializeObject<List<int>>(module_profileConfigData.Get("clotheDrawExchangeItem").Value);
     }
 
     public uint startTickServerTime = 0;//记录开始Tick的服务器时间
@@ -210,7 +213,7 @@ public class GlobalModel : Singleton<GlobalModel>
             {
                 if (log)
                 {
-                    UILogicUtils.ShowNotice("完成主线任务" + need_level + "解锁");
+                    UILogicUtils.ShowNotice(string.Format(Lang.GetValue("task_unlock_txt"), need_level));
                 }
                 return false;
             }
@@ -369,9 +372,13 @@ public class ModuleProfileConfigVo
     public int keMaxNum;//贝壳拥有最大上限
 
     public int FirstRechargeShow;//首充花朵动画展示
+
     public int FriendCoinDayLimit;//好友币每日获得上限
     public int FriendCoinItem;//好友币道具ID
     public int FriendCoinExchange;//好友币每日兑换摸花次数上限
+
+    public List<int> drawExchangeItem; //兑换的金蝶 银蝶
+    public List<int> clotheDrawExchangeItem; //兑换的 金布 银布
 }
 
 

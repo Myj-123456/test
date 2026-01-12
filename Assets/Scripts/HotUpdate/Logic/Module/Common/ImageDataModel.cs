@@ -162,4 +162,8 @@ public class ImageDataModel : Singleton<ImageDataModel>
     {
         return "HandBookNew/rare_icon_" + (quality == 0 ? 1 : quality) + ".png";
     }
+    public string GetItemNameQuality(int quality)
+    {
+        return "HandBookNew/name_bg_small_color_" + (quality == 0 ? 1 : quality) + ".png";
+    }
 }

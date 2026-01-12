@@ -24,8 +24,8 @@ public class GuildPlantRewardWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_plant.reward_show_view;
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
-        
+        SetBg(view.bg, "Common/common_big_tip_bg.png");
+        view.txt_Title.text = Lang.GetValue("title_activity_3"); //奖励预览
         view.preLab.text = Lang.GetValue("guild_plant_7");
         view.extraLab.text = Lang.GetValue("guild_plant_8");
 
@@ -50,11 +50,11 @@ public class GuildPlantRewardWindow : BaseWindow
         {
             if (extraData.Count == 0)
             {
-                view.empty.selectedIndex = 2;
+                view.empty.selectedIndex = 0;
             }
             else
             {
-                view.empty.selectedIndex = 0;
+                view.empty.selectedIndex = 2;
             }
             
         }

@@ -183,7 +183,7 @@ public class TaskJumpHelper
             }
             else
             {
-                ADK.UILogicUtils.ShowNotice("没有空花台");
+                ADK.UILogicUtils.ShowNotice(Lang.GetValue("noempty_table_txt"));
             }
         }
         else if (taskInfo.TaskType == 24)//成功培育XX花
@@ -209,7 +209,7 @@ public class TaskJumpHelper
             }
             else
             {
-                ADK.UILogicUtils.ShowNotice("没有空花台");
+                ADK.UILogicUtils.ShowNotice(Lang.GetValue("noempty_table_txt"));
             }
         }
         else if (taskInfo.TaskType == 26)//收集X个水桶

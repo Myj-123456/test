@@ -129,6 +129,7 @@ public class DressShopView : BaseView
         if(info.UnlockLv > lv)
         {
             cell.unlock.selectedIndex = 1;
+            cell.unlockLab.text = Lang.GetValue("dress_shop_unlock", info.UnlockLv.ToString());
         }
         else
         {
@@ -196,6 +197,7 @@ public class DressShopView : BaseView
         view.nameLab.color = StringUtil.HexToColor(txtColorArr[dressInfo.Quality - 1]);
         view.charmNum.text = "+" + dressInfo.CharmNum;
         view.typeLab.text = Lang.GetValue("dress_type_" + dressInfo.Type);
+        //view.typeLab.text = TextUtil.GetClothName(Lang.GetValue(itemVo.Name),1);
         view.icon.url = ImageDataModel.Instance.GetIconUrl(itemVo);
         var costVo = ItemModel.Instance.GetItemByEntityID(listData[view.list.selectedIndex].Prices[0].EntityID);
         view.img.url = ImageDataModel.Instance.GetIconUrl(costVo);

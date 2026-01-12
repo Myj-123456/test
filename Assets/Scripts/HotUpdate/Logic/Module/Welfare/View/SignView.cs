@@ -29,9 +29,15 @@ public class SignView
         StringUtil.SetBtnTab(view.sign_btn, Lang.GetValue("welfare_main_6"));
         StringUtil.SetBtnTab(view.cost_btn, Lang.GetValue("welfare_main_7"));
         StringUtil.SetBtnTab(view.getted, Lang.GetValue("welfare_main_8"));
+        StringUtil.SetBtnUrl(view.cost_btn, ImageDataModel.CASH_ICON_URL);
+        StringUtil.SetBtnTab(view.free_btn, Lang.GetValue("welfare_main_7"));
         view.sign_btn.onClick.Add(() =>
         {
             WelfareController.Instance.ReqDailySign();
+        });
+        view.free_btn.onClick.Add(() =>
+        {
+            WelfareController.Instance.ReqDailyRetroactive();
         });
         view.cost_btn.onClick.Add(() =>
         {
@@ -39,7 +45,7 @@ public class SignView
             var index = WelfareModel.Instance.retroactiveDays >= costs.Count ? costs.Count - 1 : (int)WelfareModel.Instance.retroactiveDays;
             if(MyselfModel.Instance.diamond < costs[index])
             {
-                
+                UILogicUtils.ShowNotice(Lang.GetValue("common_hint_txt3"));
                 return;
             }
             WelfareController.Instance.ReqDailyRetroactive();
@@ -99,26 +105,39 @@ public class SignView
     }
     private void UpdateData()
     {
+        view.day_num.text = Lang.GetValue("welfare_main_8") + "£º" + WelfareModel.Instance.signDay.ToString();
+        var costs = GlobalModel.Instance.module_profileConfig.signDayCost;
+        var index = WelfareModel.Instance.retroactiveDays >= costs.Count ? costs.Count - 1 : (int)WelfareModel.Instance.retroactiveDays;
         if (!WelfareModel.Instance.isSign)
         {
             view.cost_btn.visible = false;
             view.sign_btn.visible = true;
             view.getted.visible = false;
-        }else if(WelfareModel.Instance.currentSignDay == WelfareModel.Instance.signDay)
+            view.free_btn.visible = false;
+        }
+        else if(WelfareModel.Instance.currentSignDay == WelfareModel.Instance.signDay)
         {
             view.cost_btn.visible = false;
             view.sign_btn.visible = false;
             view.getted.visible = true;
+            view.free_btn.visible = false;
         }
         else
         {
-            view.cost_btn.visible = true;
             view.sign_btn.visible = false;
             view.getted.visible = false;
+            if (costs[index] > 0)
+            {
+                view.cost_btn.visible = true;
+                view.free_btn.visible = false;
+            }
+            else
+            {
+                view.cost_btn.visible = false;
+                view.free_btn.visible = true;
+            }
         }
-        view.day_num.text = Lang.GetValue("welfare_main_8") + "£º" + WelfareModel.Instance.signDay.ToString();
-        var costs = GlobalModel.Instance.module_profileConfig.signDayCost;
-        var index = WelfareModel.Instance.retroactiveDays >= costs.Count?costs.Count - 1: (int)WelfareModel.Instance.retroactiveDays;
+       
         if(index > -1)
         {
             StringUtil.SetBtnCount(view.cost_btn, costs[index].ToString());

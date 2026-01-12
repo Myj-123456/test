@@ -1,9 +1,8 @@
 shoe.png
-size:117,93
+size:138,97
 filter:Linear,Linear
 pma:true
-shoe1
-bounds:66,2,49,89
-offsets:0,0,60,89
-shoe2
-bounds:2,13,62,78
+001/shoe1
+bounds:80,2,56,93
+001/shoe2
+bounds:2,18,76,77

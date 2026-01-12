@@ -29,7 +29,7 @@ public class GuildManageView : BaseWindow
     {
          base.OnInit();
         _view = ui as fun_Guild_New.guild_manager_View;
-        SetBg(_view.bg, "Common/ELIDA_common_bigdi01.png");
+        SetBg(_view.bg, "Common/common_big_tip_bg.png");
         _view.titleLab.text = Lang.GetValue("guild_main_1");
         members = new GuildMembersWindow(_view.members);
         apply = new GuildApplyWindow(_view.apply);

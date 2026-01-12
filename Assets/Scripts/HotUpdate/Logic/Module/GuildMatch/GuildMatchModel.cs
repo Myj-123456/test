@@ -191,7 +191,22 @@ public class GuildMatchModel : Singleton<GuildMatchModel>
             }
         }
     }
-
+    //更新任务
+    public void UpdateTaskInfo(List<I_COMPETITION_TASK_VO> taskInfo)
+    {
+        foreach(var value in taskInfo)
+        {
+            for (int i = 0, len = taskList.Count; i < len; i++)
+            {
+                if (taskList[i].pos == value.pos)
+                {
+                    taskList[i] = value;
+                    break;
+                }
+            }
+        }
+        
+    }
     //刷新任务
     public void RefreshTask(uint pos,uint id,uint curCnt,uint needCnt,uint needItem)
     {
@@ -267,6 +282,18 @@ public class GuildMatchModel : Singleton<GuildMatchModel>
             }
         }
         return listData;
+    }
+
+    public bool IsGetTask()
+    {
+        foreach(var value in taskList)
+        {
+            if (value.userInfo != null && value.userInfo.userId != 0 && value.userInfo.userId == MyselfModel.Instance.userId)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

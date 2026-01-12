@@ -13,10 +13,11 @@ namespace fun_Rob
         public GTextField lb_timeDown;
         public GImage n46;
         public btn_unlock btn_unlock;
-        public GComponent robHead;
+        public robbedHead_big robHead;
         public catchBtn catchBtn;
         public GLoader img_reward;
         public GImage n48;
+        public GImage n51;
         public const string URL = "ui://z1on8kwdd5kwpio";
 
         public static robbedCell CreateInstance()
@@ -34,10 +35,11 @@ namespace fun_Rob
             lb_timeDown = (GTextField)GetChildAt(2);
             n46 = (GImage)GetChildAt(3);
             btn_unlock = (btn_unlock)GetChildAt(4);
-            robHead = (GComponent)GetChildAt(5);
+            robHead = (robbedHead_big)GetChildAt(5);
             catchBtn = (catchBtn)GetChildAt(6);
             img_reward = (GLoader)GetChildAt(7);
             n48 = (GImage)GetChildAt(8);
+            n51 = (GImage)GetChildAt(9);
         }
     }
 }

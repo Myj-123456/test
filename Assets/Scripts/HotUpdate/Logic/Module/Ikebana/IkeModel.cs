@@ -158,7 +158,8 @@ public class IkeModel : Singleton<IkeModel>
         {
             var vase = new ArtData();
             vase.FormulaId = (int)value.Key;
-            var itemVo = ItemModel.Instance.GetItemById((int)value.Key);
+            var vaseInfo = GetFormula((int)value.Key);
+            var itemVo = ItemModel.Instance.GetItemById(vaseInfo.IkebanaId);
             vase.item = itemVo;
             vaseList.Add(vase);
         }

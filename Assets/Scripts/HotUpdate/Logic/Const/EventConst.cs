@@ -125,6 +125,7 @@ public class FriendEvent
     public static string FriendSteal = "FriendSteal";//好友偷取
 
     public static string CronyList = "CronyList";//密友列表
+    public static string CronyFriendList = "CronyFriendList";//密友好友列表更新
     public static string CronyBeApply = "CronyBeApply";//密友申请列表
     public static string CronyAgree = "CronyAgree";//同意密友关系
     public static string CronyReject = "CronyReject";///拒绝密友关系
@@ -151,6 +152,8 @@ public class RobEvent
     public static string RobBuy = "RobBuy";//抢劫购买
     public static string RobSetshield = "RobSetshield";//设置/取消屏蔽
     public static string RobMessage = "RobMessage";//抢劫消息
+    public static string EmployMessage = "EmployMessage";//雇佣日志
+    public static string RobShopBuy = "RobShopBuy";//商城购买
 }
 
 public class DailyTaskEvent
@@ -242,6 +245,7 @@ public class ChatEvent
     public static string FriendReceiveChat = "FriendReceiveChat";//收到好友频道消息事件
     public static string FriendChat = "FriendChat";//好友聊天
     public static string DelFriendContact = "DelFriendContact";//删除好友联系人事件
+    public static string FriendChatRed = "FriendChatRed";//好友频道已读消息
 }
 
 
@@ -382,6 +386,12 @@ public class PlayerEvent
     public static string ChangeWaterBucket = "ChangeWaterBucket";//水桶被他人偷取后返回的数量
 
     public static string OpenGiftPack = "OpenGiftPack";//打开礼包
+
+    public static string DeleteAccount = "DeleteAccount";//注销账号
+
+    public static string ChangeDailyLogin = "ChangeDailyLogin";//每日登录签到数据变更
+
+    public static string DailyManagerStat = "DailyManagerStat";//每日经营
 }
 
 public class PetEvent

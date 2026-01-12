@@ -23,7 +23,6 @@ public class MatchBtn
         EventManager.Instance.AddEventListener(GuildEvent.GuildFound, UpdateData);
         EventManager.Instance.AddEventListener(GuildEvent.GuildApply, UpdateData);
         EventManager.Instance.AddEventListener(GuildEvent.GuildQuit, UpdateData);
-        EventManager.Instance.AddEventListener(GuildEvent.GuildQuit, UpdateData);
         EventManager.Instance.AddEventListener(GuildEvent.LeaveGuild, UpdateData);
     }
 

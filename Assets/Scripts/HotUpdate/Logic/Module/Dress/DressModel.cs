@@ -10,36 +10,36 @@ using UnityEngine;
 
 public enum DressPartType
 {
-    Hair = 1,//ͷ��
-    Skirt,//����ȹ
-    Up_clothes,//��װ
-    Dw_clothes,//��װ
-    Shoe,//Ь��
-    Face,//����
-    Accessories,//���
-    Ear//����(ֻ��ռλ ����汾����Ҫ�滻)
+    Hair = 1,//头发
+    Skirt,//裙子
+    Up_clothes,//上衣
+    Dw_clothes,//下衣
+    Shoe,//鞋子
+    Face,//脸部
+    Accessories,//配件
+    Ear//耳朵(仅用于旧版客户端，新版客户端需要替换)
 }
 
 /// <summary>
-/// ��װ����
+/// 穿戴数据
 /// </summary>
 public class DressData
 {
-    public int clothesId; // ��װID(��Ӧ��Ʒid)
-    public Ft_suit_dressConfig ft_Dress_Config;//��̬����
+    public int clothesId; // 穿戴ID(对应商品id)
+    public Ft_suit_dressConfig ft_Dress_Config;//状态配置
 }
 /// <summary>
-/// ��װ����
+/// 穿戴模型
 /// </summary>
 public class DressModel : Singleton<DressModel>
 {
-    private Dictionary<int, DressData> clientWearDic;//ǰ�˴����б�
-    private Dictionary<int, DressData> serverWearDic;//��˴����б�
-    public List<I_SUIT_VO> suits;//��װ�б�
-    public uint score;//����
-    public uint rewardId;//����id
-    public List<I_ITEM_VO> itemList;//��õĵ���
-    public uint dressShopExp;//�·��̵꾭��
+    private Dictionary<int, DressData> clientWearDic;//当前穿戴列表
+    private Dictionary<int, DressData> serverWearDic;//服务器穿戴列表
+    public List<I_SUIT_VO> suits;//穿戴列表
+    public uint score;//积分
+    public uint rewardId;//奖励id
+    public List<I_ITEM_VO> itemList;//获得的物品列表
+    public uint dressShopExp;// DressShop经验值
 
     public void InitData(S_MSG_DRESS_INFO data)
     {
@@ -54,7 +54,7 @@ public class DressModel : Singleton<DressModel>
             clientWearDic = new Dictionary<int, DressData>();
         }
     }
-    //��װ�б�
+    // 套装列表
     private List<SuitConfig> _suitList;
     public List<SuitConfig> suitList
     {
@@ -73,7 +73,7 @@ public class DressModel : Singleton<DressModel>
             return _suitList;
         }
     }
-    //�·��̵�
+    // 时装商店
     private List<Ft_shop_clothesConfig> _dressShopList;
     public List<Ft_shop_clothesConfig> dressShopList { get
         {
@@ -85,7 +85,7 @@ public class DressModel : Singleton<DressModel>
             return _dressShopList;
         } }
 
-    //�·��̵�ȼ���
+    // 时装商店等级列表
     private List<Ft_shop_cloLvConfig> _shopLvList;
     public List<Ft_shop_cloLvConfig> shopLvList { get
         {
@@ -96,7 +96,7 @@ public class DressModel : Singleton<DressModel>
             }
             return _shopLvList;
         } }
-    //��װ�Ǽ�����
+    // 套装等级列表
     private Dictionary<string, Ft_suit_starConfig> _suitStarMap;
     public Dictionary<string, Ft_suit_starConfig> suitStarMap
     {
@@ -122,7 +122,7 @@ public class DressModel : Singleton<DressModel>
             return _skillMap;
         } }
 
-    //��װ��������
+    // 套装升级配置
     private Dictionary<string, Ft_suit_advanceConfig> _suitAdvanceMap;
     public Dictionary<string, Ft_suit_advanceConfig> suitAdvanceMap
     {
@@ -136,7 +136,7 @@ public class DressModel : Singleton<DressModel>
             return _suitAdvanceMap;
         }
     }
-    //��װ��������
+    // 套装绘制配置
     private List<Ft_suit_drawConfig> _suitDrawList;
     public List<Ft_suit_drawConfig> suitDrawList
     {
@@ -151,7 +151,7 @@ public class DressModel : Singleton<DressModel>
         }
     }
 
-    //��װ��������
+    // 套装奖励配置
     private Dictionary<int, Ft_suit_dRewardConfig> _suitRewardMap;
     public Dictionary<int, Ft_suit_dRewardConfig> suitRewardMap
     {
@@ -165,7 +165,7 @@ public class DressModel : Singleton<DressModel>
             return _suitRewardMap;
         }
     }
-    //��װ��������
+    // 套装脱下配置
     private Dictionary<int, Ft_suit_backConfig> _suitBackMap;
     public Dictionary<int, Ft_suit_backConfig> suitBackMap
     {
@@ -180,7 +180,7 @@ public class DressModel : Singleton<DressModel>
         }
     }
 
-    //��װ����
+    // 套装穿戴配置
     private Dictionary<int, Ft_suit_dressConfig> _suitDressMap;
     public Dictionary<int, Ft_suit_dressConfig> suitDressMap
     {
@@ -288,19 +288,19 @@ public class DressModel : Singleton<DressModel>
 
     public List<SuitConfig> dressHome;
     public List<DressConfig> suitDressHome;
-    //��ȡ��װ��Ϣ
+    // 套装信息
     public SuitConfig GetSuitInfo(int id)
     {
         return suitList.Find(value => value.Id == id);
     }
-    //��װ����
+    // 套装数量
     public int GetSuitCount()
     {
         var list = suitList.FindAll(value => value.HaveCount >= value.ContainDress.Length);
         return list.Count;
     }
 
-    //��װ�Ǽ���Ϣ
+    // 套装星级信息
     public Ft_suit_starConfig GetSuitStarInfo(int id, int starLv)
     {
         string key = id + "#" + starLv;
@@ -310,7 +310,7 @@ public class DressModel : Singleton<DressModel>
         }
         return null;
     }
-    //��װ������Ϣ
+    // 套装升级配置
     public Ft_suit_advanceConfig GetSuitAdvanceInfo(int id, int advanceLv)
     {
         string key = id + "#" + advanceLv;
@@ -320,13 +320,13 @@ public class DressModel : Singleton<DressModel>
         }
         return null;
     }
-    //��װ������Ϣ
+    // 套装绘制配置
     public Ft_suit_drawConfig GetSuitDrawInfo(int id)
     {
 
         return suitDrawList.Find(value => value.Id == id);
     }
-    //����ѭ��������Ϣ
+    // 套装奖励配置
     public Ft_suit_dRewardConfig GetSuitRewardInfo(int id)
     {
 
@@ -336,7 +336,7 @@ public class DressModel : Singleton<DressModel>
         }
         return null;
     }
-    //��������Ϣ
+    // 套装脱下配置
     public Ft_suit_backConfig GetSuitBackInfo(int id)
     {
 
@@ -347,7 +347,7 @@ public class DressModel : Singleton<DressModel>
         return null;
     }
     /// <summary>
-    /// ��ȡ��װ����
+    /// 套装脱装备配置
     /// </summary>
     /// <param name="clothesId"></param>
     /// <returns></returns>
@@ -361,7 +361,7 @@ public class DressModel : Singleton<DressModel>
     }
 
     /// <summary>
-    /// ��ȡ���ӵ�еĲ����б�
+    /// 获取套装部位的物品列表
     /// </summary>
     /// <returns></returns>
     public List<StorageItemVO> GetPartItemList(int dressPartType)
@@ -405,7 +405,7 @@ public class DressModel : Singleton<DressModel>
 
 
     /// <summary>
-    /// �ͻ��˴����б�
+    /// 获取客户端装备列表
     /// </summary>
     /// <returns></returns>
     public uint[] GetClientWearList()
@@ -425,7 +425,7 @@ public class DressModel : Singleton<DressModel>
     }
 
     /// <summary>
-    /// �����������б�
+    /// 获取服务器装备列表
     /// </summary>
     /// <returns></returns>
     public uint[] GetServerWearList()
@@ -440,7 +440,7 @@ public class DressModel : Singleton<DressModel>
 
 
     /// <summary>
-    /// ���»�װ�����б�
+    /// 更新服务器装备列表
     /// </summary>
     /// <param name="dressList"></param>
     public void UpdateDressData(uint[] dressList)
@@ -461,7 +461,7 @@ public class DressModel : Singleton<DressModel>
 
 
     /// <summary>
-    /// ��ȡװ�����б�
+    /// 获取装备数据字典
     /// </summary>
     /// <param name="dressList"></param>
     public Dictionary<int, DressData> GetDressData(uint[] dressList)
@@ -486,7 +486,7 @@ public class DressModel : Singleton<DressModel>
 
 
     /// <summary>
-    /// �򿪽���ʱ�����һ�οͻ��˴�������
+    /// 更新客户端装备数据
     /// </summary>
     public void UpdateClientWearData()
     {
@@ -530,28 +530,30 @@ public class DressModel : Singleton<DressModel>
     }
 
     /// <summary>
-    /// ����(�ı���ǿͻ�������)
+    /// <summary>
+    /// 穿戴（改变客户端缓存）
+    /// </summary>
     /// </summary>
     public void Wear(uint clothesId)
     {
         var ft_dress_config = GetDressConfig((int)clothesId);
         if (ft_dress_config != null)
         {
-            if (ft_dress_config.Type == (int)DressPartType.Skirt)//���������������ȹ ��ô��Ҫ������װ����
+            if (ft_dress_config.Type == (int)DressPartType.Skirt)//如果穿的是连衣裙，那么需要脱下上下装
             {
                 TakeOff((int)DressPartType.Up_clothes);
                 TakeOff((int)DressPartType.Dw_clothes);
             }
-            else if (ft_dress_config.Type == (int)DressPartType.Up_clothes || ft_dress_config.Type == (int)DressPartType.Dw_clothes)//���������������װ ��ô��Ҫ������ȹ����
+            else if (ft_dress_config.Type == (int)DressPartType.Up_clothes || ft_dress_config.Type == (int)DressPartType.Dw_clothes)//如果穿的是上装或下装，那么需要脱下连衣裙
             {
                 TakeOff((int)DressPartType.Skirt);
             }
-            if (clientWearDic.TryGetValue(ft_dress_config.Type, out DressData wearDressData))//�ò�λ�Ѵ�����
+            if (clientWearDic.TryGetValue(ft_dress_config.Type, out DressData wearDressData))//如果当前位置已经有装备了，那么需要先脱下
             {
                 wearDressData.clothesId = (int)clothesId;
                 wearDressData.ft_Dress_Config = ft_dress_config;
             }
-            else//δ����
+            else//如果当前位置没有装备，那么直接穿上
             {
                 var dressData = new DressData();
                 dressData.clothesId = (int)clothesId;
@@ -563,7 +565,7 @@ public class DressModel : Singleton<DressModel>
 
 
     /// <summary>
-    /// ж��ĳ����λ(�ı���ǿͻ�������)
+    /// 脱下某个部位的装备（改变客户端缓存）
     /// </summary>
     public void TakeOff(int type)
     {
@@ -574,7 +576,7 @@ public class DressModel : Singleton<DressModel>
     }
 
     /// <summary>
-    /// ж��ĳ������id
+        /// 脱下指定衣服id
     /// </summary>
     public void TakeOff(uint clothesId)
     {
@@ -590,7 +592,7 @@ public class DressModel : Singleton<DressModel>
 
 
     /// <summary>
-    /// ��ȡ�Ѵ����Ĳ���
+    /// 获取指定部位的装备数据
     /// </summary>
     /// <param name="part"></param>
     /// <returns></returns>
@@ -604,7 +606,7 @@ public class DressModel : Singleton<DressModel>
     }
 
     /// <summary>
-    /// ��⵱ǰ������Ӧ�Ĳ�λ�Ƿ��Ѵ�����
+    /// 检查指定衣服id是否在指定部位上
     /// </summary>
     /// <param name="clothesId"></param>
     /// <returns></returns>
@@ -625,7 +627,7 @@ public class DressModel : Singleton<DressModel>
 
 
     /// <summary>
-    /// ��ȡ�ò�λ������id 0��ʾû����
+    /// 获取指定部位的装备id 0表示没有装备
     /// </summary>
     /// <param name="part"></param>
     /// <returns></returns>
@@ -700,7 +702,7 @@ public class DressModel : Singleton<DressModel>
         return false;
     }
 
-    //��ȡ����������
+    // 获取服务器套装数据
     public I_SUIT_VO GetSuitServerData(uint suitId)
     {
         return suits.Find(value => value.suitId == suitId);
@@ -740,7 +742,7 @@ public class DressModel : Singleton<DressModel>
         }
     }
 
-    //�Ƿ�ӵ���·�
+    //检查是否有指定套装装备
     public bool IsHaveSuitDress(int id)
     {
         if (defaultDress.Find(dress => dress.itemDefId == id) == null)
@@ -752,7 +754,7 @@ public class DressModel : Singleton<DressModel>
             return true;
         }
     }
-    //��ȡ��װ����ֵ
+    //获取套装 charm值
     public int GetSuitCharm()
     {
         int charmNum = 0;
@@ -769,7 +771,7 @@ public class DressModel : Singleton<DressModel>
         }
         return charmNum;
     }
-    //��ȡʱװ����ֵ
+    //获取当前装备的charm值
     public int GetDressCharm()
     {
         int charmNum = 0;
@@ -782,7 +784,7 @@ public class DressModel : Singleton<DressModel>
         }
         return charmNum;
     }
-    //ʱװ�ռ�
+    //当前装备的套装收集进度
     public List<int> GetDressCollectPro(int quality)
     {
         var dressList = suitDressList.FindAll(value => value.Quality == quality);
@@ -790,7 +792,7 @@ public class DressModel : Singleton<DressModel>
         return new List<int> { haveList.Count, dressList.Count };
     }
 
-    //��ȡ�ѽ����Ķ���Ч��
+    //获取当前装备的套装技能buff
     public Dictionary<int, int> GetSkillBuff()
     {
         var skillMap = new Dictionary<int, int>();
@@ -813,7 +815,7 @@ public class DressModel : Singleton<DressModel>
         }
         return skillMap;
     }
-    //��ȡ�·��̵굱ǰ�ȼ�
+    //获取当前装备的套装商店等级
     public int GetShopLv()
     {
         int lv = shopLvList[shopLvList.Count - 1].Id;
@@ -827,12 +829,12 @@ public class DressModel : Singleton<DressModel>
         }
         return lv;
     }
-    //��ȡ�·��̵�ȼ���Ϣ
+    //获取当前装备的套装商店等级信息
     public Ft_shop_cloLvConfig GetShopLvInfo(int lv)
     {
         return shopLvList.Find(value => value.Id == lv);
     }
-    //��һ����ӳ�
+    //获取当前装备的套装商店等级的金币奖励比例
     public float GetGoldRate()
     {
         var goldRate = 0;
@@ -849,7 +851,7 @@ public class DressModel : Singleton<DressModel>
         }
         return (float)goldRate / 100;
     }
-    //��������ӳ�
+    //获取当前装备的套装商店等级的经验奖励比例
     public float GetExpRate()
     {
         var expRate = 0;

@@ -8,7 +8,7 @@ namespace fun_MyInfo
     public partial class greeBtn : GComponent
     {
         public GTextField xieyi_txt;
-        public GImage n23;
+        public GImage n24;
         public const string URL = "ui://ehkqmfbps23e1yjp7t0";
 
         public static greeBtn CreateInstance()
@@ -21,7 +21,7 @@ namespace fun_MyInfo
             base.ConstructFromXML(xml);
 
             xieyi_txt = (GTextField)GetChildAt(0);
-            n23 = (GImage)GetChildAt(1);
+            n24 = (GImage)GetChildAt(1);
         }
     }
 }

@@ -113,17 +113,24 @@ public class LoginHelper
     /// <returns></returns>
     public static string GetOsType()
     {
-        var osType = "";
-#if !UNITY_EDITOR && UNITY_WEBGL && WEIXINMINIGAME//微信小游戏
-        osType = "wm";
-#elif UNITY_EDITOR || UNITY_WEBGL//编辑器或者网页端
-        osType = "dev";
+        var osType = 1;//默认是web端
+#if !UNITY_EDITOR && UNITY_WEBGL && WEIXINMINIGAME//微信小游戏判断平台
+        var systemInfo = WeChatWASM.WX.GetSystemInfoSync();
+        var system = systemInfo.system.ToLower();
+        if (system.Contains("ios") || system.Contains("iphone") || system.Contains("ipad"))
+        {
+            osType = 3; //iOS
+        }
+        else if (system.Contains("android"))
+        {
+            osType = 2; //Android
+        }
 #elif !UNITY_EDITOR && UNITY_IOS//移动端ios
-        osType = "ios";
+        osType = 3;
 #elif !UNITY_EDITOR && UNITY_ANDROID//移动安卓
-        osType = "android";
+        osType = 2;
 #endif
-        return osType;
+        return osType.ToString();
     }
 
     /// <summary>

@@ -8,8 +8,7 @@ namespace fun_CultivationManual_new
     public partial class show_vase_item : GComponent
     {
         public Controller status;
-        public GImage n1;
-        public GImage n2;
+        public GImage n6;
         public GLoader rareImg;
         public GLoader img;
         public const string URL = "ui://ekoic0wrq47x1yjp7ww";
@@ -24,10 +23,9 @@ namespace fun_CultivationManual_new
             base.ConstructFromXML(xml);
 
             status = GetControllerAt(0);
-            n1 = (GImage)GetChildAt(0);
-            n2 = (GImage)GetChildAt(1);
-            rareImg = (GLoader)GetChildAt(2);
-            img = (GLoader)GetChildAt(3);
+            n6 = (GImage)GetChildAt(0);
+            rareImg = (GLoader)GetChildAt(1);
+            img = (GLoader)GetChildAt(2);
         }
     }
 }

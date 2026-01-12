@@ -10,7 +10,8 @@ using Elida.Config;
 public class RobShieldWindow : BaseWindow
 {
     private fun_Rob.robShop _view;
-    private int curPage = 0;
+    private int type = 1;
+    private List<Ft_rob_buyConfig> listData;
 
     public RobShieldWindow()
     {
@@ -30,201 +31,189 @@ public class RobShieldWindow : BaseWindow
         //(_view.btn_switch as fun_Rob.ToggleButton_1).txt_open.text = openStr;//开启
         //(_view.btn_switch as fun_Rob.ToggleButton_1).txt_close.text = closeStr;//关闭
 
-        SetBg(_view.n26, "Common/common_big_tip_bg.png");
-        _view.n27.url = "HandBookNew/rare_icon_3.png";
-        _view.n28.url = "HandBookNew/name_bg_small_color_3.png";
+        SetBg(_view.bg, "Common/common_big_tip_bg.png");
+        _view.bg_small.url = "HandBookNew/rare_icon_3.png";
+        _view.bg_rare.url = "HandBookNew/name_bg_small_color_3.png";
+
+        _view.n34.text = Lang.GetValue("recharge_main_29"); //获取途径
 
         _view.list.itemRenderer = ItemRenderer;
 
-        _view.close_btn.onClick.Add(CloseView);
-
+        _view.btn_switch.n24.text= Lang.GetValue("jinli_02"); //开启空军符
         _view.btn_switch.onClick.Add(() =>
         {
             RobController.Instance.ReqRobSetshield((uint)(RobModel.Instance.info.openShield == 1 ? 0 : 1));
         });
 
         EventManager.Instance.AddEventListener(RobEvent.RobSetshield, UpdateSwitchStatus);
-        EventManager.Instance.AddEventListener(RobEvent.RobBuy, UpdateShield);
+        EventManager.Instance.AddEventListener(RobEvent.RobShopBuy, UpdateData);
+        EventManager.Instance.AddEventListener(RechargeEvent.RechargeInfo, UpdateData);
     }
 
     public override void OnShown()
     {
         base.OnShown();
         // 其他打开面板的逻辑
-        curPage = (int)data;
-        _view.page.selectedIndex = curPage;
-        if (curPage == 0)
-        {
-            UpdateSwitchStatus();
-            _view.lb_title.text = Lang.GetValue("rob_23");
-            int len = RobModel.Instance.robOtherConfig.ShieldCosts.Length;
-            _view.list.numItems = len;
-            _view.pic.url= ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_shield_id);
-            _view.txt_desc.text = "激活空军符，可在玩家雇佣您时自动使用1张并免除雇佣";
-            _view.n38.text = "空军符";
-        }
-        else
-        {
-            _view.lb_title.text = Lang.GetValue("rob_50");
-            int len = RobModel.Instance.robOtherConfig.TokenNums.Length;
-            _view.list.numItems = len;
-            _view.pic.url= ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_snatch_id);
-            _view.txt_desc.text = "消耗一根钓鱼竿，可在锦鲤采集中雇佣一名玩家为你劳作";
-            _view.n38.text = "钓鱼竿";
-        }
-        UpdateShield();
+        type = (int)data;
+        _view.page.selectedIndex = type - 1;
+        listData = RobModel.Instance.GetRobShopList(type);
+        UpdateData();
+        
     }
-    private void UpdateShield()
+    private void UpdateList()
     {
-        if (curPage == 0)
-        {
-            if (StorageModel.Instance.GetItemCount(RobModel.item_shield_id) == 0)
-            {
-                _view.lb_shield_count.text = "未拥有";
-            }
-            else
-            {
-                _view.lb_shield_count.text = "拥有：" + StorageModel.Instance.GetItemCount(RobModel.item_shield_id).ToString();
-            }
-        }
-        else
-        {
-            if (StorageModel.Instance.GetItemCount(RobModel.item_snatch_id) == 0)
-            {
-                _view.lb_shield_count.text = "未拥有";
-            }
-            else
-            {
-                _view.lb_shield_count.text = "拥有：" + StorageModel.Instance.GetItemCount(RobModel.item_snatch_id).ToString();
-            }
-        }
+        _view.list.numItems = listData.Count;
     }
     private void ItemRenderer(int index, GObject item)
     {
         fun_Rob.shopCell cell = item as fun_Rob.shopCell;
-        cell.btn_buy.data = index;
-        cell.btn_buy2.data = index;
+        var info = listData[index];
+        cell.isVip.selectedIndex = info.IsVip;
+        cell.limit.selectedIndex = info.LimitConfigs[0] > 0 ? 1 : 0;
+        cell.discoubt.selectedIndex = info.OriginalPrice == 0 ? 0 : 1;
 
-        // 设置三个列表项分别显示不同的status状态
-        cell.status.selectedIndex = index % 3;
-        if (curPage == 0)
+        var itemVo = ItemModel.Instance.GetItemByEntityID(info.ItemNums[0].EntityID);
+        cell.img_bg.url = ImageDataModel.Instance.GetItemQuality(itemVo.Quality);
+        cell.lb_count.text = info.ItemNums[0].Value.ToString();
+        if (info.IsVip != 0)
         {
-            var consts = RobModel.Instance.robOtherConfig.ShieldCosts[index];
-            var shield = RobModel.Instance.robOtherConfig.ShieldNums[index];
-            StringUtil.SetBtnUrl(cell.btn_buy, ImageDataModel.Instance.GetIconUrlByEntityId(consts.EntityID));
-            StringUtil.SetBtnTab(cell.btn_buy, consts.Value.ToString());
-            StringUtil.SetBtnUrl(cell.btn_buy1, ImageDataModel.Instance.GetIconUrlByEntityId(consts.EntityID));
-            StringUtil.SetBtnTab(cell.btn_buy1, consts.Value.ToString());
-            StringUtil.SetBtnUrl(cell.btn_buy2, ImageDataModel.Instance.GetIconUrlByEntityId(consts.EntityID));
-            StringUtil.SetBtnTab(cell.btn_buy2, consts.Value.ToString());
-            cell.img.url = ImageDataModel.Instance.GetIconUrlByEntityId(shield.EntityID);
-            var shieldItem = ItemModel.Instance.GetItemByEntityID(shield.EntityID);
-            cell.img_bg.url = ImageDataModel.Instance.GetItemQuality(shieldItem.Quality);
-            cell.lb_count.text = shield.Value.ToString();
-
-            if (cell.status.selectedIndex == 0)
+            if (MyselfModel.Instance.IsVip())
             {
-                cell.txt_name.text = "少量空军符";
-                cell.txt_desc.text = "购买后获得5张空军符";
-                cell.limitCtrl.selectedIndex = 1;
-            }
-            else if(cell.status.selectedIndex == 2)
-            {
-                if (!MyselfModel.Instance.IsVip())
-                {
-                    cell.txt_nameVip.text = "VIP专享";
-                    cell.txt_vipdesc.text = "开通VIP后可以购买";
-                }
-                else
-                {
-                    cell.txt_nameVip.text = "VIP专享";
-                    cell.txt_vipdesc.text = "购买后获得50张空军符";
-                }
-                cell.limitCtrl.selectedIndex = 1;
+                cell.txt_desc.text = Lang.GetValue("rob_shop_1", info.ItemNums[0].Value.ToString());
             }
             else
             {
-                cell.txt_name.text = "大量空军符";
-                cell.txt_desc.text = "购买后获得20张空军符";
+                cell.txt_desc.text = Lang.GetValue("rob_shop_2");
             }
         }
         else
         {
-            var consts = RobModel.Instance.robOtherConfig.TokenCosts[index];
-            var shield = RobModel.Instance.robOtherConfig.TokenNums[index];
-            StringUtil.SetBtnUrl(cell.btn_buy, ImageDataModel.Instance.GetIconUrlByEntityId(consts.EntityID));
-            StringUtil.SetBtnTab(cell.btn_buy, consts.Value.ToString());
-            StringUtil.SetBtnUrl(cell.btn_buy1, ImageDataModel.Instance.GetIconUrlByEntityId(consts.EntityID));
-            StringUtil.SetBtnTab(cell.btn_buy1, consts.Value.ToString());
-            StringUtil.SetBtnUrl(cell.btn_buy2, ImageDataModel.Instance.GetIconUrlByEntityId(consts.EntityID));
-            StringUtil.SetBtnTab(cell.btn_buy2, consts.Value.ToString());
-            cell.img.url = ImageDataModel.Instance.GetIconUrlByEntityId(shield.EntityID);
-            var shieldItem = ItemModel.Instance.GetItemByEntityID(shield.EntityID);
-            cell.img_bg.url = ImageDataModel.Instance.GetItemQuality(shieldItem.Quality);
-            cell.lb_count.text = shield.Value.ToString();
-            if (cell.status.selectedIndex == 0)
+            cell.txt_desc.text = Lang.GetValue("rob_shop_1", info.ItemNums[0].Value.ToString());
+        }
+        cell.img.url = ImageDataModel.Instance.GetIconUrl(itemVo);
+        if (info.LimitConfigs[0] > 0)
+        {
+            var count = 0;
+            if (info.BuyType == 1)
             {
-                cell.txt_name.text = "少量钓鱼竿";
-                cell.txt_desc.text = "购买后获得5根钓鱼竿";
-            }
-            else if(cell.status.selectedIndex == 2)
-            {
-                if (!MyselfModel.Instance.IsVip())
-                {
-                    cell.txt_nameVip.text = "VIP专享";
-                    cell.txt_vipdesc.text = "开通VIP后可以购买";
-                }
-                else
-                {
-                    cell.txt_nameVip.text = "VIP专享";
-                    cell.txt_vipdesc.text = "购买后获得50根钓鱼竿";
-                }
+                count = RobModel.Instance.GetExchangeTimes(info.IndexId);
             }
             else
             {
-                cell.txt_name.text = "大量钓鱼竿";
-                cell.txt_desc.text = "购买后获得20根钓鱼竿";
+                var recharge = RechargeModel.Instance.GetDiamondVo1(info.BuyConifg);
+                if (RechargeModel.Instance.haveDiamondValue.ContainsKey((uint)recharge.IndexId))
+                {
+                    count = (int)RechargeModel.Instance.haveDiamondValue[(uint)recharge.IndexId];
+                }
+                else
+                {
+                    count = 0;
+                }
+                
+            }
+            
+            cell.btn.enabled = count < info.LimitConfigs[1];
+            var str = "";
+            if(info.LimitConfigs[0] == 1)
+            {
+                str = Lang.GetValue("Treasure_headline10") + "：";
+            }
+            else if(info.LimitConfigs[0] == 2)
+            {
+                str = Lang.GetValue("draw_limit_buy_1") + "：";
+            }
+            else if (info.LimitConfigs[0] == 3)
+            {
+                str = Lang.GetValue("fund_5") + "：";
+            }
+            var num = info.LimitConfigs[1] - count;
+            cell.txt_limit.text = str + num + "/" + info.LimitConfigs[1];
+        }
+        else
+        {
+            cell.btn.enabled = true;
+        }
+        if (info.OriginalPrice != 0)
+        {
+            
+            if (info.BuyType == 1)
+            {
+                cell.btn.status.selectedIndex = 2;
+                StringUtil.SetBtnTab(cell.btn.btn_buy2, info.BuyConifg.ToString());
+                StringUtil.SetBtnTab3(cell.btn.btn_buy2, info.OriginalPrice.ToString());
+                StringUtil.SetBtnUrl(cell.btn.btn_buy2, ImageDataModel.CASH_ICON_URL);
+                double result = (double)(info.BuyConifg * 10) / info.OriginalPrice;
+                string formatted = result.ToString("F1");  // F2 表示保留两位小数
+                cell.rareNum.text = formatted;
+            }
+            else
+            {
+                var recharge = RechargeModel.Instance.GetDiamondVo1(info.BuyConifg);
+                StringUtil.SetBtnTab(cell.btn.btn_buy1,Lang.GetValue("recharge_main_18", (recharge.Price / 10).ToString()) );
+                StringUtil.SetBtnTab3(cell.btn.btn_buy1, Lang.GetValue("recharge_main_18", (recharge.OriginalPrice / 10).ToString()));
+                cell.btn.status.selectedIndex = 1;
+                double result = (double)(recharge.Price * 10) / recharge.OriginalPrice;
+                string formatted = result.ToString("F1");  // F2 表示保留两位小数
+                cell.rareNum.text = formatted;
             }
         }
-        cell.data = index;
-        cell.btn_buy.onClick.Add(Buyhander);
-        cell.btn_buy1.onClick.Add(Buyhander);
-        cell.btn_buy2.onClick.Add(Buyhander);
-        cell.isLastStatus.selectedIndex = (index == _view.list.numItems - 1) ? 0 : 1;
+        else
+        {
+            if (info.BuyType == 1)
+            {
+                StringUtil.SetBtnTab(cell.btn.btn_buy, info.BuyConifg.ToString());
+                StringUtil.SetBtnUrl(cell.btn.btn_buy, ImageDataModel.CASH_ICON_URL);
+                cell.btn.status.selectedIndex = 0;
+            }
+            else
+            {
+                var recharge = RechargeModel.Instance.GetDiamondVo1(info.BuyConifg);
+                cell.btn.status.selectedIndex = 3;
+                StringUtil.SetBtnTab(cell.btn.btn_buy1, Lang.GetValue("recharge_main_18", (recharge.Price / 10).ToString()));
+            }
+        }
+        cell.btn.data = info;
+        cell.btn.onClick.Add(Buyhander);
     }
 
     private void Buyhander(EventContext context)
     {
-        int index = (int)(context.sender as GComponent).parent.data;
-        int costValue = 0;
-        if (curPage == 0)
+        var info = (context.sender as GComponent).data as Ft_rob_buyConfig;
+        if(info.BuyType == 1)
         {
-            var consts = RobModel.Instance.robOtherConfig.ShieldCosts[index];
-            var shield = RobModel.Instance.robOtherConfig.ShieldNums[index];
-            costValue = consts.Value;
+            if(info.BuyConifg > MyselfModel.Instance.diamond)
+            {
+                UILogicUtils.ShowNotice(Lang.GetValue("common_hint_txt3"));
+                return;
+            }
+            RobController.Instance.ReqRobShopBuy((uint)info.IndexId);
         }
         else
         {
-            var consts = RobModel.Instance.robOtherConfig.TokenCosts[index];
-            var shield = RobModel.Instance.robOtherConfig.TokenNums[index];
-            costValue = consts.Value;
+            var recharge = RechargeModel.Instance.GetDiamondVo1(info.BuyConifg);
+            RechargeController.Instance.ReqPlaceOrder(2,(uint)recharge.IndexId);
         }
-        if (MyselfModel.Instance.diamond < costValue)
-        {
-            UILogicUtils.ShowNotice(Lang.GetValue("common_hint_txt3"));
-            return;
-        }
-        RobController.Instance.ReqRobBuy((uint)(curPage + 1), (uint)index);
+
     }
 
     private void UpdateSwitchStatus()
     {
         (_view.btn_switch as fun_Rob.ToggleButton_1).select.selectedIndex = (int)RobModel.Instance.info.openShield == 0 ? 1 : 0;
     }
-
-    private void CloseView()
+    private void UpdateData()
     {
-        UIManager.Instance.CloseWindow(UIName.RobShieldWindow);
+        
+        var itemVo = RobModel.Instance.GetItem(type);
+        var count = StorageModel.Instance.GetItemCount(itemVo.ItemDefId);
+        _view.lb_shield_count.text = Lang.GetValue("handBook_1") + "：" + TextUtil.ChangeCoinShow(count); //拥有
+        _view.bg_small.url = ImageDataModel.Instance.GetItemRareQuality(itemVo.Quality);
+        _view.bg_rare.url = ImageDataModel.Instance.GetItemNameQuality(itemVo.Quality);
+        _view.nameLab.text = Lang.GetValue(itemVo.Name);
+        _view.lb_title.text = Lang.GetValue(itemVo.Name);
+        _view.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
+        _view.txt_desc.text = Lang.GetValue(itemVo.Description);
+        UpdateList();
+        UpdateSwitchStatus();
     }
 
     public override void OnHide()

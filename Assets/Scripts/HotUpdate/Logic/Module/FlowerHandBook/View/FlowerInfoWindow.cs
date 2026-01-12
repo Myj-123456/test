@@ -20,7 +20,7 @@ public class FlowerInfoWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_CultivationManual_new.FlowerInfoShow;
-        SetBg(view.bg, "HandBookNew/ELIDA_xhshengji_hyhs_bg.png");
+        SetBg(view.bg, "Common/common_two_tip_bg.png");
         view.titleLab.text = Lang.GetValue("flower_info_16");
         
     }

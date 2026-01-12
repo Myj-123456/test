@@ -7,9 +7,9 @@ namespace fun_CultivationManual_new
 {
     public partial class flower_ike_vase : GComponent
     {
-        public GImage n1;
         public GLoader bg;
-        public GImage n4;
+        public GImage n8;
+        public GTextField titleLab;
         public GButton close_btn;
         public GList list;
         public const string URL = "ui://ekoic0wrq47x1yjp7wt";
@@ -23,9 +23,9 @@ namespace fun_CultivationManual_new
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n4 = (GImage)GetChildAt(2);
+            bg = (GLoader)GetChildAt(0);
+            n8 = (GImage)GetChildAt(1);
+            titleLab = (GTextField)GetChildAt(2);
             close_btn = (GButton)GetChildAt(3);
             list = (GList)GetChildAt(4);
         }

@@ -170,5 +170,33 @@ public class DailyTaskModel : Singleton<DailyTaskModel>
         }
         return false;
     }
+    public List<I_TASK_VO> GetTaskList(int type)
+    {
+        var list = new List<I_TASK_VO>();
+        if (type == 0)
+        {
+            list = dailyTask;
+        }
+        else
+        {
+            list = weeklyTask;
+        }
+        list.Sort((a, b) => SortNum(a.awardStatus) - SortNum(b.awardStatus));
+        return list;
+    }
+    private int SortNum(uint awardStatus)
+    {
+        if(awardStatus == 2)
+        {
+            return 2;
+        }else if(awardStatus == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
 

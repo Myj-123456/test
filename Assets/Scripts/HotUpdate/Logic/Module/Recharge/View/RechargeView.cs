@@ -15,8 +15,7 @@ public class RechargeView
    public RechargeView(fun_Recharge.newRecharge ui)
     {
         view = ui;
-        //view.revharge.y = view.n25.y + 349;
-        //view.revharge.height = view.rect.y - view.n25.y - 452;
+        view.revharge.height = view.rect.y - view.tipLab.y - 225;
         //if(view.revharge.height > 1061)
         //{
         //    view.revharge.height = 1061;

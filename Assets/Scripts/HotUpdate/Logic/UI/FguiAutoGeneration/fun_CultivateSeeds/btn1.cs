@@ -7,9 +7,8 @@ namespace fun_CultivateSeeds
 {
     public partial class btn1 : GButton
     {
-        public GImage n6;
+        public GImage n9;
         public GTextField titleLab;
-        public GImage n8;
         public const string URL = "ui://udmgdnw2s23el";
 
         public static btn1 CreateInstance()
@@ -21,9 +20,8 @@ namespace fun_CultivateSeeds
         {
             base.ConstructFromXML(xml);
 
-            n6 = (GImage)GetChildAt(0);
+            n9 = (GImage)GetChildAt(0);
             titleLab = (GTextField)GetChildAt(1);
-            n8 = (GImage)GetChildAt(2);
         }
     }
 }

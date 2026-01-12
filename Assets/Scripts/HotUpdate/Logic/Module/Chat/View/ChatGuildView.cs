@@ -132,7 +132,12 @@ public class ChatGuildView
         {
             cell.chatType.selectedIndex = 1;
             AutuAize(cell.lb_info2, msg, 1, cell);
-            cell.head2.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
+            var head = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_AVATAR);
+            var headVo = ItemModel.Instance.GetItemById(int.Parse(head.info));
+            cell.head2.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
+            var headFrame = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
+            var frameVo = ItemModel.Instance.GetItemById(int.Parse(headFrame.info));
+            UILogicUtils.ShowHeadFrames(cell.head2.picFrame as common_New.PictureFrame, frameVo);
             cell.lb_userName2.text = TextUtil.GetServerName(msg.userInfo.serverId,msg.userInfo.townName);
             cell.txt_lv2.text = msg.userInfo.userLevel.ToString();
             if (pos != 0)

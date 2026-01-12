@@ -107,7 +107,6 @@ public class GuildPlantingView : BaseView
         base.OnShown();
         // 其他打开面板的逻辑
         var id = (int)data;
-        GuildPlantModel.Instance.ClearMembers();
         GuildPlantController.Instance.ReqGuildHouseDetail((uint)id);
         GuildPlantController.Instance.ReqGuildHouseMembers((uint)id,0);
         _view.title_img.url = "Guild/plant_title_" + id + ".png";
@@ -147,8 +146,14 @@ public class GuildPlantingView : BaseView
 
     private void UpdateMyInfo()
     {
-        _view.myInfo.nameLab.text = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_NICKNAME).info;
-        _view.myInfo.head.imgLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
+        _view.myInfo.nameLab.text = TextUtil.GetServerName(MyselfModel.Instance.serverId, MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_NICKNAME).info);
+       
+        var head = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_AVATAR);
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(head.info));
+        _view.myInfo.head.imgLoader.url = ImageDataModel.Instance.GetIconUrl(headVo);
+        var headFrame = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
+        var item = ItemModel.Instance.GetItemById(int.Parse(headFrame.info));
+        UILogicUtils.ShowHeadFrames(_view.myInfo.head.picFrame as common_New.PictureFrame, item);
         //UILogicUtils.ChangeOthersFrameDisplay(userInfo.flowerLevel, userInfo.flowerLevelExpireTime, (_view.myInfo.head.picFrame as common_New.PictureFrame), userInfo.headFrame);
         _view.myInfo.head.txt_lv.text = MyselfModel.Instance.level.ToString();
         _view.myInfo.txt_position.txt_position.text = GuildModel.Instance.GetPositionName(GuildModel.Instance.guildMember.powerId);
@@ -243,13 +248,18 @@ public class GuildPlantingView : BaseView
         var memberPlantData = GuildPlantModel.Instance.memberPlantList[index];
         var userInfo = memberPlantData.userInfo;
         cell.head.imgLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
-       
+
+        var frameVo = ItemModel.Instance.GetItemById((int)userInfo.headFrame);
+        UILogicUtils.ShowHeadFrames(cell.head.picFrame as common_New.PictureFrame, frameVo);
+        var headVo = ItemModel.Instance.GetItemById(int.Parse(userInfo.headImgId));
+        cell.head.imgLoader.url = ImageDataModel.Instance.GetIconUrl(headVo);
+
         cell.head.txt_lv.text = userInfo.userLevel.ToString();
-        cell.nameLab.text = userInfo.townName;
+        cell.nameLab.text = TextUtil.GetServerName(userInfo.serverId,userInfo.townName);
         cell.txt_position.txt_position.text = GuildModel.Instance.GetPositionName(memberPlantData.powerId);
         cell.txt_position.type.selectedIndex = memberPlantData.powerId < 3 ? (int)memberPlantData.powerId - 1 : 2;
 
-        GuildPlantModel.Instance.GetMembersListNext(index);
+        
         var rewardList = ItemModel.Instance.GetDropData(memberPlantData.reward);
         cell.reward_list.itemRenderer = (int index, GObject reward) =>
         {
@@ -264,10 +274,19 @@ public class GuildPlantingView : BaseView
 
     private void GetReward()
     {
-        UILogicUtils.ShowConfirm(Lang.GetValue("guild_plant_9"),() =>
+        if(GuildPlantModel.Instance.plantInfo.flowerItems.Count > 0 ||  GuildPlantModel.Instance.plantInfo.extraReward.Count > 0)
         {
             GuildPlantController.Instance.ReqGuildHouseHarvest(plantData.id);
-        });
+        }
+        else
+        {
+
+        }
+        
+        //UILogicUtils.ShowConfirm(Lang.GetValue("guild_plant_9"),() =>
+        //{
+            
+        //});
     }
 
 

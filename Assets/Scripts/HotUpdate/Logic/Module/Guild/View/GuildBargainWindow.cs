@@ -50,7 +50,7 @@ public class GuildBargainWindow : BaseWindow
         });
 
         view.bargain_btn.onClick.Add(BargainClick);
-
+        view.costImg.url = ImageDataModel.CASH_ICON_URL;
         view.spine.url = "yunyoushangren";
         view.spine.loop = true;
         view.spine.animationName = "idle";

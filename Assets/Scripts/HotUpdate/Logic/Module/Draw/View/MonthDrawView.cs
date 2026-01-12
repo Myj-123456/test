@@ -96,8 +96,8 @@ public class MonthDrawView
         var count = StorageModel.Instance.GetItemCount(itemVo.ItemDefId);
         view.numLab.text = count.ToString();
 
-        view.one_btn.numLab.text = "x1";
-        view.ten_btn.numLab.text = "x10";
+        view.one_btn.numLab.text = "x" + drawInfo.DrawItems[0].Value;
+        view.ten_btn.numLab.text = "x" + (drawInfo.DrawItems[0].Value * 10);
         var num = drawInfo.MustGetTime - DrawModel.Instance.monthDrawData.drawInfo.luckyValue;
         view.tipLab.text = Lang.GetValue("draw_2",num.ToString());
         

@@ -44,7 +44,14 @@ namespace protobuf.login
 
         [ProtoBuf.ProtoMember(4)]
         [System.ComponentModel.DefaultValue("")]
-        public string wssUrl = "";
+        public string gameWssUrl = "";
+
+        [ProtoBuf.ProtoMember(5)]
+        [System.ComponentModel.DefaultValue("")]
+        public string chatWssUrl = "";
+
+        [ProtoBuf.ProtoMember(6)]
+        public uint serverTime;
 
     }
 
@@ -121,6 +128,9 @@ namespace protobuf.login
 
         [ProtoBuf.ProtoMember(22)]
         public System.Collections.Generic.List<protobuf.reddot.I_REDDOT_VO> reddot = new System.Collections.Generic.List<protobuf.reddot.I_REDDOT_VO>();
+
+        [ProtoBuf.ProtoMember(23)]
+        public System.Collections.Generic.List<protobuf.rob.I_ROB_ARREST_VO> arrestList = new System.Collections.Generic.List<protobuf.rob.I_ROB_ARREST_VO>();
 
         [ProtoBuf.ProtoContract]
         public class MAINTASK_VO
@@ -217,6 +227,9 @@ namespace protobuf.login
         [ProtoBuf.ProtoMember(9)]
         public System.Collections.Generic.List<protobuf.dailyTask.I_ACHIEV_TASK_VO> achievTaskList = new System.Collections.Generic.List<protobuf.dailyTask.I_ACHIEV_TASK_VO>();
 
+        [ProtoBuf.ProtoMember(10)]
+        public System.Collections.Generic.List<protobuf.order.I_ORDER_VO> orderList = new System.Collections.Generic.List<protobuf.order.I_ORDER_VO>();
+
     }
 
     [ProtoBuf.ProtoContract]
@@ -245,6 +258,16 @@ namespace protobuf.login
         [ProtoBuf.ProtoMember(6, IsPacked = true)]
         public uint[] clickItems;
 
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class C_MSG_DELETE_ACCOUNT
+    {
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_DELETE_ACCOUNT
+    {
     }
 
 }

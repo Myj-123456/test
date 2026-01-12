@@ -12,10 +12,11 @@ namespace fun_CultivationManual_new
         public bgAnim context;
         public left left;
         public GGroup n132;
-        public GImage n110;
+        public GImage n134;
         public GTextField titleLab;
-        public GButton close_btn;
         public GButton help_btn;
+        public GGroup n135;
+        public GButton close_btn;
         public const string URL = "ui://ekoic0wriust0";
 
         public static handbook_brandNew CreateInstance()
@@ -32,10 +33,11 @@ namespace fun_CultivationManual_new
             context = (bgAnim)GetChildAt(1);
             left = (left)GetChildAt(2);
             n132 = (GGroup)GetChildAt(3);
-            n110 = (GImage)GetChildAt(4);
+            n134 = (GImage)GetChildAt(4);
             titleLab = (GTextField)GetChildAt(5);
-            close_btn = (GButton)GetChildAt(6);
-            help_btn = (GButton)GetChildAt(7);
+            help_btn = (GButton)GetChildAt(6);
+            n135 = (GGroup)GetChildAt(7);
+            close_btn = (GButton)GetChildAt(8);
         }
     }
 }

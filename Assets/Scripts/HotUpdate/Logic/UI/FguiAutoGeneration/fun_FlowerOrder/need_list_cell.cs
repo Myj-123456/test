@@ -8,7 +8,7 @@ namespace fun_FlowerOrder
     public partial class need_list_cell : GComponent
     {
         public Controller enough;
-        public GImage n20;
+        public GLoader pic;
         public GLoader flower;
         public GTextField name_txt;
         public GRichTextField numLab;
@@ -25,7 +25,7 @@ namespace fun_FlowerOrder
             base.ConstructFromXML(xml);
 
             enough = GetControllerAt(0);
-            n20 = (GImage)GetChildAt(0);
+            pic = (GLoader)GetChildAt(0);
             flower = (GLoader)GetChildAt(1);
             name_txt = (GTextField)GetChildAt(2);
             numLab = (GRichTextField)GetChildAt(3);

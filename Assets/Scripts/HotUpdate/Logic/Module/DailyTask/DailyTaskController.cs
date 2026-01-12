@@ -52,11 +52,12 @@ public class DailyTaskController : BaseController<DailyTaskController>
             DailyTaskModel.Instance.UpdateWeekTaskData((uint)taskInfo.Progress);
 
         }
-        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Task_Daily);
+        
         DailyTaskModel.Instance.UpdateTaskList(data.dailyTask,data.type);
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Task_Daily);
         EventManager.Instance.DispatchEvent(DailyTaskEvent.DailyTask);
     }
-
+    
     public void ReqDailyTaskAward(uint pos,uint type)
     {
         C_MSG_DAILY_TASK_AWARD c_MSG_DAILY_TASK_AWARD = new C_MSG_DAILY_TASK_AWARD();

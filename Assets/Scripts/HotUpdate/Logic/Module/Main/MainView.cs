@@ -86,8 +86,8 @@ public class MainView : BaseView
         viewSkin.rightBtns.x = GRoot.inst.width;
         viewSkin.bottomBtns.y = GRoot.inst.height - 290;
         viewSkin.ui_chooseFlower.visible = false;
-        ui_chooseFlowerY = viewSkin.ui_chooseFlower.y;
-        viewSkin.ui_chooseFlower.y = GRoot.inst.height;
+        //ui_chooseFlowerY = viewSkin.ui_chooseFlower.y;
+        //viewSkin.ui_chooseFlower.y = GRoot.inst.height;
         chooseFlowerUI = new ChooseFlowerUI();
         chooseFlowerUI.Init(viewSkin.ui_chooseFlower as fun_Scene.ChooseFlowerUI);
         AddEvent();
@@ -174,7 +174,7 @@ public class MainView : BaseView
         });
         viewSkin.topBtns.diamandBar.btn_recharge.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 3);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 4);
         });
         //viewSkin.bottomBtns.ui_moreFun.btn_hb.onClick.Add(() =>
         //{
@@ -205,21 +205,23 @@ public class MainView : BaseView
         });
         viewSkin.bottomBtns.ui_moreFun.btn_room.onClick.Add(() =>
         {
-            if (!GlobalModel.Instance.GetUnlocked(SysId.FlowerGold, true))
-            {
-                return;
-            }
-            HideMoreFunUI();
-            UIManager.Instance.OpenPanel<FloristView>(UIName.FloristView);
+            UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
+            //if (!GlobalModel.Instance.GetUnlocked(SysId.FlowerGold, true))
+            //{
+            //    return;
+            //}
+            //HideMoreFunUI();
+            //UIManager.Instance.OpenPanel<FloristView>(UIName.FloristView);
         });
         viewSkin.bottomBtns.ui_moreFun.btn_flower_gold.onClick.Add(() =>
         {
-            if (!GlobalModel.Instance.GetUnlocked(SysId.FlowerGold, true))
-            {
-                return;
-            }
-            HideMoreFunUI();
-            UIManager.Instance.OpenPanel<FlowerGoldView>(UIName.FlowerGoldView);
+            UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
+            //if (!GlobalModel.Instance.GetUnlocked(SysId.FlowerGold, true))
+            //{
+            //    return;
+            //}
+            //HideMoreFunUI();
+            //UIManager.Instance.OpenPanel<FlowerGoldView>(UIName.FlowerGoldView);
         });
         viewSkin.bottomBtns.ui_moreFun.btn_book.onClick.Add(() =>
         {
@@ -255,12 +257,13 @@ public class MainView : BaseView
         });
         viewSkin.bottomBtns.ui_moreFun.btn_pet.onClick.Add(() =>
         {
-            if (!GlobalModel.Instance.GetUnlocked(SysId.Pet, true))
-            {
-                return;
-            }
-            HideMoreFunUI();
-            //UIManager.Instance.OpenPanel<PetView>(UIName.PetView);
+            UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
+            //if (!GlobalModel.Instance.GetUnlocked(SysId.Pet, true))
+            //{
+            //    return;
+            //}
+            //HideMoreFunUI();
+            ////UIManager.Instance.OpenPanel<PetView>(UIName.PetView);
         });
         CheckChatBtnShow();
         CheckBtnShow();
@@ -356,26 +359,28 @@ public class MainView : BaseView
         if (isShow)
         {
             if (viewSkin.ui_chooseFlower.visible) return;
+            viewSkin.ui_chooseFlower.SetScale(0, 0);
             viewSkin.ui_chooseFlower.visible = true;
             chooseFlowerUI.Update();
-            viewSkin.ui_chooseFlower.TweenMoveY(ui_chooseFlowerY, animTime).SetEase(EaseType.BackOut).OnComplete(chooseFlowerUI.OnShowTweenCom);
+            viewSkin.ui_chooseFlower.TweenScale(new Vector2(1,1), animTime).SetEase(EaseType.BackOut).OnComplete(chooseFlowerUI.OnShowTweenCom);
             PlantModel.Instance.isShowPlantUI = true;
         }
         else
         {
             if (!viewSkin.ui_chooseFlower.visible) return;
-            viewSkin.ui_chooseFlower.TweenMoveY(GRoot.inst.height, animTime).SetEase(EaseType.CubicOut).OnComplete(() =>
-            {
-                viewSkin.ui_chooseFlower.visible = false;
-                PlantModel.Instance.isShowPlantUI = false;
-                action?.Invoke();
-            });
+            viewSkin.ui_chooseFlower.visible = false;
+            PlantModel.Instance.isShowPlantUI = false;
+            action?.Invoke();
+            //viewSkin.ui_chooseFlower.TweenMoveY(GRoot.inst.height, animTime).SetEase(EaseType.CubicOut).OnComplete(() =>
+            //{
+                
+            //});
         }
     }
 
     private void HideUiChooseFlower()
     {
-        viewSkin.ui_chooseFlower.y = GRoot.inst.height;
+        //viewSkin.ui_chooseFlower.y = GRoot.inst.height;
         viewSkin.ui_chooseFlower.visible = false;
         PlantModel.Instance.isShowPlantUI = false;
     }
@@ -430,8 +435,7 @@ public class MainView : BaseView
         var guild = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_GUILD_ID);
         if (guild == null || guild.info == "" || guild.info == "0")
         {
-            UIManager.Instance.OpenPanel<GuildEnterView>(UIName.GuildEnterView);
-            
+            UIManager.Instance.OpenWindow<GuildJoinWindow>(UIName.GuildJoinWindow);
         }
         else
         {
@@ -474,21 +478,24 @@ public class MainView : BaseView
 
     private void OnRole()
     {
-        if (!GlobalModel.Instance.GetUnlocked(SysId.Customer, true))
-        {
-            return;
-        }
-        HideMoreFunUI();
-        UIManager.Instance.OpenPanel<CustomerView>(UIName.CustomerView);
+        //if (!GlobalModel.Instance.GetUnlocked(SysId.Customer, true))
+        //{
+        //    return;
+        //}
+        //HideMoreFunUI();
+        //UIManager.Instance.OpenPanel<CustomerView>(UIName.CustomerView);
+        //UIManager.Instance.OpenWindow<SeventhSignWindow>(UIName.SeventhSignWindow);
+        UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
+
     }
 
     private void OnVipOpen()
     {
-        UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 1);
+        UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 2);
     }
     private void OnMatchOpen()
     {
-        UIManager.Instance.OpenPanel<GuildMatchView>(UIName.GuildMatchView);
+        UIManager.Instance.OpenPanel<GuildMatchView>(UIName.GuildMatchView, UILayer.SceneUI);
     }
     public void OnFunUnOpen()
     {
@@ -751,15 +758,17 @@ public class MainView : BaseView
         if (len > 0)
         {
             var chat = WorldChatModel.Instance.chatHistory[len - 1];
+            var userInfo = WorldChatModel.Instance.GetUserInfo(chat.userId);
             if (chat.chatContent.contentType == 1)
             {
-                viewSkin.bottomBtns.ui_chat.chatLab.text = chat.userInfo.townName + ":" + chat.chatContent.content;
+                
+                viewSkin.bottomBtns.ui_chat.chatLab.text = (userInfo != null?userInfo.townName:"") + ":" + chat.chatContent.content;
             }
             else
             {
                 var id = int.Parse(chat.chatContent.content);
                 var info = FriendChatModel.Instance.GetEmojieInfo(id);
-                viewSkin.bottomBtns.ui_chat.chatLab.text = chat.userInfo.townName + ":" + Lang.GetValue(info.Name);
+                viewSkin.bottomBtns.ui_chat.chatLab.text = (userInfo != null ? userInfo.townName : "") + ":" + Lang.GetValue(info.Name);
             }
 
         }

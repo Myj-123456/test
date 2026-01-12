@@ -47,13 +47,13 @@ public class IPlatform
     }
 
 
-    //ÓÎÏ·½øÈëºóÌ¨
+    // æ¸¸æˆåˆ‡åˆ°åå°
     public static void OnHide(WeChatWASM.GeneralCallbackResult data)
     {
        
     }
 
-    //´ÓºóÌ¨½øÈëÓÎÏ·
+    // æ¸¸æˆåˆ‡å›å‰å°
     public static void OnShow(WeChatWASM.OnShowListenerResult data)
     {
         if(ShareState.InBackGround)
@@ -71,7 +71,7 @@ public static void CreateRewardedAd()
 #endif
     }
 
-    //²¥·Å¼¤Àø¹ã¸æ
+    // åˆ†äº«æ§åˆ¶å™¨
     public static async Task<bool> ShowRewardedAd()
     {
         using var cts = new CancellationTokenSource();
@@ -80,7 +80,7 @@ public static void CreateRewardedAd()
 #if UNITY_WEBGL && !UNITY_EDITOR && WECHAT_GAME
         var adTask = WeixinPlatform.Instance.ShowRewardedAd();
 #else
-        // ·ÇÎ¢ĞÅÆ½Ì¨Ä£ÄâÂß¼­£¨Á¢¼´·µ»Ø³É¹¦£©
+        // éå¾®ä¿¡å¹³å°ï¼Œæ¨¡æ‹Ÿå¹¿å‘Šé€»è¾‘ï¼Œç›´æ¥è¿”å›æˆåŠŸ
         var adTask = Task.FromResult(true);
 #endif
 
@@ -90,24 +90,24 @@ public static void CreateRewardedAd()
 
             if (completedTask == timeoutTask)
             {
-                Debug.Log("¹ã¸æÕ¹Ê¾³¬Ê±");
+                Debug.Log("å¹¿å‘Šæ˜¾ç¤ºè¶…æ—¶");
                 return false;
             }
 
-            // È¡Ïû³¬Ê±¼ÆÊ±Æ÷
+            // å–æ¶ˆå¹¿å‘Šè¶…æ—¶è®¡æ—¶å™¨
             cts.Cancel();
 
-            // ·µ»Ø¹ã¸æÊµ¼Ê½á¹û£¨´¦Àí¿ÉÄÜµÄÒì³££©
+            // è¿”å›å¹¿å‘Šçš„å®é™…ç»“æœï¼Œä¹Ÿå¯èƒ½æ”¶åˆ°å¼‚å¸¸
             return await adTask;
         }
         catch (OperationCanceledException)
         {
-            // ³¬Ê±È¡ÏûÊÇÕı³£Á÷³Ì
+            // è¶…æ—¶å–æ¶ˆæˆ–ç½‘ç»œå¼‚å¸¸
             return false;
         }
         catch (Exception ex)
         {
-            Debug.Log($"¹ã¸æÁ÷³ÌÒì³£: {ex.Message}");
+            Debug.Log($"å¹¿å‘Šæ˜¾ç¤ºå¼‚å¸¸: {ex.Message}");
             return false;
         }
     }
@@ -117,21 +117,21 @@ public static void CreateRewardedAd()
 #if UNITY_WEBGL && !UNITY_EDITOR && WECHAT_GAME
         return await WeixinPlatform.Instance.GetUserInfo();
 #else
-        return await Task.FromResult(new PlatfromUserInfo()); // ·µ»ØÄ¬ÈÏ¶ÔÏó ;
+        return await Task.FromResult(new PlatfromUserInfo()); // è¿”å›é»˜è®¤å¯¹è±¡;
 #endif
     }
 
-    //»ñÈ¡µÇÂ¼code
+    // è·å–ç™»å½•å‡­è¯ï¼ˆcodeï¼‰
     public static async Task<string> GetLoginCode()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR && WECHAT_GAME
         return await WeixinPlatform.Instance.GetLoginCode();
 #else
-        return await Task.FromResult(""); // ·µ»ØÄ¬ÈÏ¶ÔÏó ;
+        return await Task.FromResult(""); // è¿”å›ç©ºå­—ç¬¦ä¸²;
 #endif
     }
 
-    //½ØÍ¼·ÖÏí
+    // åˆ†äº«å›¾ç‰‡
     public static async Task<bool> Share(DisplayObject dObject, Rect clip,string url = "screenshot")
     {
         dObject.EnterPaintingMode(1024, null);
@@ -139,31 +139,31 @@ public static void CreateRewardedAd()
         await Task.Yield();
         RenderTexture tex = (RenderTexture)dObject.paintingGraphics.texture.nativeTexture;
 
-        // ´´½¨ÁÙÊ±Texture2D
+        // æˆªå›¾æ—¶Texture2D
         Texture2D texture2D = new Texture2D(
             (int)clip.width,
             (int)clip.height,
-            TextureFormat.RGB24, // ¸ù¾İĞèÇóÑ¡Ôñ¸ñÊ½
+            TextureFormat.RGB24, // é€‰æ‹©RGB24æ ¼å¼ï¼Œæ”¯æŒé€æ˜åº¦
             false
         );
 
-        // ±£´æµ±Ç°RenderTexture×´Ì¬£¨ÖØÒª£¡£©
+        // æˆªå›¾æ—¶éœ€è¦ä¿å­˜å½“å‰RenderTextureçŠ¶æ€ï¼Œç¨åæ¢å¤
         RenderTexture prevActive = RenderTexture.active;
 
-        // ÉèÖÃÄ¿±êRenderTextureÎªµ±Ç°»î¶¯×´Ì¬
+        // è®¾ç½®ç›®æ ‡RenderTextureä¸ºå½“å‰ç»˜åˆ¶çš„RenderTexture
         RenderTexture.active = tex;
 
-        // ¶ÁÈ¡ÏñËØÊı¾İ£¨×ø±êÏµÔ­µãÔÚ×óÏÂ½Ç£©
+        // è¯»å–å½“å‰RenderTextureçš„åƒç´ æ•°æ®åˆ°Texture2D
         texture2D.ReadPixels(clip, 0, 0);
-        texture2D.Apply(); // ±ØĞëµ÷ÓÃApplyÊ¹ĞŞ¸ÄÉúĞ§
+        texture2D.Apply(); // åº”ç”¨ä¿®æ”¹ï¼Œç¡®ä¿åƒç´ æ•°æ®æ­£ç¡®
 
-        // »Ö¸´Ö®Ç°µÄRenderTexture×´Ì¬
+        // æ¢å¤ä¹‹å‰çš„RenderTextureçŠ¶æ€
         RenderTexture.active = prevActive;
 
-        // ±£´æÎªPNG
+        // è½¬æ¢ä¸ºPNGæ ¼å¼
         byte[] bytes = texture2D.EncodeToPNG();
         string base64 = Convert.ToBase64String(bytes);
-        //´¦Àí½áÊøºó½áÊø»æ»­Ä£Ê½¡£idÒªºÍEnter·½·¨µÄ¶ÔÓ¦¡£
+        // é€€å‡ºç»˜ç”»æ¨¡å¼ï¼Œidè¦ä¸Enteræ—¶å¯¹åº”
         dObject.LeavePaintingMode(1024);
         //string path = Path.Combine(Application.persistentDataPath, "screenshot.png");
         //File.WriteAllBytes(path, bytes);
@@ -189,7 +189,7 @@ public static void CreateRewardedAd()
         _shareTcs = new TaskCompletionSource<bool>();
         _startTime = Environment.TickCount;
         ShareState.InBackGround = true;
-        // Ìí¼ÓºóÌ¨×´Ì¬¼àÌı
+        // åˆ†äº«å¼€å§‹æ—¶ï¼Œç›‘å¬åº”ç”¨æ˜¯å¦å›åˆ°å‰å°
         ShareState.OnBackGroundChanged += HandleBackGroundChanged;
 
         return await _shareTcs.Task;
@@ -202,7 +202,7 @@ public static void CreateRewardedAd()
             ShareState.OnBackGroundChanged -= HandleBackGroundChanged;
             
             int duration = Environment.TickCount - _startTime;
-            Debug.Log($"·ÖÏí·µ»Ø£¬ºÄÊ±£º{duration}");
+            Debug.Log($"åˆ†äº«è€—æ—¶{duration}ms");
             
             _shareTcs?.TrySetResult(duration > 2000);
         }

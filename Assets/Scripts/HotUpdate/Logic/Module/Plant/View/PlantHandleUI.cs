@@ -39,7 +39,7 @@ public class PlantHandleUI
         {
             if (!MyselfModel.Instance.IsVip())
             {
-                UILogicUtils.ShowNotice("Çë¿ªÆôVip");
+                UILogicUtils.ShowNotice(Lang.GetValue("openvip_txt"));
                 return;
             }
             Hide();
@@ -50,7 +50,7 @@ public class PlantHandleUI
         {
             if (!MyselfModel.Instance.IsVip())
             {
-                UILogicUtils.ShowNotice("Çë¿ªÆôVip");
+                UILogicUtils.ShowNotice(Lang.GetValue("openvip_txt"));
                 return;
             }
             Hide();
@@ -127,6 +127,13 @@ public class PlantHandleUI
             countDownTimer = null;
         }
         countDownTimer = new CountDownTimer(plantHandleUi.com_timeDown.pgs.time, (int)leftTime);
+        countDownTimer.UpdateCallBacker = () =>
+        {
+            if(countDownTimer.time < 60)
+            {
+                plantHandleUi.free_speed.enabled = true;
+            }
+        };
         countDownTimer.CompleteCallBacker = () =>
         {
             Hide();

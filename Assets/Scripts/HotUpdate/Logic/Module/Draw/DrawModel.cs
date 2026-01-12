@@ -79,7 +79,7 @@ public class DrawModel : Singleton<DrawModel>
 
 
     //家具商店兑换次数统计
-    public List<I_EXCHANGE_STAT> furnitureExchangeStat;
+    public List<I_EXCHANGE_STAT> furnitureExchangeStat = new List<I_EXCHANGE_STAT>();
 
     public Ft_draw_configConfig GetDrawInfo(int id)
     {

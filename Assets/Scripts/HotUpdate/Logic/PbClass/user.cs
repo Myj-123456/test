@@ -131,6 +131,9 @@ namespace protobuf.user
         [ProtoBuf.ProtoMember(10)]
         public uint fairyFlowerStealCnt;
 
+        [ProtoBuf.ProtoMember(11)]
+        public uint turntableShareCnt;
+
     }
 
     [ProtoBuf.ProtoContract]

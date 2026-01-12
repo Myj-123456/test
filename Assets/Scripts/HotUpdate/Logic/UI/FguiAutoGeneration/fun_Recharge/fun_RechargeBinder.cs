@@ -8,13 +8,14 @@ namespace fun_Recharge
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(fund_item.URL, typeof(fund_item));
+            UIObjectFactory.SetPackageItemExtension(fund_view.URL, typeof(fund_view));
             UIObjectFactory.SetPackageItemExtension(first_tip.URL, typeof(first_tip));
             UIObjectFactory.SetPackageItemExtension(first_tip1.URL, typeof(first_tip1));
             UIObjectFactory.SetPackageItemExtension(first_tip2.URL, typeof(first_tip2));
             UIObjectFactory.SetPackageItemExtension(first_btn.URL, typeof(first_btn));
             UIObjectFactory.SetPackageItemExtension(yellow_btn.URL, typeof(yellow_btn));
             UIObjectFactory.SetPackageItemExtension(recharge_main_view.URL, typeof(recharge_main_view));
-            UIObjectFactory.SetPackageItemExtension(page_btn.URL, typeof(page_btn));
             UIObjectFactory.SetPackageItemExtension(card_view.URL, typeof(card_view));
             UIObjectFactory.SetPackageItemExtension(pro.URL, typeof(pro));
             UIObjectFactory.SetPackageItemExtension(card_item1.URL, typeof(card_item1));
@@ -40,10 +41,13 @@ namespace fun_Recharge
             UIObjectFactory.SetPackageItemExtension(contractRewardPreview.URL, typeof(contractRewardPreview));
             UIObjectFactory.SetPackageItemExtension(contractPreview_btn.URL, typeof(contractPreview_btn));
             UIObjectFactory.SetPackageItemExtension(contractPreviewRootBtn.URL, typeof(contractPreviewRootBtn));
+            UIObjectFactory.SetPackageItemExtension(btn_Opening.URL, typeof(btn_Opening));
             UIObjectFactory.SetPackageItemExtension(item_com.URL, typeof(item_com));
             UIObjectFactory.SetPackageItemExtension(contractPayWindow.URL, typeof(contractPayWindow));
+            UIObjectFactory.SetPackageItemExtension(contract_text_item.URL, typeof(contract_text_item));
             UIObjectFactory.SetPackageItemExtension(vip_buy_view.URL, typeof(vip_buy_view));
             UIObjectFactory.SetPackageItemExtension(vip_everyDay_reward.URL, typeof(vip_everyDay_reward));
+            UIObjectFactory.SetPackageItemExtension(page_btn4.URL, typeof(page_btn4));
             UIObjectFactory.SetPackageItemExtension(newRecharge.URL, typeof(newRecharge));
             UIObjectFactory.SetPackageItemExtension(newRecharge_cell.URL, typeof(newRecharge_cell));
             UIObjectFactory.SetPackageItemExtension(first_recharge_btn.URL, typeof(first_recharge_btn));

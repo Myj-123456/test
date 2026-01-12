@@ -9,17 +9,9 @@ namespace fun_CultivationManual_new
     {
         public Controller button;
         public Controller type;
-        public GImage n6;
-        public GImage n8;
-        public GImage n9;
-        public GImage n17;
-        public GImage n19;
-        public GGroup n20;
-        public GImage n12;
-        public GImage n11;
-        public GImage n16;
-        public GImage n18;
-        public GGroup n21;
+        public GImage n24;
+        public GImage n26;
+        public GTextField titleLab;
         public GImage red_point;
         public const string URL = "ui://ekoic0wriust1yjp7sq";
 
@@ -34,18 +26,10 @@ namespace fun_CultivationManual_new
 
             button = GetControllerAt(0);
             type = GetControllerAt(1);
-            n6 = (GImage)GetChildAt(0);
-            n8 = (GImage)GetChildAt(1);
-            n9 = (GImage)GetChildAt(2);
-            n17 = (GImage)GetChildAt(3);
-            n19 = (GImage)GetChildAt(4);
-            n20 = (GGroup)GetChildAt(5);
-            n12 = (GImage)GetChildAt(6);
-            n11 = (GImage)GetChildAt(7);
-            n16 = (GImage)GetChildAt(8);
-            n18 = (GImage)GetChildAt(9);
-            n21 = (GGroup)GetChildAt(10);
-            red_point = (GImage)GetChildAt(11);
+            n24 = (GImage)GetChildAt(0);
+            n26 = (GImage)GetChildAt(1);
+            titleLab = (GTextField)GetChildAt(2);
+            red_point = (GImage)GetChildAt(3);
         }
     }
 }

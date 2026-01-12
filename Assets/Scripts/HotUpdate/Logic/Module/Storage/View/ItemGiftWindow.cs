@@ -66,8 +66,9 @@ public class ItemGiftWindow : BaseWindow
         view.rare_img.url = ImageDataModel.Instance.GetItemRareQuality(itemVo.Quality);
         view.txt_des.text = itemVo.Description == null ?"": Lang.GetValue(itemVo.Description);
         view.txt_name.text = Lang.GetValue(itemVo.Name);
+        view.img_icon.url = ImageDataModel.Instance.GetIconUrl(itemVo);
         max = StorageModel.Instance.GetItemCount(id);
-        view.txt_ownNum.text = max.ToString();
+        view.txt_ownNum.text = Lang.GetValue("handBook_1") + "："  + max.ToString();
         curNum = 1;
         UpdateStatusBtn();
     }

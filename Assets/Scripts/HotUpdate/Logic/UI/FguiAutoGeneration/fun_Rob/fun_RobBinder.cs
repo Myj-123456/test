@@ -23,6 +23,8 @@ namespace fun_Rob
             UIObjectFactory.SetPackageItemExtension(robbedCell.URL, typeof(robbedCell));
             UIObjectFactory.SetPackageItemExtension(btn_logs.URL, typeof(btn_logs));
             UIObjectFactory.SetPackageItemExtension(farm.URL, typeof(farm));
+            UIObjectFactory.SetPackageItemExtension(common_add.URL, typeof(common_add));
+            UIObjectFactory.SetPackageItemExtension(emptyTip.URL, typeof(emptyTip));
             UIObjectFactory.SetPackageItemExtension(robbedSpeed.URL, typeof(robbedSpeed));
             UIObjectFactory.SetPackageItemExtension(robbedList.URL, typeof(robbedList));
             UIObjectFactory.SetPackageItemExtension(robbedCell2.URL, typeof(robbedCell2));
@@ -39,6 +41,8 @@ namespace fun_Rob
             UIObjectFactory.SetPackageItemExtension(robShop.URL, typeof(robShop));
             UIObjectFactory.SetPackageItemExtension(shopCell.URL, typeof(shopCell));
             UIObjectFactory.SetPackageItemExtension(robResult.URL, typeof(robResult));
+            UIObjectFactory.SetPackageItemExtension(robbedHead_big.URL, typeof(robbedHead_big));
+            UIObjectFactory.SetPackageItemExtension(btn_shop.URL, typeof(btn_shop));
             UIObjectFactory.SetPackageItemExtension(rob_item1.URL, typeof(rob_item1));
         }
     }

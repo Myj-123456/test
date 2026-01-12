@@ -8,8 +8,9 @@ namespace fun_CultivationManual_new
     public partial class FlowerInfoShow : GComponent
     {
         public GLoader bg;
-        public GImage n2;
         public GImage n7;
+        public GImage n21;
+        public GLoader name_bg;
         public GLoader rareImg;
         public GLoader pot;
         public GLoader img;
@@ -21,6 +22,8 @@ namespace fun_CultivationManual_new
         public GTextField timeLab;
         public GTextField introLab;
         public GButton close_btn;
+        public GImage n19;
+        public GTextField n20;
         public const string URL = "ui://ekoic0wrq47x1yjp7wn";
 
         public static FlowerInfoShow CreateInstance()
@@ -33,19 +36,22 @@ namespace fun_CultivationManual_new
             base.ConstructFromXML(xml);
 
             bg = (GLoader)GetChildAt(0);
-            n2 = (GImage)GetChildAt(1);
-            n7 = (GImage)GetChildAt(2);
-            rareImg = (GLoader)GetChildAt(3);
-            pot = (GLoader)GetChildAt(4);
-            img = (GLoader)GetChildAt(5);
-            nameLab = (GTextField)GetChildAt(6);
-            titleLab = (GTextField)GetChildAt(7);
-            declab = (GTextField)GetChildAt(8);
-            keLab = (GTextField)GetChildAt(9);
-            shuLab = (GTextField)GetChildAt(10);
-            timeLab = (GTextField)GetChildAt(11);
-            introLab = (GTextField)GetChildAt(12);
-            close_btn = (GButton)GetChildAt(13);
+            n7 = (GImage)GetChildAt(1);
+            n21 = (GImage)GetChildAt(2);
+            name_bg = (GLoader)GetChildAt(3);
+            rareImg = (GLoader)GetChildAt(4);
+            pot = (GLoader)GetChildAt(5);
+            img = (GLoader)GetChildAt(6);
+            nameLab = (GTextField)GetChildAt(7);
+            titleLab = (GTextField)GetChildAt(8);
+            declab = (GTextField)GetChildAt(9);
+            keLab = (GTextField)GetChildAt(10);
+            shuLab = (GTextField)GetChildAt(11);
+            timeLab = (GTextField)GetChildAt(12);
+            introLab = (GTextField)GetChildAt(13);
+            close_btn = (GButton)GetChildAt(14);
+            n19 = (GImage)GetChildAt(15);
+            n20 = (GTextField)GetChildAt(16);
         }
     }
 }

@@ -10,9 +10,9 @@ namespace fun_Rob
         public GImage n4;
         public GImage n5;
         public GImage n6;
-        public GTextField n7;
+        public GTextField titleLab;
         public GTextField txt_number;
-        public GTextField n9;
+        public GTextField reward_num;
         public GLoader pic;
         public const string URL = "ui://z1on8kwdcw741ayr8mg";
 
@@ -28,9 +28,9 @@ namespace fun_Rob
             n4 = (GImage)GetChildAt(0);
             n5 = (GImage)GetChildAt(1);
             n6 = (GImage)GetChildAt(2);
-            n7 = (GTextField)GetChildAt(3);
+            titleLab = (GTextField)GetChildAt(3);
             txt_number = (GTextField)GetChildAt(4);
-            n9 = (GTextField)GetChildAt(5);
+            reward_num = (GTextField)GetChildAt(5);
             pic = (GLoader)GetChildAt(6);
         }
     }

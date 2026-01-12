@@ -11,6 +11,7 @@ namespace fun_Friends
             UIObjectFactory.SetPackageItemExtension(newFriends.URL, typeof(newFriends));
             UIObjectFactory.SetPackageItemExtension(btn_onekey.URL, typeof(btn_onekey));
             UIObjectFactory.SetPackageItemExtension(btn_lock.URL, typeof(btn_lock));
+            UIObjectFactory.SetPackageItemExtension(edcopyBtn.URL, typeof(edcopyBtn));
             UIObjectFactory.SetPackageItemExtension(BestFriendItem.URL, typeof(BestFriendItem));
             UIObjectFactory.SetPackageItemExtension(BestLevelListItem.URL, typeof(BestLevelListItem));
             UIObjectFactory.SetPackageItemExtension(BestListItem.URL, typeof(BestListItem));
@@ -34,6 +35,9 @@ namespace fun_Friends
             UIObjectFactory.SetPackageItemExtension(VisitFriendView.URL, typeof(VisitFriendView));
             UIObjectFactory.SetPackageItemExtension(best_relieve2.URL, typeof(best_relieve2));
             UIObjectFactory.SetPackageItemExtension(VisitFriendItem.URL, typeof(VisitFriendItem));
+            UIObjectFactory.SetPackageItemExtension(BestExpView.URL, typeof(BestExpView));
+            UIObjectFactory.SetPackageItemExtension(BestExpItem.URL, typeof(BestExpItem));
+            UIObjectFactory.SetPackageItemExtension(bestexp.URL, typeof(bestexp));
             UIObjectFactory.SetPackageItemExtension(btn_visitdetails.URL, typeof(btn_visitdetails));
             UIObjectFactory.SetPackageItemExtension(btn_currency.URL, typeof(btn_currency));
             UIObjectFactory.SetPackageItemExtension(btn_lessen.URL, typeof(btn_lessen));

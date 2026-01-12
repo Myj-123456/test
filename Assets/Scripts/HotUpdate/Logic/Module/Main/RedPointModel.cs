@@ -89,7 +89,8 @@ public class RedPointModel : Singleton<RedPointModel>
         {
             var maxNum = GuildModel.Instance.othersConfig.PersekutuanjumlahDonasi;
             var num = maxNum - (int)GuildModel.Instance.guildMember.donateCnt;
-            bol = num > 0;
+            var curCount = VideoModel.Instance.GetWatchVideoCount((int)VideoSeeType.guild_video_id);
+            bol = num > 0 || curCount < 1;
         }
         else if(type == RedPointType.Guild_Donate_Pro)
         {
@@ -111,12 +112,26 @@ public class RedPointModel : Singleton<RedPointModel>
         {
             bol = GuildGiftModel.Instance.GetBigBox();
         }
+        else if (type == RedPointType.Npc_Collect)
+        {
+            bol = NpcCollectModel.Instance.GetNpcCollectRed();
+            if (bol)
+            {
+                var point = GetPointInfo(type);
+                var id = NpcCollectModel.Instance.GetCurNpcCollectItem();
+                point.ext1 = id;
+            }
+
+        }else if(type == RedPointType.Friend_Chat)
+        {
+            bol = FriendChatModel.Instance.GetFriendChatRed();
+        }
         UpdateRedPoint(type, bol);
     }
     public void UpdateRedPoint(RedPointType type,bool bol)
     {
         var point = GetPointInfo(type);
-        if (point != null && point.redDot != bol)
+        if (point != null && (point.redDot != bol || type == RedPointType.Npc_Collect))
         {
             point.redDot = bol;
             EventManager.Instance.DispatchEvent(RedPointEvent.RedDotChange, (uint)type);
@@ -156,6 +171,8 @@ public enum RedPointType
     Guild_Plant = 13,//花盟种植有奖励可领取时
     Guild_Gift = 14,//花盟有小礼物可以领取
     Guild_Big_Box = 15,//花盟有大宝箱可领取
+    Npc_Collect = 16,//九尾花阁有奖励可领取
+    Friend_Chat = 17,//私聊
 }
 //今天第一次登录
 public enum TodayFirstLogin

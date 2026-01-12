@@ -15,7 +15,7 @@ public class DailyTaskWindow : BaseView
     private int taskTabType = 0;
     private Dictionary<int, fun_DailyTask.pro_item> dayItems;
     private Dictionary<int, fun_DailyTask.pro_item> weekItems;
-
+    private List<I_TASK_VO> listData;
     public DailyTaskWindow()
     {
         packageName = "fun_DailyTask";
@@ -127,7 +127,7 @@ public class DailyTaskWindow : BaseView
     private void ListRenderer(int index,GObject cell)
     {
         fun_DailyTask.DailyTaskItem item = cell as fun_DailyTask.DailyTaskItem;
-        var obj = taskTabType == 0? DailyTaskModel.Instance.dailyTask[index]: DailyTaskModel.Instance.weeklyTask[index];
+        var obj = listData[index];
         var vo = DailyTaskModel.Instance.GetTaskConfig((int)obj.taskId);
         
         item.getBtn.data = obj.pos;
@@ -181,9 +181,10 @@ public class DailyTaskWindow : BaseView
 
     private void UpdateTask()
     {
+        listData = DailyTaskModel.Instance.GetTaskList(taskTabType);
         if(taskTabType == 0)
         {
-            view.list.numItems = DailyTaskModel.Instance.dailyTask.Count;
+            //view.list.numItems = DailyTaskModel.Instance.dailyTask.Count;
             var dayProData = TaskModel.Instance.GetProReward(1);
             
             view.proLab.text = dayProData.progress.ToString();
@@ -211,8 +212,9 @@ public class DailyTaskWindow : BaseView
         }
         else
         {
-            view.list.numItems = DailyTaskModel.Instance.weeklyTask.Count;    
+            //view.list.numItems = DailyTaskModel.Instance.weeklyTask.Count;    
         }
+        view.list.numItems = listData.Count;
         UpdateRedPoint();
     }
 

@@ -27,8 +27,9 @@ public class MatchTaskInfoWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_Match.task_info_view;
-        SetBg(view.bg, "Common/ELIDA_common_littledi01.png");
+        SetBg(view.bg, "Common/common_three_tip_bg.png");
 
+        view.txt_Title.text = Lang.GetValue("newguild_07"); //任务详细
         StringUtil.SetBtnTab(view.getBtn, Lang.GetValue("guildMatch_21"));
         StringUtil.SetBtnTab(view.submit_btn, Lang.GetValue("Common_Btn_Submit"));
         StringUtil.SetBtnTab(view.refresh_btn, Lang.GetValue("common_button_refresh"));
@@ -93,7 +94,7 @@ public class MatchTaskInfoWindow : BaseWindow
             }
             else
             {
-                view.status.selectedIndex = 4;
+                view.status.selectedIndex = 3;
             }
             int endTime = (int)taskData.limitedTime - (int)ServerTime.Time;
             if (endTime > 0)
@@ -106,6 +107,10 @@ public class MatchTaskInfoWindow : BaseWindow
             {
                 view.timeLab.text = Lang.GetValue("lshop_ui_label_duration") + "：00:00:00";
             }
+            var frameVo = ItemModel.Instance.GetItemById((int)taskData.userInfo.headFrame);
+            UILogicUtils.ShowHeadFrames(view.head.frame as common_New.PictureFrame, frameVo);
+            var headVo = ItemModel.Instance.GetItemById(int.Parse(taskData.userInfo.headImgId));
+            view.head.pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
         }
         else
         {
@@ -119,25 +124,19 @@ public class MatchTaskInfoWindow : BaseWindow
             }
         }
         var taskInfo = GuildMatchModel.Instance.GetMatchTaskInfo((int)taskData.id);
-
-        if (taskInfo.TaskType == 1)
+        view.decLab.text = TaskModel.Instance.GetTaskDec(taskInfo.Description, taskInfo.TaskType, (int)taskData.needCnt, (int)taskData.needItem);
+       
+        view.rare_img.url = "HandBookNew/rare_icon_" + taskInfo.TaskRank + ".png";
+        var score = Mathf.Ceil(float.Parse(taskInfo.Score) * taskData.needCnt);
+        if (GuildMatchModel.Instance.specialFlowers.IndexOf(taskData.needItem) == -1)
         {
-            var ItemVo = ItemModel.Instance.GetItemById((int)taskData.needItem);
-            var itemName = ItemVo == null ? "" : Lang.GetValue(ItemVo.Name);
-            view.decLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString(), itemName);
-        }
-        else if (taskInfo.TaskType == 2)
-        {
-            var ItemVo = ItemModel.Instance.GetItemById((int)taskData.needItem);
-            var itemName = ItemVo == null ? "" : Lang.GetValue(ItemVo.Name);
-            view.decLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString(), itemName);
+            view.scoreLab.text = score.ToString();
         }
         else
         {
-            view.decLab.text = Lang.GetValue(taskInfo.Description, taskData.needCnt.ToString());
+            view.scoreLab.text = score + "<font color = '#85b57d'> +" + Mathf.Floor(score * (GuildModel.Instance.othersConfig.SpecialFlowerAdd / 100)) + "</font>";
         }
-        view.rare_img.url = "HandBookNew/rare_icon_" + taskInfo.TaskRank + ".png";
-        view.scoreLab.text = GuildMatchModel.Instance.score + "<font color='#85b57d'>+" + (float.Parse(taskInfo.Score) * taskData.needCnt).ToString() + "</font>";
+        
         view.costLab.text = GuildModel.Instance.othersConfig.TaskRefreshs[0].Value.ToString();
         view.needLab.text = taskData.curCnt + "/" + taskData.needCnt;
     }

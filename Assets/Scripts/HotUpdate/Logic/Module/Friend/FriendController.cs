@@ -5,6 +5,7 @@ using protobuf.friend;
 using protobuf.messagecode;
 using UnityEngine;
 using UnityTimer;
+using ADK;
 using static protobuf.friend.S_MSG_CRONY_LIST;
 
 public class FriendController : BaseController<FriendController>
@@ -28,7 +29,7 @@ public class FriendController : BaseController<FriendController>
         AddNetListener<S_MSG_CRONY_LIST>((int)MessageCode.S_MSG_CRONY_LIST, CronyList);
         //申请添加密友
         AddNetListener<S_MSG_CRONY_APPLY>((int)MessageCode.S_MSG_CRONY_APPLY, CronyApply);
-        //ͬ同意密友申请
+        //同意密友申请
         AddNetListener<S_MSG_CRONY_AGREE>((int)MessageCode.S_MSG_CRONY_AGREE, CronyAgree);
         //被申请列表
         AddNetListener<S_MSG_CRONY_BE_APPLY>((int)MessageCode.S_MSG_CRONY_BE_APPLY, CronyBeApply);
@@ -44,40 +45,16 @@ public class FriendController : BaseController<FriendController>
         AddNetListener<S_MSG_CRONY_SPEED_CANCEL>((int)MessageCode.S_MSG_CRONY_SPEED_CANCEL, CronySpeedCancel);
         //解锁密友位置响应
         AddNetListener<S_MSG_CRONY_UNLOCK_CNT>((int)MessageCode.S_MSG_CRONY_UNLOCK_CNT, CronyUnlockCt);
+        //密友好友列表
+        AddNetListener<S_MSG_CRONY_FRIEND_LIST>((int)MessageCode.S_MSG_CRONY_FRIEND_LIST, CronyFriendList);
         AddNetListener<S_MSG_FRIEND_STEAL_MESSAGE>((int)MessageCode.S_MSG_FRIEND_STEAL_MESSAGE, FriendStealMesg);
 
         AddNetListener<S_MSG_FRIENDCOIN_EXCHANGE>((int)MessageCode.S_MSG_FRIENDCOIN_EXCHANGE, FriendCoinExchangeMesg);
-
-        // 初始化密友申请数据
-        FriendModel.Instance.InitCronyApplyData();
-
-        // 添加定期清理过期密友申请的定时器（每10分钟检查一次）
-        Timer.RegistGlobal(600000, CleanExpiredAppliesTimer, true); // 10分钟间隔，循环执行
     }
-
-    /// <summary>
-    /// 清理过期密友申请的定时器回调
-    /// </summary>
-    private void CleanExpiredAppliesTimer()
-    {
-        FriendModel.Instance.CleanExpiredApplies();
-    }
-
     public void FriendList(S_MSG_FRIEND_LIST data)
     {
         FriendModel.Instance.friendCount = data.count;
         FriendModel.Instance.friendList = data.friendList;
-
-        // 确保每个好友都有对应的关系时间记录
-        foreach (var friendData in data.friendList)
-        {
-            // 如果好友关系时间不存在，则使用当前服务器时间作为关系建立时间
-            if (!FriendModel.Instance.friendRelationTime.ContainsKey(friendData.userInfo.userId))
-            {
-                FriendModel.Instance.friendRelationTime[friendData.userInfo.userId] = MyselfModel.Instance.lastServerTime;
-            }
-        }
-
         EventManager.Instance.DispatchEvent(FriendEvent.FriendList);
     }
 
@@ -95,6 +72,8 @@ public class FriendController : BaseController<FriendController>
         {
             return;
         }
+        UILogicUtils.ShowNotice(Lang.GetValue("slang_140"));
+        
         FriendModel.Instance.RemoveRecommendList(data.effectFriendIds);
         EventManager.Instance.DispatchEvent(FriendEvent.FriendRecommendList);
     }
@@ -312,16 +291,7 @@ public class FriendController : BaseController<FriendController>
             {
                 currentServerTime = MyselfModel.Instance.lastServerTime;
             }
-            filteredCronyList = data.cronyList;//服务器返回的不需要再过滤
-            // 使用LINQ过滤掉已过期的密友关系
-            //filteredCronyList = data.cronyList
-            //    .Where(cronyData =>
-            //        // 没有设置解除时间的密友关系正常保留
-            //        cronyData.cancelTime == 0 ||
-            //        // 有解除时间但当前服务器时间未到解除时间的保留
-            //        (currentServerTime > 0 && cronyData.cancelTime > currentServerTime)
-            //    )
-            //    .ToList();
+            filteredCronyList = data.cronyList;//服务器返回
         }
         // 更新已解锁的密友位数量
         if (data != null)
@@ -338,11 +308,21 @@ public class FriendController : BaseController<FriendController>
         C_MSG_CRONY_LIST c_MSG_CRONY_LIST = new C_MSG_CRONY_LIST();
         SendCmd((int)MessageCode.C_MSG_CRONY_LIST, c_MSG_CRONY_LIST);
     }
-    // 同意密友申请
+    // 处理蜜友申请响应
     public void CronyApply(S_MSG_CRONY_APPLY data)
     {
         // 根据服务器返回的friendId，清除申请标记
         FriendModel.Instance.ClearApplyingFlag(data.friendId);
+        
+        // 手动设置isApplyCrony为true，确保界面状态正确，直到服务器返回新的列表
+        var cronyFriendData = FriendModel.Instance.GetCronyFriendData(data.friendId);
+        if (cronyFriendData != null)
+        {
+            cronyFriendData.isApplyCrony = true;
+        }
+        
+        // 重新请求蜜友好友列表，获取最新的申请状态
+        ReqCronyFriendList();
     }
     public void ReqCronyApply()
     {
@@ -353,19 +333,16 @@ public class FriendController : BaseController<FriendController>
     // 带好友ID参数的密友申请方法
     public void ReqCronyApply(uint friendId)
     {
-        // 防止无效ID
         if (friendId == 0)
         {
             return;
         }
-
-        // 检查该用户是否已经是密友，如果是则不重复发送请求
+        // 检查该用户是否已经是密友
         if (FriendModel.Instance.GetCronyData(friendId) != null)
         {
             return;
         }
-
-        // 再次检查本地列表，确保没有重复
+        // 再次检查本地列表
         foreach (var crony in FriendModel.Instance.cronyList)
         {
             if (crony.friendId == friendId)
@@ -376,6 +353,11 @@ public class FriendController : BaseController<FriendController>
 
         C_MSG_CRONY_APPLY c_MSG_CRONY_APPLY = new C_MSG_CRONY_APPLY();
         c_MSG_CRONY_APPLY.friendId = friendId;
+        
+        // 立即减少结书数量
+        const int cronyBookItemId = 41013043;
+        StorageModel.Instance.AddToStorageByItemId(cronyBookItemId, -1);
+        
         SendCmd((int)MessageCode.C_MSG_CRONY_APPLY, c_MSG_CRONY_APPLY);
     }
     // 被申请列表
@@ -464,13 +446,12 @@ public class FriendController : BaseController<FriendController>
         c_MSG_CRONY_AGREE.friendId = friendId;
         SendCmd((int)MessageCode.C_MSG_CRONY_AGREE, c_MSG_CRONY_AGREE);
     }
-    //�ܾ�
     //密友拒绝
     public void CronyReject(S_MSG_CRONY_REJECT data)
     {
         FriendModel.Instance.applyUserIds.Remove(data.friendId);
         // 发送邮件退还结书
-        FriendModel.Instance.SendReturnCronyBookMail(data.friendId, false);
+        //FriendModel.Instance.SendReturnCronyBookMail(data.friendId, false);
         RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Friend_Crony);
         EventManager.Instance.DispatchEvent(FriendEvent.CronyReject);
     }
@@ -505,6 +486,30 @@ public class FriendController : BaseController<FriendController>
         EventManager.Instance.DispatchEvent(FriendEvent.CronyUnlockSuccess); 
         // 更新密友列表
         ReqCronyList();
+    }
+
+    //处理密友好友列表协议
+    public void CronyFriendList(S_MSG_CRONY_FRIEND_LIST data)
+    {
+        if (data?.friendList != null)
+        {
+            FriendModel.Instance.cronyFriendList = data.friendList;
+        }
+        else
+        {
+            FriendModel.Instance.cronyFriendList.Clear();
+        }
+        // 触发密友好友列表更新事件
+        EventManager.Instance.DispatchEvent(FriendEvent.CronyFriendList);
+    }
+    
+    //请求密友好友列表
+    public void ReqCronyFriendList()
+    {
+        C_MSG_CRONY_FRIEND_LIST c_MSG_CRONY_FRIEND_LIST = new C_MSG_CRONY_FRIEND_LIST();
+        c_MSG_CRONY_FRIEND_LIST.start = 1;
+        c_MSG_CRONY_FRIEND_LIST.end = 300;
+        SendCmd((int)MessageCode.C_MSG_CRONY_FRIEND_LIST, c_MSG_CRONY_FRIEND_LIST);
     }
 
     //解锁密友位置
@@ -593,7 +598,7 @@ public class FriendController : BaseController<FriendController>
     {
         if (data == null) return;
         Debug.Log("FriendCoinExchangeMesg:" + data.friendCoinExchangeCnt);
-        if (data.friendCoinExchangeCnt >= 8) { Debug.LogError("每天购买次数超过8次！");return; }
+        if (data.friendCoinExchangeCnt >= 8) { Debug.LogError("每天购买次数超过8次！"); return; }
         //GlobalModel.Instance.module_profileConfig.umberOfMutualaid + (int)data.friendCoinExchangeCnt;
 
         FriendModel.Instance.FriendCoinExchangeCnt = data.friendCoinExchangeCnt;

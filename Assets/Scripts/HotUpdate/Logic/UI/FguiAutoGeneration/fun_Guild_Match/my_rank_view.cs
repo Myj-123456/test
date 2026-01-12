@@ -9,6 +9,7 @@ namespace fun_Guild_Match
     {
         public GList list;
         public GImage n2;
+        public GLoader rank_bg;
         public GImage n7;
         public GImage n8;
         public GImage n9;
@@ -34,18 +35,19 @@ namespace fun_Guild_Match
 
             list = (GList)GetChildAt(0);
             n2 = (GImage)GetChildAt(1);
-            n7 = (GImage)GetChildAt(2);
-            n8 = (GImage)GetChildAt(3);
-            n9 = (GImage)GetChildAt(4);
-            n10 = (GImage)GetChildAt(5);
-            n13 = (GImage)GetChildAt(6);
-            rankLab = (GTextField)GetChildAt(7);
-            head = (head)GetChildAt(8);
-            nameLab = (GTextField)GetChildAt(9);
-            powerLab = (GTextField)GetChildAt(10);
-            taskLab = (GTextField)GetChildAt(11);
-            scoreLab = (GTextField)GetChildAt(12);
-            levelLab = (GTextField)GetChildAt(13);
+            rank_bg = (GLoader)GetChildAt(2);
+            n7 = (GImage)GetChildAt(3);
+            n8 = (GImage)GetChildAt(4);
+            n9 = (GImage)GetChildAt(5);
+            n10 = (GImage)GetChildAt(6);
+            n13 = (GImage)GetChildAt(7);
+            rankLab = (GTextField)GetChildAt(8);
+            head = (head)GetChildAt(9);
+            nameLab = (GTextField)GetChildAt(10);
+            powerLab = (GTextField)GetChildAt(11);
+            taskLab = (GTextField)GetChildAt(12);
+            scoreLab = (GTextField)GetChildAt(13);
+            levelLab = (GTextField)GetChildAt(14);
         }
     }
 }

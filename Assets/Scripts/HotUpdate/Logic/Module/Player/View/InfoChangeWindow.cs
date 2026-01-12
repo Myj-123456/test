@@ -28,10 +28,6 @@ public class InfoChangeWindow : BaseWindow
         StringUtil.SetBtnTab(view.head_btn, Lang.GetValue("Headframe_tab1"));
         StringUtil.SetBtnTab(view.head_frame_btn, Lang.GetValue("Headframe_tab2"));
         StringUtil.SetBtnTab(view.title_btn, Lang.GetValue("player_info_18"));
-
-        headView = new HeadView(view.head_view);
-        frameView = new FrameView(view.frame_view);
-        titleView = new TitleView(view.title_view);
         view.head_btn.onClick.Add(() =>{
             if (tabType != 0)
             {
@@ -69,14 +65,26 @@ public class InfoChangeWindow : BaseWindow
         tabType = type;
         if(tabType == 0)
         {
+            if(headView == null)
+            {
+                headView = new HeadView(view.head_view);
+            }
             headView.OnShown();
         }
         else if(tabType == 1)
         {
+            if(frameView == null)
+            {
+                frameView = new FrameView(view.frame_view);
+            }
             frameView.OnShown();
         }
         else
         {
+            if(titleView == null)
+            {
+                titleView = new TitleView(view.title_view);
+            }
             titleView.OnShown();
         }
     }

@@ -43,10 +43,10 @@ public class FirstRechargeWindow : BaseWindow
         StringUtil.SetBtnTab(view.buy_btn3.buy_btn, Lang.GetValue("recharge_main_18", firstPayList[2].Price.ToString()));
         StringUtil.SetBtnTab(view.buy_btn4.buy_btn, Lang.GetValue("recharge_main_18", firstPayList[3].Price.ToString()));
 
-        view.buy_btn1.countLab.text = firstPayList[0].IsThree.ToString();
-        view.buy_btn2.countLab.text = firstPayList[1].IsThree.ToString();
-        view.buy_btn3.countLab.text = firstPayList[2].IsThree.ToString();
-        view.buy_btn4.countLab.text = firstPayList[3].IsThree.ToString();
+        view.buy_btn1.countLab.text = (firstPayList[0].IsThree + firstPayList[0].Count).ToString();
+        view.buy_btn2.countLab.text = (firstPayList[1].IsThree + firstPayList[1].Count).ToString();
+        view.buy_btn3.countLab.text = (firstPayList[2].IsThree + firstPayList[2].Count).ToString();
+        view.buy_btn4.countLab.text = (firstPayList[3].IsThree + firstPayList[3].Count).ToString();
 
         view.list.itemRenderer = RenderList;
 
@@ -60,12 +60,6 @@ public class FirstRechargeWindow : BaseWindow
         view.spine.animationName = "step_" + 3 + "_idle";
         view.name_com.nameLab.text = Lang.GetValue(flowerVo.Name);
         UILogicUtils.SetItemShow(view.name_com.show_btn, flowerVo.ItemDefId);
-        
-
-        view.spine.url = "flowers/40011018";
-        view.spine.forcePlay = true;
-        view.spine.loop = true;
-        view.spine.animationName = "step_" + 3 + "_idle";
 
         view.spine1.url = "firstrecharge/scyuanbeijin";
         view.spine1.forcePlay = true;
@@ -125,22 +119,22 @@ public class FirstRechargeWindow : BaseWindow
         view.buy_btn1.buy_btn.onClick.Add(() =>
         {
             var buyData = firstPayList[0];
-            RechargeController.Instance.ReqPlaceOrder(3, uint.Parse(buyData.ProductId));
+            RechargeController.Instance.ReqPlaceOrder(3, (uint)buyData.IndexId);
         });
         view.buy_btn2.buy_btn.onClick.Add(() =>
         {
             var buyData = firstPayList[1];
-            RechargeController.Instance.ReqPlaceOrder(3, uint.Parse(buyData.ProductId));
+            RechargeController.Instance.ReqPlaceOrder(3, (uint)buyData.IndexId);
         });
         view.buy_btn3.buy_btn.onClick.Add(() =>
         {
             var buyData = firstPayList[2];
-            RechargeController.Instance.ReqPlaceOrder(3, uint.Parse(buyData.ProductId));
+            RechargeController.Instance.ReqPlaceOrder(3, (uint)buyData.IndexId);
         });
         view.buy_btn4.buy_btn.onClick.Add(() =>
         {
             var buyData = firstPayList[3];
-            RechargeController.Instance.ReqPlaceOrder(3, uint.Parse(buyData.ProductId));
+            RechargeController.Instance.ReqPlaceOrder(3, (uint)buyData.IndexId);
         });
 
         view.btn_com.get_btn.onClick.Add(() =>

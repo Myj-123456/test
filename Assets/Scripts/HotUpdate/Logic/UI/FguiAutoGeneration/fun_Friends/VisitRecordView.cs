@@ -13,14 +13,14 @@ namespace fun_Friends
         public GImage n56;
         public GButton close_btn;
         public GList list;
-        public GComponent nullTip;
         public GTextField n20;
-        public GImage n21;
+        public GLoader pic_img;
         public GTextField n22;
         public GImage n23;
         public btn_best_book btn_best_buyBook;
         public GTextField n25;
         public GTextField n54;
+        public GComponent emptyTip;
         public const string URL = "ui://fteyf9nzybxr1yjp7ug";
 
         public static VisitRecordView CreateInstance()
@@ -38,14 +38,14 @@ namespace fun_Friends
             n56 = (GImage)GetChildAt(2);
             close_btn = (GButton)GetChildAt(3);
             list = (GList)GetChildAt(4);
-            nullTip = (GComponent)GetChildAt(5);
-            n20 = (GTextField)GetChildAt(6);
-            n21 = (GImage)GetChildAt(7);
-            n22 = (GTextField)GetChildAt(8);
-            n23 = (GImage)GetChildAt(9);
-            btn_best_buyBook = (btn_best_book)GetChildAt(10);
-            n25 = (GTextField)GetChildAt(11);
-            n54 = (GTextField)GetChildAt(12);
+            n20 = (GTextField)GetChildAt(5);
+            pic_img = (GLoader)GetChildAt(6);
+            n22 = (GTextField)GetChildAt(7);
+            n23 = (GImage)GetChildAt(8);
+            btn_best_buyBook = (btn_best_book)GetChildAt(9);
+            n25 = (GTextField)GetChildAt(10);
+            n54 = (GTextField)GetChildAt(11);
+            emptyTip = (GComponent)GetChildAt(12);
         }
     }
 }

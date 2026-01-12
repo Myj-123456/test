@@ -12,6 +12,10 @@ namespace fun_Guild_Match
         public GImage n15;
         public GImage n16;
         public GImage n17;
+        public GImage n18;
+        public GImage n19;
+        public GImage n20;
+        public GImage n21;
         public GImage n9;
         public GImage n11;
         public GImage n10;
@@ -40,18 +44,22 @@ namespace fun_Guild_Match
             n15 = (GImage)GetChildAt(1);
             n16 = (GImage)GetChildAt(2);
             n17 = (GImage)GetChildAt(3);
-            n9 = (GImage)GetChildAt(4);
-            n11 = (GImage)GetChildAt(5);
-            n10 = (GImage)GetChildAt(6);
-            n12 = (GImage)GetChildAt(7);
-            head = (head)GetChildAt(8);
-            n5 = (GImage)GetChildAt(9);
-            levelLab = (GTextField)GetChildAt(10);
-            rankLab = (GTextField)GetChildAt(11);
-            nameLab = (GTextField)GetChildAt(12);
-            powerLab = (GTextField)GetChildAt(13);
-            taskLab = (GTextField)GetChildAt(14);
-            scoreLab = (GTextField)GetChildAt(15);
+            n18 = (GImage)GetChildAt(4);
+            n19 = (GImage)GetChildAt(5);
+            n20 = (GImage)GetChildAt(6);
+            n21 = (GImage)GetChildAt(7);
+            n9 = (GImage)GetChildAt(8);
+            n11 = (GImage)GetChildAt(9);
+            n10 = (GImage)GetChildAt(10);
+            n12 = (GImage)GetChildAt(11);
+            head = (head)GetChildAt(12);
+            n5 = (GImage)GetChildAt(13);
+            levelLab = (GTextField)GetChildAt(14);
+            rankLab = (GTextField)GetChildAt(15);
+            nameLab = (GTextField)GetChildAt(16);
+            powerLab = (GTextField)GetChildAt(17);
+            taskLab = (GTextField)GetChildAt(18);
+            scoreLab = (GTextField)GetChildAt(19);
         }
     }
 }

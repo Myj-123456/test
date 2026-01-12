@@ -30,6 +30,7 @@ public class TradeSetPasswordWindow : BaseWindow
         _view.tipLab.text = Lang.GetValue("friendTrade_password_tip");
         _view.password_input.maxLength = 6;
         _view.password_input.restrict = "[0-9]*";
+        _view.btn_cancel.onClick.Add(Close);
         _view.btn_sure.onClick.Add(() =>
         {
             if (MyselfModel.Instance.diamond < GetCostNum())

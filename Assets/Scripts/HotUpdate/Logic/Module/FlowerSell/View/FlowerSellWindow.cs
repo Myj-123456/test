@@ -268,7 +268,7 @@ public class FlowerSellWindow : BaseView
         _view.plus_btn.enabled = currSelectCount != maxCount;
         var formula = IkeModel.Instance.GetFormulaByItemId(curItem.itemDefId);
         int rate = MyselfModel.Instance.IsVideoDouble() ? 2 : 1;
-        double sunPrice = formula.SellPrice * rate;
+        double sunPrice = formula.SellPrice * rate * currSelectCount;
         _view.gold_txt_1.text = sunPrice.ToString();
         SetAddOddStatus();
     }

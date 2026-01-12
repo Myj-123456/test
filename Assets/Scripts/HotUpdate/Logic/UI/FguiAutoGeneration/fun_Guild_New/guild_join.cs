@@ -7,21 +7,21 @@ namespace fun_Guild_New
 {
     public partial class guild_join : GComponent
     {
-        public GImage n48;
         public GLoader bg;
-        public GImage n47;
-        public GImage n43;
-        public GImage n53;
+        public GTextField txt_Title;
+        public GImage n56;
+        public GImage n54;
         public GList list_guild;
-        public GTextInput txt_input;
+        public GImage n43;
         public GTextField txt_input_prompt;
-        public GTextField txt_code;
-        public GTextField txt_name;
-        public GTextField txt_num;
+        public GTextInput txt_input;
         public GButton btn_search;
+        public GTextField txt_code;
+        public GTextField txt_num;
+        public GTextField txt_name;
+        public GButton close_btn;
         public GButton btn_create;
         public GButton randomJoinBtn;
-        public GButton close_btn;
         public const string URL = "ui://qz6135j3r9vt1ayr89b";
 
         public static guild_join CreateInstance()
@@ -33,21 +33,21 @@ namespace fun_Guild_New
         {
             base.ConstructFromXML(xml);
 
-            n48 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n47 = (GImage)GetChildAt(2);
-            n43 = (GImage)GetChildAt(3);
-            n53 = (GImage)GetChildAt(4);
-            list_guild = (GList)GetChildAt(5);
-            txt_input = (GTextInput)GetChildAt(6);
-            txt_input_prompt = (GTextField)GetChildAt(7);
-            txt_code = (GTextField)GetChildAt(8);
-            txt_name = (GTextField)GetChildAt(9);
+            bg = (GLoader)GetChildAt(0);
+            txt_Title = (GTextField)GetChildAt(1);
+            n56 = (GImage)GetChildAt(2);
+            n54 = (GImage)GetChildAt(3);
+            list_guild = (GList)GetChildAt(4);
+            n43 = (GImage)GetChildAt(5);
+            txt_input_prompt = (GTextField)GetChildAt(6);
+            txt_input = (GTextInput)GetChildAt(7);
+            btn_search = (GButton)GetChildAt(8);
+            txt_code = (GTextField)GetChildAt(9);
             txt_num = (GTextField)GetChildAt(10);
-            btn_search = (GButton)GetChildAt(11);
-            btn_create = (GButton)GetChildAt(12);
-            randomJoinBtn = (GButton)GetChildAt(13);
-            close_btn = (GButton)GetChildAt(14);
+            txt_name = (GTextField)GetChildAt(11);
+            close_btn = (GButton)GetChildAt(12);
+            btn_create = (GButton)GetChildAt(13);
+            randomJoinBtn = (GButton)GetChildAt(14);
         }
     }
 }

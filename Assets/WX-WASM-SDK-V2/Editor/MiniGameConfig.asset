@@ -15,7 +15,7 @@ MonoBehaviour:
   ProjectConf:
     projectName: ElidaClient
     Appid: wxe1857007737b42ed
-    CDN: https://elida-cdn.tigermoon.cn/qmhj/wxRL/v1.0.10
+    CDN: https://elida-cdn.tigermoon.cn/qmhj/wxRL/v1.0.11
     assetLoadType: 0
     compressDataPackage: 1
     VideoUrl: 
@@ -29,7 +29,7 @@ MonoBehaviour:
     HideAfterCallMain: 1
     preloadFiles: 
     Orientation: 0
-    bgImageSrc: Assets/bg.jpg
+    bgImageSrc: Assets/bg.png
     dataFileSubPrefix: 
     maxStorage: 200
     defaultReleaseSize: 31457280

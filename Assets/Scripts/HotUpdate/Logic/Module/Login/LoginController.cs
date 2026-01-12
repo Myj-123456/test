@@ -71,7 +71,8 @@ public class LoginController : BaseController<LoginController>
         WelfareModel.Instance.InitDailyLogin(data.dailyLoginInfo);
         RedPointModel.Instance.InitTodayFirstLogin(data.isTodayFirstLogin);
         GuideController.Instance.InitGuide();
-        
+        RobModel.Instance.arrestList = data.arrestList;
+
         GameInitSuccess();
     }
 

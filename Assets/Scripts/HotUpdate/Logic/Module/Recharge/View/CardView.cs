@@ -108,6 +108,7 @@ public class CardView
         EventManager.Instance.AddEventListener(RechargeEvent.MonthCard, UpdateVip);
         EventManager.Instance.AddEventListener(RechargeEvent.VideoPay, UpdateVedioTime);
         EventManager.Instance.AddEventListener(RechargeEvent.RechargeInfo, UpdateVedioTime);
+        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateVip);
     }
 
 

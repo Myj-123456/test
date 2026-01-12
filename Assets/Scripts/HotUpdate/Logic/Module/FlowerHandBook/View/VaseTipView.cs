@@ -29,7 +29,8 @@ public class VaseTipView : BaseView
     {
          base.OnInit();
         view = ui as fun_CultivationManual_new.handbookVaseTipView;
-        SetBg(view.bgImg, "HandBookNew/ELIDA_xhshengji_bg02.jpg");
+        SetBg(view.bgImg, "HandBookNew/vase_tip_bg.jpg");
+        SetBg(view.bg, "HandBookNew/ELIDA_baihuace_di04.png");
         StringUtil.SetBtnTab(view.tabBtn_0, Lang.GetValue("vase_1"));
         StringUtil.SetBtnTab(view.tabBtn_1, Lang.GetValue("vase_2"));
         StringUtil.SetBtnTab(view.tabBtn_2, Lang.GetValue("vase_3"));
@@ -71,7 +72,7 @@ public class VaseTipView : BaseView
             }
             else
             {
-                UILogicUtils.ShowNotice("text_book39");
+                UILogicUtils.ShowNotice(Lang.GetValue("text_book39"));
             }
         });
         view.btn_left.onClick.Add(() =>
@@ -119,7 +120,8 @@ public class VaseTipView : BaseView
         Module_item_defConfig item = ItemModel.Instance.GetItemById(configData.VaseId);
         view.ike.vase.url = ImageDataModel.Instance.GetVaseUrl(item.ItemDefId);
         view.name_txt.text = Lang.GetValue(item.Name);
-        view.nameBg.url = "HandBookNew/name_bg_color_" + configData.VaseQuality + ".png";
+        view.nameBg.url = "HandBookNew/name_bg_small_color_" + configData.VaseQuality + ".png";
+        view.rare_img.url = "HandBookNew/rare_icon_" + configData.VaseQuality + ".png";
 
         bool unlock = IkeModel.Instance.IsUnlockVase(configData.VaseId);
         view.unLockStatus.selectedIndex = unlock ? 0 : 1;
@@ -181,7 +183,7 @@ public class VaseTipView : BaseView
         cell.name_txt.text = Lang.GetValue(itemData.Name);
         object[] param = new object[] { data, itemData, exp, plantCrop, condition, index };
         cell.rect.data = param;
-        if (condition.AlreadyCulitivated)
+        if (condition.UnlockAccessible)
         {
             cell.status.selectedIndex = 0;
         }

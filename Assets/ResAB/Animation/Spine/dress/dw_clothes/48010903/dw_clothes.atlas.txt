@@ -1,0 +1,6 @@
+dw_clothes.png
+size:188,211
+filter:Linear,Linear
+pma:true
+014/shiping3
+bounds:2,2,184,207

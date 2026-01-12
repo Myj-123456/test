@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using ADK;
+using Elida.Config;
 
 public class SevenView
 {
@@ -19,6 +20,22 @@ public class SevenView
         {
             WelfareController.Instance.ReqDailyLoginAward();
         });
+        var flowerVo = GetFlowerItem();
+        if (flowerVo != null)
+        {
+            var flowerInfo = FlowerHandbookModel.Instance.GetStaticSeedCondition1(flowerVo.ItemDefId);
+            if (view.spine.url == "" || view.spine.url != flowerInfo.FlowerId.ToString())
+            {
+                view.spine.url = "flowers/" + flowerInfo.FlowerId;
+                view.spine.loop = true;
+                view.spine.animationName = "step_" + 3 + "_idle";
+            }
+            view.nameLab.text = Lang.GetValue(flowerVo.Name);
+            var condition = FlowerHandbookModel.Instance.GetStaticSeedCondition1(flowerVo.ItemDefId);
+
+            view.name_bg.url = "HandBookNew/name_bg_small_color_" + condition.FlowerQuality + ".png";
+            view.rare_img.url = "HandBookNew/rare_icon_" + condition.FlowerQuality + ".png";
+        }
         EventManager.Instance.AddEventListener(WelfareEvent.DailyLoginAward, UpdateData);
         EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateData);
     }
@@ -28,7 +45,24 @@ public class SevenView
         for(int i = 0;i < SeventhSignModel.Instance.sevenList.Count; i++)
         {
             var cell = view.GetChild("item" + (i + 1)) as fun_Welfare.seventh_sign_item;
-            cell.dayLab.text = Lang.GetValue("activity_days", TextUtil.ToChineseNumber((i + 1)));
+            cell.dayLab.text = Lang.GetValue("activity_days", (i + 1).ToString());
+            if(i == 6)
+            {
+                
+                cell.dayLab1.text = Lang.GetValue("activity_days", (i + 1).ToString());
+                var flowerVo = GetFlowerItem();
+                if (flowerVo != null)
+                {
+                    var flowerInfo = FlowerHandbookModel.Instance.GetStaticSeedCondition1(flowerVo.ItemDefId);
+                    var flowerItem = ItemModel.Instance.GetItemById(flowerInfo.FlowerId);
+                    if (flowerItem != null)
+                    {
+                        cell.pic.url = ImageDataModel.Instance.GetIdentifiedFlowerUrl(flowerItem);
+                    }
+                    cell.nameLab.text = Lang.GetValue(flowerVo.Name);            
+                }
+                
+            }
             cell.data = i;
             cell.onClick.Add(ChangeTab);
         }
@@ -49,6 +83,11 @@ public class SevenView
     }
     private void UpdateData()
     {
+        if(WelfareModel.Instance.status == 2)
+        {
+            UIManager.Instance.CloseWindow(UIName.WelfareMainView);
+            return;
+        }
         if(tabType == (int)WelfareModel.Instance.currentDay - 1 && !WelfareModel.Instance.todayHaveDraw)
         {
             view.getBtn.enabled = true;
@@ -61,13 +100,14 @@ public class SevenView
         else if(tabType == (int)WelfareModel.Instance.currentDay)
         {
             view.getBtn.enabled = false;
-            StringUtil.SetBtnTab(view.getBtn, "明日可领取");
+            StringUtil.SetBtnTab(view.getBtn, Lang.GetValue("tomorrowcanclaim_txt"));
         }
         else
         {
             view.getBtn.enabled = false;
-            StringUtil.SetBtnTab(view.getBtn, "等待中");
+            StringUtil.SetBtnTab(view.getBtn, Lang.GetValue("waiting_txt"));
         }
+        view.sub_title.text = Lang.GetValue("seventh_sign_3", TextUtil.ToChineseNumber(tabType + 1));
         view.list.numItems = SeventhSignModel.Instance.sevenList[tabType].Awards.Length;
         UpdateDayItem();
     }
@@ -89,13 +129,26 @@ public class SevenView
     }
     private void RenderList(int index,GObject item)
     {
-        var cell = item as fun_Welfare.reward_item;
+        var cell = item as fun_Welfare.reward_item1;
         var info = SeventhSignModel.Instance.sevenList[tabType].Awards[index];
         var itemVo = ItemModel.Instance.GetItemByEntityID(info.EntityID);
         cell.bg.url = ImageDataModel.Instance.GetItemQuality(itemVo.Quality);
         cell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
         cell.numLab.text = info.Value.ToString();
         UILogicUtils.SetItemShow(cell, itemVo.ItemDefId);
+    }
+    private Module_item_defConfig GetFlowerItem()
+    {
+        var rewards = SeventhSignModel.Instance.sevenList[6].Awards;
+        foreach(var value in rewards)
+        {
+            var item = ItemModel.Instance.GetItemByEntityID(value.EntityID);
+            if(item.Type == 4105)
+            {
+                return item;
+            }
+        }
+        return null;
     }
     public void OnHide()
     {

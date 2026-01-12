@@ -22,9 +22,9 @@ public class GuildNotBargainWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_New.guild_not_bargain;
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
-        
+        SetBg(view.bg, "Common/common_two_tip_bg.png");
 
+        view.txt_title.text = Lang.GetValue("newguild_05"); //未议价成员
         view.name_title.text = Lang.GetValue("persekutuan_name_04");
         view.time_title.text = Lang.GetValue("bargain_5");
 

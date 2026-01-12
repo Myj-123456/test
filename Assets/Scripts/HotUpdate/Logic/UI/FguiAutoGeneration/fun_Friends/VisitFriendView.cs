@@ -20,8 +20,8 @@ namespace fun_Friends
         public GGroup playerInfo;
         public VisitFriendListUI ui_friendList;
         public GImage n21;
-        public GImage n22;
         public GTextField FriendCoinNum;
+        public GLoader pic;
         public btn_visitdetails btn_visitdetails;
         public btn_currency btn_currency;
         public GImage n26;
@@ -67,8 +67,8 @@ namespace fun_Friends
             playerInfo = (GGroup)GetChildAt(9);
             ui_friendList = (VisitFriendListUI)GetChildAt(10);
             n21 = (GImage)GetChildAt(11);
-            n22 = (GImage)GetChildAt(12);
-            FriendCoinNum = (GTextField)GetChildAt(13);
+            FriendCoinNum = (GTextField)GetChildAt(12);
+            pic = (GLoader)GetChildAt(13);
             btn_visitdetails = (btn_visitdetails)GetChildAt(14);
             btn_currency = (btn_currency)GetChildAt(15);
             n26 = (GImage)GetChildAt(16);

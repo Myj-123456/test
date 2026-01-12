@@ -22,8 +22,10 @@ public class GuildChangeNoticeWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_New.guild_changeNotice;
-        SetBg(view.bg, "Common/ELIDA_common_littledi01.png");
+        SetBg(view.bg, "Common/common_three_tip_bg.png");
         StringUtil.SetBtnTab(view.btn_sure, Lang.GetValue("Share_txt28"));
+        StringUtil.SetBtnTab(view.btn_false, Lang.GetValue("common_button_cancel"));
+        view.txt_Title.text = Lang.GetValue("title_announcement"); //公告
         view.btn_sure.onClick.Add(() =>
         {
             if (view.txt_input.text.Trim() == "")
@@ -35,6 +37,7 @@ public class GuildChangeNoticeWindow : BaseWindow
             GuildController.Instance.ReqGuildChangeTxt(txt);
             UIManager.Instance.CloseWindow(UIName.GuildChangeNoticeWindow);
         });
+        view.btn_false.onClick.Add(Close);
         view.txt_input.onFocusIn.Add(() =>
         {
             view.tip.text = "";
@@ -43,7 +46,7 @@ public class GuildChangeNoticeWindow : BaseWindow
         {
             if (view.txt_input.text.Trim() == "")
             {
-                view.tip.text = "请输入您的公告内容";
+                view.tip.text = Lang.GetValue("newguild_03");
             }
 
         });
@@ -53,7 +56,7 @@ public class GuildChangeNoticeWindow : BaseWindow
     {
         base.OnShown();
         // 其他打开面板的逻辑
-        view.tip.text = "请输入您的公告内容";
+        view.tip.text = Lang.GetValue("newguild_03");
         type = (uint)data;
         view.txt_input.text = "";
     }

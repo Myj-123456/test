@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using ADK;
+using protobuf.guild;
 
 public class GuildJoinWindow : BaseWindow
 {
@@ -25,11 +26,13 @@ public class GuildJoinWindow : BaseWindow
     {
         base.OnInit();
         _view = ui as fun_Guild_New.guild_join;
-        SetBg(_view.bg, "Common/ELIDA_common_bigdi01.png");
+        SetBg(_view.bg, "Common/common_big_tip_bg.png");
         //_view.titleLab.text = Lang.GetValue("guild_test_4");
-        _view.txt_code.text = Lang.GetValue("slang_50");//编号
-        _view.txt_name.text = Lang.GetValue("slang_54") + "/" + Lang.GetValue("slang_56");//名称/等级
+        _view.txt_Title.text = Lang.GetValue("newguild_01");//花盟
+        _view.txt_code.text = Lang.GetValue("slang_27");//等级
+        _view.txt_name.text = Lang.GetValue("guild.tab_title_guild");//花盟信息
         _view.txt_num.text = Lang.GetValue("slang_55");//人数
+        
 
         StringUtil.SetBtnTab(_view.btn_create, Lang.GetValue("guild.bt_create"));
         StringUtil.SetBtnTab(_view.btn_search, Lang.GetValue("pray_8"));
@@ -94,6 +97,7 @@ public class GuildJoinWindow : BaseWindow
     {
         ChangeRandomBtn();
         UIManager.Instance.CloseWindow(UIName.GuildJoinWindow);
+        UIManager.Instance.CloseWindow(UIName.GuildEnterView);
     }
 
     private void UpdateData(bool join)
@@ -139,9 +143,9 @@ public class GuildJoinWindow : BaseWindow
         view.txt_name.text = value.guildName;
         view.txt_lv.text = "Lv." + value.level;
         int maxNum = GuildModel.Instance.guildLvMap[(int)value.level].JumlahOrang;
-        view.txt_num.text = value.memberCnt + "/" + maxNum;
+        view.txt_num.text = Lang.GetValue("slang_55")+"："+value.memberCnt + "/" + maxNum;
         view.power_num.text = TextUtil.ChangeCoinShow1(value.fighting);
-
+        view.power_title.text = Lang.GetValue("fighting_title")+"：";
         var iconArr = value.flagId.Split("#");
         view.guild_icon.icon.url = "Guild/" + GuildModel.Instance.GetIconImgName(int.Parse(iconArr[0])) + ".png";
         view.guild_icon.bg.url = "Guild/" + GuildModel.Instance.GetIconImgName(int.Parse(iconArr[1])) + ".png";
@@ -165,16 +169,22 @@ public class GuildJoinWindow : BaseWindow
             }
         }
         GuildModel.Instance.GetGuildListNext(index);
-        view.btn_operate.data = value.guildId;
+        view.btn_operate.data = value;
         view.btn_operate.onClick.Add(OperateClick);
     }
 
     private void OperateClick(EventContext context)
     {
+        var info = (context.sender as GComponent).data as I_GUILD_LIST_VO;
         if (GuildModel.Instance.IsJoin())
         {
-            uint guildId = (uint)(context.sender as GComponent).data;
-            GuildController.Instance.ReqGuildApply((int)guildId);
+            if(MyselfModel.Instance.fighting < info.memberLimitFighting)
+            {
+                UILogicUtils.ShowNotice(Lang.GetValue("prosperity_1", TextUtil.ChangeCoinShow1(info.memberLimitFighting)));
+                return;
+            }
+            
+            GuildController.Instance.ReqGuildApply((int)info.guildId);
         }
         else
         {

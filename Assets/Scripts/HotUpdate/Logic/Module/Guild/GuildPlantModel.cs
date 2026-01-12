@@ -40,13 +40,9 @@ public class GuildPlantModel : Singleton<GuildPlantModel>
 
     public S_MSG_GUILD_HOUSE_DETAIL plantInfo;//当前打开花房的信息
 
-    public int page = 0;
-
     public List<I_GUILD_MEMBER_PLANT_VO> memberPlantList;//当前花房其他社团成员信息
 
     public uint houseId;//当前花房社团成员用
-
-    public bool end;
 
     //通过id获取花盟种植信息
     public Ft_club_plantConfig GetGuildPlantConfig(int id)
@@ -71,6 +67,20 @@ public class GuildPlantModel : Singleton<GuildPlantModel>
             }
         }
     }
+    public void UpdateHouseList(S_MSG_GUILD_HOUSE_DETAIL data)
+    {
+        foreach (var value in houseList)
+        {
+            if (value.id == data.houseId)
+            {
+                value.startTime = data.startTime;
+                value.endTime = data.endTime;
+                value.haveReward = data.haveReward;
+                value.extraReward = data.extraReward;
+                break;
+            }
+        }
+    }
 
     //更新花房种植信息列表
     public void UpdatePlantList(I_GUILD_PLANT_VO data)
@@ -87,49 +97,16 @@ public class GuildPlantModel : Singleton<GuildPlantModel>
             }
             plantInfo.plantList.Add(data);
         }
+        
     }
     //花房收获
-    public void PalntHarvest(List<I_GUILD_PLANT_VO> list)
+    public void PalntHarvest(S_MSG_GUILD_HOUSE_DETAIL data)
     {
-        if(plantInfo != null && plantInfo.plantList != null)
+        if(plantInfo != null)
         {
-            plantInfo.plantList = list;
-        }
-    }
-
-    //初始化花房其他社团成员信息列表
-    public void ClearMembers()
-    {
-        if(memberPlantList == null)
-        {
-            memberPlantList = new List<I_GUILD_MEMBER_PLANT_VO>();
-        }
-        else
-        {
-            memberPlantList.Clear();
-        }
-        page = 0;
-        end = false;
-    }
-    //花房其他社团成员信息
-    public void ParseMembersList(List<I_GUILD_MEMBER_PLANT_VO> list)
-    {
-        memberPlantList.AddRange(list);
-        end = list.Count <= 0;
-        if (!end)
-        {
-            page += 1;
-        }
-    }
-
-    public void GetMembersListNext(int index)
-    {
-        if (index >= memberPlantList.Count - 1)//到底了，刷新新的数据
-        {
-            if (!end)
-            {
-                GuildPlantController.Instance.ReqGuildHouseMembers(houseId, page);
-            }
+            plantInfo.plantList = data.plantList;
+            plantInfo.flowerItems = data.flowerItems;
+            plantInfo.extraReward = data.extraReward;
         }
     }
 

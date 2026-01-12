@@ -35,7 +35,7 @@ namespace Elida.Config {
     [ProtoMember(5)]
     public string Dialogue;
     
-    // 对话文本
+    // 对应名字
     [ProtoMember(6)]
     public string Name;
   }

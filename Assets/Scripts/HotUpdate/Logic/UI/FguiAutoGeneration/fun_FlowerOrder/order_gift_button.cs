@@ -8,7 +8,6 @@ namespace fun_FlowerOrder
     public partial class order_gift_button : GButton
     {
         public Controller open;
-        public GImage n4;
         public GImage n1;
         public GImage n3;
         public const string URL = "ui://6euywhvrfug4gs";
@@ -23,9 +22,8 @@ namespace fun_FlowerOrder
             base.ConstructFromXML(xml);
 
             open = GetControllerAt(0);
-            n4 = (GImage)GetChildAt(0);
-            n1 = (GImage)GetChildAt(1);
-            n3 = (GImage)GetChildAt(2);
+            n1 = (GImage)GetChildAt(0);
+            n3 = (GImage)GetChildAt(1);
         }
     }
 }

@@ -67,6 +67,7 @@ public class ChatMainWindow : BaseWindow
                 ChangeTab(2);
             }
         });
+        AddEventListener(ChatEvent.WorldChatHistory, UpdateData);
     }
 
     public override void OnShown()
@@ -87,16 +88,42 @@ public class ChatMainWindow : BaseWindow
         }
         
     }
+    public void UpdateData()
+    {
+        if (tabType == 0)
+        {
+            chatWorldView.OnShown();
+        }
+        else if (tabType == 1)
+        {   
+            chatGuildView.OnShown();
+        }
+    }
     private void ChangeTab(int type)
     {
         tabType = type;
         if(tabType == 0)
         {
-            chatWorldView.OnShown();
+            if(WorldChatModel.Instance.chatHistory == null)
+            {
+
+            }
+            else
+            {
+                chatWorldView.OnShown();
+            }
+            
         }
         else if(tabType == 1)
         {
-            chatGuildView.OnShown();
+            if (ChatModel.Instance.chatHistory == null)
+            {
+
+            }
+            else
+            {
+                chatGuildView.OnShown();
+            }
         }
         else
         {

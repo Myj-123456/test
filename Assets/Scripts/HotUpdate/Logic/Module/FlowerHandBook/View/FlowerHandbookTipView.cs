@@ -62,14 +62,15 @@ public class FlowerHandbookTipView : BaseView
         //StringUtil.SetBtnTab(viewSkin.close_btn, Lang.GetValue("mail_button_return"));
 
         SetBg(viewSkin.fullScreenBg,"HandBookNew/ELIDA_xhshengji_bg02.jpg");
+        SetBg(viewSkin.bg, "HandBookNew/ELIDA_baihuace_di04.png");
 
-        StringUtil.SetBtnTab2(viewSkin.go_btn, Lang.GetValue("name_flower_from1"));
-        StringUtil.SetBtnTab2(viewSkin.lv_btn, Lang.GetValue("slang_57"));
+        StringUtil.SetBtnTab(viewSkin.go_btn, Lang.GetValue("name_flower_from1"));
+        StringUtil.SetBtnTab(viewSkin.lv_btn, Lang.GetValue("slang_57"));
 
 
 
         //viewSkin.level_btn.title = Lang.GetValue("slang_57");
-        StringUtil.SetBtnTab(viewSkin.share_btn, Lang.GetValue("text_breed36"));
+        //StringUtil.SetBtnTab(viewSkin.share_btn, Lang.GetValue("text_breed36"));
         StringUtil.SetBtnTab(viewSkin.btn_info, Lang.GetValue("flower_info_16"));
         StringUtil.SetBtnTab(viewSkin.btn_vase, Lang.GetValue("flower_info_17"));
 
@@ -172,6 +173,9 @@ public class FlowerHandbookTipView : BaseView
         var seedCondition = FlowerHandbookModel.Instance.GetStaticSeedCondition(currData.FlowerId);
 
         int count = StorageModel.Instance.GetItemCount(seedCondition.SeedId);
+        var seedVo = ItemModel.Instance.GetItemById(seedCondition.SeedId);
+        viewSkin.seed_img.url = ImageDataModel.Instance.GetIconUrl(seedVo);
+
         bool isMax = false;
         SeedCropVO exp = FlowerHandbookModel.Instance.GetCropVoByBook(currData.FlowerId);
         var plant = PlantModel.Instance.GetPlantCropConfigData(seedCondition.LevelMould + "#" + (exp == null ?1:exp.level));
@@ -198,6 +202,7 @@ public class FlowerHandbookTipView : BaseView
             viewSkin.lv_btn.enabled = false;
             viewSkin.cost_img.visible = false;
             viewSkin.costLab.visible = false;
+            viewSkin.proGrp.visible = false;
            
             viewSkin.count_txt_1.text = viewSkin.times_txt_1.text = viewSkin.time_txt_1.text = viewSkin.onecount_txt_1.text = viewSkin.baodicount_txt_1.text = "Max";
         }
@@ -206,8 +211,14 @@ public class FlowerHandbookTipView : BaseView
             viewSkin.cost_img.visible = true;
             viewSkin.costLab.visible = true;
             viewSkin.lv_btn.enabled = true;
+            viewSkin.proGrp.visible = true;
             var nextPlant = PlantModel.Instance.GetPlantCropConfigData(seedCondition.LevelMould + "#" + (plant.Level + 1));
-            viewSkin.lv_btn.grayed = !(count >= nextPlant.SeedCost && MyselfModel.Instance.gold >= plant.GoldCost);
+            viewSkin.lv_btn.grayed = !(count >= plant.SeedCost && MyselfModel.Instance.gold >= plant.GoldCost);
+
+            viewSkin.pro.max = plant.SeedCost;
+            viewSkin.pro.value = count;
+
+            viewSkin.proLab.text = count + "/" + plant.SeedCost;
 
             viewSkin.costLab.text = nextPlant.GoldCost.ToString();
 
@@ -256,7 +267,7 @@ public class FlowerHandbookTipView : BaseView
 
         viewSkin.quality.selectedIndex = condition.FlowerQuality;
 
-        viewSkin.nameBg.url = "HandBookNew/name_bg_color_" + condition.FlowerQuality + ".png";
+        viewSkin.nameBg.url = "HandBookNew/name_bg_small_color_" + condition.FlowerQuality + ".png";
         viewSkin.rareImg.url = "HandBookNew/rare_icon_" + condition.FlowerQuality + ".png";
     }
 
@@ -272,7 +283,7 @@ public class FlowerHandbookTipView : BaseView
     {
         StaticSeedCondition condition = FlowerHandbookModel.Instance.staticSeedCondition[currData.FlowerId];
         bool unlock = !condition.AlreadyCulitivated;
-        viewSkin.share_btn.visible = false;
+        //viewSkin.share_btn.visible = false;
         viewSkin.locked.selectedIndex = unlock ? 1 : 0;
         viewSkin.type.selectedIndex = 1;
         
@@ -332,16 +343,33 @@ public class FlowerHandbookTipView : BaseView
         ui.flowerImg.url = ImageDataModel.Instance.GetIdentifiedFlowerUrl(staticItem);
         //ui.spine.url = "flowers/" + staticItem.ItemDefId;
         //ui.spine.loop = true;
-        
+        StaticSeedCondition condition = FlowerHandbookModel.Instance.staticSeedCondition[aimed.FlowerId];
         //ui.spine.animationName = "step_3_idle";
         //ui.flowerImg.visible = true;
         //ui.flowerImg.scaleY = 1f;
-        if(_bookType == 0)
+        //if (condition.FlowerQuality < 5)
+        //{
+        //    ui.potImg.visible = true;
+        //    ui.flowerImg.visible = true;
+        //    ui.spine.visible = false;
+        //    ui.potImg.url = "Cultivation/xianhuashengji_huaping.png";
+        //    ui.flowerImg.y = 533;
+        //    ui.potImg.y = 530;
+        //    ui.potImg.SetSize(117f, 145f);
+        //}
+        //else
+        //{
+
+        //}
+        ui.potImg.visible = false;
+        ui.flowerImg.visible = false;
+        ui.spine.visible = true;
+        if (ui.spine.url == "" || ui.spine.url != ("flowers/" + condition.FlowerId))
         {
-            ui.potImg.url = "Cultivation/xianhuashengji_huaping.png";
-            ui.flowerImg.y = 533;
-            ui.potImg.y = 530;
-            ui.potImg.SetSize(117f, 145f);
+            ui.spine.loop = true;
+            ui.spine.forcePlay = true;
+            ui.spine.url = "flowers/" + condition.FlowerId;
+            ui.spine.animationName = "step_" + 3 + "_idle";
         }
         int flowerId = aimed.FlowerId;
        
@@ -387,7 +415,7 @@ public class FlowerHandbookTipView : BaseView
         var cropVo = PlantModel.Instance.GetPlantCropConfigData(seedCondition.LevelMould + "#" + (exp == null?1: exp.level));
 
         var nextCropVo = PlantModel.Instance.GetPlantCropConfigData(seedCondition.LevelMould + "#" + ((exp == null ? 1 : exp.level) + 1));
-        int cost = nextCropVo.GoldCost;
+        int cost = cropVo.GoldCost;
         int count = StorageModel.Instance.GetItemCount(seedCondition.SeedId);
        
         if (MyselfModel.Instance.gold < cost)
@@ -395,7 +423,7 @@ public class FlowerHandbookTipView : BaseView
             UILogicUtils.ShowNotice(Lang.GetValue("prompt_message1", cost.ToString()));
             return;
         }
-        if (count < nextCropVo.SeedCost)
+        if (count < cropVo.SeedCost)
         {
             var item = ItemModel.Instance.GetItemById(seedCondition.SeedId);
             UILogicUtils.ShowNotice(Lang.GetValue("guild.notEnough", Lang.GetValue(item.Name)));

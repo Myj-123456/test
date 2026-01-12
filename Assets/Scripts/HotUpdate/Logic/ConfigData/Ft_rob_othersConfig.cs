@@ -110,5 +110,9 @@ namespace Elida.Config {
     // 抢夺被盾挡住后，给予抢夺者的奖励
     [ProtoMember(22)]
     public CompensationNumObject[] CompensationNums;
+    
+    // 收获间隔时间（秒）
+    [ProtoMember(23)]
+    public int RewardTime;
   }
 }

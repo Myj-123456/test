@@ -22,6 +22,8 @@ public class RobController : BaseController<RobController>
         AddNetListener<S_MSG_ROB_BUY>((int)MessageCode.S_MSG_ROB_BUY, RobBuy);
         AddNetListener<S_MSG_ROB_SETSHIELD>((int)MessageCode.S_MSG_ROB_SETSHIELD, RobSetshield);
         AddNetListener<S_MSG_ROB_MESSAGE>((int)MessageCode.S_MSG_ROB_MESSAGE, RobMessage);
+        AddNetListener<S_MSG_EMPLOY_MESSAGE>((int)MessageCode.S_MSG_EMPLOY_MESSAGE, EmployMessage);
+        AddNetListener<S_MSG_ROB_SHOPBUY>((int)MessageCode.S_MSG_ROB_SHOPBUY, RobShopBuy);
     }
 
     public void RobInfo(S_MSG_ROB_INFO data)
@@ -30,6 +32,9 @@ public class RobController : BaseController<RobController>
         RobModel.Instance.info = data.info;
         RobModel.Instance.robInfo = data.robInfo;
         RobModel.Instance.targetUserInfo = data.targetUserInfo;
+        RobModel.Instance.exchangeStat = data.exchangeStat;
+        var itemVo = RobModel.Instance.GetItem(1);
+        StorageModel.Instance.UpdateStorageByItemId(itemVo.ItemDefId,(int)data.shieldItemCnt);
         EventManager.Instance.DispatchEvent(RobEvent.RobInfo);
     }
 
@@ -43,6 +48,7 @@ public class RobController : BaseController<RobController>
     {
         RobModel.Instance.UpdateRobUnlock(data.arrest);
         EventManager.Instance.DispatchEvent(RobEvent.RobUnlock);
+        ReqRobInfo();
     }
 
     public void ReqRobUnlock(uint position)
@@ -117,12 +123,13 @@ public class RobController : BaseController<RobController>
 
     public void RobArrest(S_MSG_ROB_ARREST data)
     {
-        object[] param = new object[] { 0, data.arrestResult, data.isShield, data.arrest.userInfo.townName };
+        object[] param = new object[] { 0, data.arrestResult, data.isShield, data.arrest.userInfo.townName, data.harvestCnt };
         UIManager.Instance.OpenWindow<RobTipMessageWindow>(UIName.RobTipMessageWindow, param);
         if (data.arrestResult)
         {
             RobModel.Instance.UpdateRobUnlock(data.arrest);
             EventManager.Instance.DispatchEvent(RobEvent.RobUnlock);
+            ReqRobInfo();
         }
         StorageModel.Instance.AddToStorageByItemId(RobModel.item_snatch_id, -1);
 
@@ -138,20 +145,15 @@ public class RobController : BaseController<RobController>
 
     public void RobReward(S_MSG_ROB_REWARD data)
     {
-        var userName = RobModel.Instance.GetArrestInfo(data.arrest.position).userInfo.townName;
-        RobModel.Instance.UpdateRobUnlock(data.arrest);
-        StorageModel.Instance.AddToStorageItems(data.items);
-        object[] param = new object[] { 1, data.indexId, data.gainsBonus, data.items, userName };
-        UIManager.Instance.OpenWindow<RobTipMessageWindow>(UIName.RobTipMessageWindow, param);
-
-        EventManager.Instance.DispatchEvent(RobEvent.RobUnlock);
+        var dropList = ItemModel.Instance.GetDropData(data.items);
+        DropManager.ShowDrop(dropList);
+        RobModel.Instance.info.harvestCnt = data.harvestCnt;
         EventManager.Instance.DispatchEvent(RobEvent.RobReward);
     }
 
-    public void ReqRobReward(uint position)
+    public void ReqRobReward()
     {
         C_MSG_ROB_REWARD c_MSG_ROB_REWARD = new C_MSG_ROB_REWARD();
-        c_MSG_ROB_REWARD.position = position;
         SendCmd((int)MessageCode.C_MSG_ROB_REWARD, c_MSG_ROB_REWARD);
     }
 
@@ -243,5 +245,30 @@ public class RobController : BaseController<RobController>
     {
         C_MSG_ROB_MESSAGE C_MSG_ROB_MESSAGE = new C_MSG_ROB_MESSAGE();
         SendCmd((int)MessageCode.C_MSG_ROB_MESSAGE, C_MSG_ROB_MESSAGE);
+    }
+
+    public void EmployMessage(S_MSG_EMPLOY_MESSAGE data)
+    {
+        RobModel.Instance.employList = data.messageList;
+        EventManager.Instance.DispatchEvent(RobEvent.EmployMessage);
+    }
+    public void ReqEmployMessage()
+    {
+        C_MSG_EMPLOY_MESSAGE c_MSG_EMPLOY_MESSAGE = new C_MSG_EMPLOY_MESSAGE();
+        SendCmd((int)MessageCode.C_MSG_EMPLOY_MESSAGE, c_MSG_EMPLOY_MESSAGE);
+    }
+    //�̳ǹ���
+    public void RobShopBuy(S_MSG_ROB_SHOPBUY data)
+    {
+        var dropList = ItemModel.Instance.GetDropData(data.items);
+        DropManager.ShowDrop(dropList);
+        RobModel.Instance.UpdateExchage(data.exchange);
+        EventManager.Instance.DispatchEvent(RobEvent.RobShopBuy);
+    }
+    public void ReqRobShopBuy(uint exchangeId)
+    {
+        C_MSG_ROB_SHOPBUY c_MSG_ROB_SHOPBUY = new C_MSG_ROB_SHOPBUY();
+        c_MSG_ROB_SHOPBUY.exchangeId = exchangeId;
+        SendCmd((int)MessageCode.C_MSG_ROB_SHOPBUY, c_MSG_ROB_SHOPBUY);
     }
 }

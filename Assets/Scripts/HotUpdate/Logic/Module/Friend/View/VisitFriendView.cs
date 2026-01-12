@@ -23,7 +23,7 @@ public class VisitFriendView : BaseView
     private int _friendCoinCount = 0;
     private I_FRIEND_PROFILE_VO _curfriendData;//当前访问朋友信息
     private int curConverFriendConitCount = 1;//当前准备兑换好友币数
-    private  int FriendCoinExchangeLimit;//每个好友每日好友币兑换摸花上限
+    private int FriendCoinExchangeLimit;//每个好友每日好友币兑换摸花上限
     public VisitFriendView()
     {
         packageName = "fun_Friends";
@@ -37,7 +37,7 @@ public class VisitFriendView : BaseView
     {
         base.OnInit();
         view = ui as fun_Friends.VisitFriendView;
-        StringUtil.SetBtnTab(view.ui_friendList.one_key_btn, "一键偷花");
+        StringUtil.SetBtnTab(view.ui_friendList.one_key_btn, Lang.GetValue("recharge_main_16")); //一键偷花
         view.ui_friendList.txt_noFriendPrompt.text = Lang.GetValue("new_friend_1");
         playerInfoY = view.playerInfo.y;
         ui_friendListY = view.ui_friendList.y;
@@ -53,23 +53,24 @@ public class VisitFriendView : BaseView
         {
             PlantController.Instance.ReqBatchSteal(MyselfModel.Instance.friendId);
         });
-        view.btn_visitdetails.onClick.Add(() => {
+        view.btn_visitdetails.onClick.Add(() =>
+        {
             HandleIntroduceBtnClick();
         });
-        view.btn_currency.onClick.Add(() => {
+        view.btn_currency.onClick.Add(() =>
+        {
             HandleConverBtnClick();
         });
-        UpdateFriendCoinCount();
-        UpdateConverUI();
         FriendCoinExchangeLimit = GlobalModel.Instance.module_profileConfig.FriendCoinExchange;
 
         view.btn_addNum.onClick.Add(() => { ChangeCurrentConverFriendConitCount(1); });
         view.btn_lessen.onClick.Add(() => { ChangeCurrentConverFriendConitCount(-1); });
         view.bg_sign.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
-        StringUtil.SetBtnTab(view.EnterBtn, "确定");
+        StringUtil.SetBtnTab(view.EnterBtn, Lang.GetValue("common_button_ok"));
         view.EnterBtn.onClick.Add(() => { ConverEnterClick(); });
-        StringUtil.SetBtnTab(view.CancelBtn, "取消");
+        StringUtil.SetBtnTab(view.CancelBtn, Lang.GetValue("common_button_cancel"));
         view.CancelBtn.onClick.Add(() => { view.popUpTap.selectedIndex = 0; });
+        view.n27.text = Lang.GetValue("best_35");
     }
     private void FriendCoinCallBack()
     {
@@ -84,18 +85,11 @@ public class VisitFriendView : BaseView
     // 更新好友币
     private void UpdateFriendCoinCount()
     {
-        try
-        {
-            _friendCoinCount = StorageModel.Instance.GetItemCount(GlobalModel.Instance.module_profileConfig.FriendCoinItem);
-            view.FriendCoinNum.text = _friendCoinCount.ToString();
 
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("获取好友币失败: " + ex.Message);
-            // 异常时不修改_cronyBookCount，保持原有值不变
-            view.FriendCoinNum.text = _friendCoinCount.ToString();
-        }
+        _friendCoinCount = StorageModel.Instance.GetItemCount(GlobalModel.Instance.module_profileConfig.FriendCoinItem);
+        view.FriendCoinNum.text = _friendCoinCount.ToString();
+
+
     }
 
     // 更新兑换界面UI
@@ -103,12 +97,19 @@ public class VisitFriendView : BaseView
     {
         I_FRIEND_PROFILE_VO vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
         _curfriendData = vo_;
-        view.txt_1.text = "兑换摘取" + TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName) +"鲜花次数：";
+        if (vo_ != null && vo_.userInfo != null)
+        {
+            view.txt_1.text = Lang.GetValue("best_28", TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName));
+        }
+        else
+        {
+            view.txt_1.text = Lang.GetValue("best_28", "");
+        }
         view.text_count.text = curConverFriendConitCount.ToString();
         view.text_consume.text = curConverFriendConitCount.ToString();
         int surplusExchangeCount = FriendCoinExchangeLimit - (int)FriendModel.Instance.FriendCoinExchangeCnt;
         view.text_visitCount.text = surplusExchangeCount + "/" + FriendCoinExchangeLimit.ToString();
-        view.txt_Buyname.text = string.Format("(单次最多只能购买{0}次!)", FriendCoinExchangeLimit);
+        view.txt_Buyname.text = Lang.GetValue("best_29", FriendCoinExchangeLimit.ToString());
     }
 
     // 改变当前兑换数
@@ -175,6 +176,8 @@ public class VisitFriendView : BaseView
     {
         base.OnShown();
         view.ui_friendList.one_key_btn.visible = MyselfModel.Instance.IsVip();
+        UpdateFriendCoinCount();
+        UpdateConverUI();
         curPage = 1;
         ShowHideUI(true);
         friendListfilter = FriendModel.Instance.GetFriendListfilter(MyselfModel.Instance.friendId);
@@ -208,7 +211,7 @@ public class VisitFriendView : BaseView
     {
         I_FRIEND_PROFILE_VO vo_ = FriendModel.Instance.GetFriendData(MyselfModel.Instance.friendId);
         _curfriendData = vo_;
-        if (vo_ != null)
+        if (vo_ != null && vo_.userInfo != null)
         {
             StringUtil.SetBtnUrl(view.head, "Avatar/ELIDA_common_touxiangdi01.png");
             view.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
@@ -251,6 +254,7 @@ public class VisitFriendView : BaseView
 
     private void AddEvent()
     {
+        view.ui_friendList.btn_home.onClick.Clear();
         view.ui_friendList.btn_home.onClick.Add(() =>
         {
             MyselfModel.Instance.atHome = true;
@@ -259,7 +263,9 @@ public class VisitFriendView : BaseView
             SceneManager.Instance.BackHomeRefreshScene();
         });
         AddEventListener(FriendEvent.FriendSteal, OnFriendSteal);
+        view.ui_friendList.btn_left.onClick.Clear();
         view.ui_friendList.btn_left.onClick.Add(OnLeft);
+        view.ui_friendList.btn_right.onClick.Clear();
         view.ui_friendList.btn_right.onClick.Add(OnRight);
     }
 

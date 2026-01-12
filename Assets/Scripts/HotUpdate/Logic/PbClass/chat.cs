@@ -38,6 +38,17 @@ namespace protobuf.guild
     }
 
     [ProtoBuf.ProtoContract]
+    public class I_FRIEND_CHAT_VO
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public protobuf.common.I_USER_PROFILE userInfo;
+
+        [ProtoBuf.ProtoMember(5)]
+        public uint unreadNum;
+
+    }
+
+    [ProtoBuf.ProtoContract]
     public class C_MSG_WORLD_CHAT
     {
         [ProtoBuf.ProtoMember(1)]
@@ -94,25 +105,36 @@ namespace protobuf.guild
     [ProtoBuf.ProtoContract]
     public class C_MSG_WORLD_CHAT_HISTORY
     {
-        [ProtoBuf.ProtoMember(1)]
-        public uint page;
-
     }
 
     [ProtoBuf.ProtoContract]
     public class S_MSG_WORLD_CHAT_HISTORY
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<S_MSG_GUILD_RECEIVE_CHAT> chatHistory = new System.Collections.Generic.List<S_MSG_GUILD_RECEIVE_CHAT>();
+        public System.Collections.Generic.Dictionary<uint, protobuf.common.I_USER_PROFILE> userInfos = new System.Collections.Generic.Dictionary<uint, protobuf.common.I_USER_PROFILE>();
+
+        [ProtoBuf.ProtoMember(2)]
+        public System.Collections.Generic.List<I_WORLD_CHAT_HISTORY_VO> chatHistory = new System.Collections.Generic.List<I_WORLD_CHAT_HISTORY_VO>();
+
+        [ProtoBuf.ProtoContract]
+        public class I_WORLD_CHAT_HISTORY_VO
+        {
+            [ProtoBuf.ProtoMember(1)]
+            public I_SEND_CHAT_VO chatContent;
+
+            [ProtoBuf.ProtoMember(2)]
+            public uint operateTime;
+
+            [ProtoBuf.ProtoMember(3)]
+            public uint userId;
+
+        }
 
     }
 
     [ProtoBuf.ProtoContract]
     public class C_MSG_GUILD_CHAT_HISTORY
     {
-        [ProtoBuf.ProtoMember(1)]
-        public uint page;
-
     }
 
     [ProtoBuf.ProtoContract]
@@ -135,7 +157,7 @@ namespace protobuf.guild
     public class S_MSG_CREATE_FRIEND_CONTACT
     {
         [ProtoBuf.ProtoMember(1)]
-        public protobuf.common.I_USER_PROFILE contractUserInfo;
+        public I_FRIEND_CHAT_VO contractUserInfo;
 
     }
 
@@ -164,7 +186,7 @@ namespace protobuf.guild
     public class S_MSG_FRIEND_CONTACT
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<protobuf.common.I_USER_PROFILE> contractUserInfos = new System.Collections.Generic.List<protobuf.common.I_USER_PROFILE>();
+        public System.Collections.Generic.List<I_FRIEND_CHAT_VO> contractUserInfos = new System.Collections.Generic.List<I_FRIEND_CHAT_VO>();
 
     }
 
@@ -189,6 +211,22 @@ namespace protobuf.guild
         public uint operateTime;
 
         [ProtoBuf.ProtoMember(3)]
+        public uint friendId;
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class C_MSG_FRIEND_CHAT_READ
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint friendId;
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_FRIEND_CHAT_READ
+    {
+        [ProtoBuf.ProtoMember(1)]
         public uint friendId;
 
     }

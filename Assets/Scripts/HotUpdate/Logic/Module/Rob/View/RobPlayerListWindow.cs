@@ -57,7 +57,7 @@ public class RobPlayerListWindow : BaseWindow
         _view.btn_rob_plus.onClick.Add(() =>
         {
             CloseView();
-            UIManager.Instance.OpenWindow<RobShieldWindow>(UIName.RobShieldWindow, 1);
+            UIManager.Instance.OpenWindow<RobShieldWindow>(UIName.RobShieldWindow, 2);
         });
 
 
@@ -128,12 +128,12 @@ public class RobPlayerListWindow : BaseWindow
         _view.list.numItems = listData.Count;
         if (listData.Count > 0)
         {
-            _view.txt_empty.visible = false;
+            _view.emptyTip.visible = false;
         }
         else
         {
-            _view.txt_empty.visible = true;
-            _view.txt_empty.text = Lang.GetValue(tipInfos[curSelectIndex]);
+            _view.emptyTip.visible = true;
+            _view.emptyTip.titleLab.text = Lang.GetValue(tipInfos[curSelectIndex]);
         }
     }
 
@@ -144,7 +144,7 @@ public class RobPlayerListWindow : BaseWindow
         var robinfo = listData[index].robInfo;
 
         cell.txt_userName.text = TextUtil.GetServerName(player.serverId, player.townName);
-        var master_head = cell.master_head as common.robbedHead_big;
+        var master_head = cell.master_head;
         var picFrame = master_head.picFrame as common_New.PictureFrame;
         master_head.txt_lv.text = player.userLevel.ToString();
 

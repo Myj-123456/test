@@ -13,6 +13,11 @@ namespace fun_Scene
             UIObjectFactory.SetPackageItemExtension(harvest.URL, typeof(harvest));
             UIObjectFactory.SetPackageItemExtension(FlowerTableIGoldItem.URL, typeof(FlowerTableIGoldItem));
             UIObjectFactory.SetPackageItemExtension(ViballsBubbleItem.URL, typeof(ViballsBubbleItem));
+            UIObjectFactory.SetPackageItemExtension(toggleBtnOneKeyPlant1.URL, typeof(toggleBtnOneKeyPlant1));
+            UIObjectFactory.SetPackageItemExtension(btn_flower_sort1.URL, typeof(btn_flower_sort1));
+            UIObjectFactory.SetPackageItemExtension(searchFlower1.URL, typeof(searchFlower1));
+            UIObjectFactory.SetPackageItemExtension(btn_search1.URL, typeof(btn_search1));
+            UIObjectFactory.SetPackageItemExtension(plant_grid1.URL, typeof(plant_grid1));
             UIObjectFactory.SetPackageItemExtension(FurnitureEditUI.URL, typeof(FurnitureEditUI));
             UIObjectFactory.SetPackageItemExtension(FlowerTableItem.URL, typeof(FlowerTableItem));
             UIObjectFactory.SetPackageItemExtension(plant_grid.URL, typeof(plant_grid));
@@ -39,7 +44,6 @@ namespace fun_Scene
             UIObjectFactory.SetPackageItemExtension(plant.URL, typeof(plant));
             UIObjectFactory.SetPackageItemExtension(plant_OneKeyWatering.URL, typeof(plant_OneKeyWatering));
             UIObjectFactory.SetPackageItemExtension(ChooseFlowerUI.URL, typeof(ChooseFlowerUI));
-            UIObjectFactory.SetPackageItemExtension(toggleBtnOneKeyPlant.URL, typeof(toggleBtnOneKeyPlant));
             UIObjectFactory.SetPackageItemExtension(searchFlower.URL, typeof(searchFlower));
             UIObjectFactory.SetPackageItemExtension(water_pro1.URL, typeof(water_pro1));
             UIObjectFactory.SetPackageItemExtension(water_video_view.URL, typeof(water_video_view));

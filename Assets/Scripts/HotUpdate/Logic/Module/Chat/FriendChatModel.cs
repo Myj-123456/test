@@ -8,7 +8,7 @@ using static protobuf.guild.S_MSG_FRIEND_CHAT_HISTORY;
 
 public class FriendChatModel : Singleton<FriendChatModel>
 {
-    public List<I_USER_PROFILE> contractUserInfos = new List<I_USER_PROFILE>();
+    public List<I_FRIEND_CHAT_VO> contractUserInfos = new List<I_FRIEND_CHAT_VO>();
 
     public List<FriendChatData> friendChatDatas = new List<FriendChatData>();
 
@@ -27,21 +27,21 @@ public class FriendChatModel : Singleton<FriendChatModel>
     {
         return emojieList.Find(value => value.Id == id);
     }
-    public void CreateFriendContract(I_USER_PROFILE data)
+    public void CreateFriendContract(I_FRIEND_CHAT_VO data)
     {
         contractUserInfos.Add(data);
     }
 
-    public I_USER_PROFILE GetUserInfo(uint friendId)
+    public I_FRIEND_CHAT_VO GetUserInfo(uint friendId)
     {
-        return contractUserInfos.Find(value => value.userId == friendId);
+        return contractUserInfos.Find(value => value.userInfo.userId == friendId);
     }
 
     public void FriendChatHistory(S_MSG_FRIEND_CHAT_HISTORY data)
     {
         var userInfo = GetUserInfo(data.friendId);
         var friendChat = new FriendChatData();
-        friendChat.userInfo = userInfo;
+        friendChat.userInfo = userInfo.userInfo;
         friendChat.chatHistory = data.chatHistory;
         friendChat.chatHistory.Reverse();
         friendChatDatas.Add(friendChat);
@@ -66,6 +66,7 @@ public class FriendChatModel : Singleton<FriendChatModel>
     public void FriendChat(S_MSG_FRIEND_CHAT data)
     {
         var friendChat = GetFriendChatHistory(data.friendId);
+        var info = GetUserInfo(data.friendId);
         if (friendChat != null)
         {
             var chat = new I_FRIEND_CHAT_HISTORY();
@@ -73,6 +74,10 @@ public class FriendChatModel : Singleton<FriendChatModel>
             chat.operateTime = data.operateTime;
             chat.isSelf = true;
             friendChat.chatHistory.Add(chat);
+        }
+        if(info != null)
+        {
+            info.unreadNum++;
         }
     }
 
@@ -87,6 +92,29 @@ public class FriendChatModel : Singleton<FriendChatModel>
         {
             ChatController.Instance.ReqCreateFriendContact(id);
         }
+    }
+    public void UpdateFriendChatRed(uint friendId)
+    {
+        var info = GetUserInfo(friendId);
+        if(info != null)
+        {
+            info.unreadNum = 0;
+        }
+    }
+
+    public bool GetFriendChatRed()
+    {
+        if(contractUserInfos != null)
+        {
+            foreach(var value in contractUserInfos)
+            {
+                if(value.unreadNum > 0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 

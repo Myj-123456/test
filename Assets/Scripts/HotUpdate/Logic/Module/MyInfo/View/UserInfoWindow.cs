@@ -22,12 +22,13 @@ public class UserInfoWindow : BaseWindow
     {
         base.OnInit();
         _view = ui as fun_MyInfo.user_info;
-        SetBg(_view.bg, "Common/ELIDA_common_littledi01.png");
+        SetBg(_view.bg, "Common/common_three_tip_bg.png");
         _view.txt_sound.text = Lang.GetValue("slang_7") + ":";//提示音效
         _view.txt_bgm.text = Lang.GetValue("slang_8") + ":";//背景音乐
         _view.txt_onekey.text = Lang.GetValue("slang_9") + ":";//一键收花
         _view.agreeBtn.xieyi_txt.text = Lang.GetValue("slang_10");//用户服务协议
-        _view.privacyBtn.tiaoluan_txt.text = Lang.GetValue("slang_11");//隐私条款
+        _view.privacyBtn.xieyi_txt.text = Lang.GetValue("slang_11");//隐私条款
+        _view.destroyBtn.xieyi_txt.text = Lang.GetValue("destroy_account");//注销账号
         _view.txt_anim.text = Lang.GetValue("userinfo_plant_amin") + ":";
         _view.tip.text = Lang.GetValue("userinfo_plant_tip");
         _view.txt_gameVer.text = "gameVer：" + Config.appVer;
@@ -44,7 +45,14 @@ public class UserInfoWindow : BaseWindow
         _view.toggle_harvest.txt_close.text = closeStr;//关闭
         _view.toggle_anim.txt_close.text = closeStr;//关闭
         UpdateToggles();
-
+        if(LoginHelper.GetPlatform() == "ios")
+        {
+            _view.status.selectedIndex = 1;
+        }
+        else
+        {
+            _view.status.selectedIndex = 0;
+        }
         _view.agreeBtn.onClick.Add(() =>
         {
             UIManager.Instance.OpenWindow<UserXieYiWindow>(UIName.UserXieYiWindow);
@@ -54,7 +62,10 @@ public class UserInfoWindow : BaseWindow
         {
             UIManager.Instance.OpenWindow<serYinSiWindow>(UIName.serYinSiWindow);
         });
-
+        _view.destroyBtn.onClick.Add(() =>
+        {
+            UIManager.Instance.OpenWindow<DestroyAccountWindow>(UIName.DestroyAccountWindow);
+        });
         _view.toggle_1.onClick.Add(() =>
         {
             var str = MyselfModel.Instance.isBackgroundMuted ? Lang.GetValue("Function_switch_1") : Lang.GetValue("Function_switch_2");

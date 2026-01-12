@@ -62,6 +62,17 @@ namespace protobuf.plant
     }
 
     [ProtoBuf.ProtoContract]
+    public class I_PLANT_HARVEST_STAT
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint flowerId;
+
+        [ProtoBuf.ProtoMember(2)]
+        public uint harvestCount;
+
+    }
+
+    [ProtoBuf.ProtoContract]
     public class I_CULTIVATE_VO
     {
         [ProtoBuf.ProtoMember(1)]
@@ -324,6 +335,9 @@ namespace protobuf.plant
 
         [ProtoBuf.ProtoMember(3)]
         public uint personalGoalActNum;
+
+        [ProtoBuf.ProtoMember(4)]
+        public System.Collections.Generic.Dictionary<uint, I_PLANT_HARVEST_STAT> plantHarvestStat = new System.Collections.Generic.Dictionary<uint, I_PLANT_HARVEST_STAT>();
 
     }
 

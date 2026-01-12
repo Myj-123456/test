@@ -18,8 +18,8 @@ namespace fun_Rob
         public GButton btn_Menu_1;
         public GRichTextField lb_tip_bottom;
         public GList list;
-        public GTextField txt_empty;
-        public GButton btn_rob_plus;
+        public common_add btn_rob_plus;
+        public emptyTip emptyTip;
         public const string URL = "ui://z1on8kwdku0fpjb";
 
         public static robPlayerList CreateInstance()
@@ -42,8 +42,8 @@ namespace fun_Rob
             btn_Menu_1 = (GButton)GetChildAt(7);
             lb_tip_bottom = (GRichTextField)GetChildAt(8);
             list = (GList)GetChildAt(9);
-            txt_empty = (GTextField)GetChildAt(10);
-            btn_rob_plus = (GButton)GetChildAt(11);
+            btn_rob_plus = (common_add)GetChildAt(10);
+            emptyTip = (emptyTip)GetChildAt(11);
         }
     }
 }

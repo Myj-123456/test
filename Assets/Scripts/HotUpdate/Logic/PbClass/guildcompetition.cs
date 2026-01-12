@@ -117,7 +117,7 @@ namespace protobuf.guild
         public uint pos;
 
         [ProtoBuf.ProtoMember(2)]
-        public I_COMPETITION_TASK_VO taskList;
+        public System.Collections.Generic.List<I_COMPETITION_TASK_VO> taskList = new System.Collections.Generic.List<I_COMPETITION_TASK_VO>();
 
     }
 

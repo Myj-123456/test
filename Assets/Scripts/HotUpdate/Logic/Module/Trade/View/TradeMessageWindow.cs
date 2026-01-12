@@ -28,7 +28,7 @@ public class TradeMessageWindow : BaseWindow
         //_view.lb_title.text = Lang.GetValue("FriendsDeal_11");
         _view.lb_tip.text = Lang.GetValue("text_message1");
 
-        StringUtil.SetBtnTab(_view.tip, "暂无交易信息");
+        StringUtil.SetBtnTab(_view.tip, Lang.GetValue("nodealinfo_txt"));
         _view.ls_message.itemRenderer = MessageRenderer;
         _view.ls_message.SetVirtual();
 

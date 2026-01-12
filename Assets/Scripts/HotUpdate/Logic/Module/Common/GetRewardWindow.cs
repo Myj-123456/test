@@ -21,6 +21,8 @@ public class GetRewardWindow : BaseWindow
         // 设置委托
         BindAllDelegate = fun_GetReward.fun_GetRewardBinder.BindAll;
         CreateInstanceDelegate = fun_GetReward.getReward.CreateInstance;
+        ClickBlankClose = true;
+        fairyBatching = false;
     }
 
     public override void OnInit()
@@ -31,8 +33,6 @@ public class GetRewardWindow : BaseWindow
         _view.close_btn.text = Lang.GetValue("common_tip_1");
         _view.content.list.itemRenderer = ItemRenderer;
         _view.content.list.SetVirtual();
-        ClickBlankClose = true;
-        fairyBatching = false;
         PlaySpine();
     }
 

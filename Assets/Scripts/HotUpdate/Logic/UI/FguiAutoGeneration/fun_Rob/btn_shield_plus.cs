@@ -8,8 +8,8 @@ namespace fun_Rob
     public partial class btn_shield_plus : GButton
     {
         public GImage n3;
-        public GImage n4;
-        public GTextField n5;
+        public GLoader img_shield;
+        public GTextField titleLab;
         public const string URL = "ui://z1on8kwdcw741ayr8m7";
 
         public static btn_shield_plus CreateInstance()
@@ -22,8 +22,8 @@ namespace fun_Rob
             base.ConstructFromXML(xml);
 
             n3 = (GImage)GetChildAt(0);
-            n4 = (GImage)GetChildAt(1);
-            n5 = (GTextField)GetChildAt(2);
+            img_shield = (GLoader)GetChildAt(1);
+            titleLab = (GTextField)GetChildAt(2);
         }
     }
 }

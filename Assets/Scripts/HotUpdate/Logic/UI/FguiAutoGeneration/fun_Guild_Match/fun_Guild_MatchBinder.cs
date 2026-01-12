@@ -10,6 +10,7 @@ namespace fun_Guild_Match
         {
             UIObjectFactory.SetPackageItemExtension(head.URL, typeof(head));
             UIObjectFactory.SetPackageItemExtension(tabBtn.URL, typeof(tabBtn));
+            UIObjectFactory.SetPackageItemExtension(guild_icon.URL, typeof(guild_icon));
             UIObjectFactory.SetPackageItemExtension(chose_qualirt.URL, typeof(chose_qualirt));
             UIObjectFactory.SetPackageItemExtension(chose_quailty_btn.URL, typeof(chose_quailty_btn));
             UIObjectFactory.SetPackageItemExtension(match_btn.URL, typeof(match_btn));

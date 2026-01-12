@@ -6,19 +6,19 @@ using UnityEngine;
 using YooAsset;
 
 /// <summary>
-/// ����spineģ��
+/// 加载spine模型
 /// </summary>
 public class HeroAvatar
 {
     protected SkeletonDataAsset skeletonDataAsset;
-    protected SkeletonAnimation bodySkeletonAnimation;//����
+    protected SkeletonAnimation bodySkeletonAnimation;//身体
     private Dictionary<DressPartType, SkeletonData> partSkeletonDataDic = new Dictionary<DressPartType, SkeletonData>();
     private Dictionary<DressPartType, int> partWearDic = new Dictionary<DressPartType, int>();
     private Skin partMixSkin;
     private SkeletonAnimation huibi;
 
     /// <summary>
-    /// ��ʼ������
+    /// 初始化主体spine模型
     /// </summary>
     protected virtual void InitBody()
     {
@@ -45,7 +45,7 @@ public class HeroAvatar
     }
 
     /// <summary>
-    /// ���ӻ��
+    /// 添加 overlay 模型
     /// </summary>
     public void AddHuibi()
     {
@@ -59,7 +59,7 @@ public class HeroAvatar
 
 
     /// <summary>
-    /// ��λ��������
+    /// 获取 dress part 的 spine 模型
     /// </summary>
     /// <param name="dressPartType"></param>
     /// <returns></returns>
@@ -109,8 +109,8 @@ public class HeroAvatar
 
 
     /// <summary>
-    /// ���²�λ��װ
-    /// isFiltAccessories �Ƿ���˵����
+    /// 更新 dress part 模型
+    /// isFiltAccessories 是否过滤配件
     /// </summary>
     public void UpdateDress(bool isFiltAccessorie = false)
     {
@@ -126,7 +126,7 @@ public class HeroAvatar
             {
                 wearPartId = VisitFriendModel.Instance.GetWearPartId((int)part);
             }
-            if (part == DressPartType.Face || part == DressPartType.Ear)//���͡�������Ĭ�ϵ�
+            if (part == DressPartType.Face || part == DressPartType.Ear)//脸部、耳朵使用默认的
             {
                 ChangePart(part, wearPartId);
             }
@@ -142,27 +142,27 @@ public class HeroAvatar
 
 
     /// <summary>
-    /// ���²�λ��װ
+    /// 更新部位装备
     /// </summary>
     public void UpdateDress(int[] clothIds)
     {
-        foreach(var value in clothIds)
+        foreach (var value in clothIds)
         {
             var dress = DressModel.Instance.GetDressConfig(value);
             ChangePart((DressPartType)dress.Type, value);
         }
-        ChangePart(DressPartType.Ear, 0);//������Ĭ�ϵ�
+        ChangePart(DressPartType.Ear, 0);//耳朵使用默认的
     }
 
     /// <summary>
-    /// ���²�λ��װ
+    /// 更新部位装备
     /// </summary>
     public void UpdateDress(Dictionary<int, DressData> dressMap)
     {
         foreach (DressPartType part in Enum.GetValues(typeof(DressPartType)))
         {
             var wearPartId = 0;
-            if (part == DressPartType.Ear)//���͡�������Ĭ�ϵ�
+            if (part == DressPartType.Ear)//耳朵使用默认的
             {
                 ChangePart(part, wearPartId);
             }
@@ -177,25 +177,26 @@ public class HeroAvatar
     }
 
     /// <summary>
-    ///����λ
+    /// 更新部位装备
     /// </summary>
-    /// <param name="partName">��λ����</param>
-    /// <param name="partId">��λid</param>
+    /// <param name="partName">部位名称</param>
+    /// <param name="partId">部位id</param>
     public void ChangePart(DressPartType dressPartType, int partId)
     {
+        Debug.Log("ChangePart,dressPartType:" + dressPartType.ToString() + " partId:" + partId);
         if (partWearDic.ContainsKey(dressPartType) && partWearDic[dressPartType] == partId)
         {
-            return;//��λidû�ı䲻��Ҫˢ��
+            return;//部位id没有改变，无需更新
         }
         if (partMixSkin == null)
         {
             Skin skinDefault = bodySkeletonAnimation.Skeleton.Data.FindSkin("body");
-            // ����һ���µ�Ƥ������
+            // 创建一个新的皮肤用于混合
             partMixSkin = new Skin("Mix");
-            // ���� MissDie Ĭ��Ƥ��
+            // 复制默认皮肤到新皮肤
             partMixSkin.CopySkin(skinDefault);
         }
-        //���ض�Ӧ��λ����
+        // 对应部位的模型路径
         var partName = dressPartType.ToString().ToLower();
         var spinePartUrl = ResPath.GetDressPartSpinePath(partName, partId);
         var assetHandle = ResourceManager.Instance.LoadAssetAsync<SkeletonDataAsset>(spinePartUrl);
@@ -205,14 +206,14 @@ public class HeroAvatar
             var skeletonDataAsset = assetHandle.AssetObject as SkeletonDataAsset;
             if (skeletonDataAsset == null)
             {
-                Debug.LogWarning("��ӦƤ�������� partId: " + partId + "partName:" + partName);
+                Debug.LogWarning("对应皮肤不存在 partId: " + partId + "partName:" + partName);
                 return;
             }
             var skeletonData = skeletonDataAsset.GetSkeletonData(false);
-            Skin skin = skeletonData.FindSkin(partName);//��ȡ��Ӧ��λ����Ƥ��
-            if (skin == null)//��ӦƤ��������
+            Skin skin = skeletonData.FindSkin(partName);//获取对应部位的皮肤
+            if (skin == null)//对应皮肤不存在
             {
-                Debug.LogWarning("��ӦƤ�������� partId: " + partId + "partName:" + partName);
+                Debug.LogWarning("对应皮肤不存在 partId: " + partId + "partName:" + partName);
                 return;
             };
             if (partSkeletonDataDic.ContainsKey(dressPartType))
@@ -232,8 +233,8 @@ public class HeroAvatar
                 partWearDic.Add(dressPartType, partId);
             }
 
-            partMixSkin.AddSkin(skin, bodySkeletonAnimation.Skeleton.Data);//�ϲ�Ƥ�������Ǽ�
-            // ����Ƥ�����õ����Ǽ���
+            partMixSkin.AddSkin(skin, bodySkeletonAnimation.Skeleton.Data);//将部位的皮肤添加到混合皮肤中
+            // 设置混合皮肤为当前皮肤
             bodySkeletonAnimation.Skeleton.SetSkin(partMixSkin);
             bodySkeletonAnimation.skeleton.UpdateCache();
             bodySkeletonAnimation.skeleton.SetSlotsToSetupPose();
@@ -241,16 +242,16 @@ public class HeroAvatar
     }
 
     /// <summary>
-    /// ���²�λ
+    /// 脱下部位    
     /// </summary>
     private void TakeOffPart(DressPartType dressPartType)
     {
-        if (dressPartType == DressPartType.Skirt)//���������������ȹ ��ô��Ҫ������װ����
+        if (dressPartType == DressPartType.Skirt)//如果穿的是连衣裙，那么需要脱下上衣和下装
         {
             RemovePart(DressPartType.Up_clothes);
             RemovePart(DressPartType.Dw_clothes);
         }
-        else if (dressPartType == DressPartType.Up_clothes || dressPartType == DressPartType.Dw_clothes)//���������������װ ��ô��Ҫ������ȹ����
+        else if (dressPartType == DressPartType.Up_clothes || dressPartType == DressPartType.Dw_clothes)//如果穿的是上衣或下装，那么需要脱下连衣裙
         {
             RemovePart(DressPartType.Skirt);
         }
@@ -258,12 +259,12 @@ public class HeroAvatar
     }
 
     /// <summary>
-    /// �Ƴ���λ
+    /// 脱下部位    
     /// </summary>
     /// <param name="partName"></param>
     public void RemovePart(DressPartType dressPartType)
     {
-        if (!partWearDic.ContainsKey(dressPartType)) return;//û�� ����Ҫж��
+        if (!partWearDic.ContainsKey(dressPartType)) return;// 没有装备，无需脱下
         if (partMixSkin == null)
         {
             return;
@@ -273,7 +274,7 @@ public class HeroAvatar
         {
             return;
         }
-        // ��ȡĿ�겿λ��Ƥ��
+        // 获取部位名称
         var partName = dressPartType.ToString().ToLower();
         Skin targetSkin = skeletonData.FindSkin(partName);
         if (targetSkin == null)
@@ -281,15 +282,15 @@ public class HeroAvatar
             return;
         }
         partMixSkin.RemoveSkin(targetSkin, bodySkeletonAnimation.Skeleton.Data);
-        // ����Ӧ��Ƥ��
+        // 设置混合皮肤为当前皮肤
         bodySkeletonAnimation.Skeleton.SetSkin(partMixSkin);
         bodySkeletonAnimation.Skeleton.SetSlotsToSetupPose();
         bodySkeletonAnimation.Skeleton.UpdateCache();
-        partWearDic.Remove(dressPartType);//ж�²�λ����
+        partWearDic.Remove(dressPartType);//移除部位装备记录
     }
 
     /// <summary>
-    /// �Ƴ����в�λ
+    /// 脱下所有部位
     /// </summary>
     public void RemoveAllPart()
     {
@@ -298,7 +299,7 @@ public class HeroAvatar
 
 
     /// <summary>
-    /// �ı䲥���ٶ�
+    /// 改变播放速度
     /// </summary>
     /// <param name="timeScale"></param>
     public void ChangeTimeScale(float timeScale)
@@ -312,7 +313,7 @@ public class HeroAvatar
 
     private float lastTimeScale;
     /// <summary>
-    /// ��ͣ����
+    /// 暂停播放
     /// </summary>
     public void Stop()
     {
@@ -324,7 +325,7 @@ public class HeroAvatar
     }
 
     /// <summary>
-    /// ��������
+    /// 恢复播放
     /// </summary>
     public void Resume()
     {

@@ -49,8 +49,12 @@ namespace Elida.Config {
     [ProtoMember(8)]
     public RewardObject[] Rewards;
     
-    // 是否为新花/花瓶
+    // 任务描述
     [ProtoMember(9)]
+    public string TaskDesc;
+    
+    // 是否为新花/花瓶
+    [ProtoMember(10)]
     public int New;
   }
 }

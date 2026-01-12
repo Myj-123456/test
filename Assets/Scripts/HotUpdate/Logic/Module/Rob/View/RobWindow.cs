@@ -1,4 +1,3 @@
-
 using FairyGUI;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -26,20 +25,20 @@ public class RobWindow : BaseWindow
     {
          base.OnInit();
         _view = ui as fun_Rob.rob;
-        _view.title_txt.text = Lang.GetValue("wanba_title10");
+        _view.title_txt.text = Lang.GetValue("jinli_01"); //灵鲤珍藏
         //_view.haveLab.text = Lang.GetValue("bee_7");
 
-        SetBg(_view.n113, "Common/ELIDA_zhuajingli_bg.png");
-        SetBg(_view.n114, "Common/ELIDA_zhuajingli_diaoyudi.png");
+        SetBg(_view.bg, "Common/ELIDA_zhuajingli_bg.png");
+        SetBg(_view.bg2, "Common/ELIDA_zhuajingli_diaoyudi.png");
 
         timerMap = new Dictionary<uint, CountDownTimer>();
 
         cages = new fun_Rob.robbedCell[] { _view.cage_0, _view.cage_1, _view.cage_2 , _view.cage_3 };
 
-        //_view.img_shield.url = ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_shield_id);
+        _view.btn_shield_plus.img_shield.url = ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_shield_id);
 
         _view.close_btn.onClick.Add(CloseView);
-
+        StringUtil.SetBtnTab(_view.btn_openTen, Lang.GetValue("jinli_06")); //开启10次
         _view.btn_openTen.onClick.Add(() =>
         {
             _view.btn_openTen.button.selectedIndex = _view.btn_openTen.button.selectedIndex == 0 ? 1 : 0;
@@ -64,16 +63,18 @@ public class RobWindow : BaseWindow
             }
             RobController.Instance.ReqRobExchange(exchangeNum);
         });
-
+        StringUtil.SetBtnTab(_view.btn_shield_plus, Lang.GetValue("jinli_09")); //空军符
         _view.btn_shield_plus.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<RobShieldWindow>(UIName.RobShieldWindow, 0);
+            UIManager.Instance.OpenWindow<RobShieldWindow>(UIName.RobShieldWindow, 1);
         });
+        StringUtil.SetBtnTab(_view.btn_logs, Lang.GetValue("jinli_08")); //采集记录
         _view.btn_logs.onClick.Add(() =>
         {
             UIManager.Instance.OpenWindow<RobMessageWindow>(UIName.RobMessageWindow);
         });
-        _view.n128.onClick.Add(() => 
+        StringUtil.SetBtnTab(_view.btn_videos, Lang.GetValue("jinli_07")); //免费锦鲤
+        _view.btn_videos.onClick.Add(() => 
         {
             VideoController.Instance.ReqVideoWatch(19001);
         });
@@ -83,6 +84,8 @@ public class RobWindow : BaseWindow
         EventManager.Instance.AddEventListener(RobEvent.RobReward, UpdateItemCount);
         //EventManager.Instance.AddEventListener(RobEvent.RobBuy, UpdateShield);
         EventManager.Instance.AddEventListener(RobEvent.RobSetshield, UpdateShieldStatus);
+        EventManager.Instance.AddEventListener(RobEvent.RobReward, UpdateFarmStatus);
+
     }
 
     private void UpdateData()
@@ -97,8 +100,19 @@ public class RobWindow : BaseWindow
         int watchedCount = VideoModel.Instance.GetWatchVideoCount((int)VideoSeeType.rob_video_id);
         int maxCount = int.Parse(GlobalModel.Instance.module_profileConfigData.Get("robVideoTime").Value);
         int rewardCount = int.Parse(GlobalModel.Instance.module_profileConfigData.Get("robVideoReward").Value);
-        _view.n128.txt_number.text = "（"+watchedCount + "/" + maxCount+"）";
-        _view.n128.n9.text = rewardCount.ToString();
+        _view.btn_videos.txt_number.text = "（"+watchedCount + "/" + maxCount+"）";
+        _view.btn_videos.reward_num.text = rewardCount.ToString();
+        
+        if (watchedCount >= maxCount)
+        {
+            _view.btn_videos.grayed = true;
+            _view.btn_videos.touchable = false;
+        }
+        else
+        {
+            _view.btn_videos.grayed = false;
+            _view.btn_videos.touchable = true;
+        }
     }
 
     private void UpdateSelfStatus()
@@ -150,16 +164,16 @@ public class RobWindow : BaseWindow
     private void UpdateItemCount()
     {
         _view.countLab.text = StorageModel.Instance.GetItemCount(RobModel.item_petal_id).ToString();
-        //_view.pic.url = ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_petal_id);
+        _view.pic.url = ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_petal_id);
         var petalItem = RobModel.Instance.robOtherConfig.PetalConsumes[0];
-        //_view.btn_open.pic.url = ImageDataModel.Instance.GetIconUrlByEntityId(petalItem.EntityID);
+        _view.btn_open.pic.url = ImageDataModel.Instance.GetIconUrlByEntityId(petalItem.EntityID);
         int showValue = petalItem.Value;
         if (_view.btn_openTen.button.selectedIndex == 1)
         {
             showValue *= 10;
         }
-        StringUtil.SetBtnTab(_view.btn_open, showValue.ToString());
-        _view.btn_open.titleLab1.text = "开启";
+        _view.btn_open.titleLab.text= showValue.ToString();
+        _view.btn_open.titleLab1.text = Lang.GetValue("UserInfoOn"); //开启
     }
 
     private void UpdateCages()
@@ -185,29 +199,35 @@ public class RobWindow : BaseWindow
             }
         }
         // 如果有雇员劳作
-        if(workingEmployeeCount > 0)
+        if(workingEmployeeCount > 0 || RobModel.Instance.info.harvestCnt > 0)
         {
             _view.farm.status.selectedIndex = 1;
-            StringUtil.SetBtnTab(_view.farm.n5, "点击收获");
+            StringUtil.SetBtnTab(_view.farm.n5, Lang.GetValue("jinli_03")); //点击收获
             _view.farm.pic.url= ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_petal_id);
-            
-            var petalGain = RobModel.Instance.robOtherConfig.PetalGains[0];
-            int totalGain = workingEmployeeCount * petalGain.Value;
-            _view.farm.Count_text.text = totalGain.ToString();
+           
+            _view.farm.Count_text.text = RobModel.Instance.info.harvestCnt.ToString();
             _view.farm.n5.onClick.Add(() =>
             {
-                
+                //_view.farm.status.selectedIndex = 0;
+                RobController.Instance.ReqRobReward();
             });
 
         }
         else
         {
-            _view.farm.n10.text = "没有雇员劳作";
-            StringUtil.SetBtnTab(_view.farm.n8,"前往雇佣");
+            _view.farm.n10.text = Lang.GetValue("jinli_04"); //没有雇员劳作
+            StringUtil.SetBtnTab(_view.farm.n8, Lang.GetValue("jinli_05")); //前往雇佣
             _view.farm.Count_text.text = "";
             _view.farm.n8.onClick.Add(() => 
             {
-                UIManager.Instance.OpenWindow<RobPlayerListWindow>(UIName.RobPlayerListWindow);
+                if(RobModel.Instance.info.harvestCnt > 0)
+                {
+                    
+                }
+                else
+                {
+                    UIManager.Instance.OpenWindow<RobPlayerListWindow>(UIName.RobPlayerListWindow);
+                }
             });
         }
     }
@@ -216,25 +236,26 @@ public class RobWindow : BaseWindow
     {
         var cage = cages[index];
 
-        var robHead = cage.robHead as common.robbedHead_big;
+        var robHead = cage.robHead;
         robHead.g_evel.visible = false;
         robHead.img_head.url = "";
-        (robHead.picFrame as common_New.PictureFrame).pic.url = "";
+        
         var cageData = RobModel.Instance.GetArrestInfo((uint)(index + 1));
-
-        bool hasPlayer = false;
         if (cageData != null)
         {
-            
             cage.data = cageData;
             if (cageData.acquittalTime > ServerTime.Time)
             {
-                hasPlayer = true;
+                var frameVo = ItemModel.Instance.GetItemById((int)cageData.userInfo.headFrame);
+                UILogicUtils.ShowHeadFrames(robHead.picFrame as common_New.PictureFrame, frameVo);
+                var headVo = ItemModel.Instance.GetItemById(int.Parse(cageData.userInfo.headImgId));
+                robHead.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
+
                 cage.status.selectedIndex = 0;
                 robHead.g_evel.visible = true;
                 robHead.txt_lv.text = cageData.userInfo.userLevel.ToString();
-                cage.lb_title.text = cageData.userInfo.townName;
-                robHead.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
+                cage.lb_title.text = TextUtil.GetServerName(cageData.userInfo.serverId,cageData.userInfo.townName);
+                
                 if (timerMap.ContainsKey(cageData.position))
                 {
                     timerMap[cageData.position].Clear();
@@ -246,45 +267,26 @@ public class RobWindow : BaseWindow
                 uint time = cageData.acquittalTime - ServerTime.Time;
                 timerMap[cageData.position] = new CountDownTimer(cage.lb_timeDown, (int)time);
                 timerMap[cageData.position].CompleteCallBacker = ()=> { UpdateCage(index); };
-                robHead.onTouchBegin.Add(HeadTouchBegin);
-                robHead.onTouchEnd.Add(HeadTouchEnd);
-                robHead.onRollOut.Add(HeadTouchEnd);
+                
             }
             else
             {
-                if(cageData.userInfo != null && cageData.userInfo.userId != 0)
-                {
-                    cage.status.selectedIndex = 3;
-                    cage.img_reward.url = ImageDataModel.Instance.GetIconUrlByEntityId(RobModel.item_petal_id);
-                }
-                else
-                {
-                    cage.status.selectedIndex = 1;
-                    robHead.img_head.url = "";
-                    StringUtil.SetBtnTab(cage.catchBtn, Lang.GetValue("rob_20"));
+                cage.status.selectedIndex = 1;
+                robHead.img_head.url = "";
+                StringUtil.SetBtnTab(cage.catchBtn, Lang.GetValue("rob_20"));
 
-                }
             }
         }
         else
         {
-            if(index == 3)
+            if(index == 3 && !MyselfModel.Instance.IsVip())
             {
-                // 第四个位置需要检查VIP状态
-                if(!MyselfModel.Instance.IsVip())
-                {
-                    cage.status.selectedIndex = 4;
-                }
-                else
-                {
-                    cage.status.selectedIndex = 3;
-                }
+                cage.status.selectedIndex = 4;
             }
             else
             {
                 cage.status.selectedIndex = 2;
             }
-            robHead.g_evel.visible = false;
             int value = 0;
             if (index == 1)
             {
@@ -307,17 +309,18 @@ public class RobWindow : BaseWindow
     private void CageClickHander(EventContext context)
     {
         fun_Rob.robbedCell cage = context.sender as fun_Rob.robbedCell;
-        if(cage.status.selectedIndex == 0)
+        var info = cage.data as I_ROB_ARREST_VO;
+        if (cage.status.selectedIndex == 0 && info != null)
         {
-
+            MyselfController.Instance.ReqOtherUserInfo(info.userInfo.userId);
         }
         else if (cage.status.selectedIndex == 3)
         {
-            RobController.Instance.ReqRobReward((cage.data as I_ROB_ARREST_VO).position);
+            //RobController.Instance.ReqRobReward((cage.data as I_ROB_ARREST_VO).position);
         }
-        else if(cage.status.selectedIndex == 1)
+        else if(cage.status.selectedIndex == 1 && info != null)
         {
-            UIManager.Instance.OpenWindow<RobPlayerListWindow>(UIName.RobPlayerListWindow, (cage.data as I_ROB_ARREST_VO).position);
+            UIManager.Instance.OpenWindow<RobPlayerListWindow>(UIName.RobPlayerListWindow, info.position);
         }
     }
 
@@ -344,7 +347,12 @@ public class RobWindow : BaseWindow
             UILogicUtils.ShowNotice(Lang.GetValue("common_hint_txt3"));
             return;
         }
-        RobController.Instance.ReqRobUnlock((uint)(index + 1));
+        UILogicUtils.ShowConfirm(Lang.GetValue("trade_unlock_tip", cost + Lang.GetValue("gem")),()=>
+        {
+            RobController.Instance.ReqRobUnlock((uint)(index + 1));
+        }
+        );
+        
     }
 
     private void HeadTouchBegin(EventContext context)
@@ -388,4 +396,3 @@ public class RobWindow : BaseWindow
         // 其他关闭面板的逻辑
     }
 }
-

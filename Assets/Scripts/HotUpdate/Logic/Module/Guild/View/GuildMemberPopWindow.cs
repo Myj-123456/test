@@ -23,7 +23,8 @@ public class GuildMemberPopWindow : BaseWindow
     {
         base.OnInit();
         _view = ui as fun_Guild_New.guild_member_pop;
-        SetBg(_view.bg, "Common/ELIDA_common_littledi01.png");
+        SetBg(_view.bg, "Common/common_three_tip_bg.png");
+        _view.txt_Title.text = Lang.GetValue("newguild_04"); //成员详细
         //_view.titleLab.text = Lang.GetValue("guild_test_5");
         StringUtil.SetBtnTab(_view.btn_transferLeader, Lang.GetValue("guild.bt_pop_transfer"));
         StringUtil.SetBtnTab(_view.btn_demotion, Lang.GetValue("guild.bt_pop_demotion"));

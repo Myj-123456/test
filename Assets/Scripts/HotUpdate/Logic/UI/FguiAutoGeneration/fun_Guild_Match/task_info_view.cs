@@ -8,11 +8,12 @@ namespace fun_Guild_Match
     public partial class task_info_view : GComponent
     {
         public Controller status;
-        public GImage n10;
         public GLoader bg;
-        public GImage n15;
-        public GImage n11;
+        public GImage n28;
+        public GTextField txt_Title;
+        public GImage n26;
         public GImage n16;
+        public GImage n27;
         public GImage n14;
         public GImage n17;
         public GImage n19;
@@ -42,28 +43,29 @@ namespace fun_Guild_Match
             base.ConstructFromXML(xml);
 
             status = GetControllerAt(0);
-            n10 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n15 = (GImage)GetChildAt(2);
-            n11 = (GImage)GetChildAt(3);
+            bg = (GLoader)GetChildAt(0);
+            n28 = (GImage)GetChildAt(1);
+            txt_Title = (GTextField)GetChildAt(2);
+            n26 = (GImage)GetChildAt(3);
             n16 = (GImage)GetChildAt(4);
-            n14 = (GImage)GetChildAt(5);
-            n17 = (GImage)GetChildAt(6);
-            n19 = (GImage)GetChildAt(7);
-            close_btn = (GButton)GetChildAt(8);
-            decLab = (GTextField)GetChildAt(9);
-            scoreLab = (GRichTextField)GetChildAt(10);
-            needLab = (GTextField)GetChildAt(11);
-            timeLab = (GTextField)GetChildAt(12);
-            costLab = (GTextField)GetChildAt(13);
-            refresh_btn = (GButton)GetChildAt(14);
-            getBtn = (GButton)GetChildAt(15);
-            submit_btn = (GButton)GetChildAt(16);
-            icon = (GLoader)GetChildAt(17);
-            rare_img = (GLoader)GetChildAt(18);
-            costImg = (GLoader)GetChildAt(19);
-            jump_btn = (GButton)GetChildAt(20);
-            head = (head)GetChildAt(21);
+            n27 = (GImage)GetChildAt(5);
+            n14 = (GImage)GetChildAt(6);
+            n17 = (GImage)GetChildAt(7);
+            n19 = (GImage)GetChildAt(8);
+            close_btn = (GButton)GetChildAt(9);
+            decLab = (GTextField)GetChildAt(10);
+            scoreLab = (GRichTextField)GetChildAt(11);
+            needLab = (GTextField)GetChildAt(12);
+            timeLab = (GTextField)GetChildAt(13);
+            costLab = (GTextField)GetChildAt(14);
+            refresh_btn = (GButton)GetChildAt(15);
+            getBtn = (GButton)GetChildAt(16);
+            submit_btn = (GButton)GetChildAt(17);
+            icon = (GLoader)GetChildAt(18);
+            rare_img = (GLoader)GetChildAt(19);
+            costImg = (GLoader)GetChildAt(20);
+            jump_btn = (GButton)GetChildAt(21);
+            head = (head)GetChildAt(22);
         }
     }
 }

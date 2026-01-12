@@ -7,7 +7,7 @@ namespace fun_CultivationManual_new
 {
     public partial class handbookDemandItem : GComponent
     {
-        public GImage n1;
+        public GImage n8;
         public GLoader Img;
         public GTextField name_txt;
         public GTextField title_txt;
@@ -22,7 +22,7 @@ namespace fun_CultivationManual_new
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
+            n8 = (GImage)GetChildAt(0);
             Img = (GLoader)GetChildAt(1);
             name_txt = (GTextField)GetChildAt(2);
             title_txt = (GTextField)GetChildAt(3);

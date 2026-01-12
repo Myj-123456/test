@@ -109,6 +109,10 @@ namespace protobuf.recharge
         [ProtoBuf.ProtoMember(4)]
         public uint payType;
 
+        [ProtoBuf.ProtoMember(5)]
+        [System.ComponentModel.DefaultValue("")]
+        public string productId = "";
+
     }
 
     [ProtoBuf.ProtoContract]

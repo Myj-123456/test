@@ -9,11 +9,24 @@ namespace fun_Welfare
     {
         public Controller button;
         public Controller status;
-        public GImage n2;
-        public GImage n3;
-        public GLoader icon;
+        public Controller type;
+        public GGraph rect;
+        public GImage n6;
         public GTextField dayLab;
-        public GGraph n4;
+        public GImage n7;
+        public GImage n8;
+        public GImage n3;
+        public GImage n10;
+        public GGroup n11;
+        public GImage n13;
+        public GLoader pic;
+        public GTextField dayLab1;
+        public GLoader3D spine;
+        public GImage n17;
+        public GTextField nameLab;
+        public GImage n25;
+        public GImage n20;
+        public GGroup n21;
         public const string URL = "ui://awswhm01s7sl1yjp849";
 
         public static seventh_sign_item CreateInstance()
@@ -27,11 +40,24 @@ namespace fun_Welfare
 
             button = GetControllerAt(0);
             status = GetControllerAt(1);
-            n2 = (GImage)GetChildAt(0);
-            n3 = (GImage)GetChildAt(1);
-            icon = (GLoader)GetChildAt(2);
-            dayLab = (GTextField)GetChildAt(3);
-            n4 = (GGraph)GetChildAt(4);
+            type = GetControllerAt(2);
+            rect = (GGraph)GetChildAt(0);
+            n6 = (GImage)GetChildAt(1);
+            dayLab = (GTextField)GetChildAt(2);
+            n7 = (GImage)GetChildAt(3);
+            n8 = (GImage)GetChildAt(4);
+            n3 = (GImage)GetChildAt(5);
+            n10 = (GImage)GetChildAt(6);
+            n11 = (GGroup)GetChildAt(7);
+            n13 = (GImage)GetChildAt(8);
+            pic = (GLoader)GetChildAt(9);
+            dayLab1 = (GTextField)GetChildAt(10);
+            spine = (GLoader3D)GetChildAt(11);
+            n17 = (GImage)GetChildAt(12);
+            nameLab = (GTextField)GetChildAt(13);
+            n25 = (GImage)GetChildAt(14);
+            n20 = (GImage)GetChildAt(15);
+            n21 = (GGroup)GetChildAt(16);
         }
     }
 }

@@ -1,0 +1,10 @@
+xxjia1.png
+size:70,98
+filter:Linear,Linear
+pma:true
+jia1
+bounds:2,2,36,25
+offsets:0,6,36,35
+xx1
+bounds:2,29,67,66
+rotate:90

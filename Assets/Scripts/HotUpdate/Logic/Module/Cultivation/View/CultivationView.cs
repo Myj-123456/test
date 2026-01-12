@@ -14,7 +14,7 @@ public class CultivationView : BaseView
     private fun_CultivateSeeds.cultivation_new_panel viewSkin;
     private GLoader3D animeContainer;
     //private fun_CultivateSeeds.btn_shop shopBtn;
-    private common_New.greenPicBtn2 skipBtn;
+    private fun_CultivateSeeds.greenPicBtn skipBtn;
 
     private List<fun_CultivateSeeds.cultivation_seed2> itemCostArr;
     private List<fun_CultivateSeeds.cultivation_need_seed> itemNeedArr;
@@ -55,7 +55,7 @@ public class CultivationView : BaseView
         StringUtil.SetBtnTab(viewSkin.close_btn, Lang.GetValue("mail_button_return"));
         StringUtil.SetBtnTab(viewSkin.backBtn, Lang.GetValue("mail_button_return"));
         StringUtil.SetBtnTab(viewSkin.go_plant, Lang.GetValue("cultivation_2"));
-        StringUtil.SetBtnTab(viewSkin.share_btn, Lang.GetValue("text_breed36"));
+        //StringUtil.SetBtnTab(viewSkin.share_btn, Lang.GetValue("text_breed36"));
 
         viewSkin.nullTip.text = Lang.GetValue("text_breed30");//暂无新花解锁…
         //viewSkin.from_txt.text = Lang.GetValue("text_breed31");//通过培育商店/完成订单，可获得培育道具！
@@ -74,13 +74,13 @@ public class CultivationView : BaseView
 
         StringUtil.SetBtnTab(viewSkin.shop_btn, Lang.GetValue("cultivate_shop_04"));
         //StringUtil.SetBtnTab(viewSkin.rareBtn, Lang.GetValue("rare_24"));
-        skipBtn = viewSkin.skip_btn as common_New.greenPicBtn2;
+        skipBtn = viewSkin.skip_btn;
         StringUtil.SetBtnUrl(skipBtn, ImageDataModel.CASH_ICON_URL);
         viewSkin.tweenCom.flower.itemList.itemRenderer = ItemRender;
         viewSkin.tweenCom.flower.itemList.onClickItem.Add(OnItemClick);
         viewSkin.tweenCom.flower.itemList.scrollPane.onScroll.Add(ChangeLeftOrRightBtn);
         //viewSkin.back_btn.onClick.Add(OnBackClick);
-        StringUtil.SetBtnTab2(viewSkin.cultivation_btn, Lang.GetValue("name_flower_from1"));//开始培育
+        StringUtil.SetBtnTab(viewSkin.cultivation_btn, Lang.GetValue("name_flower_from1"));//开始培育
 
         viewSkin.cultivation_btn.onClick.Add(OnCultivationClick);
         StringUtil.SetBtnTab(viewSkin.plant_btn, Lang.GetValue("text_breed35"));//收获
@@ -177,10 +177,7 @@ public class CultivationView : BaseView
         {
             CultivationController.Instance.ReqCultivateVideo();
         });
-        viewSkin.share_btn.onClick.Add(() =>
-        {
-            ShareController.Instance.ReqShareFlowerReward();
-        });
+        
     }
 
     private void AddListerEvent()
@@ -193,12 +190,9 @@ public class CultivationView : BaseView
         EventManager.Instance.AddEventListener(CultivationEvent.CultivateHelp, UpdateData);
         EventManager.Instance.AddEventListener(CultivationEvent.CultivateVideo, UpdateData);
 
-        EventManager.Instance.AddEventListener(ShareEvent.ShareFlowerReward, UpdateDateShare);
+        
     }
-    private void UpdateDateShare()
-    {
-        viewSkin.share_btn.visible = false;
-    }
+   
     private void ItemRender(int index, GObject item)
     {
         fun_CultivateSeeds.cultivation_seed cell = item as fun_CultivateSeeds.cultivation_seed;
@@ -252,9 +246,9 @@ public class CultivationView : BaseView
 
     private void UpdateHarvestData()
     {
-        viewSkin.status.selectedIndex = 7;
-        viewSkin.share_btn.visible = true;
-        //UpdateData();
+        //viewSkin.status.selectedIndex = 7;
+        
+        UpdateData();
     }
 
     private void UpdateCostData()

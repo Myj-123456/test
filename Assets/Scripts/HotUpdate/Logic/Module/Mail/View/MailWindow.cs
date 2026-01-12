@@ -54,15 +54,28 @@ public class MailWindow : BaseWindow
         var obj = MailModel.Instance.mailData[index];
         cell.delete_info.text = Lang.GetValue("slang_82");//15天后自动删除
         StringUtil.SetBtnTab(cell.readBtn, Lang.GetValue("mail_16"));
-        StringUtil.SetBtnTab(cell.readEndBtn, "已阅读");
+        StringUtil.SetBtnTab(cell.readEndBtn, Lang.GetValue("alreadyread_txt"));
 
         if (obj != null)
         {
             cell.data = obj;
             uint temp = obj.status;
             cell.status.selectedIndex = (int)temp;
-            cell.title1.text = obj.title1;
-            cell.title2.text = obj.title1;
+            var arr = obj.mailId.Split("#");
+            var type = int.Parse(arr[0]);
+            var mailId = int.Parse(arr[2]);
+            if(type == 1)
+            {
+                cell.title1.text = obj.title1;
+                cell.title2.text = obj.title2;
+            }
+            else
+            {
+                var mailInfo = MailModel.Instance.GetMailInfo(mailId);
+                cell.title1.text = Lang.GetValue(mailInfo.Title1);
+                cell.title2.text = Lang.GetValue(mailInfo.Title2);
+            }
+            
             cell.read.text = temp == 0 ? TimeUtil.GenerateTimeDesc((int)obj.createTime) : "";
             UpdateListData(obj, cell.content);
 
@@ -78,9 +91,23 @@ public class MailWindow : BaseWindow
         var itemData = mailData.reward == null?null: mailData.reward.ToArray();
         bool hasReward = itemData == null?false: itemData.Length != 0;
 
-        cell.title2.text = mailData.title2;//邮件的文字直接用中文，不走语言表 
-        string str = Lang.GetValue1(mailData.title3,mailData.@params);//邮件的文字直接用中文，不走语言表 
-        cell.mailCountCom.descLab.text = str;
+        var arr = mailData.mailId.Split("#");
+        var type = int.Parse(arr[0]);
+        var mailId = int.Parse(arr[2]);
+        if (type == 1)
+        {
+            cell.title3.text = mailData.title2;
+            cell.title2.text = mailData.title1;
+            cell.mailCountCom.descLab.text = mailData.title3;
+        }
+        else
+        {
+            var mailInfo = MailModel.Instance.GetMailInfo(mailId);
+            cell.title3.text = Lang.GetValue(mailInfo.Title2);
+            cell.title2.text = Lang.GetValue(mailInfo.Title2);
+            cell.mailCountCom.descLab.text = Lang.GetValue(mailInfo.Title3);
+        }
+
         if (hasReward)
         {
             cell.type.selectedIndex = 1;
@@ -196,7 +223,7 @@ public class MailWindow : BaseWindow
         }
         else
         {
-            UILogicUtils.ShowNotice("没有可删除的邮件");
+            UILogicUtils.ShowNotice(Lang.GetValue("node_email_txt"));
         }
     }
 
@@ -216,7 +243,7 @@ public class MailWindow : BaseWindow
         }
         else
         {
-            UILogicUtils.ShowNotice("邮件全部已读");
+            UILogicUtils.ShowNotice(Lang.GetValue("email_read_txt"));
         }
 
     }

@@ -13,7 +13,6 @@ public class GuideController : BaseController<GuideController>
     private bool isInit = false;
     private bool needWaitOpenUI;//引导需要等待待打开ui界面
     private bool needWaitCloseUI;//引导需要等待相关ui关闭
-
     /// <summary>
     /// 初始化引导
     /// </summary>
@@ -51,7 +50,6 @@ public class GuideController : BaseController<GuideController>
             }
         }
     }
-
     private void AddEvent()
     {
         EventManager.Instance.AddEventListener<bool, string>(SystemEvent.ShowHidePanel, OnShowHidePanel);
@@ -199,7 +197,7 @@ public class GuideController : BaseController<GuideController>
                     NextGuide();
                 }
             }
-            if (GuideModel.Instance.curGuideStep == 306)
+            if (GuideModel.Instance.curGuideStep == 305)
             {
                 if (messageId == 1214)
                 {
@@ -235,6 +233,7 @@ public class GuideController : BaseController<GuideController>
     {
         UIManager.Instance.ClosePanel(UIName.GuideView);
         GuideModel.Instance.IsGuiding = false;
+        EventManager.Instance.DispatchEvent(GuideEvent.HideGuideHand);
     }
 
     /// <summary>
@@ -306,7 +305,7 @@ public class GuideController : BaseController<GuideController>
     {
         if (GuideModel.Instance.IsGuiding) return;
         //配置了skipStep=0的先在这里配置下
-        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 307 || GuideModel.Instance.curGuideStep == 355 || GuideModel.Instance.curGuideStep == 403;//不检测
+        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 306 || GuideModel.Instance.curGuideStep == 355 || GuideModel.Instance.curGuideStep == 403;//不检测
         if (unCheckGuide || GuideModel.Instance.IsGuide)
         {
             if (banWeakGuide && !GuideModel.Instance.IsStrongGuide())//禁止弱引导跳转
@@ -365,9 +364,22 @@ public class GuideController : BaseController<GuideController>
             SaveGuide((uint)GuideModel.Instance.curConfigData.SkipStep);//优先保存引导步骤
             yield break;
         }
+        else
+        {
+            //当前步骤在等待奖励弹框,但是没有奖励框弹出 直接关闭引导
+            if (GuideModel.Instance.curConfigData.GuideType == 0 && GuideModel.Instance.curConfigData.OpenView == "GetRewardWindow")
+            {
+                Debug.Log("当前步骤在等待奖励弹框,但是没有奖励框弹出 直接关闭引导");
+                CloseGuide();
+                SaveGuide((uint)GuideModel.Instance.curConfigData.SkipStep);//优先保存引导步骤
+                yield break;
+            }
+        }
         Coroutiner.StartCoroutine(DelayGuide());
     }
 
+    private Coroutine lastCoroutine;
+    private Coroutine lastCoroutine2;
     /// <summary>
     /// 执行下个引导
     /// </summary>
@@ -376,7 +388,12 @@ public class GuideController : BaseController<GuideController>
         EventManager.Instance.DispatchEvent(GuideEvent.HideGuideUI);
         GuideModel.Instance.guildTarget = null;
         needWaitCloseUI = false;
-        Coroutiner.StartCoroutine(GuidePreCheck());
+        if (lastCoroutine != null)
+        {
+            Coroutiner.StopCoroutine(lastCoroutine);
+            lastCoroutine = null;
+        }
+        lastCoroutine = Coroutiner.StartCoroutine(GuidePreCheck());
     }
 
     /// <summary>
@@ -419,13 +436,18 @@ public class GuideController : BaseController<GuideController>
             GuideModel.Instance.curGuideStep = (uint)GuideModel.Instance.curConfigData.SkipStep;
         }
         //配置了skipStep=0的先在这里配置下
-        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 307 || GuideModel.Instance.curGuideStep == 355 || GuideModel.Instance.curGuideStep == 403;//不检测
+        var unCheckGuide = GuideModel.Instance.curGuideStep == 106 || GuideModel.Instance.curGuideStep == 152 || GuideModel.Instance.curGuideStep == 210 || GuideModel.Instance.curGuideStep == 216 || GuideModel.Instance.curGuideStep == 258 || GuideModel.Instance.curGuideStep == 306 || GuideModel.Instance.curGuideStep == 355 || GuideModel.Instance.curGuideStep == 403;//不检测
         if (!unCheckGuide && !GuideModel.Instance.IsGuide)
         {
             CloseGuide();
             yield break;
         }
-        Coroutiner.StartCoroutine(DelayGuide());
+        if (lastCoroutine2 != null)
+        {
+            Coroutiner.StopCoroutine(lastCoroutine2);
+            lastCoroutine2 = null;
+        }
+        lastCoroutine2 = Coroutiner.StartCoroutine(DelayGuide());
     }
 
     /// <summary>
@@ -524,10 +546,10 @@ public class GuideController : BaseController<GuideController>
         {
             target = target == null ? null : target.GetChild(path) as GComponent;
         }
-        if (target == null || !target.visible)
+        if (target == null || !target.visible || !target.enabled || !target.touchable)
         {
             Debug.Log("SetGuideTarget=>target为空 禁止引导");
-            NextGuide();
+            CloseGuide();
             return;
         }
         if (GuideModel.Instance.curConfigData.Index > -1)
@@ -558,7 +580,7 @@ public class GuideController : BaseController<GuideController>
             return;
         }
         EventManager.Instance.DispatchEvent(GuideEvent.HideGuideUI);
-        if (GuideModel.Instance.curGuideStep == 12 || GuideModel.Instance.curGuideStep == 13 || GuideModel.Instance.curGuideStep == 14 || GuideModel.Instance.curGuideStep == 104 || GuideModel.Instance.curGuideStep == 209 || GuideModel.Instance.curGuideStep == 215 || GuideModel.Instance.curGuideStep == 254 || GuideModel.Instance.curGuideStep == 257 || GuideModel.Instance.curGuideStep == 306 || GuideModel.Instance.curGuideStep == 402)
+        if (GuideModel.Instance.curGuideStep == 12 || GuideModel.Instance.curGuideStep == 13 || GuideModel.Instance.curGuideStep == 14 || GuideModel.Instance.curGuideStep == 104 || GuideModel.Instance.curGuideStep == 209 || GuideModel.Instance.curGuideStep == 215 || GuideModel.Instance.curGuideStep == 254 || GuideModel.Instance.curGuideStep == 257 || GuideModel.Instance.curGuideStep == 305 || GuideModel.Instance.curGuideStep == 402)
         {
             return;
         }
@@ -633,7 +655,7 @@ public class GuideController : BaseController<GuideController>
     {
         C_MSG_GUIDE c_MSG_GUIDE = new C_MSG_GUIDE();
         c_MSG_GUIDE.step = guideStep.ToString();
-        SendCmd((int)MessageCode.C_MSG_GUIDE, c_MSG_GUIDE);
+        SendCmd((int)MessageCode.C_MSG_GUIDE, c_MSG_GUIDE, 0);
         Debug.Log("SaveGuide step:" + guideStep);
     }
 

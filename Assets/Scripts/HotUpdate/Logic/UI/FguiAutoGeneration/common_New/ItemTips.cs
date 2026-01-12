@@ -14,7 +14,7 @@ namespace common_New
         public GImage n47;
         public GLoader img_icon;
         public GLoader img_quality;
-        public GLoader vase_img;
+        public ikeImg ike;
         public GTextField txt_name;
         public GTextField txt_des;
         public GTextField txt_ownNum;
@@ -36,7 +36,7 @@ namespace common_New
             n47 = (GImage)GetChildAt(3);
             img_icon = (GLoader)GetChildAt(4);
             img_quality = (GLoader)GetChildAt(5);
-            vase_img = (GLoader)GetChildAt(6);
+            ike = (ikeImg)GetChildAt(6);
             txt_name = (GTextField)GetChildAt(7);
             txt_des = (GTextField)GetChildAt(8);
             txt_ownNum = (GTextField)GetChildAt(9);

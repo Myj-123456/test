@@ -49,5 +49,9 @@ namespace Elida.Config {
     // 是否需要开通VIP才能购买
     [ProtoMember(8)]
     public int IsVip;
+    
+    // 礼包名字
+    [ProtoMember(9)]
+    public string Name;
   }
 }

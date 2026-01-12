@@ -31,7 +31,7 @@ public class VaseTips : BaseWindow
         {
             view.img_quality.url = "HandBookNew/bg_new_" + staticFlowerPoint.VaseQuality + ".png";
             bool unlock = IkeModel.Instance.IsUnlockVase(staticFlowerPoint.VaseId);
-            view.txt_gain.text = unlock ? "已拥有" : "未拥有";
+            view.txt_gain.text = unlock ? Lang.GetValue("own_txt") : Lang.GetValue("unown_txt");
         }
     }
 

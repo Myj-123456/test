@@ -11,6 +11,10 @@ namespace fun_FlowerOrder
         public Controller npcOrderStatus;
         public Controller dress;
         public Controller type;
+        public GImage n116;
+        public GImage n115;
+        public GImage n117;
+        public GImage n110;
         public GLoader image_loader;
         public GImage n96;
         public GImage n99;
@@ -23,9 +27,8 @@ namespace fun_FlowerOrder
         public GImage n111;
         public GImage n114;
         public GGroup n113;
-        public GImage n110;
         public GImage n108;
-        public GGraph n102;
+        public GImage n102;
         public GTextField timeLab;
         public const string URL = "ui://6euywhvrree11ayr876";
 
@@ -42,22 +45,25 @@ namespace fun_FlowerOrder
             npcOrderStatus = GetControllerAt(1);
             dress = GetControllerAt(2);
             type = GetControllerAt(3);
-            image_loader = (GLoader)GetChildAt(0);
-            n96 = (GImage)GetChildAt(1);
-            n99 = (GImage)GetChildAt(2);
-            n100 = (GGroup)GetChildAt(3);
-            n95 = (GImage)GetChildAt(4);
-            n98 = (GImage)GetChildAt(5);
-            n105 = (GGroup)GetChildAt(6);
-            n106 = (GImage)GetChildAt(7);
-            n107 = (GGroup)GetChildAt(8);
-            n111 = (GImage)GetChildAt(9);
-            n114 = (GImage)GetChildAt(10);
-            n113 = (GGroup)GetChildAt(11);
-            n110 = (GImage)GetChildAt(12);
-            n108 = (GImage)GetChildAt(13);
-            n102 = (GGraph)GetChildAt(14);
-            timeLab = (GTextField)GetChildAt(15);
+            n116 = (GImage)GetChildAt(0);
+            n115 = (GImage)GetChildAt(1);
+            n117 = (GImage)GetChildAt(2);
+            n110 = (GImage)GetChildAt(3);
+            image_loader = (GLoader)GetChildAt(4);
+            n96 = (GImage)GetChildAt(5);
+            n99 = (GImage)GetChildAt(6);
+            n100 = (GGroup)GetChildAt(7);
+            n95 = (GImage)GetChildAt(8);
+            n98 = (GImage)GetChildAt(9);
+            n105 = (GGroup)GetChildAt(10);
+            n106 = (GImage)GetChildAt(11);
+            n107 = (GGroup)GetChildAt(12);
+            n111 = (GImage)GetChildAt(13);
+            n114 = (GImage)GetChildAt(14);
+            n113 = (GGroup)GetChildAt(15);
+            n108 = (GImage)GetChildAt(16);
+            n102 = (GImage)GetChildAt(17);
+            timeLab = (GTextField)GetChildAt(18);
         }
     }
 }

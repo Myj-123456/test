@@ -50,7 +50,10 @@ public class VideoModel : Singleton<VideoModel>
         {
             videoData.wathCount = data.watchCount;
         }
-        
+        if(videoData.videoId == (int)VideoSeeType.guild_video_id)
+        {
+            RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Donate);
+        }
     }
 
     public void AddWatchVideoCount(int sp_id)

@@ -25,8 +25,8 @@ public class PlotWindow : BaseWindow
     {
         base.OnInit();
         view = ui as fun_Plot.PlotWindow;
-        ADK.StringUtil.SetBtnTab(view.btn_skip, "Ìø¹ý");
-        ADK.StringUtil.SetBtnTab(view.btn_end, "½áÊø");
+        ADK.StringUtil.SetBtnTab(view.btn_skip, Lang.GetValue("skip_txt"));
+        ADK.StringUtil.SetBtnTab(view.btn_end, Lang.GetValue("end_txt"));
         AddEvent();
     }
 

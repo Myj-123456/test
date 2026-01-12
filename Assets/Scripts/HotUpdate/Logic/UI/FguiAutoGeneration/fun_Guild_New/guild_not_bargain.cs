@@ -7,12 +7,12 @@ namespace fun_Guild_New
 {
     public partial class guild_not_bargain : GComponent
     {
-        public GImage n5;
         public GLoader bg;
+        public GTextField txt_title;
+        public GImage n10;
         public GImage n2;
         public GTextField name_title;
         public GTextField time_title;
-        public GTextField txt_title;
         public GButton close_btn;
         public GList list;
         public const string URL = "ui://qz6135j3s62s1yjp7z4";
@@ -26,12 +26,12 @@ namespace fun_Guild_New
         {
             base.ConstructFromXML(xml);
 
-            n5 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n2 = (GImage)GetChildAt(2);
-            name_title = (GTextField)GetChildAt(3);
-            time_title = (GTextField)GetChildAt(4);
-            txt_title = (GTextField)GetChildAt(5);
+            bg = (GLoader)GetChildAt(0);
+            txt_title = (GTextField)GetChildAt(1);
+            n10 = (GImage)GetChildAt(2);
+            n2 = (GImage)GetChildAt(3);
+            name_title = (GTextField)GetChildAt(4);
+            time_title = (GTextField)GetChildAt(5);
             close_btn = (GButton)GetChildAt(6);
             list = (GList)GetChildAt(7);
         }

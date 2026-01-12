@@ -32,8 +32,10 @@ namespace fun_MyInfo
             UIObjectFactory.SetPackageItemExtension(clickBtn.URL, typeof(clickBtn));
             UIObjectFactory.SetPackageItemExtension(pageBtn2.URL, typeof(pageBtn2));
             UIObjectFactory.SetPackageItemExtension(name_input.URL, typeof(name_input));
+            UIObjectFactory.SetPackageItemExtension(txtListItem1.URL, typeof(txtListItem1));
+            UIObjectFactory.SetPackageItemExtension(destroy_account_view.URL, typeof(destroy_account_view));
+            UIObjectFactory.SetPackageItemExtension(agreeBtn.URL, typeof(agreeBtn));
             UIObjectFactory.SetPackageItemExtension(greeBtn.URL, typeof(greeBtn));
-            UIObjectFactory.SetPackageItemExtension(privacyBtn.URL, typeof(privacyBtn));
             UIObjectFactory.SetPackageItemExtension(txtListItem.URL, typeof(txtListItem));
             UIObjectFactory.SetPackageItemExtension(user_info.URL, typeof(user_info));
             UIObjectFactory.SetPackageItemExtension(yinsixieyi.URL, typeof(yinsixieyi));

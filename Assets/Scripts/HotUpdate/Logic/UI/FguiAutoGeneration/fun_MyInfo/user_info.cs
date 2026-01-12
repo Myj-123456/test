@@ -7,10 +7,10 @@ namespace fun_MyInfo
 {
     public partial class user_info : GComponent
     {
-        public GImage n52;
-        public GImage n53;
+        public Controller status;
         public GLoader bg;
-        public GImage n55;
+        public GImage n58;
+        public GTextField titleLab;
         public GButton close_btn;
         public GTextField txt_onekey;
         public ToggleButton toggle_harvest;
@@ -22,7 +22,8 @@ namespace fun_MyInfo
         public ToggleButton toggle_anim;
         public GTextField tip;
         public greeBtn agreeBtn;
-        public privacyBtn privacyBtn;
+        public greeBtn privacyBtn;
+        public greeBtn destroyBtn;
         public GTextField txt_gameVer;
         public const string URL = "ui://ehkqmfbps23e1yjp7t3";
 
@@ -35,22 +36,23 @@ namespace fun_MyInfo
         {
             base.ConstructFromXML(xml);
 
-            n52 = (GImage)GetChildAt(0);
-            n53 = (GImage)GetChildAt(1);
-            bg = (GLoader)GetChildAt(2);
-            n55 = (GImage)GetChildAt(3);
-            close_btn = (GButton)GetChildAt(4);
-            txt_onekey = (GTextField)GetChildAt(5);
-            toggle_harvest = (ToggleButton)GetChildAt(6);
-            txt_sound = (GTextField)GetChildAt(7);
-            txt_bgm = (GTextField)GetChildAt(8);
-            toggle_2 = (ToggleButton)GetChildAt(9);
-            toggle_1 = (ToggleButton)GetChildAt(10);
-            txt_anim = (GTextField)GetChildAt(11);
-            toggle_anim = (ToggleButton)GetChildAt(12);
-            tip = (GTextField)GetChildAt(13);
-            agreeBtn = (greeBtn)GetChildAt(14);
-            privacyBtn = (privacyBtn)GetChildAt(15);
+            status = GetControllerAt(0);
+            bg = (GLoader)GetChildAt(0);
+            n58 = (GImage)GetChildAt(1);
+            titleLab = (GTextField)GetChildAt(2);
+            close_btn = (GButton)GetChildAt(3);
+            txt_onekey = (GTextField)GetChildAt(4);
+            toggle_harvest = (ToggleButton)GetChildAt(5);
+            txt_sound = (GTextField)GetChildAt(6);
+            txt_bgm = (GTextField)GetChildAt(7);
+            toggle_2 = (ToggleButton)GetChildAt(8);
+            toggle_1 = (ToggleButton)GetChildAt(9);
+            txt_anim = (GTextField)GetChildAt(10);
+            toggle_anim = (ToggleButton)GetChildAt(11);
+            tip = (GTextField)GetChildAt(12);
+            agreeBtn = (greeBtn)GetChildAt(13);
+            privacyBtn = (greeBtn)GetChildAt(14);
+            destroyBtn = (greeBtn)GetChildAt(15);
             txt_gameVer = (GTextField)GetChildAt(16);
         }
     }

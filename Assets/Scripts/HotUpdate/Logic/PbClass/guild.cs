@@ -807,7 +807,7 @@ namespace protobuf.guild
     public class S_MSG_GUILD_HOUSE_HARVEST
     {
         [ProtoBuf.ProtoMember(1)]
-        public System.Collections.Generic.List<I_GUILD_PLANT_VO> plantList = new System.Collections.Generic.List<I_GUILD_PLANT_VO>();
+        public S_MSG_GUILD_HOUSE_DETAIL houseInfo;
 
         [ProtoBuf.ProtoMember(2)]
         public System.Collections.Generic.Dictionary<ulong, ulong> items = new System.Collections.Generic.Dictionary<ulong, ulong>();
@@ -843,6 +843,9 @@ namespace protobuf.guild
         [ProtoBuf.ProtoMember(6)]
         public System.Collections.Generic.Dictionary<ulong, ulong> extraReward = new System.Collections.Generic.Dictionary<ulong, ulong>();
 
+        [ProtoBuf.ProtoMember(7)]
+        public bool haveReward;
+
     }
 
     [ProtoBuf.ProtoContract]
@@ -850,9 +853,6 @@ namespace protobuf.guild
     {
         [ProtoBuf.ProtoMember(1)]
         public uint houseId;
-
-        [ProtoBuf.ProtoMember(2)]
-        public int page;
 
     }
 

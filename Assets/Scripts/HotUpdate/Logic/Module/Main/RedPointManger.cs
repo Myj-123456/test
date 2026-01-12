@@ -74,6 +74,8 @@ public class RedPointManger : Singleton<RedPointManger>
         EventManager.Instance.AddEventListener(WelfareEvent.DailyRetroactive, UpdateWelfareRed);
 
         EventManager.Instance.AddEventListener(RedPointEvent.ClickItem, UpdateFrameRed);
+
+        EventManager.Instance.AddEventListener(PlayerEvent.ChangeDailyLogin, UpdateWelfareRed);
     }
     private void UpdateData()
     {
@@ -95,6 +97,7 @@ public class RedPointManger : Singleton<RedPointManger>
         UpdatebaihualuRed();
         UpdatePlotRed();
         UpdateStorageRed();
+        UpdateFrameRed();
     }
     //等级任务更新
     private void UpdateUnlock()
@@ -249,7 +252,7 @@ public class RedPointManger : Singleton<RedPointManger>
     {
         if (GlobalModel.Instance.GetUnlocked(SysId.Friend))
         {
-            friendBtn.red_point.visible = RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Apply) || RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Crony);
+            friendBtn.red_point.visible = RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Apply) || RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Crony) || RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Chat);
         }
         else
         {
@@ -275,7 +278,7 @@ public class RedPointManger : Singleton<RedPointManger>
 
     private void UpdateRedPoint(uint type)
     {
-        if(type == (uint)RedPointType.Friend_Apply || type == (uint)RedPointType.Friend_Crony)
+        if(type == (uint)RedPointType.Friend_Apply || type == (uint)RedPointType.Friend_Crony || type == (uint)RedPointType.Friend_Chat)
         {
             UpdateFriendRed();
         }

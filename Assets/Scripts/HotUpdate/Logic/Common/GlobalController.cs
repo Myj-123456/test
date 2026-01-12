@@ -57,7 +57,7 @@ public class GlobalController : BaseController<GlobalController>
         }
         else//如果存在对应配置，读取配置显示
         {
-            ADK.UILogicUtils.ShowNotice("错误码:" + exception.code);
+            ADK.UILogicUtils.ShowNotice(Lang.GetValue("error_name") + exception.code);
         }
         if (!string.IsNullOrEmpty(exception.trace))
         {

@@ -11,7 +11,7 @@ namespace fun_CultivationManual_new
         public Controller rewardStatus;
         public GLoader bg;
         public GLoader img1;
-        public GImage n14;
+        public GImage n78;
         public GTextField name_txt;
         public GRichTextField process_txt;
         public vaseFlowerRewradBtn rewardBtn;
@@ -33,7 +33,7 @@ namespace fun_CultivationManual_new
             rewardStatus = GetControllerAt(1);
             bg = (GLoader)GetChildAt(0);
             img1 = (GLoader)GetChildAt(1);
-            n14 = (GImage)GetChildAt(2);
+            n78 = (GImage)GetChildAt(2);
             name_txt = (GTextField)GetChildAt(3);
             process_txt = (GRichTextField)GetChildAt(4);
             rewardBtn = (vaseFlowerRewradBtn)GetChildAt(5);

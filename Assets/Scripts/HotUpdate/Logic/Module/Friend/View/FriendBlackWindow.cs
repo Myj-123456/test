@@ -56,7 +56,7 @@ public class FriendBlackWindow : BaseWindow
         var vo_ = blackListData[index];
         item.data = vo_;
 
-        StringUtil.SetBtnTab(item.btn_remove, Lang.GetValue("cp_desc_16"));//解除
+        StringUtil.SetBtnTab(item.btn_remove, Lang.GetValue("best_07"));//解除
         item.idTxt.text = "ID:" + vo_.userInfo.userId;
         StringUtil.SetBtnUrl(item.heead, "Avatar/ELIDA_common_touxiangdi01.png");
         item.txt_lv.text = vo_.userInfo.userLevel.ToString();

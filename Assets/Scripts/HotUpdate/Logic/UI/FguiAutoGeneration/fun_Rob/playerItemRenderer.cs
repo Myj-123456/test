@@ -16,9 +16,9 @@ namespace fun_Rob
         public GTextField txt_date;
         public GTextField txt_master;
         public GButton btn_rob;
-        public GComponent master_head;
-        public GImage n36;
+        public GLoader pic;
         public GTextField txt_title;
+        public robbedHead_big master_head;
         public const string URL = "ui://z1on8kwdku0fpjn";
 
         public static playerItemRenderer CreateInstance()
@@ -39,9 +39,9 @@ namespace fun_Rob
             txt_date = (GTextField)GetChildAt(3);
             txt_master = (GTextField)GetChildAt(4);
             btn_rob = (GButton)GetChildAt(5);
-            master_head = (GComponent)GetChildAt(6);
-            n36 = (GImage)GetChildAt(7);
-            txt_title = (GTextField)GetChildAt(8);
+            pic = (GLoader)GetChildAt(6);
+            txt_title = (GTextField)GetChildAt(7);
+            master_head = (robbedHead_big)GetChildAt(8);
         }
     }
 }

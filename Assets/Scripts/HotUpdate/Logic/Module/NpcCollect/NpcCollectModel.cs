@@ -5,6 +5,7 @@ using System;
 using ADK;
 using Elida.Config;
 using protobuf.lolita;
+using System.Linq;
 
 public class NpcCollectModel : Singleton<NpcCollectModel>
 {
@@ -28,6 +29,16 @@ public class NpcCollectModel : Singleton<NpcCollectModel>
     public int INVITE_CONDITION_NUM = 15;//∑÷œÌID
     public int VIDEO_CONDITION_NUM = 16;// ”∆µID
 
+    private List<Ft_loli_collectionConfig> _grandmaConfigList;
+    public List<Ft_loli_collectionConfig> grandmaConfigList { get
+        {
+            if(_grandmaConfigList == null)
+            {
+                Ft_loli_collectionConfigData grandmaConfigData = ConfigManager.Instance.GetConfig<Ft_loli_collectionConfigData>("ft_loli_collectionsConfig");
+                _grandmaConfigList = grandmaConfigData.DataList;
+            }
+            return _grandmaConfigList;
+        } }
     public void InitData()
     {
         Ft_loli_exchangeConfigData exchangeData = ConfigManager.Instance.GetConfig<Ft_loli_exchangeConfigData>("ft_loli_exchangesConfig");
@@ -80,7 +91,7 @@ public class NpcCollectModel : Singleton<NpcCollectModel>
         List<Exchange_grandmaData> staticArr = exchangeListData.FindAll(item =>
         {
 
-            return (item).StartTime <= ServerTime.Time;
+            return (item).StartTime <= ServerTime.Time && item.Type == type;
         });
 
         return staticArr;
@@ -110,11 +121,8 @@ public class NpcCollectModel : Singleton<NpcCollectModel>
 
     public List<GrandmaData> GetItemData1(int type)
     {
-        if (!itemDataByType.ContainsKey(type))
-        {
-            return new List<GrandmaData>();
-        }
-        List<GrandmaData> arr = itemDataByType[type];
+       
+        List<GrandmaData> arr = staticItemListData;
         arr.Sort((GrandmaData a, GrandmaData b) => {
             if(a.SortNum != b.SortNum)
             {
@@ -192,6 +200,40 @@ public class NpcCollectModel : Singleton<NpcCollectModel>
         }
         return false;
     }
+
+    public bool GetNpcCollectRed()
+    {
+        if (!GlobalModel.Instance.GetUnlocked(SysId.NpcCollect))
+        {
+            return false;
+        }
+        foreach (var value in itemDataByType)
+        {
+            if (GetRedPoint(value.Key))
+            {
+                return true;
+            }
+        }
+        return false;  
+    }
+
+    public uint GetCurNpcCollectItem()
+    {
+        uint id = 0;
+        foreach (var value in itemDataByType)
+        {
+            foreach (var item in value.Value)
+            {
+                if (item.SortNum == 0)
+                {
+                    id = (uint)item.Id;
+
+                    return id;
+                }
+            }
+        }
+        return id;
+    }
 }
 
 public class Exchange_grandmaData
@@ -268,6 +310,8 @@ public class GrandmaData
 
     public int TaskNum;
 
+    public string TaskDesc;
+
     public GrandmaData(Ft_loli_collectionConfig data)
     {
         Id = data.Id;
@@ -280,6 +324,7 @@ public class GrandmaData
         TypeParam = data.TypeParam;
         TaskNum = data.TaskNum;
         Ishistory = data.Ishistory;
+        TaskDesc = data.TaskDesc;
     }
 
     public bool IsNew { get

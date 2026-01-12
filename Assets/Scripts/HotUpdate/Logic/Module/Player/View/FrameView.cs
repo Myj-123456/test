@@ -33,6 +33,7 @@ public class FrameView
 
     public void OnShown()
     {
+        
         listData = PlayerModel.Instance.GetFrameTileList(4201);
         var frame = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
         var head = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_AVATAR);
@@ -126,7 +127,7 @@ public class FrameView
     }
     public void OnHide()
     {
-        
+       
     }
 }
 

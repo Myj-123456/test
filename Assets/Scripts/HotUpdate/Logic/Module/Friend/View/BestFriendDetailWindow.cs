@@ -23,12 +23,12 @@ public class BestFriendDetailWindow : BaseWindow
     {
         base.OnInit();
         view = ui as fun_Friends.newBestFriendLevelView;
-        view.best_Title.text = "密友等级";
+        view.best_Title.text = Lang.GetValue("best_14");
         SetBg(view.bg, "Common/common_two_tip_bg.png");
-        view.title1.text = "密友等级";
-        view.title2.text = "摸花+1概率";
-        view.title3.text = "好友币兑换";
-        view.title4.text = "额外星光花概率";
+        view.title1.text = Lang.GetValue("best_14");
+        view.title2.text = Lang.GetValue("best_15");
+        view.title3.text = Lang.GetValue("best_16");
+        view.title4.text = Lang.GetValue("best_17");
 
         // 获取配置表数据
         _configData = ConfigManager.Instance.GetConfig<Ft_mfriend_configConfigData>("ft_mfriend_configsConfig");

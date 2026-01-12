@@ -24,7 +24,7 @@ public class GuideView : BaseView
     {
         base.OnInit();
         viewSkin = ui as fun_Guide.GuideView;
-        ADK.StringUtil.SetBtnTab(viewSkin.showImage.btn_next, "我去试试");
+        ADK.StringUtil.SetBtnTab(viewSkin.showImage.btn_next, Lang.GetValue("willtry_txt"));
         AddEvent();
     }
 
@@ -112,9 +112,7 @@ public class GuideView : BaseView
         viewSkin.npcDialogue.state.selectedIndex = curConfigData.NpcSpineType;
         viewSkin.npcDialogue.visible = true;
         ShowNpcSpine(curConfigData.NpcSpineType == 0 ? "lu" : "huli");//读取配置
-        viewSkin.npcDialogue.txt_name.text = curConfigData.NpcSpineType == 0 ? "鹿白" : "粉红小狐妖";//读取配置
-        //viewSkin.npcDialogue.txt_des.text = curConfigData.GuideStr;//读取配置
-        StartTyping(curConfigData.GuideStr);
+        StartTyping(Lang.GetValue(curConfigData.GuideStr));
         viewSkin.npcDialogue.scale = new Vector2(0.8f, 0.8f);
         viewSkin.npcDialogue.TweenScale(new Vector2(1, 1), 0.3f).SetEase(EaseType.BackOut);
     }
@@ -142,21 +140,43 @@ public class GuideView : BaseView
         typingCoroutine = null;
     }
 
+    private UIHeroAvatar heroAvatar;
     private void ShowNpcSpine(string aniName)
     {
-        viewSkin.npcDialogue.loader_npc.loop = true;
-        viewSkin.npcDialogue.loader_npc.url = aniName;
-        if (aniName == "lu")
+        if (GuideModel.Instance.curGuideStep == 251)
         {
-            viewSkin.npcDialogue.loader_npc.animationName = "idle";
-            viewSkin.npcDialogue.loader_npc.scaleX = -1;
-            viewSkin.npcDialogue.loader_npc.position = new Vector3(183f, 407f, 0);
+            if (heroAvatar != null)
+            {
+                heroAvatar.ShowOrHide(false);
+            }
+            viewSkin.npcDialogue.loader_npc.loop = true;
+            viewSkin.npcDialogue.loader_npc.url = aniName;
+            if (aniName == "lu")
+            {
+                viewSkin.npcDialogue.loader_npc.animationName = "idle";
+                viewSkin.npcDialogue.loader_npc.scaleX = -1;
+                viewSkin.npcDialogue.loader_npc.scaleY = 1;
+                viewSkin.npcDialogue.loader_npc.position = new Vector3(183f, 407f, 0);
+            }
+            else if (aniName == "huli")
+            {
+                viewSkin.npcDialogue.loader_npc.animationName = "animation";
+                viewSkin.npcDialogue.loader_npc.scaleX = 1;
+                viewSkin.npcDialogue.loader_npc.scaleY = 1;
+                viewSkin.npcDialogue.loader_npc.position = new Vector3(540f, 215f, 0);
+            }
+            viewSkin.npcDialogue.txt_name.text = curConfigData.NpcSpineType == 0 ? Lang.GetValue("lubai_name") : Lang.GetValue("fenhongxiaohongyao_name");
         }
-        else if (aniName == "huli")
+        else
         {
-            viewSkin.npcDialogue.loader_npc.animationName = "animation";
-            viewSkin.npcDialogue.loader_npc.scaleX = 1;
-            viewSkin.npcDialogue.loader_npc.position = new Vector3(540f, 215f, 0);
+            viewSkin.npcDialogue.loader_npc.position = new Vector3(183f, 407f, 0);
+            viewSkin.npcDialogue.loader_npc.animationName = "";
+            viewSkin.npcDialogue.loader_npc.scaleX = 0.6f;
+            viewSkin.npcDialogue.loader_npc.scaleY = 0.6f;
+            heroAvatar = new UIHeroAvatar();
+            heroAvatar.Init(viewSkin.npcDialogue.loader_npc);
+            heroAvatar.UpdateDress();
+            viewSkin.npcDialogue.txt_name.text = Lang.GetValue("lingxi_name");
         }
     }
 
@@ -170,14 +190,14 @@ public class GuideView : BaseView
         {
             guideTransform = SceneManager.Instance.guide_ani_broom.transform;
         }
-        else if (GuideModel.Instance.curGuideStep == 17)
+        else if (GuideModel.Instance.curGuideStep == 17)//种植
         {
-            sceneObject = SceneManager.Instance.GetLand(curConfigData.StructureId);
+            sceneObject = SceneManager.Instance.GetUnLockEmptyLand(false);
             guideTransform = sceneObject.transform;
         }
         else if (GuideModel.Instance.curGuideStep == 21)//种植浇水
         {
-            var land = SceneManager.Instance.GetWaterLand();
+            var land = SceneManager.Instance.GetWaterLand(false);
             if (land != null)
             {
                 sceneObject = land;
@@ -226,6 +246,11 @@ public class GuideView : BaseView
         {
             sceneObject = SceneManager.Instance.GetStructure(curConfigData.StructureId);
             guideTransform = sceneObject.transform;
+        }
+        if (guideTransform == null)//没有对象关闭引导
+        {
+            GuideController.Instance.CloseGuide();
+            return;
         }
         GuideModel.Instance.curStrongGuideSceneObject = sceneObject;
         SceneManager.Instance.MoveToPoint(guideTransform.position, 0, true, () =>

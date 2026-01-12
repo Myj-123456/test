@@ -9,7 +9,6 @@ namespace fun_Guild_Match
     {
         public Controller status;
         public GImage n5;
-        public GImage n6;
         public GRichTextField score_txt;
         public GTextField scoreLab;
         public GList rewardList;
@@ -28,12 +27,11 @@ namespace fun_Guild_Match
 
             status = GetControllerAt(0);
             n5 = (GImage)GetChildAt(0);
-            n6 = (GImage)GetChildAt(1);
-            score_txt = (GRichTextField)GetChildAt(2);
-            scoreLab = (GTextField)GetChildAt(3);
-            rewardList = (GList)GetChildAt(4);
-            getBtn = (GButton)GetChildAt(5);
-            showBtn = (GButton)GetChildAt(6);
+            score_txt = (GRichTextField)GetChildAt(1);
+            scoreLab = (GTextField)GetChildAt(2);
+            rewardList = (GList)GetChildAt(3);
+            getBtn = (GButton)GetChildAt(4);
+            showBtn = (GButton)GetChildAt(5);
         }
     }
 }

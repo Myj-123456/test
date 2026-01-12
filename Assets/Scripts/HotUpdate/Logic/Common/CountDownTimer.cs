@@ -5,23 +5,28 @@ using ADK;
 using UnityTimer;
 using System.Collections.Generic;
 /// <summary>
-/// ����ʱ����
+/// 倒计时器
 /// </summary>
 
 public class CountDownTimer
 {
     private GTextField textField;
+    private GProgressBar progressBar;
     private bool isProcessing = false;
     private Timer timer;
     public float Interval = 1f;
     public Action UpdateCallBacker;
     public Action CompleteCallBacker;
     public int time;
+    public int totalTime;
     public bool hour = false;
+    //计时器校准
+    public int starServeTime;
+    public int starTime;
 
-    /**ǰ׺ */
+    /** 前缀字符串 */
     public string prefixString = "";
-    /**��׺ */
+    /** 后缀字符串 */
     public string suffixString = "";
     public int type;
 
@@ -30,6 +35,8 @@ public class CountDownTimer
     {
         textField = textFile;
         this.time = time;
+        starTime = time;
+        starServeTime = (int)ServerTime.Time;
         this.type = type;
         timer = Timer.Regist(Interval, OnTimerEvent, true);
         if (isRun)
@@ -53,6 +60,27 @@ public class CountDownTimer
             isProcessing = false;
         }
     }
+    
+    public CountDownTimer(GProgressBar progressBar, int time, int totalTime, bool isRun = true, int type = 1)
+    {
+        this.progressBar = progressBar;
+        this.time = time;
+        this.totalTime = totalTime;
+        this.type = type;
+        timer = Timer.Regist(Interval, OnTimerEvent, true);
+        if (isRun)
+        {
+            if (progressBar != null)
+            {
+                UpdateProgress();
+            }
+            isProcessing = true;
+        }
+        else
+        {
+            isProcessing = false;
+        }
+    }
 
     public void Run()
     {
@@ -62,13 +90,20 @@ public class CountDownTimer
             return;
         }
 
-        if (type == 1)
+        if (textField != null)
         {
-            UpdateTime();
+            if (type == 1)
+            {
+                UpdateTime();
+            }
+            else
+            {
+                UpdateTime1();
+            }
         }
-        else
+        else if (progressBar != null)
         {
-            UpdateTime1();
+            UpdateProgress();
         }
         isProcessing = true;
     }
@@ -82,6 +117,7 @@ public class CountDownTimer
             CompleteCallBacker = null;
             isProcessing = false;
             textField = null;
+            progressBar = null;
             prefixString = "";
             suffixString = "";
         }
@@ -92,7 +128,7 @@ public class CountDownTimer
         if (!isProcessing) return;
         if (time > 0)
         {
-            time--;
+            time = starTime - ((int)ServerTime.Time - starServeTime);
             UpdateCallBacker?.Invoke();
         }
         if (textField != null)
@@ -105,6 +141,10 @@ public class CountDownTimer
             {
                 UpdateTime1();
             }
+        }
+        else if (progressBar != null)
+        {
+            UpdateProgress();
         }
         if (time <= 0)
         {
@@ -134,8 +174,18 @@ public class CountDownTimer
         textField.text += suffixString;
         textField.text = prefixString + textField.text;
     }
-
-
+    
+    private void UpdateProgress()
+    {
+        if (totalTime <= 0)
+        {
+            progressBar.value = 100;
+            return;
+        }
+        float progress = (float)(totalTime - time) / totalTime * 100;
+        progress = Mathf.Clamp(progress, 0, 100);
+        progressBar.value = progress;
+    }
 }
 
 

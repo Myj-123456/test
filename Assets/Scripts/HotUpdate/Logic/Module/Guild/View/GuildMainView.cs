@@ -48,6 +48,7 @@ public class GuildMainView : BaseView
         view.info.txt_num_desc.text = Lang.GetValue("guild_test_1");//人数
         view.info.txt_lv_desc.text = Lang.GetValue("slang_27");//等级
         view.info.txt_notice_title.text = Lang.GetValue("slang_52");//公告
+        view.info.txt_power.text = Lang.GetValue("prosperity_total");
 
         minScale = GRoot.inst.width / _view.width;
         var minScaleY = (GRoot.inst.height / _view.height);
@@ -100,7 +101,7 @@ public class GuildMainView : BaseView
 
         _view.btn_match.onClick.Add(() =>
         {
-            UIManager.Instance.OpenPanel<GuildMatchView>(UIName.GuildMatchView);
+            UIManager.Instance.OpenPanel<GuildMatchView>(UIName.GuildMatchView,UILayer.SecondUI);
         });
 
         _view.shop_img.onClick.Add(() =>
@@ -310,7 +311,7 @@ public class GuildMainView : BaseView
         int maxNum = GuildModel.Instance.guildLvMap[(int)data.level].JumlahOrang;
         view.info.txt_num.text = data.memberCnt + "/" + maxNum;
 
-        view.info.txt_power_num.text = TextUtil.ChangeCoinShow1(data.memberLimitFighting);
+        view.info.txt_power_num.text = TextUtil.ChangeCoinShow1(data.fighting);
         var name = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_NICKNAME);
         _view.txt_leaderName.text = name != null ? name.info : "";
 

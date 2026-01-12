@@ -8,10 +8,8 @@ namespace fun_CultivationManual_new
     public partial class btn_tip : GButton
     {
         public Controller type;
-        public GImage n3;
-        public GImage n9;
-        public GImage n10;
-        public GImage n11;
+        public GImage n13;
+        public GImage n14;
         public GTextField titleLab;
         public const string URL = "ui://ekoic0wrq47x1yjp7vh";
 
@@ -25,11 +23,9 @@ namespace fun_CultivationManual_new
             base.ConstructFromXML(xml);
 
             type = GetControllerAt(0);
-            n3 = (GImage)GetChildAt(0);
-            n9 = (GImage)GetChildAt(1);
-            n10 = (GImage)GetChildAt(2);
-            n11 = (GImage)GetChildAt(3);
-            titleLab = (GTextField)GetChildAt(4);
+            n13 = (GImage)GetChildAt(0);
+            n14 = (GImage)GetChildAt(1);
+            titleLab = (GTextField)GetChildAt(2);
         }
     }
 }

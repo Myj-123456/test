@@ -8,6 +8,9 @@ namespace fun_CultivateSeeds
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(cultivation_success_view.URL, typeof(cultivation_success_view));
+            UIObjectFactory.SetPackageItemExtension(reward_item.URL, typeof(reward_item));
+            UIObjectFactory.SetPackageItemExtension(greenPicBtn.URL, typeof(greenPicBtn));
             UIObjectFactory.SetPackageItemExtension(tip.URL, typeof(tip));
             UIObjectFactory.SetPackageItemExtension(flower.URL, typeof(flower));
             UIObjectFactory.SetPackageItemExtension(tweenCom.URL, typeof(tweenCom));

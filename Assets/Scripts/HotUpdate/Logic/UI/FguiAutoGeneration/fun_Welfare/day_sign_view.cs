@@ -21,6 +21,7 @@ namespace fun_Welfare
         public GImage n6;
         public GButton sign_btn;
         public GButton cost_btn;
+        public GButton free_btn;
         public GButton getted;
         public GList list;
         public const string URL = "ui://awswhm01g0s03";
@@ -48,8 +49,9 @@ namespace fun_Welfare
             n6 = (GImage)GetChildAt(11);
             sign_btn = (GButton)GetChildAt(12);
             cost_btn = (GButton)GetChildAt(13);
-            getted = (GButton)GetChildAt(14);
-            list = (GList)GetChildAt(15);
+            free_btn = (GButton)GetChildAt(14);
+            getted = (GButton)GetChildAt(15);
+            list = (GList)GetChildAt(16);
         }
     }
 }

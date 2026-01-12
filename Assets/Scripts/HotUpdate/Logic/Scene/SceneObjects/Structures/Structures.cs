@@ -39,11 +39,15 @@ public class Structures
         EventManager.Instance.AddEventListener(FlowerOrderEvent.UpdateFlowerOrderCd, OnResOrderSubmit);
         EventManager.Instance.AddEventListener(PlayerEvent.ChangeWaterBucket, UpdateWaterBucket);
         EventManager.Instance.AddEventListener(PlayerEvent.WaterBucketAward, UpdateWaterBucket);
+
+        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, OnResOrderSubmit);
     }
     private void RemoveEvent()
     {
         EventManager.Instance.RemoveEventListener(FlowerOrderEvent.ResOrderSubmit, OnResOrderSubmit);
         EventManager.Instance.RemoveEventListener(FlowerOrderEvent.UpdateFlowerOrderCd, OnResOrderSubmit);
+        EventManager.Instance.RemoveEventListener(PlayerEvent.GameCrossDay, OnResOrderSubmit);
+
         EventManager.Instance.RemoveEventListener(PlayerEvent.ChangeWaterBucket, UpdateWaterBucket);
         EventManager.Instance.RemoveEventListener(PlayerEvent.WaterBucketAward, UpdateWaterBucket);
     }

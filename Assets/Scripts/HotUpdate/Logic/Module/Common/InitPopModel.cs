@@ -71,18 +71,17 @@ public class InitPopModel : Singleton<InitPopModel>
             }
         }
 
-        //if (GlobalModel.Instance.GetUnlocked(SysId.SeventhSign))
-        //{
-        //    if (!SeventhSignModel.Instance.todayHaveDraw)
-        //    {
-        //        Action callback = () =>
-        //        {
-        //            UIManager.Instance.OpenWindow<SeventhSignWindow>(UIName.SeventhSignWindow);
-        //        };
+        if (WelfareModel.Instance.GetSevenRed())
+        {
+            
+            Action callback = () =>
+            {
+                UIManager.Instance.OpenWindow<SeventhSignWindow>(UIName.SeventhSignWindow);
+            };
 
-        //        needTipViews.Add(callback);
-        //    }
-        //}
+            needTipViews.Add(callback);
+            
+        }
 
         Coroutiner.StartCoroutine(OnDelayInitData());
     }

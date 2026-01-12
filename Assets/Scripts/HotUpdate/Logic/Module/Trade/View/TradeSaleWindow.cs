@@ -167,6 +167,7 @@ public class TradeSaleWindow : BaseWindow
         _view.lb_Count.text = _curCount.ToString();
         _view.lb_price.text = _curPrice.ToString();
         _view.lb_goldSum.text = (_curCount * _curPrice).ToString();
+        UpdateAddSubBtn();
     }
 
     private void ChangeCount(string data)
@@ -364,7 +365,27 @@ public class TradeSaleWindow : BaseWindow
         _view.leftBtn.enabled = _view.ls_ItemList.scrollPane.currentPageX <= 0 ? false : true;
         _view.rightBtn.enabled = _view.ls_ItemList.scrollPane.currentPageX >= maxPage ? false : true;
     }
-
+    private void UpdateAddSubBtn()
+    {
+        if (_curCount > _curItemInfo.ItemAmounts[0])
+        {
+            _view.btn_sub.enabled = true;
+        }
+        else
+        {
+            _view.btn_sub.enabled = false;
+        }
+        int macCount = Math.Min(_curItemInfo.ItemAmounts[1], _saleItem.count);
+        if (_curCount < macCount)
+        {
+            _view.btn_add.enabled = true;
+        }
+        else
+        {
+            _view.btn_add.enabled = false;
+        }
+        
+    }
     public override void OnHide()
     {
         base.OnHide();

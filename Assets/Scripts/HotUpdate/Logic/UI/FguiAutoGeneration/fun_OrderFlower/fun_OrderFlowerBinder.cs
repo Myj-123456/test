@@ -8,6 +8,7 @@ namespace fun_OrderFlower
     {
         public static void BindAll()
         {
+            UIObjectFactory.SetPackageItemExtension(close_btn.URL, typeof(close_btn));
             UIObjectFactory.SetPackageItemExtension(getReward_item.URL, typeof(getReward_item));
             UIObjectFactory.SetPackageItemExtension(order_flower.URL, typeof(order_flower));
             UIObjectFactory.SetPackageItemExtension(com_refresh.URL, typeof(com_refresh));

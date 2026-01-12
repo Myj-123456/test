@@ -142,7 +142,10 @@ namespace ADK
         {
             if (btn.GetChild("titleLab1") != null) btn.GetChild("titleLab1").text = txt;
         }
-
+        public static void SetBtnTab5(FairyGUI.GComponent btn, string txt)
+        {
+            if (btn.GetChild("titleLab2") != null) btn.GetChild("titleLab2").text = txt;
+        }
         /// <summary>
         /// 按钮文本拆开显示
         /// </summary>

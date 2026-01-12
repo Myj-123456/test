@@ -118,6 +118,7 @@ public class Structure : SceneObject
         {
             image.spriteSortPoint = SpriteSortPoint.Pivot;
             AddSpineAnimation("huli", "animation", new Vector3(1.65f, 4.54f, 0));
+            NpcControllCom.Instance.Init(transform);
         }
         else
         {

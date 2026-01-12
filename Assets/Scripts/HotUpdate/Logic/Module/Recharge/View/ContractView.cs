@@ -45,8 +45,22 @@ public class ContractView : BaseView
         view.previewBtn.onClick.Add(() => {
             UIManager.Instance.OpenWindow<ContractRewardPreview>(UIName.ContractRewardPreview, activityId);
         });
-        StringUtil.SetBtnTab(view.huadianBtn, Lang.GetValue("Contract_title1"));
-        StringUtil.SetBtnTab(view.taskBtn, Lang.GetValue("Contract_title2"));
+        SetBg(view.buyLevelbg, "Common/common_two_tip_bg.png");
+        view.addBtn.onClick.Add(() =>
+        {
+            view.contractBuyLevel.selectedIndex = 1;
+        });
+        view.buyLevelClose.onClick.Add(()=> 
+        {
+            view.contractBuyLevel.selectedIndex = 0;
+        });
+        view.btn_Opening.onClick.Add(() => 
+        {
+            UIManager.Instance.OpenWindow<ContractPayWindow>(UIName.ContractPayWindow);
+            view.contractBuyLevel.selectedIndex = 0;
+        });
+        StringUtil.SetBtnTab(view.huadianBtn, Lang.GetValue("contract_title1"));
+        StringUtil.SetBtnTab(view.taskBtn, Lang.GetValue("contract_title2"));
         StringUtil.SetBtnTab(view.exBtn, Lang.GetValue("Contract_exBtn"));
         view.tipLab1.text = Lang.GetValue("slang_56");
         view.tipLab2.text = Lang.GetValue("Contract_normalReward");
@@ -118,7 +132,7 @@ public class ContractView : BaseView
         timer.Run();
         timer.CompleteCallBacker = () =>
         {
-            UIManager.Instance.ClosePanel(UIName.DrawMainView);
+            UIManager.Instance.ClosePanel(UIName.ContractView);
         };
     }
 

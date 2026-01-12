@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ADK;
 
 public class FlowerIkeVaseWindow : BaseWindow
 {
@@ -22,7 +23,7 @@ public class FlowerIkeVaseWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_CultivationManual_new.flower_ike_vase;
-        SetBg(view.bg, "Common/ELIDA_common_littledi01.png");
+        SetBg(view.bg, "Common/common_three_tip_bg.png");
         view.list.itemRenderer = RenderList;
         view.list.SetVirtual();
     }
@@ -53,8 +54,10 @@ public class FlowerIkeVaseWindow : BaseWindow
     {
         var cell = item as fun_CultivationManual_new.show_vase_item;
         var vaseData = dataList[index];
-        cell.img.url = ImageDataModel.Instance.GetVaseUrl(vaseData.VaseId);
+        var itemVo = ItemModel.Instance.GetItemById(vaseData.VaseId);
+        cell.img.url = ImageDataModel.Instance.GetIconUrl(itemVo);
         cell.status.selectedIndex = IkeModel.Instance.IsUnlockVase(vaseData.VaseId)?0:1;
+        UILogicUtils.SetItemShow(cell, itemVo.ItemDefId);
     }
 
     public override void OnHide()

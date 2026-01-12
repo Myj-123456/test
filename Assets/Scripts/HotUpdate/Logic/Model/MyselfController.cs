@@ -52,6 +52,12 @@ public class MyselfController : BaseController<MyselfController>
         AddNetListener<S_MSG_OPEN_GIFT_PACK>((int)MessageCode.S_MSG_OPEN_GIFT_PACK, OpenGiftPack);
         //点击道具
         AddNetListener<S_MSG_CLICK_ITEM>((int)MessageCode.S_MSG_CLICK_ITEM, ClickItem);
+        //注销账号
+        AddNetListener<S_MSG_DELETE_ACCOUNT>((int)MessageCode.S_MSG_DELETE_ACCOUNT, DeleteAccount);
+        //每日登录签到数据变更 I_DAILY_LOGIN
+        AddNetListener<I_DAILY_LOGIN>((int)MessageCode.S_MSG_CHANGE_DAILYLOGIN, ChangeDailyLogin);
+        //每日经营
+        AddNetListener<S_MSG_DAILY_MANAGER_STAT>((int)MessageCode.S_MSG_DAILY_MANAGER_STAT, DailyManagerStat);
     }
 
     /// <summary>
@@ -72,11 +78,11 @@ public class MyselfController : BaseController<MyselfController>
         //当订单系统解锁且未请求过数据
         if (GlobalModel.Instance.GetUnlocked(SysId.Order) && !FlowerOrderModel.Instance.HaveReqData())
         {
-            FlowerOrderController.Instance.ReqOderInfo();
+            //FlowerOrderController.Instance.ReqOderInfo();
         }
         if (GlobalModel.Instance.GetUnlockLevel(SysId.dress) == MyselfModel.Instance.level)
         {
-            FlowerOrderController.Instance.ReqOderInfo();
+            //FlowerOrderController.Instance.ReqOderInfo();
         }
         if (GlobalModel.Instance.GetUnlocked(SysId.NpcOrder) && NpcManager.Instance.npcOrderUnOpen)
         {
@@ -257,6 +263,8 @@ public class MyselfController : BaseController<MyselfController>
 
         VideoModel.Instance.videoWatch = data.videoWatch;
 
+        FlowerOrderModel.Instance.InitOrderList(data.orderList);
+
         RechargeModel.Instance.UpdateRechargeInfo(data.rechargeInfo);
         EventManager.Instance.DispatchEvent(PlayerEvent.GameCrossDay);
     }
@@ -343,6 +351,34 @@ public class MyselfController : BaseController<MyselfController>
         C_MSG_CLICK_ITEM c_MSG_CLICK_ITEM = new C_MSG_CLICK_ITEM();
         c_MSG_CLICK_ITEM.itemId = itemId;
         SendCmd((int)MessageCode.C_MSG_CLICK_ITEM, c_MSG_CLICK_ITEM);
+    }
+    //注销账号
+    public void DeleteAccount(S_MSG_DELETE_ACCOUNT data)
+    {
+        EventManager.Instance.DispatchEvent(PlayerEvent.DeleteAccount);
+    }
+    public void ReqDeleteAccount()
+    {
+        C_MSG_DELETE_ACCOUNT c_MSG_DELETE_ACCOUNT = new C_MSG_DELETE_ACCOUNT();
+        SendCmd((int)MessageCode.C_MSG_DELETE_ACCOUNT, c_MSG_DELETE_ACCOUNT);
+    }
+
+    public void ChangeDailyLogin(I_DAILY_LOGIN data)
+    {
+        WelfareModel.Instance.InitDailyLogin(data);
+        EventManager.Instance.DispatchEvent(PlayerEvent.ChangeDailyLogin);
+    }
+    //每日经营
+    public void DailyManagerStat(S_MSG_DAILY_MANAGER_STAT data)
+    {
+        MyselfModel.Instance.shopList = data.data;
+        EventManager.Instance.DispatchEvent(PlayerEvent.DailyManagerStat);
+    }
+
+    public void ReqDailyManagerStat()
+    {
+        C_MSG_DAILY_MANAGER_STAT c_MSG_DAILY_MANAGER_STAT = new C_MSG_DAILY_MANAGER_STAT();
+        SendCmd((int)MessageCode.C_MSG_DAILY_MANAGER_STAT, c_MSG_DAILY_MANAGER_STAT);
     }
 }
 

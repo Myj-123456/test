@@ -18,7 +18,9 @@ namespace fun_NpcCollection
         public GTextField task_condition_1;
         public GButton reward_btn;
         public GButton getted_btn;
-        public GButton exchange_btn;
+        public common_yellow_pic exchange_btn;
+        public GImage n10;
+        public GImage n11;
         public const string URL = "ui://ydpeia1vu0i3b";
 
         public static npc_collect_item CreateInstance()
@@ -41,7 +43,9 @@ namespace fun_NpcCollection
             task_condition_1 = (GTextField)GetChildAt(5);
             reward_btn = (GButton)GetChildAt(6);
             getted_btn = (GButton)GetChildAt(7);
-            exchange_btn = (GButton)GetChildAt(8);
+            exchange_btn = (common_yellow_pic)GetChildAt(8);
+            n10 = (GImage)GetChildAt(9);
+            n11 = (GImage)GetChildAt(10);
         }
     }
 }

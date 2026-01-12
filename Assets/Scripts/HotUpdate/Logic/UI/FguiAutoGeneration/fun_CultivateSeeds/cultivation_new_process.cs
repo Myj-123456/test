@@ -7,7 +7,7 @@ namespace fun_CultivateSeeds
 {
     public partial class cultivation_new_process : GProgressBar
     {
-        public GImage n1;
+        public GImage n4;
         public GImage bar;
         public const string URL = "ui://udmgdnw2s23e1ayr868";
 
@@ -20,7 +20,7 @@ namespace fun_CultivateSeeds
         {
             base.ConstructFromXML(xml);
 
-            n1 = (GImage)GetChildAt(0);
+            n4 = (GImage)GetChildAt(0);
             bar = (GImage)GetChildAt(1);
         }
     }

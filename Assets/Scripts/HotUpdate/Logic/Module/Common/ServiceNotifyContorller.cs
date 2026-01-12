@@ -17,7 +17,7 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
         if(type == NotifyEvent.TRADE_GRID_BUY)
         {
             var ui = UIManager.Instance.GetView(UIName.TradeWindow);
-            if (ui.Visible)
+            if (ui != null && ui.Visible)
             {
                 TradeController.Instance.ReqTradeInfomation();
             }
@@ -25,8 +25,8 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
             {
                 EventManager.Instance.DispatchEvent(RedPointEvent.UpdateTradeMain);
             }
-            var ui1 = UIManager.Instance.GetView(UIName.TradeMessageWindow);
-            if (ui1.Visible)
+            var ui1 = UIManager.Instance.GetWindow(UIName.TradeMessageWindow);
+            if (ui1 != null && ui1.Visible)
             {
                 TradeController.Instance.ReqMessage();
             }
@@ -40,13 +40,13 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
         else if(type == NotifyEvent.JOIN_GUILD)
         {
             var ui = UIManager.Instance.GetWindow(UIName.GuildJoinWindow);
-            if (ui.Visible)
+            if (ui != null && ui.Visible)
             {
                 UIManager.Instance.CloseWindow(UIName.GuildJoinWindow);
             }
 
             var ui1 = UIManager.Instance.GetWindow(UIName.CreateGuildWindow);
-            if (ui1.Visible)
+            if (ui1 != null && ui1.Visible)
             {
                 UIManager.Instance.CloseWindow(UIName.CreateGuildWindow);
             }
@@ -56,12 +56,7 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
         }
         else if (type == NotifyEvent.LEAVE_GUILD)
         {
-            var ui = UIManager.Instance.GetWindow(UIName.GuildMainView);
-            if (ui.Visible)
-            {
-                UIManager.Instance.CloseWindow(UIName.GuildMainView);
-            }
-            
+            LeaveGuild();
             MyselfModel.Instance.UpdateUserInfo(UserInfoType.INFO_TYPE_GUILD_ID, "");
             EventManager.Instance.DispatchEvent(ChatEvent.GuildChatHistory); 
             EventManager.Instance.DispatchEvent(GuildEvent.LeaveGuild);
@@ -69,7 +64,7 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
         else if (type == NotifyEvent.ROB_ARREST)
         {
             var ui = UIManager.Instance.GetWindow(UIName.RobWindow);
-            if (ui.Visible)
+            if (ui != null && ui.Visible)
             {
                 //RobController.Instance.ReqRobInfo();
             }
@@ -77,7 +72,7 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
         else if (type == NotifyEvent.FRIEND_APPLY)
         {
             var ui = UIManager.Instance.GetWindow(UIName.FriendWindow);
-            if (ui.Visible)
+            if (ui != null && ui.Visible)
             {
                 FriendController.Instance.ReqFriendApplyList();
             }
@@ -86,7 +81,7 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
         {
             var ui = UIManager.Instance.GetWindow(UIName.FriendWindow);
             FriendModel.Instance.friendCount = (uint)data.ext1;
-            if (ui.Visible)
+            if (ui != null && ui.Visible)
             {
                 FriendController.Instance.ReqFriendList();
             }
@@ -153,6 +148,85 @@ public class ServiceNotifyContorller : BaseController<ServiceNotifyContorller>
             GuildController.Instance.ReqGuildInfo();
         }
     }
+
+    private void LeaveGuild()
+    {
+        var ui = UIManager.Instance.GetView(UIName.GuildMainView);
+        if (ui != null && ui.Visible)
+        {
+            UIManager.Instance.ClosePanel(UIName.GuildMainView);
+        }
+        var ui1 = UIManager.Instance.GetView(UIName.GuildPlantView);
+        if (ui1 != null && ui1.Visible)
+        {
+            UIManager.Instance.ClosePanel(UIName.GuildPlantView);
+        }
+        var ui2 = UIManager.Instance.GetWindow(UIName.BuyFlowerRackWindow);
+        if (ui2 != null && ui2.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.BuyFlowerRackWindow);
+        }
+        var ui3 = UIManager.Instance.GetView(UIName.GuildPlantingView);
+        if (ui3 != null && ui3.Visible)
+        {
+            UIManager.Instance.ClosePanel(UIName.GuildPlantingView);
+        }
+        var ui4 = UIManager.Instance.GetView(UIName.GuildGiftView);
+        if (ui4 != null && ui4.Visible)
+        {
+            UIManager.Instance.ClosePanel(UIName.GuildGiftView);
+        }
+        var ui5 = UIManager.Instance.GetWindow(UIName.GuildBargainWindow);
+        if (ui5 != null && ui5.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.GuildBargainWindow);
+        }
+        var ui6 = UIManager.Instance.GetWindow(UIName.GuildManageView);
+        if (ui6 != null && ui6.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.GuildManageView);
+        }
+        var ui7 = UIManager.Instance.GetWindow(UIName.GuildManageView);
+        if (ui7 != null && ui7.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.GuildManageView);
+        }
+        var ui8 = UIManager.Instance.GetWindow(UIName.GuildDonateWindow);
+        if (ui8 != null && ui8.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.GuildDonateWindow);
+        }
+        var ui9 = UIManager.Instance.GetWindow(UIName.GuildChangeNoticeWindow);
+        if (ui9 != null && ui9.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.GuildChangeNoticeWindow);
+        }
+        var ui10 = UIManager.Instance.GetView(UIName.GuildMatchView);
+        if (ui10 != null && ui10.Visible)
+        {
+            UIManager.Instance.ClosePanel(UIName.GuildMatchView);
+        }
+        var ui11 = UIManager.Instance.GetWindow(UIName.MatchMyTaskWindow);
+        if (ui11 != null && ui11.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.MatchMyTaskWindow);
+        }
+        var ui12 = UIManager.Instance.GetWindow(UIName.MatchTaskInfoWindow);
+        if (ui12 != null && ui12.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.MatchTaskInfoWindow);
+        }
+        var ui13 = UIManager.Instance.GetWindow(UIName.MatchRankWindow);
+        if (ui13 != null && ui13.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.MatchRankWindow);
+        }
+        var ui14 = UIManager.Instance.GetWindow(UIName.MatchFlowerWindow);
+        if (ui14 != null && ui14.Visible)
+        {
+            UIManager.Instance.CloseWindow(UIName.MatchFlowerWindow);
+        }
+    }                                              
 }
 
 public enum NotifyEvent

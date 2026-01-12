@@ -76,6 +76,7 @@ public class GrowthView
     }
     public void OnShown()
     {
+        view.list.numItems = 0;
         WelfareController.Instance.ReqRookieInfo();
         
     }
@@ -146,7 +147,7 @@ public class GrowthView
         var ft_jumpConfig = GlobalModel.Instance.GetFt_jumpConfig(id);
         UIManager.Instance.CloseAllWindown();
         UIManager.Instance.ClosePanel(UIName.WelfareMainView);
-        if (ft_jumpConfig.JumpType == 1)
+        if (ft_jumpConfig != null && ft_jumpConfig.JumpType == 1)
         {
             UIManager.Instance.OpenPanelByName(ft_jumpConfig.JumpParam);
         }
@@ -170,6 +171,7 @@ public class GrowthView
         var index = (int)(context.sender as GComponent).data;
         if(tabType != index)
         {
+            view.list.numItems = 0;
             tabType = index;
             UpdateList();
         }

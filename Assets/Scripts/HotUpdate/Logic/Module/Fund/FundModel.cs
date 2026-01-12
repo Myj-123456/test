@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class FundModel : Singleton<FundModel>
 {
-    public List<I_FUND_VO> fundInfo;//ÅàÓı»ù½ğ
+    public List<I_FUND_VO> fundInfo;//åŸºé‡‘ä¿¡æ¯
 
     private Dictionary<int, Ft_fundConfig> _fundMap;
     public Dictionary<int, Ft_fundConfig> fundMap { get
@@ -62,6 +62,46 @@ public class FundModel : Singleton<FundModel>
         var fundData = GetFundData(fund.fundType);
         fundData.triggerTime = fund.triggerTime;
         fundData.stageReward = fund.stageReward;
+    }
+    
+    public bool GetFundRed()
+    {
+        if (fundInfo == null || fundInfo.Count == 0)
+        {
+            return false;
+        }
+        
+        for (int type = 1; type <= 3; type++)
+        {
+            Ft_diamond_valueConfig diamondData = null;
+            if (type == 1)
+            {
+                diamondData = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.CASH);
+            }
+            else if (type == 2)
+            {
+                diamondData = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.INTROD);
+            }
+            else if (type == 3)
+            {
+                diamondData = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.STEP);
+            }
+            if (diamondData == null || !RechargeModel.Instance.haveDiamondValue.ContainsKey((uint)diamondData.IndexId))
+            {
+                continue;
+            }
+            
+            var fundList = GetFundList(type);
+            foreach (var config in fundList)
+            {
+                if (!IsGetted((uint)type, (uint)config.Id) && MyselfModel.Instance.level >= config.ReceiveLv)
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 }
 

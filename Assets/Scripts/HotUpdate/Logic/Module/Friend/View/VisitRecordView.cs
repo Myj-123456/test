@@ -11,7 +11,6 @@ public class VisitRecordView : BaseWindow
 {
     private fun_Friends.VisitRecordView view;
     private List<I_STEAL_MESSAGE_VO> stealMesData = new List<I_STEAL_MESSAGE_VO>();
-
     public VisitRecordView()
     {
         packageName = "fun_Friends";
@@ -27,12 +26,19 @@ public class VisitRecordView : BaseWindow
         EventManager.Instance.AddEventListener(FriendEvent.FriendStealMesg, FriendStealCallBack);
         view.list.SetVirtual();
         view.list.itemRenderer = ItemRender;
-        view.best_Title.text = "采摘记录";
+        view.best_Title.text = Lang.GetValue("best_30");
+        view.n20.text = Lang.GetValue("best_31"); //今日获得
+        view.n54.text = Lang.GetValue("best_34"); //友情币最多可以存储800个
+        StringUtil.SetBtnTab(view.emptyTip, Lang.GetValue("best_39")); //还没有采摘记录哦!
+
+        var itemVo = ItemModel.Instance.GetItemById(GlobalModel.Instance.module_profileConfig.FriendCoinItem);
+        view.pic_img.url = ImageDataModel.Instance.GetIconUrl(itemVo);
+        view.btn_best_buyBook.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
     }
     private void FriendStealCallBack()
     {
-        view.n22.text = FriendModel.Instance.friendStealMsg.fcoinDailyCnt.ToString()+"/"+ GlobalModel.Instance.module_profileConfig.FriendCoinDayLimit.ToString();
-        view.n25.text= StorageModel.Instance.GetItemCount(GlobalModel.Instance.module_profileConfig.FriendCoinItem).ToString();
+        view.n22.text = FriendModel.Instance.friendStealMsg.fcoinDailyCnt.ToString() + "/" + GlobalModel.Instance.module_profileConfig.FriendCoinDayLimit.ToString();
+        view.n25.text = StorageModel.Instance.GetItemCount(GlobalModel.Instance.module_profileConfig.FriendCoinItem).ToString();
         view.list.numItems = FriendModel.Instance.friendStealMsg.messageList?.Count??0;
         stealMesData = FriendModel.Instance.friendStealMsg.messageList??new List<I_STEAL_MESSAGE_VO>();
 
@@ -42,6 +48,8 @@ public class VisitRecordView : BaseWindow
     {
         fun_Friends.VisitRecordItem ui_ = item as fun_Friends.VisitRecordItem;
         view.status.selectedIndex = stealMesData.Count > 0 ? 1 : 0;
+        var coinVo = ItemModel.Instance.GetItemById(GlobalModel.Instance.module_profileConfig.FriendCoinItem);
+        ui_.pic.url = ImageDataModel.Instance.GetIconUrl(coinVo);
         if (index >= 0 && index < stealMesData.Count)
         {
             var stealMesItem = stealMesData[index];
@@ -50,11 +58,22 @@ public class VisitRecordView : BaseWindow
             if (friendData != null)
             {
                 ui_.txt_lv.text = friendData.userInfo.userLevel.ToString();
-                ui_.txt_name.text = friendData.userInfo.townName;
-                ui_.txt_daysVisit.text = TimeUtil.GenerateTimeDesc((int)stealMesItem.reqTime)+"摘取了";
-                ui_.Text_time.text = TimeUtil.GenerateTimeDesc((int)stealMesItem.stealUserInfo.userInfo.lastLoginTime);
+                ui_.txt_name.text = TextUtil.GetServerName(friendData.userInfo.serverId, friendData.userInfo.townName);
+                ui_.txt_daysVisit.text = TimeUtil.GenerateTimeDesc((int)stealMesItem.reqTime)+ Lang.GetValue("best_32");
+                if (stealMesItem.stealUserInfo.online)
+                {
+                    ui_.Text_time.text = Lang.GetValue("online_text");
+                }
+                else
+                {
+                    ui_.Text_time.text = TimeUtil.GenerateTimeDesc((int)stealMesItem.stealUserInfo.userInfo.lastLoginTime);
+                }
+                
                 ui_.n14.visible = MyselfModel.Instance.IsVip();
-
+                var frameVo = ItemModel.Instance.GetItemById((int)friendData.userInfo.headFrame);
+                UILogicUtils.ShowHeadFrames(ui_.picFrame as common_New.PictureFrame, frameVo);
+                var headVo = ItemModel.Instance.GetItemById(int.Parse(friendData.userInfo.headImgId));
+                (ui_.heead as common_New.MoonFestivalHead).pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
                 // 统计当前好友偷完花之后返回的好友币数量
                 int totalFriendCoinCount = 0;
                 if (stealMesItem.items != null)
@@ -70,8 +89,9 @@ public class VisitRecordView : BaseWindow
                 }
                 
                 ui_.txt_numberVisit.text = "+" + totalFriendCoinCount.ToString();
-                StringUtil.SetBtnTab(ui_.btn_newApply, "回访");
+                StringUtil.SetBtnTab(ui_.btn_newApply, Lang.GetValue("best_33"));
                 ui_.btn_newApply.data = friendData;
+                ui_.btn_newApply.onClick.Clear();
                 ui_.btn_newApply.onClick.Add(OnVisitFriend);
                 ui_.n20.visible = friendData.canSteal;
             }
@@ -98,6 +118,5 @@ public class VisitRecordView : BaseWindow
     public override void OnHide()
     {
         base.OnHide();
-        EventManager.Instance.RemoveEventListener(FriendEvent.FriendStealMesg, FriendStealCallBack);
     }
 }

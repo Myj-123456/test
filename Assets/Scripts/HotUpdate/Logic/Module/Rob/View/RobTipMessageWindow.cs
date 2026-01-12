@@ -28,6 +28,7 @@ public class RobTipMessageWindow : BaseWindow
         base.OnInit();
         _view = ui as fun_Rob.robResult;
 
+        SetBg(_view.bg, "Common/common_three_tip_bg.png");
         _view.btn_watchVideo1.visible = false;
         _view.lb_wacthCount.visible = false;
 
@@ -74,7 +75,7 @@ public class RobTipMessageWindow : BaseWindow
                 }
             }
             _view.lb_title.text = Lang.GetValue(result[0]);
-            _view.txt_tip.text = Lang.GetValue(result[1], param[3] as string);
+            _view.txt_tip.text = Lang.GetValue(result[1], param[3] as string, param[4].ToString());
             _view.img_tip.url = "rob/" + result[2] + ".png";
         }
         else

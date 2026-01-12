@@ -26,7 +26,6 @@ public class Lands
     };
     public void InitLands(Transform LandArea1, Transform LandArea2, Transform LandArea3, Transform LandArea4)
     {
-        // 清除所有旧的土地对象，避免好友花园数据残留
         foreach (var land in LandDic.Values)
         {
             land.Clear();
@@ -38,8 +37,6 @@ public class Lands
         AddAreaLand(LandArea4);
     }
 
-
-
     /// <summary>
     /// 添加一个区域土地
     /// </summary>
@@ -48,9 +45,9 @@ public class Lands
     {
         var gadRatio = 1f;//间隔比率
         var lineGadRatio = 0.4f;//行间隔比率(控制行间隔)
-        var halfLandWidth = 0.7f * 1.2f;
+        var halfLandWidth = 0.84f;
         halfLandWidth += halfLandWidth * gadRatio;
-        var halfLandHeight = 0.395f * 1.2f;
+        var halfLandHeight = 0.474f;
         halfLandHeight += halfLandHeight * gadRatio;
         var row = 5;
         var col = 3;
@@ -66,13 +63,13 @@ public class Lands
                 //下面是为了适配新地图做的偏移
                 if (i * col + j < 6)//前6个
                 {
-                    offX = 0.78f + 0.6f;
-                    offY = 0.61f + 0.6f;
+                    offX = 1.38f;
+                    offY = 1.21f;
                 }
                 else//后9个
                 {
-                    offX = -0.48f + 0.6f;
-                    offY = -0.282f + 0.6f;
+                    offX = 0.12f;
+                    offY = 0.318f;
                 }
                 Vector3 pos = new Vector3(j * halfLandWidth - i * halfLandWidth - (i * lineGadRatio * halfLandWidth) + offX, -i * halfLandHeight - j * halfLandHeight - (i * lineGadRatio * halfLandHeight) + offY);
                 AddLand(startLandId, pos, transform);
@@ -173,7 +170,7 @@ public class Lands
     /// 获取一个已解锁空土地
     /// </summary>
     /// <returns></returns>
-    public Land GetUnLockEmptyLand()
+    public Land GetUnLockEmptyLand(bool isDefault = true)
     {
         foreach (var land in LandDic)
         {
@@ -182,7 +179,11 @@ public class Lands
                 return land.Value;
             }
         }
-        return GetLand(1);
+        if (isDefault)
+        {
+            return GetLand(1);
+        }
+        return null;
     }
 
     /// <summary>
@@ -220,16 +221,44 @@ public class Lands
     }
 
     /// <summary>
-    /// 获取可以浇水的土地
+    /// 已种植可浇水土地
     /// </summary>
     /// <returns></returns>
-    public Land GetWaterLand()
+    public Land GetCanWaterLand()
+    {
+        foreach (var land in LandDic)
+        {
+            if (land.Value.plantVO != null && land.Value.plantVO.flowerId > 0 && land.Value.plantVO.status == 0)
+            {
+                return land.Value;
+            }
+        }
+        return null;
+    }
+    public Land GetPlantLand(bool isDefault = true)
     {
         var land = GetPlantLand();
         if (land != null) return land;
-        return GetUnLockEmptyLand();
+        if (isDefault)
+        {
+            return GetUnLockEmptyLand();
+        }
+        return null;
     }
-
+    /// <summary>
+    /// 获取可以浇水的土地
+    /// </summary>
+    /// <returns></returns>
+    public Land GetWaterLand(bool isDefault = true)
+    {
+        var land = GetCanWaterLand();
+        if (land != null) return land;
+        if (isDefault)
+        {
+            return GetUnLockEmptyLand();
+        }
+        return null;
+    }
     /// <summary>
     /// 获取可以收获的土地
     /// </summary>
@@ -261,7 +290,7 @@ public class Lands
             land = GetPlantLandByFlowerId(flowerId);
             if (land != null) return land;
         }
-        return GetWaterLand();//已经种植的土地，没有获取一块空土地
+        return GetPlantLand(true);//已经种植的土地，没有获取一块空土地
     }
 
     /// <summary>
@@ -279,5 +308,14 @@ public class Lands
             }
         }
         return null;
+    }
+
+    public void UpLevelUpdateLands()
+    {
+        foreach (var landId in unLockLandIdMap)
+        {
+            var land = GetLand((int)landId);
+            land.SetPlantUnLockState();
+        }
     }
 }

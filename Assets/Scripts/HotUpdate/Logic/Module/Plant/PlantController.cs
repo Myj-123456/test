@@ -69,15 +69,12 @@ public class PlantController : BaseController<PlantController>
             if (land != null)
             {
                 land.Plant((int)plant.flowerId);
-                //种植获取剧情贝壳
-                if (MyselfModel.Instance.behaviorDaily.poltCnt < GlobalModel.Instance.module_profileConfig.poltItemLimit)
-                {
-                    MyselfModel.Instance.behaviorDaily.poltCnt += 1;
-                    Vector2 pt = ADK.UILogicUtils.TransformPos(land.transform.position);
-                    DropManager.ShowDropItem1(GlobalModel.Instance.module_profileConfig.poltItemId, GlobalModel.Instance.module_profileConfig.poltItemGet, true, pt);
-                }
             }
         }
+        //更新剧情道具每日获取上限
+        MyselfModel.Instance.behaviorDaily.poltCnt = data.todayHavePlotCnt;
+        //进仓库
+        StorageModel.Instance.AddToStorage(data.items);
     }
 
 
@@ -128,22 +125,6 @@ public class PlantController : BaseController<PlantController>
     public void ReqHarvest(uint[] landIds)
     {
         if (landIds == null || landIds.Length <= 0) return;
-        var land = SceneManager.Instance.GetLand((int)landIds[landIds.Length - 1]);
-        if (land != null)
-        {
-            SceneManager.Instance.PlayHeroPlantAni(land, "explore");
-        }
-        ADK.Coroutiner.StartCoroutine(DelaySendReqHarvest(landIds));
-    }
-
-    /// <summary>
-    /// 主角收获动画卡点之后再请求服务器
-    /// </summary>
-    /// <param name="landIds"></param>
-    /// <returns></returns>
-    private IEnumerator DelaySendReqHarvest(uint[] landIds)
-    {
-        yield return new WaitForSeconds(1.2f);
         C_MSG_PLANT_HARVEST c_MSG_PLANT_HARVEST = new C_MSG_PLANT_HARVEST();
         c_MSG_PLANT_HARVEST.decorIds = landIds;
         SendCmd((int)MessageCode.C_MSG_PLANT_HARVEST, c_MSG_PLANT_HARVEST);
@@ -154,20 +135,6 @@ public class PlantController : BaseController<PlantController>
         PlantModel.Instance.harvestPlantCount = data.plantList.Count;
         foreach (var plant in data.plantList)
         {
-            var plantVO = PlantModel.Instance.GetPlantVo(plant.decorId);
-            var condition = FlowerHandbookModel.Instance.GetStaticSeedCondition((int)plantVO.flowerId);
-            if (plantVO != null && plantVO.flowerId > 0)
-            {
-                var ft_plant_cropConfig = PlantModel.Instance.GetPlantCropConfigData(condition.LevelMould + "#" + plantVO.level);
-                if (ft_plant_cropConfig != null)
-                {
-                    if (plantVO.level > 0)
-                    {
-                        ADK.Coroutiner.StartCoroutine(StartFloatProp(plantVO, plant, ft_plant_cropConfig));
-                    }
-                }
-            }
-
             PlantModel.Instance.UpdatePlantVO(plant);
             var land = SceneManager.Instance.GetLand((int)plant.decorId);
             if (land != null)
@@ -179,12 +146,16 @@ public class PlantController : BaseController<PlantController>
                 Debug.LogError("找不到对应土地：" + plant.decorId);
             }
         }
+        foreach(var plantHarvestStat in data.plantHarvestStat)
+        {
+            StartFloatProp(plantHarvestStat.Key, plantHarvestStat.Value);
+        }
         //飘除花外的奖励，屏幕中央飘就行了
         DropManager.ShowDrop(ItemModel.Instance.GetDropData(data.items, true), false);
         //进仓库
         StorageModel.Instance.AddToStorage(data.items);
         //检测一次小黑板订单信息
-        FlowerOrderController.Instance.ReqOderInfo();
+        //FlowerOrderController.Instance.ReqOderInfo();
         EventManager.Instance.DispatchEvent(SceneEvent.FlowerHarvest);
     }
 
@@ -192,21 +163,11 @@ public class PlantController : BaseController<PlantController>
     /// 飘道具
     /// </summary>
     /// <returns></returns>
-    private IEnumerator StartFloatProp(PlantVO plantVO, I_PLANT_VO plant, Elida.Config.Ft_hua_levelConfig ft_plant_cropConfig)
+    private void StartFloatProp(uint decorId, I_PLANT_HARVEST_STAT data)
     {
-        var level = plantVO.level;
-        var itemId = plantVO.flowerId;
-        //飘经验
-        var exp = ft_plant_cropConfig.Experience;
-        var curLand = SceneManager.Instance.GetLand((int)plant.decorId);
+        var curLand = SceneManager.Instance.GetLand((int)decorId);
         Vector2 pt = ADK.UILogicUtils.TransformPos(curLand.transform.position);
-        //DropManager.ShowDropItem((int)ADK.BaseType.EXP, exp, false, pt - new Vector2(10,0));
-        yield return null;
-        //飘收获的花
-
-        var cropCount = ft_plant_cropConfig.CropCount;
-        DropManager.ShowDropItem((int)itemId, cropCount, false, pt + new Vector2(10, 0));
-
+        DropManager.ShowDropItem((int)data.flowerId, (int)data.harvestCount, false, pt + new Vector2(10, 0));
     }
 
     //种植加速(加速券加速)

@@ -3,13 +3,15 @@ using Spine.Unity;
 using UnityEngine;
 
 /// <summary>
-/// UI����spineģ��
+/// <summary>
+/// UI英雄spine模型
+/// </summary>
 /// </summary>
 public class UIHeroAvatar : HeroAvatar
 {
     private GLoader3D uiSpineContainer;
     /// <summary>
-    /// ����UI���ʼ��
+    /// UI模型初始化
     /// </summary>
     /// <param name="container"></param>
     public void Init(GLoader3D container)

@@ -22,7 +22,7 @@ public class VideoDoubleWindow : BaseWindow
          base.OnInit();
         view = ui as fun_PopTips.video_doublr_view;
         SetBg(view.bg, "Common/common_small_tip_bg.png");
-        StringUtil.SetBtnTab(view.video_btn, "继续观看");
+        StringUtil.SetBtnTab(view.video_btn, Lang.GetValue("continuewatch_txt"));
         var videoData = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.VIDEO_PRIVILEGE);
         StringUtil.SetBtnTab(view.buy_btn1, Lang.GetValue("recharge_main_18", (videoData.Price / 10).ToString()));
         StringUtil.SetBtnTab(view.buy_btn, Lang.GetValue("recharge_main_18", (videoData.Price / 10 / 2).ToString()));
@@ -42,7 +42,7 @@ public class VideoDoubleWindow : BaseWindow
         });
         view.seach_btn.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 1);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 2);
         });
         EventManager.Instance.AddEventListener(RechargeEvent.VideoPay, UpdateVedioTime);
         EventManager.Instance.AddEventListener(RechargeEvent.VipPay, UpdateVedioTime);

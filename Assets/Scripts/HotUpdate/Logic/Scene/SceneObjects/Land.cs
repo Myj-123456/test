@@ -89,28 +89,33 @@ public class Land : SceneObject, IPointerEnterHandler
                 armatureComponen = armatureComponent;
                 armatureComponent.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
                 armatureComponent.transform.localPosition = new Vector3(-0.05f, -0.11f, 0f);
-                if (plantVO != null)//有数据表示已解锁
-                {
-                    armatureComponent.AnimationState.SetAnimation(0, "after", false);
-                }
-                else
-                {
-                    armatureComponent.AnimationState.SetAnimation(0, "befor", true);
-                }
+                SetPlantUnLockState();
                 UpdatePlantStatu(false);
             });
         }
         else
         {
-            if (plantVO != null)//有数据表示已解锁
+            SetPlantUnLockState();
+            UpdatePlantStatu(false);
+        }
+    }
+    public void SetPlantUnLockState()
+    {
+        if (plantVO != null)//有数据表示已解锁
+        {
+            armatureComponen.AnimationState.SetAnimation(0, "after", false);
+        }
+        else
+        {
+            var tudi_configConfig = PlantModel.Instance.GetTudiConfig(landId);
+            if (tudi_configConfig != null && !MyselfModel.Instance.CheckLevelMeet((uint)tudi_configConfig.UnlockLv))
             {
-                armatureComponen.AnimationState.SetAnimation(0, "after", false);
+                armatureComponen.AnimationState.SetAnimation(0, "Level", false);
             }
             else
             {
                 armatureComponen.AnimationState.SetAnimation(0, "befor", true);
             }
-            UpdatePlantStatu(false);
         }
     }
 
@@ -315,10 +320,6 @@ public class Land : SceneObject, IPointerEnterHandler
     {
         SceneManager.Instance.CreateHarvest(plantVO, transform.position);
         RollOver();
-        //if (GuideModel.Instance.IsGuiding)
-        //{
-        //    GuideController.Instance.NextGuide();
-        //}
     }
 
     public void PlantHander()
@@ -392,20 +393,31 @@ public class Land : SceneObject, IPointerEnterHandler
         {
             UpdatePlantState(plantSeedFlowerId, PlantState.State_0);
             DropWater();
-            //Guide();
+            ADK.Coroutiner.StartCoroutine(FloatPlotItem());
         }
     }
 
-    /// <summary>
-    /// 种植完毕引导浇水
-    /// </summary>
-    private void Guide()
+    //飘星星道具
+    private IEnumerator FloatPlotItem()
     {
-        if (GuideModel.Instance.IsGuiding)
+        if (MyselfModel.Instance.behaviorDaily.poltCnt < GlobalModel.Instance.module_profileConfig.poltItemLimit)
         {
-            GuideController.Instance.NextGuide();
+            MyselfModel.Instance.behaviorDaily.poltCnt += (uint)GlobalModel.Instance.module_profileConfig.poltItemGet;
+            yield return new WaitForSeconds(0.2f);
+            Debug.Log("飘星星道具");
+            Vector2 pt = ADK.UILogicUtils.TransformPos(transform.position);
+            GLoader3D effect = EffectPool.Instance.GetEffect("xxjia1");
+            effect.forcePlay = true;
+            effect.loop = false;
+            effect.animationName = "animation";
+            GRoot.inst.AddChild(effect);
+            effect.position = pt;
+            effect.Complete = (string name) =>
+            {
+                effect.Complete = null;
+                EffectPool.Instance.ReturnEffect(effect);//对象池回收
+            };
         }
-
     }
 
     public void Water()
@@ -441,7 +453,6 @@ public class Land : SceneObject, IPointerEnterHandler
             if (plantVO.flowerId > 0)
             {
                 waterSkin.gameObject.SetActive(false);
-                //Guide();//引导收花
             }
         });
 
@@ -453,12 +464,8 @@ public class Land : SceneObject, IPointerEnterHandler
     ///// <returns></returns>
     private IEnumerator WaterGrowing()
     {
-        //yield return new WaitForSeconds(0.5f);
         yield return new WaitForSeconds(0f);
         waterSkin.gameObject.SetActive(false);
-        //首次灌溉其实默认是马上成熟的 这里是前端做了延迟
-        //UpdatePlantState((int)plantVO.flowerId, PlantState.State_1);
-        //yield return new WaitForSeconds(0.5f);
         UpdatePlantState((int)plantVO.flowerId, PlantState.State_2);
     }
 
@@ -577,8 +584,6 @@ public class Land : SceneObject, IPointerEnterHandler
         {
             spriteRenderer.transform.localPosition = new Vector3(0, 1.19f);
         }
-        //spriteRenderer.transform.localPosition = new Vector3(0, spriteSize.y / 2);
-        //plantContainer.localPosition = new Vector3(-0.06f, (-spriteSize.y / 2) + 0.633f + 0.1f);
     }
 
     protected override void OnClick()

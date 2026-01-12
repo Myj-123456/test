@@ -8,7 +8,7 @@ namespace fun_Friends
     public partial class btn_best_book : GButton
     {
         public Controller type;
-        public GImage n14;
+        public GLoader pic;
         public const string URL = "ui://fteyf9nzt6831yjp7ue";
 
         public static btn_best_book CreateInstance()
@@ -21,7 +21,7 @@ namespace fun_Friends
             base.ConstructFromXML(xml);
 
             type = GetControllerAt(0);
-            n14 = (GImage)GetChildAt(0);
+            pic = (GLoader)GetChildAt(0);
         }
     }
 }

@@ -75,17 +75,46 @@ public class NpcControllCom : Singleton<NpcControllCom>
     {
         panel = GetUIPanel();
         panel.gameObject.transform.parent = parent;
-        panel.gameObject.transform.localPosition = new Vector3(-2.8f, 3.95f, 0f);
+        panel.gameObject.transform.localPosition = new Vector3(0.5f, 8.84f, 0f);
         panel.ui.visible = false;
         UpdateData();
-        
+        var view = panel.ui as fun_Scene.flower_top_com;
+        view.com.tip_lab.text = Lang.GetValue("slang_99");
+        EventManager.Instance.AddEventListener<uint>(RedPointEvent.RedDotChange, UpdateRedPoint);
+        EventManager.Instance.AddEventListener(SystemEvent.UpdateLevel, UpdateData);
+        EventManager.Instance.AddEventListener(TaskEvent.MainTaskReward, UpdateData);
     }
 
-    
+    private void UpdateRedPoint(uint type)
+    {
+        if (type == (uint)RedPointType.Npc_Collect)
+        {
+            UpdateData();
+        }
+    }
     private void UpdateData()
     {
-        Module_item_defConfig itemData = null;
         var view = panel.ui as fun_Scene.flower_top_com;
+        if (GlobalModel.Instance.GetUnlocked(SysId.NpcCollect))
+        {
+            
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Npc_Collect))
+            {
+                var info = RedPointModel.Instance.GetPointInfo(RedPointType.Npc_Collect);
+                var npcInfo = NpcCollectModel.Instance.grandmaConfigList.Find(value => value.Id == (int)info.ext1);
+                Module_item_defConfig itemData = ItemModel.Instance.GetItemByEntityID(npcInfo.Rewards[0].EntityID);
+                view.com.pic.url = ImageDataModel.Instance.GetIconUrl(itemData);
+                view.visible = true;
+            }
+            else
+            {
+                view.visible = false;
+            }
+        }
+        else
+        {
+            view.visible = false;
+        }
         
     }
     private UIPanel GetUIPanel()
@@ -127,6 +156,7 @@ public class TradeCom : Singleton<TradeCom>
     private void UpdateData()
     {
         panel.ui.visible = RedPointModel.Instance.IsRedPointShow(RedPointType.Trade);
+ 
     }
     private UIPanel GetUIPanel()
     {

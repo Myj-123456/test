@@ -13,12 +13,23 @@ public class TurnView
    public TurnView(fun_Welfare.turntable_view ui)
     {
         view = ui;
-        StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("common_button_receive"));
+        StringUtil.SetBtnTab(view.get_btn, Lang.GetValue("wheel_buy_btn"));
+        view.n12.text = Lang.GetValue("turn_02");
         InitItemShow();
-
         view.get_btn.onClick.Add(() =>
         {
             WelfareController.Instance.ReqTurnTable();
+        });
+        view.share_btn.n12.text =Lang.GetValue("turn_01");
+        view.share_btn.n20.text = Lang.GetValue("text_breed36");
+        view.share_btn.onClick.Add(() =>
+        {
+            WelfareController.Instance.ReqTurnTableByShare();
+        });
+        StringUtil.SetBtnTab(view.skip_btn,Lang.GetValue("draw_1"));
+        view.skip_btn.onClick.Add(() =>
+        {
+
         });
         EventManager.Instance.AddEventListener(WelfareEvent.TurnTable, UpdateData);
     }
@@ -32,30 +43,38 @@ public class TurnView
         if (TurnBoxManager.Instance.boxNum > 0)
         {
             view.numLab.text = TurnBoxManager.Instance.boxNum + "/" + GlobalModel.Instance.module_profileConfig.keMaxNum;
+            view.textColorctrl.selectedIndex = 0;
         }
         else
         {
             view.textColorctrl.selectedIndex = 1;
         }
         view.get_btn.enabled = TurnBoxManager.Instance.boxNum > 0;
-        
+        // 管理分享按钮显示和状态
+        bool showShare = TurnBoxManager.Instance.boxNum == 0;
+        view.share_btn.visible = showShare;
+        // 今日是否已分享
+        bool hasSharedToday = MyselfModel.Instance.behaviorDaily != null && MyselfModel.Instance.behaviorDaily.turntableShareCnt > 0;
+        view.share_btn.enabled = showShare && !hasSharedToday;
         // 更新倒计时显示
         if (TurnBoxManager.Instance.boxNum < GlobalModel.Instance.module_profileConfig.keMaxNum && TurnBoxManager.Instance.timer != null)
         {
-            // 清理旧的倒计时器
             if (countDownTimer != null)
             {
                 countDownTimer.Clear();
                 countDownTimer = null;
             }
+            view.status.selectedIndex = 1;
+            var endTime = GlobalModel.Instance.module_profileConfig.keHuifuCd - (int)ServerTime.Time + (int)TurnBoxManager.Instance.time;
+            if(endTime > 0)
+            {
+                countDownTimer = new CountDownTimer(view.time_text, endTime, true, 2);
+            }
             
-            // 创建新的倒计时器，将time_text传递给它
-            countDownTimer = new CountDownTimer(view.time_text, TurnBoxManager.Instance.timer.time,true,2);
         }
         else
         {
-            // 没有倒计时时清空文本
-            view.time_text.text = "00:00:00";
+            view.status.selectedIndex = 0;
             if (countDownTimer != null)
             {
                 countDownTimer.Clear();
@@ -79,7 +98,6 @@ public class TurnView
 
     public void OnHide()
     {
-        // 隐藏时清理倒计时器
         if (countDownTimer != null)
         {
             countDownTimer.Clear();
@@ -87,4 +105,3 @@ public class TurnView
         }
     }
 }
-

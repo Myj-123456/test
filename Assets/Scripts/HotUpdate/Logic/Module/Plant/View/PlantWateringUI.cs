@@ -131,7 +131,7 @@ public class PlantWateringUI
         Hide();
         if (!MyselfModel.Instance.IsVip())
         {
-            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 1);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 2);
             return;
         }
         var lands = PlantModel.Instance.GetUnWateringLands();

@@ -7,7 +7,7 @@ using ADK;
 
 public class AddPreWindow : BaseWindow
 {
-   private fun_PopTips.add_tips_view view;
+    private fun_PopTips.add_tips_view view;
     private CountDownTimer vipTime;
     private CountDownTimer videoTime;
     public AddPreWindow()
@@ -20,14 +20,14 @@ public class AddPreWindow : BaseWindow
 
     public override void OnInit()
     {
-         base.OnInit();
+        base.OnInit();
         view = ui as fun_PopTips.add_tips_view;
         SetBg(view.bg, "Common/common_small_tip_bg.png");
-        StringUtil.SetBtnTab(view.vip_com.vip_btn,"开通");
-        StringUtil.SetBtnTab(view.video_com.video_btn, "试用");
-        view.vip_com.titleLab.text = "VIP特权";
-        view.video_com.tip_lab.text = "2倍金币";
-        view.vip_com.tip_lab.text = "1.25倍经验";
+        StringUtil.SetBtnTab(view.vip_com.vip_btn, Lang.GetValue("open_txt"));
+        StringUtil.SetBtnTab(view.video_com.video_btn, Lang.GetValue("try_txt"));
+        view.vip_com.titleLab.text = Lang.GetValue("VIP_title");
+        view.video_com.tip_lab.text = string.Format(Lang.GetValue("gold_title"), 2);
+        view.vip_com.tip_lab.text = string.Format(Lang.GetValue("exp_title"), 1.25);
         var videoData = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.VIDEO_PRIVILEGE);
         var vipData = RechargeModel.Instance.GetDiamondVo((int)E_DIAMOND_VALUE_TYPE.VIP);
         view.vip_com.vip_btn.onClick.Add(() =>
@@ -48,11 +48,11 @@ public class AddPreWindow : BaseWindow
         });
         view.video_com.seach_btn.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 1);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 2);
         });
         view.vip_com.seach_btn.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 1);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 2);
         });
         EventManager.Instance.AddEventListener(RechargeEvent.VipPay, UpdateVip);
 
@@ -95,7 +95,7 @@ public class AddPreWindow : BaseWindow
         if (MyselfModel.Instance.vipTime > ServerTime.Time)
         {
             var leftTime = MyselfModel.Instance.vipTime - ServerTime.Time;
-            vipTime = new CountDownTimer(view.vip_com.timeLab, (int)leftTime, true,2);
+            vipTime = new CountDownTimer(view.vip_com.timeLab, (int)leftTime, true, 2);
             vipTime.CompleteCallBacker = UpdateVip;
         }
     }
@@ -139,15 +139,15 @@ public class AddPreWindow : BaseWindow
         var endTime2 = card == null ? 0 : int.Parse(card.info);
         var endTime = endTime1 > endTime2 ? endTime1 : endTime2;
         var time = endTime - (int)ServerTime.Time;
-        if(time > 0)
+        if (time > 0)
         {
             GTextField text = null;
-            if(endTime2 > ServerTime.Time)
+            if (endTime2 > ServerTime.Time)
             {
                 view.video_com.show_time.selectedIndex = 1;
                 text = view.video_com.timeLab;
             }
-            else if(endTime1 > ServerTime.Time)
+            else if (endTime1 > ServerTime.Time)
             {
                 view.video_com.show_time.selectedIndex = 0;
                 view.video_com.grp.visible = true;

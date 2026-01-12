@@ -9,7 +9,7 @@ namespace common_New
     {
         public Controller button;
         public GImage n7;
-        public const string URL = "ui://mjiw43v9s5f01yjp86g";
+        public const string URL = "ui://mjiw43v9rb3e1yjp86i";
 
         public static CloseBtn_3 CreateInstance()
         {

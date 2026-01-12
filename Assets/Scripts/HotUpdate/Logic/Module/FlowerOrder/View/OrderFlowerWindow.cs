@@ -25,25 +25,27 @@ public class OrderFlowerWindow : BaseView
     {
          base.OnInit();
         view = ui as fun_OrderFlower.order_flower;
+
+        SetBg(view.bg, "Common/ELIDA_shunfengdingdan_diban02.png");
+
         view.tip_0.text = Lang.GetValue("MarketOrder_txt2");
-        view.titleLab.text = Lang.GetValue("MarketOrder_txt1");
+        //view.titleLab.text = Lang.GetValue("MarketOrder_txt1");
         view.txt_noOrder.text = Lang.GetValue("Treasure_headline4");
         StringUtil.SetBtnTab(view.btn_refresh.btn_free, Lang.GetValue("common_button_refresh"));
         //view.bg.url = "FlowerOrder/ELIDA_huashidingdan_bg.png";
         view.lb_Complate.text = Lang.GetValue("party_button_completed");
-        StringUtil.SetBtnTab2(view.btn_commit, Lang.GetValue("Common_Btn_Submit"));
+        StringUtil.SetBtnTab(view.btn_commit, Lang.GetValue("Common_Btn_Submit"));
         //StringUtil.SetBtnCount(view.btn_refresh.btn_reflush,GlobalModel.Instance.module_profileConfig.flowerMarketRefresh.ToString());
         StringUtil.SetBtnTab(view.btn_refresh.btn_reflush, GlobalModel.Instance.module_profileConfig.flowerMarketRefresh.ToString());
-
         view.rewardBoard.marketRewardGoldItem.txt_name.text = Lang.GetValue("gold");
         view.rewardBoard.marketRewardExpItem.txt_name.text = Lang.GetValue("exp");
 
         view.rewardBoard.marketRewardGoldItem.pic.url = ImageDataModel.GOLD_ICON_URL;
         view.rewardBoard.marketRewardExpItem.pic.url = ImageDataModel.EXP_ICON_URL;
 
-        view.spine.url = "xiaoxiongmao";
-        view.spine.loop = true;
-        view.spine.animationName = "idle";
+        //view.spine.url = "xiaoxiongmao";
+        //view.spine.loop = true;
+        //view.spine.animationName = "idle";
 
        view.btn_commit.onClick.Add(() =>
         {
@@ -62,8 +64,11 @@ public class OrderFlowerWindow : BaseView
             }
             FlowerOrderController.Instance.ReqFlowerOrderRerest();
         });
-        view.hitArea.onClick.Add(CloseView);
-
+        //view.hitArea.onClick.Add(CloseView);
+        view.close_btn.onClick.Add(() => 
+        {
+            CloseView();
+        });
         EventManager.Instance.AddEventListener(FlowerOrderEvent.FlowerOrderInfo, UpdateData);
         EventManager.Instance.AddEventListener(VideoEvent.videoDoubleEnd, UpdateData);
     }
@@ -87,7 +92,7 @@ public class OrderFlowerWindow : BaseView
         bool isEnabled = haveCount >= (int)count;
         view.btn_commit.enabled = isEnabled && info.status == 0;
         view.comStatus.selectedIndex = (int)info.status;
-        view.txt_have.text = (isEnabled ? "<font color= '#777E70'>" : "<font color= '#fe8870'>") + haveCount + "</font>/" + count;
+        view.txt_have.text = (isEnabled ? "<font color= '#9d5807'>" : "<font color= '#e60606'>") + haveCount + "</font>/" + count;
         view.lb_flowerName.text = Lang.GetValue("order_flower_need", Lang.GetValue(itemVo.Name), count.ToString()) ;
         var goldRate = BuffManager.Instance.GetAddRate(BuffType.Flower_Glod_Type);
         var goldNum = OrderModel.Instance.GetFlowerAdditionGold((int)flowerId) * (int)count * goldRate;
@@ -99,7 +104,6 @@ public class OrderFlowerWindow : BaseView
             view.rewardBoard.marketRewardGoldItem.type.selectedIndex = 1;
             view.rewardBoard.marketRewardGoldItem.txt_num.text = goldNum.ToString();
             view.rewardBoard.marketRewardGoldItem.txt_add.text = goldRate.ToString();
-
         }
         else
         {

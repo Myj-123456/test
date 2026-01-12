@@ -7,16 +7,14 @@ namespace fun_CultivationManual_new
 {
     public partial class handbookLevelUpDetail : GComponent
     {
-        public GImage n477;
         public GLoader bg;
-        public GImage n485;
-        public GImage n486;
-        public GImage n488;
-        public GImage n487;
+        public GImage n502;
+        public GImage n503;
         public GImage n489;
         public GImage n490;
         public GImage n491;
         public GImage n492;
+        public GImage n501;
         public GButton close_btn;
         public GList list;
         public GTextField titleLab;
@@ -25,6 +23,7 @@ namespace fun_CultivationManual_new
         public GTextField seedLab;
         public GTextField flowerLab;
         public GTextField countLab;
+        public GTextField n500;
         public const string URL = "ui://ekoic0wrqheb1yjp7ms";
 
         public static handbookLevelUpDetail CreateInstance()
@@ -36,24 +35,23 @@ namespace fun_CultivationManual_new
         {
             base.ConstructFromXML(xml);
 
-            n477 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n485 = (GImage)GetChildAt(2);
-            n486 = (GImage)GetChildAt(3);
-            n488 = (GImage)GetChildAt(4);
-            n487 = (GImage)GetChildAt(5);
-            n489 = (GImage)GetChildAt(6);
-            n490 = (GImage)GetChildAt(7);
-            n491 = (GImage)GetChildAt(8);
-            n492 = (GImage)GetChildAt(9);
-            close_btn = (GButton)GetChildAt(10);
-            list = (GList)GetChildAt(11);
-            titleLab = (GTextField)GetChildAt(12);
-            levelLab = (GTextField)GetChildAt(13);
-            timeLab = (GTextField)GetChildAt(14);
-            seedLab = (GTextField)GetChildAt(15);
-            flowerLab = (GTextField)GetChildAt(16);
-            countLab = (GTextField)GetChildAt(17);
+            bg = (GLoader)GetChildAt(0);
+            n502 = (GImage)GetChildAt(1);
+            n503 = (GImage)GetChildAt(2);
+            n489 = (GImage)GetChildAt(3);
+            n490 = (GImage)GetChildAt(4);
+            n491 = (GImage)GetChildAt(5);
+            n492 = (GImage)GetChildAt(6);
+            n501 = (GImage)GetChildAt(7);
+            close_btn = (GButton)GetChildAt(8);
+            list = (GList)GetChildAt(9);
+            titleLab = (GTextField)GetChildAt(10);
+            levelLab = (GTextField)GetChildAt(11);
+            timeLab = (GTextField)GetChildAt(12);
+            seedLab = (GTextField)GetChildAt(13);
+            flowerLab = (GTextField)GetChildAt(14);
+            countLab = (GTextField)GetChildAt(15);
+            n500 = (GTextField)GetChildAt(16);
         }
     }
 }

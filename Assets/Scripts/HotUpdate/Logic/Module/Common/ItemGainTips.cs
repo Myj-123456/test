@@ -40,26 +40,26 @@ public class ItemGainTips : BaseWindow
             var flowerInfo = item.Type == 4001 ? FlowerHandbookModel.Instance.GetStaticSeedCondition(item.ItemDefId) : FlowerHandbookModel.Instance.GetStaticSeedCondition1(item.ItemDefId);
             view.img_quality.url = "HandBookNew/" + "rare_icon_" + flowerInfo.FlowerQuality + ".png";
             var bookTxtInfo = FLowerModel.Instance.GetBookTxtInfo(flowerInfo.FlowerId);
-            
+
             view.txt_des.text = Lang.GetValue(bookTxtInfo.FlowerLanguage);
         }
-        else if(item.Type == 4401 || item.Type == 4402)
+        else if (item.Type == 4401 || item.Type == 4402)
         {
             view.type.selectedIndex = 2;
             view.img_vase.url = ImageDataModel.Instance.GetVaseUrl(item.ItemDefId);
             view.txt_ownNum.text = Lang.GetValue("handBook_2");
             var vaseInfo = item.Type == 4401 ? IkeModel.Instance.GetStaticFlowerPoint(item.ItemDefId) : IkeModel.Instance.GetStaticFlowerPoint1(item.ItemDefId);
-            view.img_quality.url = "HandBookNew/" + "rare_icon_" + vaseInfo.VaseQuality + ".png";
+            view.img_quality.url = "HandBookNew/" + "rare_icon_" + item.Quality + ".png";
         }
         else
         {
             view.img_icon.url = ImageDataModel.Instance.GetIconUrl(item);
             view.type.selectedIndex = 0;
-            view.txt_ownNum.text = $"拥有数量：{TextUtil.ChangeCoinShow(StorageModel.Instance.GetItemCount(item.ItemDefId))}";
+            view.txt_ownNum.text = $"{Lang.GetValue("ownNumber_txt")}{TextUtil.ChangeCoinShow(StorageModel.Instance.GetItemCount(item.ItemDefId))}";
         }
         actionIds = item.ActionIds;
         view.txt_name.text = Lang.GetValue(item.Name);
-        
+
         view.list_gainway.numItems = actionIds.Length;
     }
     private void RenderList(int index, GObject item)

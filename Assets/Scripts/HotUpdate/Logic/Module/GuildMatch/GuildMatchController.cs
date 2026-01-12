@@ -89,7 +89,7 @@ public class GuildMatchController : BaseController<GuildMatchController>
     //获取某个位置的任务
     public void GuildPosTask(S_MSG_GUILD_COMPETITION_POS_TASK data)
     {
-        GuildMatchModel.Instance.UpdateTaskInfo(data.pos, data.taskList);
+        GuildMatchModel.Instance.UpdateTaskInfo(data.taskList);
         EventManager.Instance.DispatchEvent(GuildMatchEvent.GuildPosTask);
     }
 
@@ -226,11 +226,11 @@ public class GuildMatchController : BaseController<GuildMatchController>
 
     public void ReqMemberPage(int index)
     {
-        if(index > tatol)
+        if(index >= tatol)
         {
             var need = GuildMatchModel.Instance.memberRankList.Count - index - 1;
             var len = need < 50 ? GuildMatchModel.Instance.memberRankList.Count : index + 50;
-            tatol = len - 1;
+            tatol = len;
             var userIds = new List<uint>();
             for (int i = index;i < len; i++)
             {

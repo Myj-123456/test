@@ -9,10 +9,10 @@ namespace UnityTimer
     {
         //protected List<Timer> _timers = new List<Timer>();
 
-        //³õÊ¼»¯Ä¬ÈÏnew 1¸ö¿Õ¼ä³öÀ´
+        // åˆå§‹åŒ–é»˜è®¤ new 1 ä¸ªç©ºé—´å¤§å°
         protected Timer[] m_szTimers = new Timer[1];
 
-        //ÒÑÊ¹ÓÃµÄ¿Õ¼ä
+        //ï¿½ï¿½Ê¹ï¿½ÃµÄ¿Õ¼ï¿½
         protected uint m_iUsedSize = 0;
 
         //protected List<Timer> _timersToAdd = new List<Timer>();
@@ -24,7 +24,7 @@ namespace UnityTimer
 
             Timer[] szTempTimer = new Timer[iNewCapacity];
 
-            //Î²²¿È«²¿ÉèÖÃ³Énull
+            //å°¾éƒ¨å…¨éƒ¨è®¾ç½®æˆnull
             for (int i = iOldCapacity; i < iNewCapacity; ++i)
             {
                 szTempTimer[i] = null;
@@ -33,15 +33,15 @@ namespace UnityTimer
             //copy oldData -> newData
             Array.Copy(m_szTimers, szTempTimer, m_szTimers.Length);
 
-            //Ö¸ÏòĞÂµØÖ·
+            // æŒ‡å‘æ–°åœ°å€
             m_szTimers = szTempTimer;
 
-            //½â³ıÒıÓÃ
+            // é‡Šæ”¾æ—§æ•°ç»„å¼•ç”¨
             szTempTimer = null;
         }
 
         /// <summary>
-        /// Ğ¡¶¥¶ÑÅÅĞò   
+        /// å°æ ¹å †è°ƒæ•´
         /// </summary>
         public void HeapAdjustSmall(int parent)
         {
@@ -52,7 +52,7 @@ namespace UnityTimer
 
             Timer tmp = m_szTimers[parent];
 
-            //Ê±¼ä¸´ÔÓ¶ÈÓ¦¸ÃÔÚO(LogN)¸½½ü
+            // æ—¶é—´å¤æ‚åº¦å¯¹åº”çš„æ˜¯O(LogN)çº§åˆ«
             for (int child = parent * 2 + 1; child < m_iUsedSize; child = child * 2 + 1)
             {
                 if (child + 1 < m_iUsedSize && m_szTimers[child].EndTime > m_szTimers[child + 1].EndTime)
@@ -87,10 +87,10 @@ namespace UnityTimer
             uint hole = m_iUsedSize;
             ++m_iUsedSize;
 
-            // ÓÉÓÚĞÂ½áµãÔÚ×îºó£¬Òò´Ë½«Æä½øĞĞÉÏÂË£¬ÒÔ·ûºÏ×îĞ¡¶Ñ
+            // ä»åº•éƒ¨å‘ä¸Šç­›é€‰ï¼Œä¿æŒæœ€å°å †æ€§è´¨
             for (uint parent = (hole - 1) / 2; hole > 0; parent = (hole - 1) / 2)
             {
-                //°ÑÊ±¼ä×î¶ÌµÄ¼ÆÊ±Æ÷½»»»µ½Ê÷¸ù½Úµã
+                // ä»åº•éƒ¨å‘ä¸Šç­›é€‰ï¼Œä¿æŒæœ€å°å †æ€§è´¨
                 if (m_szTimers[parent].EndTime > timer.EndTime)
                 {
                     m_szTimers[hole] = m_szTimers[parent];
@@ -165,7 +165,7 @@ namespace UnityTimer
 
                 tmp.Update();
 
-                //Ñ­»·ÀàĞÍµÄ¼ÆÊ±Æ÷£¬Èç¹ûµ½ÁËÊ±¼ä£¬ÖØĞÂÅÅĞò£¬¶ø²»ÇåÀí
+                //å¾ªç¯ç±»å‹çš„è®¡æ—¶å™¨ï¼Œæ—¶é—´åˆ°è¾¾åï¼Œè‡ªåŠ¨é‡å¯
                 if (tmp.isCompletedThisFrame && tmp.isLooped)
                 {
                     HeapAdjustSmall(0);

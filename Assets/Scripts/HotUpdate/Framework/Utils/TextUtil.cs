@@ -15,6 +15,10 @@ public static class TextUtil
     private static readonly string[] ChineseUnits = {
             "", "十", "百", "千", "万"
         };
+    private static readonly string[] Colors = { "#0c5c26", "#570975", "#025178", "#7e0b00", "#893f00", "#5143a4" };
+
+    public static readonly string[] Colors1 = { "#0074d00", "#025183", "#54026c", "#57031b", "#6e4208", "#f500e7" };
+    public static readonly string[] Colors2 = { "#17f400", "#74e0ff", "#ea75fc", "#ff4c4c", "#fffd62", "#e9f8ff" };
     public static string ChangeCoinShow(float value)
     {
         string[] numberUnit = { "", "K", "M", "B", "T" };
@@ -232,5 +236,14 @@ public static class TextUtil
     public static string GetServerName(uint serverId,string name)
     {
         return "s" + serverId + "." + name;
+    }
+    public static string GetColorQuality(int quality)
+    {
+        return Colors[quality - 1];
+    }
+    public static string GetClothName(string name,int type = 0)
+    {
+        var arr = name.Split("-");
+        return arr[type];
     }
 }

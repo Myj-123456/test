@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ADK;
+using Elida.Config;
 using Newtonsoft.Json.Linq;
 using protobuf.mail;
 using protobuf.plant;
@@ -14,6 +15,19 @@ public class MailModel : Singleton<MailModel>
     public int mailCount;
     public List<I_MAIL_VO> mailData;
 
+    private Dictionary<int, Ft_mail_systemConfig> _mailMap;
+    public Dictionary<int, Ft_mail_systemConfig> mailMap
+    {
+        get
+        {
+            if(_mailMap == null)
+            {
+                var mailConfigData = ConfigManager.Instance.GetConfig<Ft_mail_systemConfigData>("ft_mail_systemsConfig");
+                _mailMap = mailConfigData.DataMap;
+            }
+            return _mailMap;
+        }
+    }
     //public void InitData()
     //{
     //    mailData = new List<MailData>();
@@ -22,7 +36,14 @@ public class MailModel : Singleton<MailModel>
 
     //    }
     //}
-
+    public Ft_mail_systemConfig GetMailInfo(int id)
+    {
+        if (mailMap.ContainsKey(id))
+        {
+            return mailMap[id];
+        }
+        return null;
+    }
     public void UpdateRewardStatus(List<string> mailIds)
     {
         foreach(var maildId in mailIds)
@@ -74,6 +95,10 @@ public class MailModel : Singleton<MailModel>
 
     public bool IsGetMailRead()
     {
+        if(mailData == null)
+        {
+            return false;
+        }
         foreach(var value in mailData)
         {
             if(value.status == 0)

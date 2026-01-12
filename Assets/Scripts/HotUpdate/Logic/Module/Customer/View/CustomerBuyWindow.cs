@@ -102,7 +102,7 @@ public class CustomerBuyWindow : BaseWindow
                 }
                 else
                 {
-                    UILogicUtils.ShowNotice("无免费次数可购买！");
+                    UILogicUtils.ShowNotice(Lang.GetValue("nofreetime_txt"));
                 }
                 
             }

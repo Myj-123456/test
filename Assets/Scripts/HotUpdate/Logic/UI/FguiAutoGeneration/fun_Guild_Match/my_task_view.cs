@@ -7,9 +7,9 @@ namespace fun_Guild_Match
 {
     public partial class my_task_view : GComponent
     {
-        public GImage n4;
         public GLoader bg;
-        public GImage n5;
+        public GTextField txt_Title;
+        public GImage n7;
         public GList list;
         public GButton close_btn;
         public const string URL = "ui://qefze8qitewh6";
@@ -23,9 +23,9 @@ namespace fun_Guild_Match
         {
             base.ConstructFromXML(xml);
 
-            n4 = (GImage)GetChildAt(0);
-            bg = (GLoader)GetChildAt(1);
-            n5 = (GImage)GetChildAt(2);
+            bg = (GLoader)GetChildAt(0);
+            txt_Title = (GTextField)GetChildAt(1);
+            n7 = (GImage)GetChildAt(2);
             list = (GList)GetChildAt(3);
             close_btn = (GButton)GetChildAt(4);
         }

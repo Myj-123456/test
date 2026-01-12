@@ -52,14 +52,14 @@ public class DiamondDrawView
         });
         view.add_btn.onClick.Add(() =>
         {
-            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 3);
+            UIManager.Instance.OpenWindow<RechargeMainView>(UIName.RechargeMainView, 4);
         });
 
-        view.spine.url = "flowers/40011110";
+        //view.spine.url = "flowers/40011110";
         //view.spine.url = "flowers/" + reward.ItemDefId;
-        view.spine.forcePlay = true;
-        view.spine.loop = true;
-        view.spine.animationName = "step_" + 3 + "_idle";
+        //view.spine.forcePlay = true;
+        //view.spine.loop = true;
+        //view.spine.animationName = "step_" + 3 + "_idle";
 
 
         EventManager.Instance.AddEventListener(ActivityEvent.DiamondDraw, OnShown);
@@ -84,18 +84,18 @@ public class DiamondDrawView
 
         var count = StorageModel.Instance.GetItemCount(itemVo.ItemDefId);
         UpdateCurrency((uint)itemVo.ItemDefId);
-        view.one_com.numLab.text = "x1";
-        view.ten_com.numLab.text = "x10";
+        view.one_com.numLab.text = "x" + drawInfo.DrawItems[0].Value;
+        view.ten_com.numLab.text = "x" + (drawInfo.DrawItems[0].Value * 10);
         var num = drawInfo.MustGetTime - DrawModel.Instance.diamondDrawData.drawInfo.luckyValue;
         view.times_Lab.text = num + Lang.GetValue("fun_boon_4");
         var reward = DrawModel.Instance.GetBigItem(activityId);
         view.nameLab.text = Lang.GetValue(reward.Name);
         if (view.spine.url != reward.ItemDefId.ToString())
         {
-            //view.spine.url = "flowers/" + reward.ItemDefId;
-            //view.spine.forcePlay = true;
-            //view.spine.loop = true;
-            //view.spine.animationName = "step_" + 3 + "_idle";
+            view.spine.url = "flowers/" + reward.ItemDefId;
+            view.spine.forcePlay = true;
+            view.spine.loop = true;
+            view.spine.animationName = "step_" + 3 + "_idle";
 
         }
 

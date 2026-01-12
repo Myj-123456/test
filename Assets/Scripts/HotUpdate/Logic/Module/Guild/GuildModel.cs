@@ -517,7 +517,7 @@ public class GuildModel : Singleton<GuildModel>
     {
         if (positionNameMap.ContainsKey((int)guildMember.powerId))
         {
-            return Array.IndexOf(positionNameMap[(int)guildMember.powerId].KickingPeoples, (int)pos) != -1;
+            return positionNameMap[(int)guildMember.powerId].KickingPeoples != null && Array.IndexOf(positionNameMap[(int)guildMember.powerId].KickingPeoples, (int)pos) != -1;
             //return positionNameMap[(int)guildMember.powerId].KickingPeople == 1 && guildMember.powerId < pos;
         }
         return false;
@@ -661,8 +661,8 @@ public class GuildModel : Singleton<GuildModel>
     
     public List<Ft_club_shopConfig> GetShopList(int type)
     {
-        //return shopConfig.FindAll(value => value.Type == type);
-        return shopConfig;
+        return shopConfig.FindAll(value => value.Type == type);
+        
     }
 
 

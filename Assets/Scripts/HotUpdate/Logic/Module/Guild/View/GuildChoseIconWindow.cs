@@ -36,9 +36,10 @@ public class GuildChoseIconWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_New.guild_edit_icon;
-        SetBg(view.bg, "Common/ELIDA_common_bigdi01.png");
+        SetBg(view.bg, "Common/common_big_tip_bg.png");
         view.icon_list.itemRenderer = RenderIconList;
         StringUtil.SetBtnTab(view.btn_sure, Lang.GetValue("levelup_button"));
+        view.txt_Title.text = Lang.GetValue("newguild_02"); //选择徽章
         view.bg_list.itemRenderer = RenderBgList;
         view.bg_list.SetVirtual();
         curPage = 1;
@@ -46,7 +47,7 @@ public class GuildChoseIconWindow : BaseWindow
         {
             if (curIconData.BgId == 0 || curIconData.IconId == 0)
             {
-                UILogicUtils.ShowNotice("请选择图标");
+                UILogicUtils.ShowNotice(Lang.GetValue("choose_icon_txt"));
                 return;
             }
             EventManager.Instance.DispatchEvent(GuildEvent.ChoseIcon, curIconData);

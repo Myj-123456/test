@@ -6,186 +6,174 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using ADK;
+using Elida.Config;
 
 public class SeventhSignWindow : BaseWindow
 {
-    private fun_SignInSevenDays.SeventhSign viewSkin;
-    /**第七天奖励数量 */
-    private int servenDayNum;
+    private fun_Welfare.SeventhSign view;
+    private int tabType;
     public SeventhSignWindow()
     {
-        packageName = "fun_SignInSevenDays";
+        packageName = "fun_Welfare";
         // 设置委托
-        BindAllDelegate = fun_SignInSevenDays.fun_SignInSevenDaysBinder.BindAll;
-        CreateInstanceDelegate = fun_SignInSevenDays.SeventhSign.CreateInstance;
+        BindAllDelegate = fun_Welfare.fun_WelfareBinder.BindAll;
+        CreateInstanceDelegate = fun_Welfare.SeventhSign.CreateInstance;
     }
 
     public override void OnInit()
     {
         base.OnInit();
-        viewSkin = ui as fun_SignInSevenDays.SeventhSign;
-        SetBg(viewSkin.bg, "SeventhSign/ELIDA_denglujiangli_BG.png");
-        SeventhSignModel.Instance.isOpenView = false;
-        servenDayNum = SeventhSignModel.Instance.seventhSignLsitData[6].Awards.Length;
-        UpdateData();
-        GList list1 = viewSkin.item6.list;
-        list1.itemRenderer = OnList10ItemRender;
-        list1.numItems = servenDayNum;
+        view = ui as fun_Welfare.SeventhSign;
+        SetBg(view.bg, "Welfare/ELIDA_qrdl_tcbg.png");
 
-        viewSkin.item6.title.text = Lang.GetValue("activity_days", "7");
-        viewSkin.item6.gettedLab.text = Lang.GetValue("text_activity_3");//已领取
-        viewSkin.item6.getLab.text = Lang.GetValue("common_claim_button");
-        //StringUtil.SetBtnTab(viewSkin.item6.getBtn, Lang.GetValue("common_claim_button"));
-        viewSkin.desc_txt.text = Lang.GetValue("seventh_sign_1");//每日登入就可以领取奖励哦！
-        viewSkin.desc_txt1.text = Lang.GetValue("seventh_sign_2");
-        //StringUtil.SetBtnTab(viewSkin.btn_reward, Lang.GetValue("common_claim_button"));
+        InitDayItem();
+        view.list.itemRenderer = RenderList;
+        view.getBtn.onClick.Add(() =>
+        {
+            WelfareController.Instance.ReqDailyLoginAward();
+        });
+        var flowerVo = GetFlowerItem();
+        if (flowerVo != null)
+        {
+            var flowerInfo = FlowerHandbookModel.Instance.GetStaticSeedCondition1(flowerVo.ItemDefId);
+            if (view.spine.url == "" || view.spine.url != flowerInfo.FlowerId.ToString())
+            {
+                //view.spine.url = "flowers/" + flowerInfo.FlowerId;
+                view.spine.url = "flowers/" + 40011145;
+                view.spine.loop = true;
+                view.spine.animationName = "step_" + 3 + "_idle";
+            }
+            view.nameLab.text = Lang.GetValue(flowerVo.Name);
+            var condition = FlowerHandbookModel.Instance.GetStaticSeedCondition1(flowerVo.ItemDefId);
 
-        SetGroupGrayed(SeventhSignModel.Instance.signDay == 7);
-        //viewSkin.btn_reward.enabled = !SeventhSignModel.Instance.todayHaveDraw;
-        int todayIndex = SeventhSignModel.Instance.signDay;
-        //if (SeventhSignModel.Instance.CheckTodayIsSign()) todayIndex = SeventhSignModel.Instance.signDay - 1;
-
-        //AnimationHelper.CreateSpine("rabbit", viewSkin.spine.displayObject.gameObject.transform, "animation", true);
-        viewSkin.anim.loop = true;
-        viewSkin.anim.url = "rabbit";
-        viewSkin.anim.animationName = "animation";
-
-        EventManager.Instance.AddEventListener(SeventhSignEvent.DailyLoginAward, UpdateData);
+            view.name_bg.url = "HandBookNew/name_bg_small_color_" + condition.FlowerQuality + ".png";
+            view.rare_img.url = "HandBookNew/rare_icon_" + condition.FlowerQuality + ".png";
+        }
+        EventManager.Instance.AddEventListener(WelfareEvent.DailyLoginAward, UpdateData);
+        EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateData);
     }
 
 
 
-    private void UpdateData()
+    private void InitDayItem()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < SeventhSignModel.Instance.sevenList.Count; i++)
         {
-            var item = viewSkin.GetChild("item" + i) as fun_SignInSevenDays.SeventhSign_Item;
-            OnList0ItemRender(i, item);
-        }
-        if (SeventhSignModel.Instance.signDay == 7)
-        {
-            if (SeventhSignModel.Instance.todayHaveDraw)
+            var cell = view.GetChild("item" + (i + 1)) as fun_Welfare.seventh_sign_item;
+            cell.dayLab.text = Lang.GetValue("activity_days", (i + 1).ToString());
+            if (i == 6)
             {
-                viewSkin.item6.isLock.selectedIndex = 1;
+                cell.dayLab1.text = Lang.GetValue("activity_days", (i + 1).ToString());
+                var flowerVo = GetFlowerItem();
+                if (flowerVo != null)
+                {
+                    var flowerInfo = FlowerHandbookModel.Instance.GetStaticSeedCondition1(flowerVo.ItemDefId);
+                    var flowerItem = ItemModel.Instance.GetItemById(flowerInfo.FlowerId);
+                    if (flowerItem != null)
+                    {
+
+                        cell.pic.url = ImageDataModel.Instance.GetIdentifiedFlowerUrl(flowerItem);
+                    }
+                    cell.nameLab.text = Lang.GetValue(flowerVo.Name);
+                }
+
             }
-            else
-            {
-                viewSkin.item6.isLock.selectedIndex = 0;
-            }
-
-
+            cell.data = i;
+            cell.onClick.Add(ChangeTab);
         }
-        else
-        {
-            viewSkin.item6.isLock.selectedIndex = 2;
-        }
-        viewSkin.item6.onClick.Add(OnRewardClick1);
-
-
     }
-
+    private void ChangeTab(EventContext context)
+    {
+        var idx = (int)(context.sender as GComponent).data;
+        if (idx != tabType)
+        {
+            tabType = idx;
+            UpdateData();
+        }
+    }
 
     public override void OnShown()
     {
         base.OnShown();
         // 其他打开面板的逻辑
-        viewSkin.animation.Play();
-    }
+        tabType = (int)WelfareModel.Instance.currentDay - 1;
+        UpdateData();
 
+    }
+    private void UpdateData()
+    {
+        if (WelfareModel.Instance.status == 2)
+        {
+            Close();
+            return;
+        }
+        if (tabType == (int)WelfareModel.Instance.currentDay - 1 && !WelfareModel.Instance.todayHaveDraw)
+        {
+            view.getBtn.enabled = true;
+            StringUtil.SetBtnTab(view.getBtn, Lang.GetValue("common_claim_button"));
+        }
+        else if (tabType < (int)WelfareModel.Instance.currentDay - 1 || (tabType == (int)WelfareModel.Instance.currentDay - 1 && WelfareModel.Instance.todayHaveDraw))
+        {
+            view.getBtn.enabled = false;
+            StringUtil.SetBtnTab(view.getBtn, Lang.GetValue("invite_friends_11"));
+        }
+        else if (tabType == (int)WelfareModel.Instance.currentDay)
+        {
+            view.getBtn.enabled = false;
+            StringUtil.SetBtnTab(view.getBtn, Lang.GetValue("tomorrowcanclaim_txt"));
+        }
+        else
+        {
+            view.getBtn.enabled = false;
+            StringUtil.SetBtnTab(view.getBtn, Lang.GetValue("waiting_txt"));
+        }
+        view.sub_title.text = Lang.GetValue("seventh_sign_3", TextUtil.ToChineseNumber(tabType + 1));
+        view.list.numItems = SeventhSignModel.Instance.sevenList[tabType].Awards.Length;
+        UpdateDayItem();
+    }
+    private void UpdateDayItem()
+    {
+        for (int i = 0; i < SeventhSignModel.Instance.sevenList.Count; i++)
+        {
+            var cell = view.GetChild("item" + (i + 1)) as fun_Welfare.seventh_sign_item;
+            if (WelfareModel.Instance.currentDay > (i + 1) || (WelfareModel.Instance.currentDay == (i + 1) && WelfareModel.Instance.todayHaveDraw))
+            {
+                cell.status.selectedIndex = 1;
+            }
+            else
+            {
+                cell.status.selectedIndex = 0;
+            }
+
+        }
+    }
+    private void RenderList(int index, GObject item)
+    {
+        var cell = item as fun_Welfare.reward_item1;
+        var info = SeventhSignModel.Instance.sevenList[tabType].Awards[index];
+        var itemVo = ItemModel.Instance.GetItemByEntityID(info.EntityID);
+        cell.bg.url = ImageDataModel.Instance.GetItemQuality(itemVo.Quality);
+        cell.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
+        cell.numLab.text = info.Value.ToString();
+        UILogicUtils.SetItemShow(cell, itemVo.ItemDefId);
+    }
+    private Module_item_defConfig GetFlowerItem()
+    {
+        var rewards = SeventhSignModel.Instance.sevenList[6].Awards;
+        foreach (var value in rewards)
+        {
+            var item = ItemModel.Instance.GetItemByEntityID(value.EntityID);
+            if (item.Type == 4105)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
     public override void OnHide()
     {
         base.OnHide();
         // 其他关闭面板的逻辑
-    }
-
-    private void OnList0ItemRender(int index, fun_SignInSevenDays.SeventhSign_Item cell)
-    {
-        List<AwardObject> info = new List<AwardObject>(SeventhSignModel.Instance.seventhSignLsitData[index].Awards);
-
-
-        cell.reward.img_reward.url = ImageDataModel.Instance.GetIconUrlByEntityId(info[0].EntityID);
-        cell.title.text = Lang.GetValue("activity_days", (index + 1).ToString());
-        //StringUtil.SetBtnTab(cell.getBtn, Lang.GetValue("common_claim_button"));
-        cell.getLab.text = Lang.GetValue("common_claim_button");
-        cell.reward.num.text = "X" + info[0].Value;
-        int todayIndex = SeventhSignModel.Instance.signDay;
-        //if (SeventhSignModel.Instance.CheckTodayIsSign()) todayIndex = SeventhSignModel.Instance.signDay - 1;
-        if ((index + 1) == todayIndex)
-        {
-            if (SeventhSignModel.Instance.todayHaveDraw)
-            {
-                cell.gettedLab.text = Lang.GetValue("text_activity_3");//已领取
-                cell.isLock.selectedIndex = 1;
-            }
-            else
-            {
-                //cell.title.text = Lang.GetValue("slang_33");//今天
-                cell.isLock.selectedIndex = 0;
-            }
-        }
-        else
-        {
-            if (SeventhSignModel.Instance.signDay > (index + 1))
-            {
-                cell.gettedLab.text = Lang.GetValue("text_activity_3");//已领取
-                cell.isLock.selectedIndex = 1;
-            }
-            else
-            {
-
-                cell.isLock.selectedIndex = 2;
-            }
-        }
-        cell.onClick.Add(OnRewardClick);
-
-
-    }
-
-    private void OnList10ItemRender(int index, GObject item)
-    {
-        List<AwardObject> info = new List<AwardObject>(SeventhSignModel.Instance.seventhSignLsitData[6].Awards);
-        fun_SignInSevenDays.SeventhSign_Item1 cell = item as fun_SignInSevenDays.SeventhSign_Item1;
-        cell.img_reward.url = ImageDataModel.Instance.GetIconUrlByEntityId(info[index].EntityID);
-        cell.num.text = "X" + info[index].Value;
-
-    }
-
-    private void OnRewardClick(EventContext context)
-    {
-        var item = context.sender as fun_SignInSevenDays.SeventhSign_Item;
-        if (item.isLock.selectedIndex != 0)
-        {
-            return;
-        }
-        SeventhSignController.Instance.ReqDailyLoginAward();
-    }
-
-    private void OnRewardClick1(EventContext context)
-    {
-        var item = context.sender as fun_SignInSevenDays.SeventhSign_Item2;
-        if (item.isLock.selectedIndex != 0)
-        {
-            return;
-        }
-        SeventhSignController.Instance.ReqDailyLoginAward();
-    }
-
-    private void SetGroupGrayed(bool b)
-    {
-        if (!b)
-        {
-            viewSkin.isLock.selectedIndex = 0;
-        }
-        else
-        {
-            viewSkin.isLock.selectedIndex = SeventhSignModel.Instance.todayHaveDraw ? 1 : 0;
-        }
-
-    }
-
-    public void CloseView()
-    {
-        UIManager.Instance.CloseWindow(UIName.SeventhSignWindow);
     }
 }
 

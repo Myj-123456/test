@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using protobuf.guild;
 using protobuf.messagecode;
 using UnityEngine;
+using static protobuf.guild.S_MSG_WORLD_CHAT_HISTORY;
 
 public class WorldChatController : BaseController<WorldChatController>
 {
@@ -30,10 +31,12 @@ public class WorldChatController : BaseController<WorldChatController>
     //收到世界频道聊天信息，发送用户也会收到
     public void WorldReceiveChat(S_MSG_WORLD_RECEIVE_CHAT data)
     {
-        var chatInfo = new S_MSG_GUILD_RECEIVE_CHAT();
-        chatInfo.userInfo = data.userInfo;
+        var chatInfo = new I_WORLD_CHAT_HISTORY_VO();
+        
         chatInfo.chatContent = data.chatContent;
         chatInfo.operateTime = data.operateTime;
+        chatInfo.userId = data.userInfo.userId;
+        WorldChatModel.Instance.AddUserInfo(data.userInfo);
         WorldChatModel.Instance.chatHistory.Add(chatInfo);
         DispatchEvent(ChatEvent.WorldReceiveChat);
     }
@@ -41,6 +44,7 @@ public class WorldChatController : BaseController<WorldChatController>
     public void WorldChatHistory(S_MSG_WORLD_CHAT_HISTORY data)
     {
         WorldChatModel.Instance.chatHistory = data.chatHistory;
+        WorldChatModel.Instance.userInfos = data.userInfos;
         WorldChatModel.Instance.chatHistory.Reverse();
         DispatchEvent(ChatEvent.WorldChatHistory);
     }
@@ -48,7 +52,6 @@ public class WorldChatController : BaseController<WorldChatController>
     public void ReqWorldChatHistory(uint page)
     {
         C_MSG_WORLD_CHAT_HISTORY c_MSG_WORLD_CHAT_HISTORY = new C_MSG_WORLD_CHAT_HISTORY();
-        c_MSG_WORLD_CHAT_HISTORY.page = page;
         ChatNetWorkManager.Instance.Send((int)MessageCode.C_MSG_WORLD_CHAT_HISTORY, c_MSG_WORLD_CHAT_HISTORY);
     }
 }

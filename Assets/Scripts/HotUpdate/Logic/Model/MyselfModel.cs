@@ -1,6 +1,7 @@
 using ADK;
 using Elida.Config;
 using protobuf.login;
+using protobuf.misc;
 using protobuf.user;
 using protobuf.welfare;
 using System;
@@ -65,11 +66,13 @@ public class MyselfModel : Singleton<MyselfModel>
 
     public uint waterBucketCnt;// 玩家当前水位值
 
-    public S_MSG_WELFARE_INFO welfareInfo;//ˮͰ信息
+    public S_MSG_WELFARE_INFO welfareInfo;//信息
 
     public List<int> waterBucketSeries;//8个水位值的状态
     public bool isShowUpLevel = false;//是否显示升级提示
     public bool isShowReward = false;//是否显示奖励提示
+
+    public List<I_DAILY_STAT> shopList;//每日经营
 
     public void InitData(S_MSG_GAMEINIT data)
     {
@@ -347,8 +350,10 @@ public class MyselfModel : Singleton<MyselfModel>
                 {
                     var itemConfig = ItemModel.Instance.GetItemByEntityID(reward.EntityID);
                     StorageModel.Instance.AddToStorageByItemId(itemConfig.ItemDefId, reward.Value);
+                    Debug.Log("itemId：" + itemConfig.ItemDefId + "count：" + reward.Value);
                 }
             }
+            
         }
 
         if (GuideModel.Instance.IsGuide)//如果在新手引导中，则暂不弹出升级窗口
@@ -401,9 +406,7 @@ public class MyselfModel : Singleton<MyselfModel>
 
 
     /// <summary>
-    /// <summary>
     /// 检查我的等级是否满足
-    /// </summary>
     /// </summary>
     /// <param name="checkLevel"></param>
     /// <param name="showPromt">是否显示提示</param>

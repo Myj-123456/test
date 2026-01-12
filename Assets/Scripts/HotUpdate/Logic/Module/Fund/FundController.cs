@@ -8,7 +8,7 @@ public class FundController : BaseController<FundController>
 {
     protected override void InitListeners()
     {
-        //领取培育基金奖励
+        // 棰嗗彇鍩洪噾濂栧姳
         AddNetListener<S_MSG_FUND_REWARD>((int)MessageCode.S_MSG_FUND_REWARD, FundReward);
     }
 
@@ -18,10 +18,11 @@ public class FundController : BaseController<FundController>
         DispatchEvent(FundEvent.FundReward);
     }
 
-    public void ReqFundReward(uint fundType)
+    public void ReqFundReward(uint fundType, uint rewardId)
     {
         C_MSG_FUND_REWARD c_MSG_FUND_REWARD = new C_MSG_FUND_REWARD();
         c_MSG_FUND_REWARD.fundType = fundType;
+        c_MSG_FUND_REWARD.fundId = rewardId;
         SendCmd((int)MessageCode.C_MSG_FUND_REWARD, c_MSG_FUND_REWARD);
     }
 }

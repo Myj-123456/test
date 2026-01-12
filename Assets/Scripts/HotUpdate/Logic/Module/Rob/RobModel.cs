@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Elida.Config;
 using protobuf.common;
+using protobuf.commonActivity;
 using protobuf.rob;
 using UnityEngine;
 
@@ -39,15 +40,15 @@ public class RobModel : Singleton<RobModel>
         }
     }
 
-    public Dictionary<int, Ft_rob_buyConfig> _staticRobBuyConfig;
-    public Dictionary<int,Ft_rob_buyConfig> staticRobBuyConfig
+    public List<Ft_rob_buyConfig> _staticRobBuyConfig;
+    public List<Ft_rob_buyConfig> staticRobBuyConfig
     {
         get
         {
             if (_staticRobBuyConfig == null)
             {
                 Ft_rob_buyConfigData robBuyConfig = ConfigManager.Instance.GetConfig<Ft_rob_buyConfigData>("ft_rob_buysConfig");
-                _staticRobBuyConfig = robBuyConfig.DataMap;
+                _staticRobBuyConfig = robBuyConfig.DataList;
             }
             return _staticRobBuyConfig;
         }
@@ -57,7 +58,8 @@ public class RobModel : Singleton<RobModel>
     public I_ROB_INFO_VO info;//农场信息
     public I_ROB_VO robInfo;//自己抢的信息
     public I_USER_PROFILE targetUserInfo;//目标玩家的用户信息
-    
+    public List<I_EXCHANGE_STAT> exchangeStat;
+
 
     // 存储已购买数量的字典
     public Dictionary<uint, int> haveBuyCount = new Dictionary<uint, int>();
@@ -66,6 +68,7 @@ public class RobModel : Singleton<RobModel>
     public List<I_FRIEND_VO> recommendList;//推荐列表
     public List<I_FRIEND_VO> friendList;//好友列表
     public List<I_ROB_MESSAGE_VO> messageList;//抢点消息列表
+    public List<I_EMPLOY_MESSAGE_VO> employList;//雇佣日志
 
     public void UpdateRobUnlock(I_ROB_ARREST_VO data)
     {
@@ -106,14 +109,49 @@ public class RobModel : Singleton<RobModel>
         return null;
     }
 
-    public Ft_rob_buyConfig GetRobBuyConfig(int indexId)
+    public List<I_ROB_MESSAGE_VO> GetRobMessageList(bool bol)
     {
-        if (staticRobBuyConfig.ContainsKey(indexId))
+        if (bol)
         {
-            return staticRobBuyConfig[indexId];
+            return messageList.FindAll(value => value.targetUserId == 0);
         }
-        return null;
+        else
+        {
+            return messageList.FindAll(value => value.targetUserId != 0);
+        }
+    }
+    public void UpdateExchage(I_EXCHANGE_STAT data)
+    {
+        var info = exchangeStat.Find(value => value.exchangeId == data.exchangeId);
+        if(info != null)
+        {
+            info.cnt = data.cnt;
+        }
+        else
+        {
+            exchangeStat.Add(data);
+        }
     }
 
+    public Module_item_defConfig GetItem(int type)
+    {
+        var info = staticRobBuyConfig.Find(value => value.ItemType == type);
+        var itemVo = ItemModel.Instance.GetItemByEntityID(info.ItemNums[0].EntityID);
+        return itemVo;
+    }
+
+    public int GetExchangeTimes(int id)
+    {
+        var info = exchangeStat.Find(value => value.exchangeId == id);
+        if(info != null)
+        {
+            return (int)info.cnt;
+        }
+        return 0;
+    }
+    public List<Ft_rob_buyConfig> GetRobShopList(int type)
+    {
+        return staticRobBuyConfig.FindAll(value => value.ItemType == type);
+    }
 }
 

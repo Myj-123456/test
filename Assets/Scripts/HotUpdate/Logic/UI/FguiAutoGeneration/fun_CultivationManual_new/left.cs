@@ -7,7 +7,7 @@ namespace fun_CultivationManual_new
 {
     public partial class left : GComponent
     {
-        public GImage n0;
+        public GImage n3;
         public Transition moveLeft;
         public const string URL = "ui://ekoic0wru0i31yjp7u0";
 
@@ -20,7 +20,7 @@ namespace fun_CultivationManual_new
         {
             base.ConstructFromXML(xml);
 
-            n0 = (GImage)GetChildAt(0);
+            n3 = (GImage)GetChildAt(0);
             moveLeft = GetTransitionAt(0);
         }
     }

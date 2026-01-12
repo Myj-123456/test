@@ -80,10 +80,6 @@ public class PlayerInfoView : BaseWindow
         });
         view.notice_btn.onClick.Add(() =>
         {
-            if (GlobalModel.Instance.GetUnlocked(SysId.SignAndBulletin,true))
-            {
-                return;
-            }
             UIManager.Instance.OpenWindow<GameNoticeWindow>(UIName.GameNoticeWindow);
         });
         view.change_btn.onClick.Add(() =>
@@ -182,6 +178,7 @@ public class PlayerInfoView : BaseWindow
         EventManager.Instance.AddEventListener(PlayerEvent.SetHead, UpdateHead);
         EventManager.Instance.AddEventListener(PlayerEvent.SetAvatarFrame, UpdateFrame);
         EventManager.Instance.AddEventListener(RedPointEvent.ClickItem, UpdateRedPoint);
+        EventManager.Instance.AddEventListener(PlayerEvent.SetAvatarFrame, UpdateTitle);
     }
 
     public override void OnShown()
@@ -384,7 +381,7 @@ public class PlayerInfoView : BaseWindow
     private void UpdateTitle()
     {
         var title = MyselfModel.Instance.GetUserInfo(UserInfoType.TITLE);
-        if (title == null)
+        if (title == null || title.info == "0")
         {
             view.posLab.text = Lang.GetValue("player_info_12");
         }

@@ -67,7 +67,7 @@ public class TradeWindow : BaseView
             UIManager.Instance.OpenWindow<HelpWindow>(UIName.HelpWindow, param);
         });
 
-        if(TradeModel.Instance.dealGrids.Count % 2 == 0)
+        if (TradeModel.Instance.dealGrids.Count % 2 == 0)
         {
             page = TradeModel.Instance.dealGrids.Count / 2;
         }
@@ -75,7 +75,7 @@ public class TradeWindow : BaseView
         {
             page = (TradeModel.Instance.dealGrids.Count + 1) / 2;
         }
-        
+
         //_view.leftBtn.onClick.Add(SpotLeft);
         //_view.rightBtn.onClick.Add(SpotRight);
         //_view.findBtn.onClick.Add(ClickFindBtnHandler);
@@ -143,7 +143,7 @@ public class TradeWindow : BaseView
         var idx = pos % 2;
         if (idx == 0)
         {
-           index = pos / 2 - 1;
+            index = pos / 2 - 1;
         }
         else
         {
@@ -184,13 +184,13 @@ public class TradeWindow : BaseView
         _view.ls_sale.numItems = page;
 
     }
-    private void RenderList(int index,GObject item)
+    private void RenderList(int index, GObject item)
     {
         var cell = item as fun_FriendsTrade_New.trade_item;
         var starIndex = (index + 1) * 2 - 2;
 
         SaleItemRenderer(starIndex, cell.item1);
-        if(starIndex + 2 > TradeModel.Instance.dealGrids.Count)
+        if (starIndex + 2 > TradeModel.Instance.dealGrids.Count)
         {
             cell.item2.visible = false;
         }
@@ -215,7 +215,7 @@ public class TradeWindow : BaseView
             if (conf.Type == 2)
             {
                 itemCell.status.selectedIndex = 2;
-                itemCell.lb_inviteInfo.text = "出售鲜花金币" + TradeModel.Instance.tradeGoldCnt + "/" + conf.GoldUnlock;
+                itemCell.lb_inviteInfo.text = Lang.GetValue("sellgold_txt") + TradeModel.Instance.tradeGoldCnt + "/" + conf.GoldUnlock;
             }
             else
             {
@@ -259,7 +259,7 @@ public class TradeWindow : BaseView
         var conf = TradeModel.Instance.dealGrids[index + 1];
         if (conf.Type == 2)
         {
-            if(conf.GoldUnlock > TradeModel.Instance.tradeGoldCnt)
+            if (conf.GoldUnlock > TradeModel.Instance.tradeGoldCnt)
             {
                 return;
             }
@@ -285,7 +285,8 @@ public class TradeWindow : BaseView
             }
             tips = conf.UnlockConsumes[0].Value + Lang.GetValue("gem");
         }
-        UILogicUtils.ShowConfirm(Lang.GetValue("trade_unlock_tip", tips),()=> {
+        UILogicUtils.ShowConfirm(Lang.GetValue("trade_unlock_tip", tips), () =>
+        {
             TradeController.Instance.ReqTradeUnlock((uint)index + 1);
         });
     }
@@ -345,7 +346,7 @@ public class TradeWindow : BaseView
         {
             UnlockCage(index);
         }
-        
+
     }
 
     private void ReqHelp(EventContext context)

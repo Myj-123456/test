@@ -1,0 +1,14 @@
+hair.png
+size:618,245
+filter:Linear,Linear
+pma:true
+020/liuhai
+bounds:252,14,229,197
+rotate:90
+020/toufa1
+bounds:451,69,165,174
+offsets:1,1,167,176
+020/toufa2
+bounds:2,2,241,248
+offsets:11,0,252,248
+rotate:90

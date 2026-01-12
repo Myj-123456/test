@@ -401,7 +401,11 @@ public class GuildController : BaseController<GuildController>
             drop.count = item.Value;
             dropList.Add(drop);
         }
-        DropManager.ShowDrop(dropList);
+        UILogicUtils.ShowGetReward(dropList, () =>
+        {
+            DropManager.ShowDrop(dropList);
+        });
+        
         RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Guild_Donate_Pro);
         EventManager.Instance.DispatchEvent(GuildEvent.GuildDonateProgress);
     }

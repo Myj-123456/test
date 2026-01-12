@@ -15,8 +15,11 @@ public class RechargeMainView : BaseWindow
     private CumulativeView cumulativeView;
     //private TourGiftView tourGiftView;
     private ContractView contractView;
+    private FundView fundView;
     private int tabType = 0;
-   public RechargeMainView()
+
+    private List<int> pageData;
+    public RechargeMainView()
     {
         packageName = "fun_Recharge";
         // 设置委托
@@ -53,18 +56,21 @@ public class RechargeMainView : BaseWindow
         SetBg(view.contract_view.huadianBg, "Recharge/ELIDA_heyue_di011.png");
         //SetBg(view.tour_gift_view.bg, "Recharge/ELIDA_syh_czlb_bg0.png");
 
+        SetBg(view.fund_view.bg, "Recharge/ELIDA_jijin_bg.png");
+
         cardView = new CardView(view.card_view);
         rechargeView = new RechargeView(view.recharge_view);
         rechargeGiftView = new RechargeGiftView(view.gift_view);
         cumulativeView = new CumulativeView(view.cumulative_view);
         contractView = new ContractView(view.contract_view);
+        fundView = new FundView(view.fund_view);
         view.list.itemRenderer = RenderList;
-        
 
         view.cumulative_view.goto_btn.onClick.Add(() =>
         {
-            view.tab.selectedIndex = 3;
-            ChangeTab(3);
+            view.tab.selectedIndex = 4;
+            view.list.selectedIndex = 4;
+            ChangeTab(4);
         });
         EventManager.Instance.AddEventListener(RechargeEvent.Normal,UpdateTabList);
         EventManager.Instance.AddEventListener(RechargeEvent.VipPay, UpdateTabList);
@@ -73,6 +79,7 @@ public class RechargeMainView : BaseWindow
         EventManager.Instance.AddEventListener(PlayerEvent.GameCrossDay, UpdateTabList);
         EventManager.Instance.AddEventListener(RedPointEvent.UpdateTodayFirstLogin, UpdateTabList);
         EventManager.Instance.AddEventListener<uint>(RedPointEvent.RedDotChange, UpdateContractRed);
+        EventManager.Instance.AddEventListener(FundEvent.FundReward, UpdateTabList);
     }
     private void UpdateContractRed(uint type)
     {
@@ -83,10 +90,11 @@ public class RechargeMainView : BaseWindow
     }
     private void RenderList(int index,GObject item)
     {
-        var cell = item as fun_Recharge.page_btn;
-        cell.data = index;
-        cell.status.selectedIndex = index;
-        if (index == 0)
+        var cell = item as common_New.common_page2;
+        cell.data = pageData[index];
+        var str = "";
+        //cell.status.selectedIndex = index;
+        if (pageData[index] == 0)
         {
             if (RechargeModel.Instance.GetRechargeGiftRed())
             {
@@ -96,9 +104,23 @@ public class RechargeMainView : BaseWindow
             {
                 UILogicUtils.HideRedPoint(cell);
             }
-            cell.titleLab.text = Lang.GetValue("Grade_pack_10001");
+
+            str = Lang.GetValue("Grade_pack_10003");
         }
-        else if(index == 1)
+        else if (pageData[index] == 1)
+        {
+            if (FundModel.Instance.GetFundRed())
+            {
+                UILogicUtils.ShowRedPoint(cell);
+            }
+            else
+            {
+                UILogicUtils.HideRedPoint(cell);
+            }
+
+            str = Lang.GetValue("fund_8");
+        }
+        else if(pageData[index] == 2)
         {
             if (MyselfModel.Instance.GetVipRed())
             {
@@ -108,9 +130,9 @@ public class RechargeMainView : BaseWindow
             {
                 UILogicUtils.HideRedPoint(cell);
             }
-            cell.titleLab.text = Lang.GetValue("recharge_main_1");
+            str = Lang.GetValue("recharge_main_1");
         }
-        else if (index == 2)
+        else if (pageData[index] == 3)
         {
             if (RechargeModel.Instance.GetCumulativeRed())
             {
@@ -120,9 +142,9 @@ public class RechargeMainView : BaseWindow
             {
                 UILogicUtils.HideRedPoint(cell);
             }
-            cell.titleLab.text = Lang.GetValue("recharge_main_2");
+            str = Lang.GetValue("recharge_main_2");
         }
-        else if (index == 3)
+        else if (pageData[index] == 4)
         {
             if (RedPointModel.Instance.GetTodayFirstLogin(TodayFirstLogin.Recharge))
             {
@@ -132,7 +154,7 @@ public class RechargeMainView : BaseWindow
             {
                 UILogicUtils.HideRedPoint(cell);
             }
-            cell.titleLab.text = Lang.GetValue("recharge_main_3");
+            str = Lang.GetValue("recharge_main_3");
         }
         else
         {
@@ -144,18 +166,20 @@ public class RechargeMainView : BaseWindow
             {
                 UILogicUtils.HideRedPoint(cell);
             }
-            cell.titleLab.text = Lang.GetValue("recharge_main_32");
+            str = Lang.GetValue("recharge_main_32");
         }
-        cell.onClick.Add(OnTabClick);
-    }
-
-    private void OnTabClick(EventContext context)
-    {
-        var index = (int)(context.sender as GComponent).data;
-        if(tabType != index)
+        if(str.Length < 4)
         {
-            ChangeTab(index);
+            StringUtil.SetBtnTab5(cell, str);
+            cell.type.selectedIndex = 1;
         }
+        else
+        {
+            cell.type.selectedIndex = 0;
+            StringUtil.SetBtnTab4(cell, str);
+        }
+
+        cell.onClick.Add(TabClick);
     }
     public override void OnShown()
     {
@@ -164,11 +188,7 @@ public class RechargeMainView : BaseWindow
         var type = (int)data;
         view.tab.selectedIndex = type;
         ChangeTab(type);
-        UpdateTabList();
-    }
-    private void UpdateTabList()
-    {
-        view.list.numItems = 5;
+        InitPageData(type);
     }
     private void ChangeTab(int type)
     {
@@ -179,13 +199,17 @@ public class RechargeMainView : BaseWindow
         }
         else if(tabType == 1)
         {
+            fundView.OnShown();
+        }
+        else if(tabType == 2)
+        {
             cardView.OnShown();
         }
-        else if (tabType == 2)
+        else if (tabType == 3)
         {
             cumulativeView.OnShown();
         }
-        else if (tabType == 3)
+        else if (tabType == 4)
         {
             
             rechargeView.OnShown();
@@ -196,6 +220,45 @@ public class RechargeMainView : BaseWindow
         }
     }
 
+    private void InitPageData(int type)
+    {
+        pageData = new List<int>();
+        for (var i = 0; i < 6; i++)
+        {
+            if (i == 2 && !GlobalModel.Instance.GetUnlocked(SysId.VipPopup))
+            {
+                continue;
+            }
+            if (i == 3 && !GlobalModel.Instance.GetUnlocked(SysId.Fuben))
+            {
+                continue;
+            }
+
+            pageData.Add(i);
+        }
+        view.list.numItems = pageData.Count;
+        int index = pageData.IndexOf(type);
+        if (index == -1)
+        {
+            index = 0;
+        }
+        view.list.selectedIndex = index;
+        view.tab.selectedIndex = pageData[index];
+        ChangeTab(pageData[index]);
+    }
+    public void UpdateTabList()
+    {
+        view.list.numItems = pageData.Count;
+    }
+    private void TabClick(EventContext context)
+    {
+        var type = (int)(context.sender as GComponent).data;
+        if (tabType != type)
+        {
+            view.tab.selectedIndex = type;
+            ChangeTab(type);
+        }
+    }
     public override void OnHide()
     {
         base.OnHide();

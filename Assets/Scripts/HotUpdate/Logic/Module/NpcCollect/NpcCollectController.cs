@@ -64,7 +64,7 @@ public class NpcCollectController : BaseController<NpcCollectController>
         };
         var param = new object[] { itemData, callFun };
         UIManager.Instance.OpenWindow<NewlyGotFlowerShowWindow>(UIName.NewlyGotFlowerShowWindow, param);
-        
+        RedPointModel.Instance.ClientUpadteRedPoint(RedPointType.Npc_Collect);
         EventManager.Instance.DispatchEvent(NpcCollectEvent.GrandmaReward);
     }
 

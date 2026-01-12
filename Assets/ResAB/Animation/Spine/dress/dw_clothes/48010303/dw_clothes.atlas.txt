@@ -1,0 +1,14 @@
+dw_clothes.png
+size:436,190
+filter:Linear,Linear
+pma:true
+011/qunbai1
+bounds:2,3,185,166
+rotate:90
+011/qunbai3
+bounds:269,12,100,176
+011/qunbai5
+bounds:371,18,63,170
+offsets:0,0,63,172
+011/yaodai
+bounds:170,2,97,186

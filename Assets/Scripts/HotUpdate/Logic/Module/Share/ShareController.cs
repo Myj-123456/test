@@ -8,26 +8,26 @@ public class ShareController : BaseController<ShareController>
 {
     protected override void InitListeners()
     {
-        //等级分享
+        //绛夌骇濂栧姳
         AddNetListener<S_MSG_SHARE_LEVEL_REWARD>((int)MessageCode.S_MSG_SHARE_LEVEL_REWARD, ShareLevelReward);
-        //首次制作花艺品分享
+        //棣栨鍒嗕韩鎻掕姳濂栧姳
         AddNetListener<S_MSG_SHARE_IKEBANA_REWARD>((int)MessageCode.S_MSG_SHARE_IKEBANA_REWARD, ShareIkeReward);
-        //培育花分享
+        //鍒嗕韩椴滆姳濂栧姳
         AddNetListener<S_MSG_SHARE_FLOWER_REWARD>((int)MessageCode.S_MSG_SHARE_FLOWER_REWARD, ShareFlowerReward);
     }
-    //等级分享
+    //绛夌骇濂栧姳
     public void ShareLevelReward(S_MSG_SHARE_LEVEL_REWARD data)
     {
         var dropList = ItemModel.Instance.GetDropData(data.items);
         DropManager.ShowDrop(dropList);
-        EventManager.Instance.DispatchEvent(ShareEvent.ShareLevelReward);
+        EventManager.Instance.DispatchEvent(ShareEvent.ShareLevelReward, dropList);
     }
     public void ReqShareLevelReward()
     {
         C_MSG_SHARE_LEVEL_REWARD c_MSG_SHARE_LEVEL_REWARD = new C_MSG_SHARE_LEVEL_REWARD();
         SendCmd((int)MessageCode.C_MSG_SHARE_LEVEL_REWARD, c_MSG_SHARE_LEVEL_REWARD);
     }
-    //首次制作花艺品分享
+    //棣栨鍒嗕韩鎻掕姳濂栧姳
     public void ShareIkeReward(S_MSG_SHARE_IKEBANA_REWARD data)
     {
         var dropList = ItemModel.Instance.GetDropData(data.items);
@@ -41,7 +41,7 @@ public class ShareController : BaseController<ShareController>
         c_MSG_SHARE_IKEBANA_REWARD.combinationId = combinationId;
         SendCmd((int)MessageCode.C_MSG_SHARE_IKEBANA_REWARD, c_MSG_SHARE_IKEBANA_REWARD);
     }
-    //培育花分享
+    //鍒嗕韩椴滆姳濂栧姳
     public void ShareFlowerReward(S_MSG_SHARE_FLOWER_REWARD data)
     {
         var dropList = ItemModel.Instance.GetDropData(data.items);

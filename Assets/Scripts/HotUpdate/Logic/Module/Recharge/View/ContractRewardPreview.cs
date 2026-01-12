@@ -18,7 +18,7 @@ public class ContractRewardPreview : BaseWindow
     public ContractRewardPreview()
     {
         packageName = "fun_Recharge";
-        // 设置委托
+        // 璁剧疆濮旀墭
         BindAllDelegate = fun_Recharge.fun_RechargeBinder.BindAll;
         ClickBlankClose = true;
         CreateInstanceDelegate = fun_Recharge.contractRewardPreview.CreateInstance;     
@@ -35,6 +35,10 @@ public class ContractRewardPreview : BaseWindow
         view.zunxiangBtn.titleLab1.text = Lang.GetValue("Contract_superTitle");
         view.zunxiangBtn.titleLab2.text = Lang.GetValue("Contract_superTitle");
         StringUtil.SetBtnTab(view.buyBtn, Lang.GetValue("Contract_upReward"));
+        view.buyBtn.onClick.Add(() => {
+            UIManager.Instance.OpenWindow<ContractPayWindow>(UIName.ContractPayWindow);
+        });
+
         //view.titleLab.text = Lang.GetValue("title_activity_3");
         //view.poorLab.text = Lang.GetValue("incomplete");
 
@@ -53,7 +57,6 @@ public class ContractRewardPreview : BaseWindow
         //InitPro();
 
         //view.list.height = view.close_btn.y - view.day_btn.y - 146;
-
 
         //view.day_btn.onClick.Add(() =>
         //{
@@ -133,7 +136,7 @@ public class ContractRewardPreview : BaseWindow
         base.OnShown();
         activiId = (int)data;
         rewardDataList = ContractModel.Instance.GetContractRewardList(activiId);
-        ////刷新显示
+        ////鍒锋柊鏄剧ず
         //InitReward();
         var flowerVo = ItemModel.Instance.GetItemByEntityID(rewardDataList[19].AdvancedRewards[0].EntityID);
         view.spine1.loop = true;
@@ -175,6 +178,6 @@ public class ContractRewardPreview : BaseWindow
     public override void OnHide()
     {
         base.OnHide();
-        // 其他关闭面板的逻辑
+        // 鍏朵粬鍏抽棴闈㈡澘鐨勯�昏緫
     }
 }

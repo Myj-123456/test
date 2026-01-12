@@ -1,6 +1,6 @@
 
 /// <summary>
-/// ui�������ֳ���
+/// UI名称常量
 /// </summary>
 public class UIName
 {
@@ -254,6 +254,8 @@ public class UIName
     public const string PlotMainWindow = "PlotMainWindow";
     public const string PlotRewardWindow = "PlotRewardWindow";
     public const string DrawMainView = "DrawMainView";
+    public const string ExchangeView = "ExchangeView";
+    public const string DetailedView = "DetailedView";
     public const string VaseTipView = "VaseTipView";
     public const string DressDetailWindow = "DressDetailWindow";
     public const string DressNatureWindow = "DressNatureWindow";
@@ -288,5 +290,11 @@ public class UIName
     public const string VisitRecordView = "VisitRecordView";
 
     public const string ContractRewardPreview = "ContractRewardPreview";
+    public const string DestroyAccountWindow = "DestroyAccountWindow";
+    public const string ContractPayWindow = "ContractPayWindow";
+
+    public const string BestExpWindow = "BestExpWindow";
+
+    public const string CulitivationSuccessWindow = "CulitivationSuccessWindow";
 }
 

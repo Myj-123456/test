@@ -54,28 +54,7 @@ namespace ADK
             }
             else
             {
-                //var data = FlowerRankModel.Instance.GetFlowerConfigById((int)flowerLv);
-                //if (endTime == 0 || endTime < ServerTime.Time || data == null)
-                //{
-                //    if (frame != null)
-                //    {
-                //        frame.pic.url = "";
-                //    }
-                //    if (title != null)
-                //    {
-                //        title.text = Lang.GetValue("flower_rank3") + Lang.GetValue("flower_rank9");
-                //    }
-                //    return;
-                //}
-                //var itemVo = ItemModel.Instance.GetItemByEntityID(data.Rewards[0].EntityID);
-                //if (frame != null)
-                //{
-                //    frame.pic.url = ImageDataModel.Instance.GetIconUrl(itemVo);
-                //}
-                //if (title != null)
-                //{
-                //    title.text = Lang.GetValue("flower_rank3") + Lang.GetValue(itemVo.Name);
-                //}
+                
             }
         }
 

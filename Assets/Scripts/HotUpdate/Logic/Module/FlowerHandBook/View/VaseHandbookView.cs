@@ -29,11 +29,11 @@ public class VaseHandbookView
         _view.vaseList.itemRenderer = ItemRenderer;
         _view.vaseList.SetVirtual();
 
-        _view.vaseList.onClickItem.Add((EventContext context) =>
-        {
-            int index = (int)(context.data as GComponent).data;
-            UIManager.Instance.OpenPanel<VaseTipView>(UIName.VaseTipView, UILayer.UI, index);
-        });
+        //_view.vaseList.onClickItem.Add((EventContext context) =>
+        //{
+        //    int index = (int)(context.data as GComponent).data;
+        //    UIManager.Instance.OpenPanel<VaseTipView>(UIName.VaseTipView, UILayer.UI, index);
+        //});
 
         _view.vase_page_list.itemRenderer = PageNumItemRenderer;
 
@@ -107,16 +107,20 @@ public class VaseHandbookView
     }
     private void ItemRenderer(int index, GObject item)
     {
-        fun_CultivationManual_new.handbook_VaseItem cell = item as fun_CultivationManual_new.handbook_VaseItem;
+        var ui = item as fun_CultivationManual_new.handbook_VaseItem_com;
+        ui.status.selectedIndex = index % 9;
+        fun_CultivationManual_new.handbook_VaseItem cell = ui.item;
         StaticFlowerPoint data = IkeModel.Instance.bookDatHome[index];
         cell.data = index;
         cell.bg.url = "HandBookNew/bg_new_" + data.VaseQuality + ".png";
         int vaseId = data.VaseId;
-        cell.img1.url = ImageDataModel.Instance.GetVaseUrl(vaseId);
+        
         Module_item_defConfig itemData = ItemModel.Instance.GetItemById(vaseId);
         cell.name_txt.text = Lang.GetValue(itemData.Name);
+        cell.img1.url = ImageDataModel.Instance.GetIconUrl(itemData);
         cell.name_txt.color = StringUtil.HexToColor(txtColorArr[data.VaseQuality - 1]);
         ChangeItemStatus(vaseId, cell);
+        cell.onClick.Add(OpenVaseView);
     }
 
     private void ChangeItemStatus(int vaseId, fun_CultivationManual_new.handbook_VaseItem cell)
@@ -136,11 +140,13 @@ public class VaseHandbookView
             //{
             //    cell.rewardStatus.selectedIndex = 0;
             //}
+            cell.grayed = false;
             cell.rewardStatus.selectedIndex = 0;
             cell.process_txt.text = IkeModel.Instance.HasFlowerDesc(vaseId);
         }
         else
         {
+            cell.grayed = true;
             cell.unlockStatus.selectedIndex = 0;
             cell.rewardStatus.selectedIndex = 0;
         }
@@ -150,7 +156,7 @@ public class VaseHandbookView
     private void PageNumItemRenderer(int index, GObject item)
     {
         item.data = index;
-        var cell = item as common_New.PageListItem_new1;
+        var cell = item as fun_CultivationManual_new.PageListItem_new;
         cell.n5.onClick.Add(ChangePage);
     }
 
@@ -176,7 +182,7 @@ public class VaseHandbookView
     {
         for(int i = 0;i < _view.vase_page_list.numItems; i++)
         {
-            common_New.PageListItem_new1 cell = _view.vase_page_list.GetChildAt(_view.vase_page_list.ItemIndexToChildIndex(i)) as common_New.PageListItem_new1;
+            fun_CultivationManual_new.PageListItem_new cell = _view.vase_page_list.GetChildAt(_view.vase_page_list.ItemIndexToChildIndex(i)) as fun_CultivationManual_new.PageListItem_new;
             cell.status.selectedIndex = i == _view.vaseList.scrollPane.currentPageX ? 1 : 0;
         }
     }
@@ -191,6 +197,12 @@ public class VaseHandbookView
     {
         _view.vaseLeftBtn.alpha = _view.vase_page_list.scrollPane.currentPageX > 0 ? 1f : 0.5f;
         _view.vaseRightBtn.alpha = _view.vase_page_list.scrollPane.currentPageX < _spotMaxPage - 1 ? 1f : 0.5f;
+    }
+
+    private void OpenVaseView(EventContext context)
+    {
+        int index = (int)(context.sender as GComponent).data;
+        UIManager.Instance.OpenPanel<VaseTipView>(UIName.VaseTipView, UILayer.UI, index);
     }
 
     private void UpdatePage()

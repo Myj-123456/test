@@ -53,7 +53,7 @@ public class FrinedChatView
             else
             {
                 var userInfo = FriendChatModel.Instance.GetUserInfo(curId);
-                rederer.nickName = userInfo.townName;
+                rederer.nickName = userInfo.userInfo.townName;
             }
             if (selectChat.chatContent.contentType == 1)
             {
@@ -109,6 +109,10 @@ public class FrinedChatView
         {
             ReflushMessage();
         }
+        if(friendId == curChatData.userInfo.userId && view.visible)
+        {
+            ChatController.Instance.ReqFriendChatRed(friendId);
+        }
     }
     
 
@@ -161,7 +165,14 @@ public class FrinedChatView
         {
             cell.chatType.selectedIndex = 1;
             AutuAize(cell.lb_info2, msg, 1, cell);
-            cell.head2.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
+
+            var head = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_AVATAR);
+            var headVo = ItemModel.Instance.GetItemById(int.Parse(head.info));
+            cell.head2.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
+            var headFrame = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_HEAD_FRAME);
+            var frameVo = ItemModel.Instance.GetItemById(int.Parse(headFrame.info));
+            UILogicUtils.ShowHeadFrames(cell.head2.picFrame as common_New.PictureFrame, frameVo);
+
             cell.lb_userName2.text = MyselfModel.Instance.GetUserInfo(UserInfoType.INFO_TYPE_NICKNAME).info;
             cell.txt_lv2.text = MyselfModel.Instance.level.ToString();
         }
@@ -169,7 +180,10 @@ public class FrinedChatView
         {
             cell.chatType.selectedIndex = 0;
             AutuAize(cell.lb_info, msg, 0, cell);
-            cell.head.img_head.url = "Avatar/ELIDA_common_touxiangdi01.png";
+            var headVo = ItemModel.Instance.GetItemById(int.Parse(curChatData.userInfo.headImgId));
+            cell.head.img_head.url = ImageDataModel.Instance.GetIconUrl(headVo);
+            var frameVo = ItemModel.Instance.GetItemById((int)curChatData.userInfo.headFrame);
+            UILogicUtils.ShowHeadFrames(cell.head.picFrame as common_New.PictureFrame, frameVo);
             cell.lb_userName.text = curChatData.userInfo.townName;
             cell.txt_lv.text = curChatData.userInfo.userLevel.ToString();
         }

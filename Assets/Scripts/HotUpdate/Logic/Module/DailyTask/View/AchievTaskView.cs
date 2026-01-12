@@ -50,6 +50,7 @@ public class AchievTaskView : BaseView
     {
         base.OnShown();
         // 其他打开面板的逻辑
+        view.achiev_list.numItems = 0;
         TaskController.Instance.ReqAchievTaskInfo();
     }
     private void RenderType(int index, GObject item)
@@ -73,6 +74,7 @@ public class AchievTaskView : BaseView
         var type = (int)(context.sender as GComponent).data;
         if (achievType != type)
         {
+            view.achiev_list.numItems = 0;
             achievType = type;
             UpdateAchiev();
         }

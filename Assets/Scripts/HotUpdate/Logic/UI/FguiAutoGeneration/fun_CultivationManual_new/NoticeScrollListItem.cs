@@ -8,6 +8,7 @@ namespace fun_CultivationManual_new
     public partial class NoticeScrollListItem : GComponent
     {
         public Controller type;
+        public GImage n15;
         public GTextField levelLab;
         public GTextField timeLab;
         public GTextField seedLab;
@@ -25,11 +26,12 @@ namespace fun_CultivationManual_new
             base.ConstructFromXML(xml);
 
             type = GetControllerAt(0);
-            levelLab = (GTextField)GetChildAt(0);
-            timeLab = (GTextField)GetChildAt(1);
-            seedLab = (GTextField)GetChildAt(2);
-            flowerLab = (GTextField)GetChildAt(3);
-            countLab = (GTextField)GetChildAt(4);
+            n15 = (GImage)GetChildAt(0);
+            levelLab = (GTextField)GetChildAt(1);
+            timeLab = (GTextField)GetChildAt(2);
+            seedLab = (GTextField)GetChildAt(3);
+            flowerLab = (GTextField)GetChildAt(4);
+            countLab = (GTextField)GetChildAt(5);
         }
     }
 }

@@ -25,7 +25,7 @@ public class ChangeNameWindow : BaseWindow
 
         SetBg(view.bg, "Common/ELIDA_common_littledi01.png");
         StringUtil.SetBtnTab(view.btn_sure, Lang.GetValue("levelup_button"));
-
+        StringUtil.SetBtnTab(view.random_btn, Lang.GetValue("slang_42"));
         view.txt_input.maxLength = 6;
         view.txt_input.restrict = "[\u4E00-\u9FA5]";
         view.btn_sure.onClick.Add(() =>

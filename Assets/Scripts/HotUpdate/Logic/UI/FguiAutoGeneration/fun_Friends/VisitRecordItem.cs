@@ -17,7 +17,7 @@ namespace fun_Friends
         public GButton btn_newApply;
         public GTextField Text_time;
         public GImage n14;
-        public GImage n15;
+        public GLoader pic;
         public GTextField txt_numberVisit;
         public GTextField txt_daysVisit;
         public btn_visit n20;
@@ -42,7 +42,7 @@ namespace fun_Friends
             btn_newApply = (GButton)GetChildAt(6);
             Text_time = (GTextField)GetChildAt(7);
             n14 = (GImage)GetChildAt(8);
-            n15 = (GImage)GetChildAt(9);
+            pic = (GLoader)GetChildAt(9);
             txt_numberVisit = (GTextField)GetChildAt(10);
             txt_daysVisit = (GTextField)GetChildAt(11);
             n20 = (btn_visit)GetChildAt(12);

@@ -53,8 +53,8 @@ public class FlowerHandbookView : BaseView
         view = UIView.ui;
 
         viewSkin = view.context;
-        SetBg(view.fullScreenBg,"HandBookNew/ELIDA_xhshouce_bg03.jpg");
-        SetBg(viewSkin.bg, "HandBookNew/ELIDA_xhshouce_juanzhou01.png");
+        SetBg(view.fullScreenBg, "HandBookNew/ELIDA_baihuace_beijing.png");
+        SetBg(viewSkin.bg, "HandBookNew/ELIDA_baihuace_diban.png");
         vaseView = new VaseHandbookView(viewSkin.vasePanel);
         StringUtil.SetBtnTab(viewSkin.panel_filter.btn_search, Lang.GetValue("pray_8"));
         StringUtil.SetBtnTab(view.close_btn, Lang.GetValue("mail_button_return"));
@@ -93,7 +93,7 @@ public class FlowerHandbookView : BaseView
 
         viewSkin.list.itemRenderer = ItemRender;
         viewSkin.list.SetVirtual();
-        viewSkin.list.onClickItem.Add(OnItemClick);
+        //viewSkin.list.onClickItem.Add(OnItemClick);
 
         viewSkin.page_list.itemRenderer = PageNumItemRenderer;
         //viewSkin.page_list.onClickItem.Add(ChangePage);
@@ -229,7 +229,7 @@ public class FlowerHandbookView : BaseView
     {
         for(int i = 0;i < viewSkin.page_list.numItems;i++)
         {
-            common_New.PageListItem_new1 cell = viewSkin.page_list.GetChildAt(viewSkin.page_list.ItemIndexToChildIndex(i)) as common_New.PageListItem_new1;
+            fun_CultivationManual_new.PageListItem_new cell = viewSkin.page_list.GetChildAt(viewSkin.page_list.ItemIndexToChildIndex(i)) as fun_CultivationManual_new.PageListItem_new;
             cell.status.selectedIndex = i == viewSkin.list.scrollPane.currentPageX ? 1 : 0;
         }
     }
@@ -284,7 +284,9 @@ public class FlowerHandbookView : BaseView
 
     private void ItemRender(int index, GObject item)
     {
-        fun_CultivationManual_new.handbook_brandNew_item cell = item as fun_CultivationManual_new.handbook_brandNew_item;
+        var ui = item as fun_CultivationManual_new.handbook_brandNew_com;
+        ui.status.selectedIndex = index % 9;
+        fun_CultivationManual_new.handbook_brandNew_item cell = ui.item;
         StaticHandbook data = FlowerHandbookModel.Instance.RetrievePageData()[index];
         Module_item_defConfig itemData = ItemModel.Instance.GetItemById(data.FlowerId);
         SeedCropVO exp = FlowerHandbookModel.Instance.GetCropVoByBook(data.FlowerId);
@@ -310,22 +312,25 @@ public class FlowerHandbookView : BaseView
         Color lvColor = StringUtil.HexToColor(txtColorArr[condition.FlowerQuality - 1]);
         cell.decLab.strokeColor = lvColor;
         cell.name_txt.color = lvColor;
-        cell.style_img.url = "HandBookNew/style_icon_" + condition.StyleType + ".png";
+        //cell.style_img.url = "HandBookNew/style_icon_" + condition.StyleType + ".png";
 
         int count = StorageModel.Instance.GetItemCount(condition.SeedId);
         if (condition.UnlockAccessible)
         {
             cell.img1.grayed = false;
+            cell.grayed = false;
             if (condition.AlreadyCulitivated)
             {
                 
                 cell.statius.selectedIndex = 0;
                 cell.seed_img.url = ImageDataModel.Instance.GetIconUrlByItemId(condition.SeedId);
+                var haveCount = StorageModel.Instance.GetItemCount(condition.SeedId);
+                cell.seed_num.text = TextUtil.ChangeCoinShow(haveCount);
                 if (exp != null)
                 {
                     
-                    cell.level_txt.text = (exp.level).ToString();
-                    var gradeInfo = FLowerModel.Instance.GetFlowerGradeConfig(condition.FlowerQuality, exp.gradeLv);
+                    cell.level_txt.text = Lang.GetValue("levelup_explain", (exp.level).ToString());
+                    
                     if (PlantModel.Instance.GetPlantCropMax(condition.LevelMould + "#" + (exp.level + 1)))
                     {
                         cell.level_up.visible = false;
@@ -333,11 +338,8 @@ public class FlowerHandbookView : BaseView
                     }
                     else
                     {
-                        var nextPlantCrop = PlantModel.Instance.GetPlantCropConfigData(condition.LevelMould + "#" +  (exp.level + 1));
-                        var haveCount = StorageModel.Instance.GetItemCount(condition.SeedId);
-                        cell.seedPro.max = nextPlantCrop.SeedCost;
-                        cell.seedPro.value = haveCount;
-
+                        var nextPlantCrop = PlantModel.Instance.GetPlantCropConfigData(condition.LevelMould + "#" +  exp.level);
+                       
                         var leveUp = true;
                         
                         leveUp = (count >= nextPlantCrop.SeedCost && MyselfModel.Instance.gold >= nextPlantCrop.GoldCost);
@@ -362,15 +364,16 @@ public class FlowerHandbookView : BaseView
             cell.img1.grayed = true;
             cell.lockLv_txt.text = Lang.GetValue(data.Curtips);
             cell.level_up.visible = false;
+            cell.grayed = true;
         }
         cell.bg_1.url = "HandBookNew/bg_new_" + condition.FlowerQuality + ".png";
-       
+        cell.onClick.Add(OnItemClick);
     }
 
     private void PageNumItemRenderer(int index, GObject item)
     {
         item.data = index;
-        var cell = item as common_New.PageListItem_new1;
+        var cell = item as fun_CultivationManual_new.PageListItem_new;
         cell.n5.onClick.Add(ChangePage);
     }
 
@@ -558,7 +561,7 @@ public class FlowerHandbookView : BaseView
 
     private void OnItemClick(EventContext context)
     {
-        int index = (int)((context.data as fun_CultivationManual_new.handbook_brandNew_item).data as object[])[5];
+        int index = (int)((context.sender as GComponent).data as object[])[5];
         object[] obj = new object[] { index, typeValue };
         UIManager.Instance.OpenPanel<FlowerHandbookTipView>(UIName.FlowerHandbookTipView,UILayer.SecondUI, obj);
     }

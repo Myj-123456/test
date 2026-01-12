@@ -25,7 +25,8 @@ public class BuyFlowerRackWindow : BaseWindow
     {
          base.OnInit();
         view = ui as fun_Guild_plant.buy_flower_jia;
-        SetBg(view.bg, "Common/ELIDA_common_littledi01.png");
+        SetBg(view.bg, "Common/common_three_tip_bg.png");
+        view.best_buyText.text = Lang.GetValue("newguild_06"); //购买花架
         StringUtil.SetBtnTab(view.btn, Lang.GetValue("UserInfoOn"));
         view.item1.onClick.Add(() =>
         {
@@ -68,13 +69,16 @@ public class BuyFlowerRackWindow : BaseWindow
             }
             else
             {
-                
-                var itemVo2 = ItemModel.Instance.GetItemByEntityID(plantInfo.NormalOpenCosts[0].CounterCount);
-                var num = StorageModel.Instance.GetItemCount(plantInfo.NormalOpenCosts[0].CounterCount);
-                if (num < plantInfo.NormalOpenCosts[0].Limit)
+
+                if (plantInfo.NormalOpenCosts[0].CounterCount != null)
                 {
-                    UILogicUtils.ShowNotice(Lang.GetValue("guildMatch_90", Lang.GetValue(itemVo2.Name)));
-                    return;
+                    var itemVo2 = ItemModel.Instance.GetItemByEntityID(plantInfo.NormalOpenCosts[0].CounterCount);
+                    var num = StorageModel.Instance.GetItemCount(plantInfo.NormalOpenCosts[0].CounterCount);
+                    if (num < plantInfo.NormalOpenCosts[0].Limit)
+                    {
+                        UILogicUtils.ShowNotice(Lang.GetValue("guildMatch_90", Lang.GetValue(itemVo2.Name)));
+                        return;
+                    }
                 }
             }
             var type = curSelelct == 1 ? 1 : 2;
@@ -104,8 +108,13 @@ public class BuyFlowerRackWindow : BaseWindow
         view.item1.costImg.url = ImageDataModel.Instance.GuildMoneyIconUrl();
         view.item1.limitLab.text = Lang.GetValue("guild_plant_5");
 
-        var itemVo2 = ItemModel.Instance.GetItemByEntityID(plantInfo.NormalOpenCosts[0].CounterCount);
-        view.item2.txt_title.text = Lang.GetValue(itemVo2.Name) + Lang.GetValue("UserInfoOn");
+        if (plantInfo.NormalOpenCosts[0].CounterCount != null)
+        {
+            var itemVo2 = ItemModel.Instance.GetItemByEntityID(plantInfo.NormalOpenCosts[0].CounterCount);
+            
+        }
+        
+        view.item2.txt_title.text = Lang.GetValue("gem") + Lang.GetValue("UserInfoOn");
         view.item2.txt_cost.text = Lang.GetValue("slang_59");
         view.item2.costLab.text = TextUtil.ChangeCoinShow(plantInfo.NormalOpenCosts[0].Limit);
         view.item2.costImg.url = ImageDataModel.CASH_ICON_URL;

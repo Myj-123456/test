@@ -141,7 +141,6 @@ public class FriendWindow : BaseWindow
 
         view.btn_best_relieve2.visible = false;
         // 添加密友申请同意事件监听
-        //EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, OnCronyAgree);
         EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, UpdateCronyList);
         // 添加密友服装数据更新事件监听
         EventManager.Instance.AddEventListener(FlowerRankEvent.dressUserInfo, OnCronyDressUpdate);
@@ -173,13 +172,23 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnTab(view.btn_openBlack, Lang.GetValue("Friend_31"));//查看黑名单
         StringUtil.SetBtnTab(view.btn_addBlack, Lang.GetValue("Friend_32"));//加入黑名单
 
-        StringUtil.SetBtnTab(view.btn_best, "蜜友");//密友
-        StringUtil.SetBtnTab(view.btn_best_privilege, "特权");
-        StringUtil.SetBtnTab(view.btn_best_apply, "申请");
-        StringUtil.SetBtnTab(view.btn_best_contact, "聊天");
-        StringUtil.SetBtnTab(view.btn_best_visit, "拜访");
+        StringUtil.SetBtnTab(view.btn_best_privilege, Lang.GetValue("slang_60"));
+        StringUtil.SetBtnTab(view.btn_best_apply, Lang.GetValue("Friend_17"));
+        StringUtil.SetBtnTab(view.btn_best_visit, Lang.GetValue("Friend_12"));
+        StringUtil.SetBtnTab(view.btn_best_relieve, Lang.GetValue("best_07"));//解除
+        StringUtil.SetBtnTab(view.btn_best_relieve2, Lang.GetValue("best_13"));//解除中
 
-
+        view.btn_best_contact.titleLab.text = Lang.GetValue("best_02");//聊天
+        view.best_unlock.text = Lang.GetValue("best_10");//解锁栏位
+        view.best_relieveText.text = Lang.GetValue("best_11");//温馨提示
+        view.best_relievetitle.text = Lang.GetValue("best_11");//温馨提示
+        view.n153.n1.text = Lang.GetValue("best_12");//成为好友12小时后可建立闺蜜关系
+        var changeType = view.btn_best as common_New.common_page2;
+        if (changeType != null)
+        {
+            changeType.type.selectedIndex = 1;
+            StringUtil.SetBtnTab5(view.btn_best, Lang.GetValue("best_01"));//蜜友
+        }
         view.btn_list.onClick.Add(() =>
         {
             view.inputLab.text = "";
@@ -201,33 +210,9 @@ public class FriendWindow : BaseWindow
                 view.tab.selectedIndex = curTab;
                 return;
             }
-            ChangeTab(3);    
+            ChangeTab(3);
         });
-        // 根据密友列表是否为空或是否有好友关系超过12小时的普通好友设置控制器索引和背景图片
-        bool hasCronyData = FriendModel.Instance != null && FriendModel.Instance.cronyList != null && FriendModel.Instance.cronyList.Count > 0;
-        // 检查是否有好友关系超过12小时的普通好友
-        bool hasQualifiedFriend = false;
-        if (FriendModel.Instance != null && FriendModel.Instance.friendList != null)
-        {
-            foreach (var friendData in FriendModel.Instance.friendList)
-            {
-                if (FriendModel.Instance.friendRelationTime.ContainsKey(friendData.userInfo.userId))
-                {
-                    uint relationTime = FriendModel.Instance.friendRelationTime[friendData.userInfo.userId];
-                    uint currentTime = MyselfModel.Instance.lastServerTime;
-                    uint relationDuration = currentTime - relationTime;
-                    if (relationDuration >= 12 * 60 * 60)
-                    {
-                        hasQualifiedFriend = true;
-                        break;
-                    }
-                }
-            }
-        }
-        // 设置控制器索引：有密友数据或有符合条件的普通好友时为1，否则为0
-        view.bestNullTips.selectedIndex = (hasCronyData || hasQualifiedFriend) ? 1 : 0;
-        // 根据是否有密友数据设置不同的背景图片
-        SetBg(view.best_bg, hasCronyData ? "Friend/ELIDA_miyou_bg.png" : "");
+
         //view.anim.loop = true;
         //view.anim.url = "haoyou";
         //view.anim.animationName = "idle";
@@ -247,11 +232,12 @@ public class FriendWindow : BaseWindow
         view.btn_clearSign.onClick.Add(OnClearSignFriend);
         view.btn_add.onClick.Add(AddHandle);
 
+
         view.btn_best_relieve.onClick.Add(() =>
         {
             if (curSelectedItem == null)
             {
-                UILogicUtils.ShowNotice("请选择要解除的密友");
+                UILogicUtils.ShowNotice(Lang.GetValue("choose_liftmfriend_txt"));
                 return;
             }
             // 检查当前密友关系是否已经在解除中
@@ -260,8 +246,7 @@ public class FriendWindow : BaseWindow
             {
                 SetBg(view.n226, "Common/common_three_tip_bg.png");
                 view.bestTips.selectedIndex = 3;
-                view.best_relievedesc.text = "解除后闺蜜等级和经验将被清空，确认解除后将在24小时倒计时结束后正式解除，确定要解除与"
-                                             + TextUtil.GetServerName(curSelectedItem.userInfo.serverId, curSelectedItem.userInfo.townName) + "的密友关系吗？";
+                view.best_relievedesc.text = Lang.GetValue("best_03", TextUtil.GetServerName(curSelectedItem.userInfo.serverId, curSelectedItem.userInfo.townName));
             }
             else
             {
@@ -270,7 +255,7 @@ public class FriendWindow : BaseWindow
                 Debug.Log("密友正在解除中");
             }
         });
-        StringUtil.SetBtnTab(view.btn_bestrelieve, "确定");
+        StringUtil.SetBtnTab(view.btn_bestrelieve, Lang.GetValue("common_button_ok"));//确定
         view.btn_bestrelieve.onClick.Add(() =>
         {
             view.bestTips.selectedIndex = 0;
@@ -286,7 +271,7 @@ public class FriendWindow : BaseWindow
             view.bestTips.selectedIndex = 4;
             UpdateJadeCostDisplay();
         });
-        StringUtil.SetBtnTab(view.btn_bestedia, "立即解除");
+        StringUtil.SetBtnTab(view.btn_bestedia, Lang.GetValue("best_09"));
         view.btn_bestedia.onClick.Add(() =>
         {
             //根据剩余倒计时计算所需玉石
@@ -299,12 +284,12 @@ public class FriendWindow : BaseWindow
             //确认立即解除
             FriendController.Instance.ReqCronySpeedCancel(curSelectedItem.userInfo.userId);
         });
-        StringUtil.SetBtnTab(view.btn_best_unrelieve, "取消");
+        StringUtil.SetBtnTab(view.btn_best_unrelieve, Lang.GetValue("common_button_cancel"));//取消
         view.btn_best_unrelieve.onClick.Add(() =>
         {
             view.bestTips.selectedIndex = 0;
         });
-        StringUtil.SetBtnTab(view.btn_best_unedia, "取消解除");
+        StringUtil.SetBtnTab(view.btn_best_unedia, Lang.GetValue("common_button_cancel"));
         view.btn_best_unedia.onClick.Add(() =>
         {
             view.bestTips.selectedIndex = 0;
@@ -354,10 +339,13 @@ public class FriendWindow : BaseWindow
             UnityEngine.GUIUtility.systemCopyBuffer = MyselfModel.Instance.userId.ToString();
             UILogicUtils.ShowNotice(Lang.GetValue("common_hint_copysuccess"));
         });
-
-        view.btn_best_details.onClick.Add(() =>
+        view.btn_best_privilege.onClick.Add(() =>
         {
             UIManager.Instance.OpenWindow<BestFriendDetailWindow>(UIName.BestFriendDetailWindow);
+        });
+        view.btn_best_details.onClick.Add(() =>
+        {
+            UIManager.Instance.OpenWindow<BestExpWindow>(UIName.BestExpWindow);
         });
         view.btn_best_apply.onClick.Add(() =>
         {
@@ -373,12 +361,12 @@ public class FriendWindow : BaseWindow
             }
             else
             {
-                UILogicUtils.ShowNotice("请选择要拜访的密友");
+                UILogicUtils.ShowNotice(Lang.GetValue("choose_visitmfriend_txt"));
             }
         });
         view.btn_best_contact.onClick.Add(() =>
         {
-            
+
             if (curSelectedItem != null)
             {
                 // 获取当前选中的密友数据，打开聊天窗口
@@ -386,7 +374,7 @@ public class FriendWindow : BaseWindow
             }
             else
             {
-                UILogicUtils.ShowNotice("请选择要聊天的密友");
+                UILogicUtils.ShowNotice(Lang.GetValue("choose_talkmfriend_txt"));
             }
         });
         view.inputLab.onFocusIn.Add(OnFindTxtFocusIn);
@@ -398,6 +386,7 @@ public class FriendWindow : BaseWindow
         EventManager.Instance.AddEventListener(FriendEvent.FriendApplyList, UpdateApplyList);
         EventManager.Instance.AddEventListener(FriendEvent.FriendRecommendList, UpdateRecommendList);
         EventManager.Instance.AddEventListener(FriendEvent.CronyList, UpdateCronyList);
+        EventManager.Instance.AddEventListener(FriendEvent.CronyAgree, OnCronyAgree);
 
         EventManager.Instance.AddEventListener(FriendEvent.CronyCancel, OnCronyCancelCallback);
         EventManager.Instance.AddEventListener(FriendEvent.CronySpeedCancel, OnCronySpeedCancelCallback);
@@ -408,11 +397,11 @@ public class FriendWindow : BaseWindow
         EventManager.Instance.AddEventListener<uint>(RedPointEvent.RedDotChange, UpdateRedPoint);
     }
 
-    public static void SetBtnTab1(FairyGUI.GComponent btn,string txt)
+    public static void SetBtnTab1(FairyGUI.GComponent btn, string txt)
     {
         if (txt.Length == 4)
         {
-            if (btn.GetChild("titleLab") != null) btn.GetChild("titleLab").text = txt.Substring(0,2);
+            if (btn.GetChild("titleLab") != null) btn.GetChild("titleLab").text = txt.Substring(0, 2);
             if (btn.GetChild("titleLab1") != null) btn.GetChild("titleLab1").text = txt.Substring(2, 2);
         }
     }
@@ -441,7 +430,25 @@ public class FriendWindow : BaseWindow
         view.inputLab.text = "";
         curTab = -1;
         ChangeTab(0);
-
+        // 根据密友列表是否为空或是否有好友关系超过12小时的普通好友设置控制器索引和背景图片
+        bool hasCronyData = FriendModel.Instance != null && FriendModel.Instance.cronyList != null && FriendModel.Instance.cronyList.Count > 0;
+        // 检查是否有好友关系超过12小时的普通好友
+        bool hasQualifiedFriend = false;
+        if (FriendModel.Instance != null && FriendModel.Instance.friendList != null)
+        {
+            foreach (var friendData in FriendModel.Instance.friendList)
+            {
+                if (FriendModel.Instance.IsFriendRelationOver12Hours(friendData.userInfo.userId))
+                {
+                    hasQualifiedFriend = true;
+                    break;
+                }
+            }
+        }
+        // 设置控制器索引：有密友数据或有符合条件的普通好友时为1，否则为0
+        view.bestNullTips.selectedIndex = (hasCronyData || hasQualifiedFriend) ? 1 : 0;
+        // 根据是否有密友数据设置不同的背景图片
+        SetBg(view.best_bg, hasCronyData ? "Friend/ELIDA_miyou_bg.png" : "");
         // 更新bestNullTips控制器状态
         UpdateBestNullTipsStatus();
         InitRedPoint();
@@ -459,15 +466,6 @@ public class FriendWindow : BaseWindow
         UILogicUtils.ClearTweenOfViewList(view.recommendList);
         UILogicUtils.ClearTweenOfViewList(view.newFriendComeList);
         curSelectedItem = null;
-        ////密友界面不显示动画
-        //if (curTab == 3)
-        //{
-        //    view.anim.visible = false;
-        //}
-        //else
-        //{
-        //    view.anim.visible = true;
-        //}
 
         if (curTab == 0)
         {
@@ -503,7 +501,7 @@ public class FriendWindow : BaseWindow
         {
             return;
         }
-        StringUtil.SetBtnTab(view.empty, Lang.GetValue("Friend_11"));
+        StringUtil.SetBtnTab(view.emptyTip, Lang.GetValue("Friend_11"));
 
         recommendListData = FriendModel.Instance.recommendList;
         view.friendListEmpty.selectedIndex = recommendListData.Count > 0 ? 1 : 0;
@@ -525,7 +523,7 @@ public class FriendWindow : BaseWindow
         {
             return;
         }
-        StringUtil.SetBtnTab(view.empty, Lang.GetValue("Friend_10"));
+        StringUtil.SetBtnTab(view.emptyTip, Lang.GetValue("Friend_10"));
 
         applyListData = FriendModel.Instance.applyList;
         view.friendListEmpty.selectedIndex = applyListData.Count > 0 ? 1 : 0;
@@ -546,7 +544,7 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
         ui_.data = vo_;
         //ui_.friend_vip_icon.visible = false;
-        
+
         ui_.txt_lv.text = vo_.userInfo.userLevel + "";
 
         ui_.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
@@ -580,7 +578,7 @@ public class FriendWindow : BaseWindow
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
         ui_.data = vo_;
         //ui_.friend_vip_icon.visible = false;
-        
+
         ui_.txt_lv.text = vo_.userInfo.userLevel + "";
 
         ui_.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
@@ -635,7 +633,7 @@ public class FriendWindow : BaseWindow
         friendListData.Sort(FriendSort);
         view.list.numItems = friendListData.Count;
         view.friendListEmpty.selectedIndex = friendListData.Count > 0 ? 1 : 0;
-        StringUtil.SetBtnTab(view.empty, Lang.GetValue("Friend_09"));
+        StringUtil.SetBtnTab(view.emptyTip, Lang.GetValue("Friend_09"));
         if (tweenSign[curTab] == 0)
         {
             tweenSign[curTab] = 1;
@@ -654,17 +652,24 @@ public class FriendWindow : BaseWindow
         ui_.stats.selectedIndex = 0;
         ui_.data = vo_;
         ui_.text_sign.text = Lang.GetValue("slang_94");//状态：
-        ui_.offlineTxt.text = vo_.online?Lang.GetValue("online_text") : Lang.GetValue("slang_192") + TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
+        ui_.offlineTxt.text = vo_.online ? Lang.GetValue("online_text") : Lang.GetValue("slang_192") + TimeUtil.GenerateTimeDesc((int)vo_.userInfo.lastLoginTime);
         //ui_.head.p.url = "Avatar/ELIDA_common_touxiangdi01.png";
         StringUtil.SetBtnUrl(ui_.head, "Avatar/ELIDA_common_touxiangdi01.png");
-        
+
         ui_.txt_lv.text = vo_.userInfo.userLevel + "";
         ui_.txt_name.text = TextUtil.GetServerName(vo_.userInfo.serverId, vo_.userInfo.townName);
         var headVo = ItemModel.Instance.GetItemById(int.Parse(vo_.userInfo.headImgId));
         var frameVo = ItemModel.Instance.GetItemById((int)(vo_.userInfo.headFrame));
         UILogicUtils.ShowHeadFrames(ui_.picFrame as common_New.PictureFrame, frameVo);
         (ui_.head as common_New.MoonFestivalHead).pic.url = ImageDataModel.Instance.GetIconUrl(headVo);
-
+        if (vo_.unreadNum > 0)
+        {
+            UILogicUtils.ShowRedPoint(ui_.giftBtn);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(ui_.giftBtn);
+        }
         if (vo_.userInfo.title == 0)
         {
             ui_.titleTxt.text = Lang.GetValue("player_info_12");
@@ -678,7 +683,7 @@ public class FriendWindow : BaseWindow
 
         StringUtil.SetBtnTab(ui_.btn_visit, Lang.GetValue("Friend_12"));//拜 访
         StringUtil.SetBtnTab(ui_.btn_setting, Lang.GetValue("setting_txt1"));
-        StringUtil.SetBtnTab(ui_.giftBtn, Lang.GetValue("text_treasure_item9"));
+        StringUtil.SetBtnTab(ui_.giftBtn, Lang.GetValue("player_info_16"));
 
         ui_.btn_visit.onClick.Add(OnVisitFriend);
         ui_.btn_setting.onClick.Add(OnFriendSetting);
@@ -926,7 +931,6 @@ public class FriendWindow : BaseWindow
         curSelectedItem = null;
         //移除事件监听器
         EventManager.Instance.RemoveEventListener(FriendEvent.CronyAgree, UpdateApplyList);
-        //EventManager.Instance.RemoveEventListener(FriendEvent.CronyList, UpdateCronyList);
         EventManager.Instance.RemoveEventListener(FlowerRankEvent.dressUserInfo, OnCronyDressUpdate);
     }
 
@@ -941,6 +945,15 @@ public class FriendWindow : BaseWindow
             {
                 // 重新加载对方人物服装
                 ShowCronyCharacters(null, cronyData);
+            }
+        }
+        else
+        {
+            // 如果没有选中的密友
+            if (FriendModel.Instance != null && FriendModel.Instance.cronyList != null && FriendModel.Instance.cronyList.Count > 0)
+            {
+                // 重新请求密友列表数据
+                FriendController.Instance.ReqCronyList();
             }
         }
     }
@@ -1020,6 +1033,17 @@ public class FriendWindow : BaseWindow
                                     }
                                 }
                             }
+
+                            // 预加载密友服装数据，避免点击时才请求
+                            if (cronyData.friendId != 0)
+                            {
+                                var friendDressInfo = FlowerRankModel.Instance.GetUserInfo(5, cronyData.friendId);
+                                if (friendDressInfo == null || friendDressInfo.dress == null)
+                                {
+                                    // 如果没有密友服装数据，则请求获取
+                                    MyselfController.Instance.ReqGetUserInfo(new uint[] { cronyData.friendId }, new uint[] { cronyData.friendId }, (uint)UserType.best, new List<string> { "ware" });
+                                }
+                            }
                         }
                     }
                     else
@@ -1053,7 +1077,6 @@ public class FriendWindow : BaseWindow
     //处理密友申请同意事件
     private void OnCronyAgree()
     {
-
         //找到第一个空的、已解锁的密友位置
         int emptyIndex = FindFirstEmptyCronyPosition();
         if (emptyIndex >= 0)
@@ -1105,12 +1128,6 @@ public class FriendWindow : BaseWindow
                                     nameTxt.text = friendData.userInfo.townName;
                                 }
                             }
-                            //设置图标
-                            //if (ui_.n3.GetChild("icon") is GLoader iconLoader)
-                            //{
-                            //    //设置对应的图标，这里使用示例图标路径
-                            //    iconLoader.url = "Avatar/ELIDA_common_touxiangdi01.png";
-                            //}
                         }
                     }
                 }
@@ -1226,11 +1243,12 @@ public class FriendWindow : BaseWindow
             {
                 view.btn_best_relieve.visible = false;
                 view.btn_best_relieve2.visible = true;
-                cronyCancelTimer = new CountDownTimer(view.btn_best_relieve2.txt_relieveTime, remainingSeconds,true,2);
+                cronyCancelTimer = new CountDownTimer(view.btn_best_relieve2.txt_relieveTime, remainingSeconds, true, 2);
                 view.best_relieveTime.UBBEnabled = true;
-                view.best_relieveTime.text = string.Format("密友将于[color=#FF0000]{0}[/color]后自动解除！", view.btn_best_relieve2.txt_relieveTime.text);
-                cronyCancelTimer.UpdateCallBacker = () => {
-                    view.best_relieveTime.text = string.Format("密友将于[color=#FF0000]{0}[/color]后自动解除！", view.btn_best_relieve2.txt_relieveTime.text);
+                view.best_relieveTime.text = Lang.GetValue("best_04", view.btn_best_relieve2.txt_relieveTime.text);
+                cronyCancelTimer.UpdateCallBacker = () =>
+                {
+                    view.best_relieveTime.text = Lang.GetValue("best_04", view.btn_best_relieve2.txt_relieveTime.text);
                 };
                 cronyCancelTimer.hour = true; // 显示小时
                 cronyCancelTimer.CompleteCallBacker = () =>
@@ -1286,18 +1304,18 @@ public class FriendWindow : BaseWindow
     //取消解除密友关系回调
     private void OnCronyBackCancelCallback()
     {
-        StringUtil.SetBtnTab(view.btn_best_relieve, "解除密友");
+        StringUtil.SetBtnTab(view.btn_best_relieve, Lang.GetValue("best_07"));
         view.btn_best_relieve.visible = true;
         view.btn_best_relieve2.visible = false;
         view.btn_best_relieve2.txt_relieveTime.text = "";
 
-        UILogicUtils.ShowNotice("已取消解除密友关系");
+        UILogicUtils.ShowNotice(Lang.GetValue("cancle_mfriend_txt"));
     }
     //立即解除密友关系回调
     private void OnCronySpeedCancelCallback()
     {
         //显示成功提示
-        UILogicUtils.ShowNotice("成功立即解除密友关系");
+        UILogicUtils.ShowNotice(Lang.GetValue("canclenow_mfriend_txt"));
         //删除当前选中密友的人物模型
         if (curSelectedItem != null)
         {
@@ -1331,7 +1349,7 @@ public class FriendWindow : BaseWindow
     private void OnCronyUnlockSuccess()
     {
         // 显示购买成功提示
-        UILogicUtils.ShowNotice("购买成功");
+        UILogicUtils.ShowNotice(Lang.GetValue("common_hint_payment"));
         // 刷新密友列表
         LoadBestFriendList();
 
@@ -1390,7 +1408,7 @@ public class FriendWindow : BaseWindow
         if (!allPreviousUnlocked)
         {
             // 如果前面有未解锁的位置，提示需要解锁前面的位置
-            UILogicUtils.ShowNotice("需要先解锁前面的位置");
+            UILogicUtils.ShowNotice(Lang.GetValue("unlock_fpostion_txt"));
             return;
         }
         view.bestTips.selectedIndex = 2;
@@ -1414,26 +1432,18 @@ public class FriendWindow : BaseWindow
             requiredLevel = 50;
             requirePrice = 300;
         }
-        // 设置等级文本
-        try
+        if (view.n96 != null)
         {
-            if (view.n96 != null)
-            {
-                view.n96.text = requiredLevel.ToString();
+            view.n96.text = requiredLevel.ToString();
 
-            }
-            if (view.best_level_lock != null)
-            {
-                view.best_level_lock.text = "等级达到" + requiredLevel.ToString() + "自动解锁";
-            }
-            if (view.best_buy_lock != null)
-            {
-                view.best_buy_lock.text = "消耗" + requirePrice.ToString() + "玉石解锁";
-            }
         }
-        catch (System.Exception ex)
+        if (view.best_level_lock != null)
         {
-            Debug.LogWarning("Failed to set level text: " + ex.Message);
+            view.best_level_lock.text = Lang.GetValue("best_05", requiredLevel.ToString());
+        }
+        if (view.best_buy_lock != null)
+        {
+            view.best_buy_lock.text = Lang.GetValue("best_06", requirePrice.ToString());
         }
 
         // 清除之前的事件监听器，避免重复添加
@@ -1462,7 +1472,7 @@ public class FriendWindow : BaseWindow
         bool canBuyUnlock = currentIndex == nextAvailableToBuyIndex;
         if (canBuyUnlock)
         {
-            StringUtil.SetBtnTab(view.btn_buy_unlock, "立即购买");
+            StringUtil.SetBtnTab(view.btn_buy_unlock, Lang.GetValue("common_button_unlock"));
             // 清除之前的事件监听器，避免重复添加
             view.btn_buy_unlock.onClick.Clear();
             view.btn_buy_unlock.onClick.Add(() =>
@@ -1476,7 +1486,7 @@ public class FriendWindow : BaseWindow
         {
             // 否则提示需要解锁前面的位置
             view.bestTips.selectedIndex = 0;
-            UILogicUtils.ShowNotice("需要先解锁前面的位置");
+            UILogicUtils.ShowNotice(Lang.GetValue("unlock_fpostion_txt"));
         }
     }
     public void ListRendererBestFriend(int index, GObject item)
@@ -1615,10 +1625,7 @@ public class FriendWindow : BaseWindow
                 }
                 else
                 {
-                    // 如果没有密友服装数据，则请求获取
-                    var friendDressData = DressModel.Instance.GetDressData(new uint[] { });
-                    heroAvatarMap[friendKey].UpdateDress(friendDressData);
-                    // 请求密友信息
+                    // 请求密友服装信息
                     MyselfController.Instance.ReqGetUserInfo(new uint[] { cronyData.friendId }, new uint[] { cronyData.friendId }, (uint)UserType.best, new List<string> { "ware" });
                 }
             }
@@ -1636,39 +1643,51 @@ public class FriendWindow : BaseWindow
         view.ishHasCronyData.selectedIndex = 1;
 
         int curlevel = FriendModel.Instance.CalculateCronyLevel((int)cronyData.exp);
-        Ft_mfriend_configConfig data = FriendModel.Instance.GetBestFriendConfigData(curlevel);
-        view.txt_probarLevel.text = string.Format("密友{0}级", curlevel);
-        view.n109.max = data.Exp;
+        int displayExp = FriendModel.Instance.GetDisplayExpForLevel(curlevel);
+        view.txt_probarLevel.text = Lang.GetValue("best_08", curlevel.ToString());
+        view.n109.max = displayExp;
         view.n109.value = cronyData.exp;
-        view.txt_probar.text = cronyData.exp.ToString() + "/" + data.Exp.ToString();
-
+        view.txt_probar.text = cronyData.exp.ToString() + "/" + displayExp.ToString();
     }
 
     private void UpdateRedPoint(uint type)
     {
-        if(type == (uint)RedPointType.Friend_Apply)
+        if (type == (uint)RedPointType.Friend_Apply)
         {
-            if(RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Apply))
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Apply))
             {
                 UILogicUtils.ShowRedPoint(view.btn_app);
             }
             else
-                {
-                    UILogicUtils.HideRedPoint(view.btn_app);
-                }
+            {
+                UILogicUtils.HideRedPoint(view.btn_app);
             }
-        else if(type == (uint)RedPointType.Friend_Crony)
+        }
+        else if (type == (uint)RedPointType.Friend_Crony)
         {
             if (GlobalModel.Instance.GetUnlocked(SysId.Friend_Crony) && RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Crony))
             {
                 UILogicUtils.ShowRedPoint(view.btn_best);
+                UILogicUtils.ShowRedPoint(view.btn_best_apply);
             }
             else
             {
                 UILogicUtils.HideRedPoint(view.btn_best);
+                UILogicUtils.HideRedPoint(view.btn_best_apply);
             }
         }
-        
+        else if (type == (uint)RedPointType.Friend_Chat)
+        {
+            if (RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Chat))
+            {
+                UILogicUtils.ShowRedPoint(view.btn_list);
+            }
+            else
+            {
+                UILogicUtils.ShowRedPoint(view.btn_list);
+            }
+        }
+
     }
 
     private void InitRedPoint()
@@ -1688,6 +1707,22 @@ public class FriendWindow : BaseWindow
         else
         {
             UILogicUtils.HideRedPoint(view.btn_best);
+        }
+        if (RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Chat))
+        {
+            UILogicUtils.ShowRedPoint(view.btn_list);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.btn_list);
+        }
+        if (GlobalModel.Instance.GetUnlocked(SysId.Friend_Crony) && RedPointModel.Instance.IsRedPointShow(RedPointType.Friend_Crony))
+        {
+            UILogicUtils.ShowRedPoint(view.btn_best_apply);
+        }
+        else
+        {
+            UILogicUtils.HideRedPoint(view.btn_best_apply);
         }
     }
 }

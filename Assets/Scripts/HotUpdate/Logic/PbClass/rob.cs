@@ -32,6 +32,9 @@ namespace protobuf.rob
         [ProtoBuf.ProtoMember(2)]
         public uint openShield;
 
+        [ProtoBuf.ProtoMember(3)]
+        public uint harvestCnt;
+
     }
 
     [ProtoBuf.ProtoContract]
@@ -66,8 +69,22 @@ namespace protobuf.rob
         [ProtoBuf.ProtoMember(5)]
         public protobuf.common.I_USER_PROFILE userInfo;
 
-        [ProtoBuf.ProtoMember(6)]
-        public I_ROB_VO robInfo;
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class I_EMPLOY_MESSAGE_VO
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public uint operateTime;
+
+        [ProtoBuf.ProtoMember(2)]
+        public uint targetUserId;
+
+        [ProtoBuf.ProtoMember(3)]
+        public uint harvestCnt;
+
+        [ProtoBuf.ProtoMember(4)]
+        public protobuf.common.I_USER_PROFILE userInfo;
 
     }
 
@@ -104,6 +121,9 @@ namespace protobuf.rob
 
         [ProtoBuf.ProtoMember(5)]
         public System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT> exchangeStat = new System.Collections.Generic.List<protobuf.commonActivity.I_EXCHANGE_STAT>();
+
+        [ProtoBuf.ProtoMember(6)]
+        public uint shieldItemCnt;
 
     }
 
@@ -197,6 +217,9 @@ namespace protobuf.rob
         [ProtoBuf.ProtoMember(3)]
         public I_ROB_ARREST_VO arrest;
 
+        [ProtoBuf.ProtoMember(4)]
+        public uint harvestCnt;
+
     }
 
     [ProtoBuf.ProtoContract]
@@ -209,6 +232,19 @@ namespace protobuf.rob
     {
         [ProtoBuf.ProtoMember(1)]
         public System.Collections.Generic.List<I_ROB_MESSAGE_VO> messageList = new System.Collections.Generic.List<I_ROB_MESSAGE_VO>();
+
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class C_MSG_EMPLOY_MESSAGE
+    {
+    }
+
+    [ProtoBuf.ProtoContract]
+    public class S_MSG_EMPLOY_MESSAGE
+    {
+        [ProtoBuf.ProtoMember(1)]
+        public System.Collections.Generic.List<I_EMPLOY_MESSAGE_VO> messageList = new System.Collections.Generic.List<I_EMPLOY_MESSAGE_VO>();
 
     }
 
@@ -263,25 +299,16 @@ namespace protobuf.rob
     [ProtoBuf.ProtoContract]
     public class C_MSG_ROB_REWARD
     {
-        [ProtoBuf.ProtoMember(1)]
-        public uint position;
-
     }
 
     [ProtoBuf.ProtoContract]
     public class S_MSG_ROB_REWARD
     {
         [ProtoBuf.ProtoMember(1)]
-        public I_ROB_ARREST_VO arrest;
-
-        [ProtoBuf.ProtoMember(2)]
         public System.Collections.Generic.Dictionary<ulong, ulong> items = new System.Collections.Generic.Dictionary<ulong, ulong>();
 
-        [ProtoBuf.ProtoMember(3)]
-        public uint indexId;
-
-        [ProtoBuf.ProtoMember(4)]
-        public uint gainsBonus;
+        [ProtoBuf.ProtoMember(2)]
+        public uint harvestCnt;
 
     }
 
@@ -307,6 +334,9 @@ namespace protobuf.rob
     [ProtoBuf.ProtoContract]
     public class C_MSG_ROB_SHOPBUY
     {
+        [ProtoBuf.ProtoMember(1)]
+        public uint exchangeId;
+
     }
 
     [ProtoBuf.ProtoContract]

@@ -41,6 +41,9 @@ namespace protobuf.friend
             [ProtoBuf.ProtoMember(4)]
             public bool online;
 
+            [ProtoBuf.ProtoMember(5)]
+            public uint unreadNum;
+
         }
 
     }

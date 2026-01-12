@@ -20,7 +20,7 @@ namespace fun_Friends
         public GTextField n17;
         public btn_lookup btn_lookup;
         public GTextField n20;
-        public GImage n21;
+        public GLoader pic_img1;
         public GTextField n22;
         public GImage n23;
         public btn_best_book btn_best_buyBook;
@@ -30,7 +30,8 @@ namespace fun_Friends
         public GLoader jieshu_bg;
         public GLoader n60;
         public GTextField n48;
-        public GImage n46;
+        public GImage n73;
+        public GLoader pic;
         public GTextField text_desc;
         public GImage n57;
         public GTextField best_buyText;
@@ -43,7 +44,7 @@ namespace fun_Friends
         public GLoader n63;
         public GImage n64;
         public GTextField jieshu_txt;
-        public GTextField best_desc;
+        public GRichTextField best_desc;
         public GButton btn_bestjieshu;
         public GButton btn_bestTipClose1;
         public GButton btn_bestTipClose;
@@ -72,7 +73,7 @@ namespace fun_Friends
             n17 = (GTextField)GetChildAt(8);
             btn_lookup = (btn_lookup)GetChildAt(9);
             n20 = (GTextField)GetChildAt(10);
-            n21 = (GImage)GetChildAt(11);
+            pic_img1 = (GLoader)GetChildAt(11);
             n22 = (GTextField)GetChildAt(12);
             n23 = (GImage)GetChildAt(13);
             btn_best_buyBook = (btn_best_book)GetChildAt(14);
@@ -82,24 +83,25 @@ namespace fun_Friends
             jieshu_bg = (GLoader)GetChildAt(18);
             n60 = (GLoader)GetChildAt(19);
             n48 = (GTextField)GetChildAt(20);
-            n46 = (GImage)GetChildAt(21);
-            text_desc = (GTextField)GetChildAt(22);
-            n57 = (GImage)GetChildAt(23);
-            best_buyText = (GTextField)GetChildAt(24);
-            btn_bestbuy = (clickBtnbuy)GetChildAt(25);
-            bg_sign = (GButton)GetChildAt(26);
-            n49 = (GImage)GetChildAt(27);
-            text_best_buyBookCount = (GTextField)GetChildAt(28);
-            n42 = (GGroup)GetChildAt(29);
-            n62 = (GGraph)GetChildAt(30);
-            n63 = (GLoader)GetChildAt(31);
-            n64 = (GImage)GetChildAt(32);
-            jieshu_txt = (GTextField)GetChildAt(33);
-            best_desc = (GTextField)GetChildAt(34);
-            btn_bestjieshu = (GButton)GetChildAt(35);
-            btn_bestTipClose1 = (GButton)GetChildAt(36);
-            btn_bestTipClose = (GButton)GetChildAt(37);
-            n70 = (GGroup)GetChildAt(38);
+            n73 = (GImage)GetChildAt(21);
+            pic = (GLoader)GetChildAt(22);
+            text_desc = (GTextField)GetChildAt(23);
+            n57 = (GImage)GetChildAt(24);
+            best_buyText = (GTextField)GetChildAt(25);
+            btn_bestbuy = (clickBtnbuy)GetChildAt(26);
+            bg_sign = (GButton)GetChildAt(27);
+            n49 = (GImage)GetChildAt(28);
+            text_best_buyBookCount = (GTextField)GetChildAt(29);
+            n42 = (GGroup)GetChildAt(30);
+            n62 = (GGraph)GetChildAt(31);
+            n63 = (GLoader)GetChildAt(32);
+            n64 = (GImage)GetChildAt(33);
+            jieshu_txt = (GTextField)GetChildAt(34);
+            best_desc = (GRichTextField)GetChildAt(35);
+            btn_bestjieshu = (GButton)GetChildAt(36);
+            btn_bestTipClose1 = (GButton)GetChildAt(37);
+            btn_bestTipClose = (GButton)GetChildAt(38);
+            n70 = (GGroup)GetChildAt(39);
         }
     }
 }
